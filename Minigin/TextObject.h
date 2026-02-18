@@ -2,12 +2,13 @@
 #include <string>
 #include <memory>
 #include "BaseComponent.h"
+#include <SDL3_ttf/SDL_ttf.h>
 
 namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : public BaseComponent
+	class TextObject : public BaseComponent
 	{
 	public:
 		void FixedUpdate() override;
