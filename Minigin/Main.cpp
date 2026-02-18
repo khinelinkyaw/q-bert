@@ -28,10 +28,15 @@ static void load()
 	scene.Add(std::move(go));
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_unique<dae::TextObject>("Programming 4 Assignment", font);
-	to->SetColor({ 255, 255, 0, 255 });
-	to->SetPosition(292, 20);
-	scene.Add(std::move(to));
+	//dae::TextObject to {  };
+	//to.SetColor({ 255, 255, 0, 255 });
+	//to.SetPosition(292, 20);
+	go = std::make_unique<dae::GameObject>();
+	auto textobj_index = go->AddComponent<dae::TextObject>("Programming 4 Assignment", font);
+	textobj_index;
+	go->SetPosition(292, 20);
+	go->GetComponent<dae::TextObject>(textobj_index).SetColor({ 255, 255, 0, 255 });
+	scene.Add(std::move(go));
 }
 
 int main(int, char*[]) {
