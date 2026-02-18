@@ -1,12 +1,21 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Update()
+void dae::SceneManager::FixedUpdate()
 {
 	for(auto& scene : m_scenes)
 	{
 		scene->Update();
 	}
+}
+
+void dae::SceneManager::Update(float deltaTime)
+{
+	deltaTime;
+/*	for (auto& scene : m_scenes)
+	{
+		scene->Update();
+	}*/
 }
 
 void dae::SceneManager::Render()
