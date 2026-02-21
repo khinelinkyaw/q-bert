@@ -7,18 +7,20 @@
 
 namespace dae
 {
-	class Scene;
-	class SceneManager final : public Singleton<SceneManager>
-	{
-	public:
-		Scene& CreateScene();
+    class Scene;
+    class SceneManager final : public Singleton<SceneManager>
+    {
+    public:
+        Scene& CreateScene();
 
-		void FixedUpdate();
-		void Update(float deltaTime);
-		void Render();
-	private:
-		friend class Singleton<SceneManager>;
-		SceneManager() = default;
-		std::vector<std::unique_ptr<Scene>> m_scenes{};
-	};
+        void FixedUpdate();
+        void Update(float deltaTime);
+        void Render();
+        void CheckForDeletion();
+
+    private:
+        friend class Singleton<SceneManager>;
+        SceneManager() = default;
+        std::vector<std::unique_ptr<Scene>> m_scenes{};
+    };
 }
