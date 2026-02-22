@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseComponent.h"
+#include "Components/BaseComponent.h"
 #include <SDL3/SDL_pixels.h>
 #include <glm/ext/vector_float3.hpp>
 #include <memory>

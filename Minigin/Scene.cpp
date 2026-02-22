@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "Modules/GameObject.h"
 #include "Scene.h"
 #include <algorithm>
 #include <cassert>

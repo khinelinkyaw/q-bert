@@ -1,9 +1,14 @@
-﻿#include "Renderer.h"
+﻿#include "Modules/Texture2D.h"
+#include "Renderer.h"
 #include "SceneManager.h"
-#include "Texture2D.h"
-#include <cstring>
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_hints.h>
+#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_video.h>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 void dae::Renderer::Init(SDL_Window* window)
 {

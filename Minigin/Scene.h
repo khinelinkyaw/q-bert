@@ -1,9 +1,8 @@
 #pragma once
 #include <memory>
-#include <string>
 #include <vector>
 
-#include "GameObject.h"
+#include "Modules/GameObject.h"
 
 namespace dae
 {

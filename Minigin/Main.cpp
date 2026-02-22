@@ -8,48 +8,53 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "FPSCounter.h"
+#include "Components/FPSCounter.h"
 #include "Scene.h"
-
 #include <filesystem>
+#include <memory>
+#include "Modules/GameObject.h"
+#include <utility>
+#include "Components/TextObject.h"
+
 namespace fs = std::filesystem;
 
 static void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene();
+    auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
-	auto go = std::make_unique<dae::GameObject>();
-	go->SetTexture("background.png");
-	scene.Add(std::move(go));
+    auto go = std::make_unique<dae::GameObject>();
+    go->SetTexture("background.png");
+    scene.Add(std::move(go));
 
-	go = std::make_unique<dae::GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(358, 180);
-	scene.Add(std::move(go));
+    go = std::make_unique<dae::GameObject>();
+    go->SetTexture("logo.png");
+    go->SetPosition(358, 180);
+    scene.Add(std::move(go));
 
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_unique<dae::GameObject>();
-	auto textobj_index = go->AddComponent<dae::TextObject>("Programming 4 Assignment", font);
-	go->SetPosition(292, 20);
-	go->GetComponent<dae::TextObject>(textobj_index).SetColor({ 255, 255, 0, 255 });
-	scene.Add(std::move(go));
+    auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+    go = std::make_unique<dae::GameObject>();
+    auto textobj_index = go->AddComponent<dae::TextObject>("Programming 4 Assignment", font);
+    go->SetPosition(292, 20);
+    go->GetComponent<dae::TextObject>(textobj_index).SetColor({ 255, 255, 0, 255 });
+    scene.Add(std::move(go));
 
-	go = std::make_unique<dae::GameObject>();
-	textobj_index = go->AddComponent<dae::FPSCounter>("FPS: 0", font);
-	go->SetPosition(20, 20);
-	go->GetComponent<dae::FPSCounter>(textobj_index).SetColor({ 255, 255, 255, 255 });
-	scene.Add(std::move(go));
+    go = std::make_unique<dae::GameObject>();
+    textobj_index = go->AddComponent<dae::FPSCounter>("FPS: 0", font);
+    go->SetPosition(20, 20);
+    go->GetComponent<dae::FPSCounter>(textobj_index).SetColor({ 255, 255, 255, 255 });
+    scene.Add(std::move(go));
 }
 
-int main(int, char*[]) {
+int main(int, char* [])
+{
 #if __EMSCRIPTEN__
-	fs::path data_location = "";
+    fs::path data_location = "";
 #else
-	fs::path data_location = "./Data/";
-	if(!fs::exists(data_location))
-		data_location = "../Data/";
+    fs::path data_location = "./Data/";
+    if (!fs::exists(data_location))
+        data_location = "../Data/";
 #endif
-	dae::Minigin engine(data_location);
-	engine.Run(load);
+    dae::Minigin engine(data_location);
+    engine.Run(load);
     return 0;
 }

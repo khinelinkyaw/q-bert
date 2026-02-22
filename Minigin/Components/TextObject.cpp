@@ -1,9 +1,17 @@
-﻿#include <stdexcept>
-#include <SDL3_ttf/SDL_ttf.h>
-#include "TextObject.h"
+﻿#include "Modules/Font.h"
+#include "Modules/Texture2D.h"
 #include "Renderer.h"
-#include "Font.h"
-#include "Texture2D.h"
+#include "TextObject.h"
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_pixels.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_surface.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <glm/ext/vector_float3.hpp>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
     : m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
