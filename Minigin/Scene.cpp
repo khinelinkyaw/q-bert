@@ -1,6 +1,10 @@
+#include "GameObject.h"
 #include "Scene.h"
-
 #include <algorithm>
+#include <cassert>
+#include <memory>
+#include <utility>
+#include <vector>
 
 using namespace dae;
 

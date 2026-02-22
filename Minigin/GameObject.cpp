@@ -1,7 +1,7 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
 #include "Renderer.h"
+#include "ResourceManager.h"
+#include <string>
 
 void dae::GameObject::SetForDeletion()
 {
