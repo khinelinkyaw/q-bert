@@ -14,7 +14,7 @@
 #include <memory>
 #include "Modules/GameObject.h"
 #include <utility>
-#include "Components/TextObject.h"
+#include "Components/TextComponent.h"
 
 namespace fs = std::filesystem;
 

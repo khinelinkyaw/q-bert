@@ -1,7 +1,7 @@
-﻿#include "Modules/Font.h"
+﻿#include "Components/TextComponent.h"
+#include "Modules/Font.h"
 #include "Modules/Texture2D.h"
 #include "Renderer.h"
-#include "TextObject.h"
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>

@@ -1,6 +1,6 @@
 #pragma once
 #include "ResourceManager.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 #include <SDL3/SDL_pixels.h>
 #include <memory>
 #include <string>
