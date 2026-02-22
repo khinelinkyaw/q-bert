@@ -7,7 +7,7 @@
 
 #include "Minigin.h"
 #include "SceneManager.h"
-#include "Components/FPSCounter.h"
+#include "Components/FrameCounterComponent.h"
 #include "Scene.h"
 #include <filesystem>
 #include <memory>

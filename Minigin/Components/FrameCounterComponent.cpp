@@ -1,4 +1,4 @@
-#include "FPSCounter.h"
+#include "FrameCounterComponent.h"
 
 dae::FrameCounterComponent::FrameCounterComponent()
     : m_FramesPerSecond{}
