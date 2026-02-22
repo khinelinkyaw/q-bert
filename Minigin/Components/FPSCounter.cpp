@@ -1,6 +1,6 @@
 #include "FPSCounter.h"
 
-void dae::FPSCounter::Update(float deltaTime)
+void dae::FrameCounterComponent::Update(float deltaTime)
 {
     m_AccumulatedTime += deltaTime;
     ++m_FramesPerSecond;
@@ -13,7 +13,11 @@ void dae::FPSCounter::Update(float deltaTime)
     }
 }
 
-dae::FPSCounter::FPSCounter(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
+void dae::FrameCounterComponent::Render(glm::vec3 const& pos) const
+{
+}
+
+dae::FrameCounterComponent::FrameCounterComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
     : TextComponent(text, std::move(font), color)
     , m_FramesPerSecond(0)
     , m_AccumulatedTime(0.f)

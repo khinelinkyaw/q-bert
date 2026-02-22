@@ -39,9 +39,9 @@ static void load()
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
-    textobj_index = go->AddComponent<dae::FPSCounter>("FPS: 0", font);
+    textobj_index = go->AddComponent<dae::FrameCounterComponent>("FPS: 0", font);
     go->SetPosition(20, 20);
-    go->GetComponent<dae::FPSCounter>(textobj_index).SetColor({ 255, 255, 255, 255 });
+    go->GetComponent<dae::FrameCounterComponent>(textobj_index).SetColor({ 255, 255, 255, 255 });
     scene.Add(std::move(go));
 }
 
