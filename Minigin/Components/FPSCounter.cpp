@@ -1,5 +1,17 @@
 #include "FPSCounter.h"
 
+dae::FrameCounterComponent::FrameCounterComponent()
+    : m_FramesPerSecond{}
+    , m_AccumulatedTime{}
+    , m_TextComponent{ "FPS: 0" }
+{
+}
+
+void dae::FrameCounterComponent::FixedUpdate()
+{
+    m_TextComponent.FixedUpdate();
+}
+
 void dae::FrameCounterComponent::Update(float deltaTime)
 {
     m_AccumulatedTime += deltaTime;
@@ -7,7 +19,7 @@ void dae::FrameCounterComponent::Update(float deltaTime)
 
     if (m_AccumulatedTime >= 1.f)
     {
-        SetText("FPS: " + std::to_string(static_cast<int>(m_FramesPerSecond)));
+        m_TextComponent.SetText("FPS: " + std::to_string(static_cast<int>(m_FramesPerSecond)));
         m_FramesPerSecond = 0;
         m_AccumulatedTime -= 1.f;
     }
@@ -15,12 +27,5 @@ void dae::FrameCounterComponent::Update(float deltaTime)
 
 void dae::FrameCounterComponent::Render(glm::vec3 const& pos) const
 {
+    m_TextComponent.Render(pos);
 }
-
-dae::FrameCounterComponent::FrameCounterComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
-    : TextComponent(text, std::move(font), color)
-    , m_FramesPerSecond(0)
-    , m_AccumulatedTime(0.f)
-{
-}
-

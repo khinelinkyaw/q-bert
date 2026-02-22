@@ -2,19 +2,25 @@
 #include "Modules/Font.h"
 #include "Modules/Texture2D.h"
 #include "Renderer.h"
+#include "ResourceManager.h"
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <cstdint>
 #include <glm/ext/vector_float3.hpp>
+#include <glm/fwd.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
-#include <utility>
 
-dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
-    : m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
+dae::TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
+    : m_needsUpdate(true)
+    , m_text(text)
+    , m_color(color)
+    , m_font(dae::ResourceManager::GetInstance().LoadFont(font_name, font_size))
+    , m_textTexture(nullptr)
 {
 }
 

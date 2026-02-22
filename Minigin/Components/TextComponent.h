@@ -1,7 +1,8 @@
 #pragma once
 #include "Components/BaseComponent.h"
 #include <SDL3/SDL_pixels.h>
-#include <glm/ext/vector_float3.hpp>
+#include <cstdint>
+#include <glm/fwd.hpp>
 #include <memory>
 #include <string>
 
@@ -19,7 +20,7 @@ namespace dae
         void SetText(const std::string& text);
         void SetColor(const SDL_Color& color);
 
-        TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
+        TextComponent(std::string const& text = "", std::string const& font_name = "Lingua.otf", uint8_t font_size = 36, SDL_Color const& color = { 255,255,0,255 });
         ~TextComponent() = default;
         TextComponent(const TextComponent& other) = delete;
         TextComponent(TextComponent&& other) = delete;
