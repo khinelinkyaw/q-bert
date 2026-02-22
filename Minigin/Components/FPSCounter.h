@@ -7,7 +7,7 @@
 
 namespace dae
 {
-    class FPSCounter final : public TextObject
+    class FPSCounter final : public TextComponent
     {
     public:
         void Update(float deltaTime) override;

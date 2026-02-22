@@ -14,7 +14,7 @@ void dae::FPSCounter::Update(float deltaTime)
 }
 
 dae::FPSCounter::FPSCounter(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
-    : TextObject(text, std::move(font), color)
+    : TextComponent(text, std::move(font), color)
     , m_FramesPerSecond(0)
     , m_AccumulatedTime(0.f)
 {

@@ -33,9 +33,9 @@ static void load()
 
     auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
     go = std::make_unique<dae::GameObject>();
-    auto textobj_index = go->AddComponent<dae::TextObject>("Programming 4 Assignment", font);
+    auto textobj_index = go->AddComponent<dae::TextComponent>("Programming 4 Assignment", font);
     go->SetPosition(292, 20);
-    go->GetComponent<dae::TextObject>(textobj_index).SetColor({ 255, 255, 0, 255 });
+    go->GetComponent<dae::TextComponent>(textobj_index).SetColor({ 255, 255, 0, 255 });
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();

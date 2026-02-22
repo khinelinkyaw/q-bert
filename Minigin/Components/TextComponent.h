@@ -9,7 +9,7 @@ namespace dae
 {
     class Font;
     class Texture2D;
-    class TextObject : public BaseComponent
+    class TextComponent : public BaseComponent
     {
     public:
         void FixedUpdate() override;
@@ -19,12 +19,12 @@ namespace dae
         void SetText(const std::string& text);
         void SetColor(const SDL_Color& color);
 
-        TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
-        virtual ~TextObject() = default;
-        TextObject(const TextObject& other) = delete;
-        TextObject(TextObject&& other) = delete;
-        TextObject& operator=(const TextObject& other) = delete;
-        TextObject& operator=(TextObject&& other) = delete;
+        TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
+        virtual ~TextComponent() = default;
+        TextComponent(const TextComponent& other) = delete;
+        TextComponent(TextComponent&& other) = delete;
+        TextComponent& operator=(const TextComponent& other) = delete;
+        TextComponent& operator=(TextComponent&& other) = delete;
     private:
         bool m_needsUpdate{};
         std::string m_text{};

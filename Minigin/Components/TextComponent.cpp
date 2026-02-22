@@ -13,12 +13,12 @@
 #include <string>
 #include <utility>
 
-dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
+dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
     : m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
 {
 }
 
-void dae::TextObject::FixedUpdate()
+void dae::TextComponent::FixedUpdate()
 {
     if (m_needsUpdate)
     {
@@ -38,12 +38,12 @@ void dae::TextObject::FixedUpdate()
     }
 }
 
-void dae::TextObject::Update(float deltaTime)
+void dae::TextComponent::Update(float deltaTime)
 {
     deltaTime;
 }
 
-void dae::TextObject::Render(glm::vec3 const& pos) const
+void dae::TextComponent::Render(glm::vec3 const& pos) const
 {
     if (m_textTexture != nullptr)
     {
@@ -51,13 +51,13 @@ void dae::TextObject::Render(glm::vec3 const& pos) const
     }
 }
 
-void dae::TextObject::SetText(const std::string& text)
+void dae::TextComponent::SetText(const std::string& text)
 {
     m_text = text;
     m_needsUpdate = true;
 }
 
-void dae::TextObject::SetColor(const SDL_Color& color)
+void dae::TextComponent::SetColor(const SDL_Color& color)
 {
     m_color = color;
     m_needsUpdate = true;
