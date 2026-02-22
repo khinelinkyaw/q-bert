@@ -9,7 +9,7 @@ namespace dae
 {
     class Font;
     class Texture2D;
-    class TextComponent : public BaseComponent
+    class TextComponent final : public BaseComponent
     {
     public:
         void FixedUpdate() override;
@@ -20,7 +20,7 @@ namespace dae
         void SetColor(const SDL_Color& color);
 
         TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
-        virtual ~TextComponent() = default;
+        ~TextComponent() = default;
         TextComponent(const TextComponent& other) = delete;
         TextComponent(TextComponent&& other) = delete;
         TextComponent& operator=(const TextComponent& other) = delete;
