@@ -1,7 +1,4 @@
 #include "GameObject.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
-#include <string>
 
 void dae::GameObject::SetForDeletion()
 {
@@ -12,8 +9,6 @@ bool dae::GameObject::IsMarkedForDeletion() const
 {
     return m_MarkedForDeletion;
 }
-
-dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::FixedUpdate()
 {
@@ -35,20 +30,10 @@ void dae::GameObject::Render() const
 {
     const auto& pos = m_transform.GetPosition();
 
-    if (m_texture != nullptr)
-    {
-        Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
-    }
-
     for (const auto& component : m_Components)
     {
         component->Render(pos);
     }
-}
-
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-    m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
 void dae::GameObject::SetPosition(float x, float y)

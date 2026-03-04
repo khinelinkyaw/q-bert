@@ -8,7 +8,7 @@ namespace dae
     class FrameCounterComponent final : public BaseComponent
     {
     public:
-        void FixedUpdate();
+        void FixedUpdate() override;
         void Update(float deltaTime) override;
         void Render(glm::vec3 const& pos) const override;
 

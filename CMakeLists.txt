@@ -27,7 +27,13 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "Minigin/Components/TextComponent.cpp"
   "Minigin/Modules/Texture2D.cpp"
   "Minigin/Modules/Transform.cpp"
- "Minigin/Components/BaseComponent.cpp" "Minigin/Components/BaseComponent.h" "Minigin/Components/FrameCounterComponent.h" "Minigin/Components/FrameCounterComponent.cpp" "Minigin/Components/TextureComponent.cpp" "Minigin/Components/TextureComponent.h")
+  "Minigin/Components/BaseComponent.cpp"
+  "Minigin/Components/BaseComponent.h"
+  "Minigin/Components/FrameCounterComponent.h"
+  "Minigin/Components/FrameCounterComponent.cpp"
+  "Minigin/Components/TextureComponent.cpp"
+  "Minigin/Components/TextureComponent.h"
+)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

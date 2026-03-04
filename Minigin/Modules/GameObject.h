@@ -2,8 +2,6 @@
 #include "Components/BaseComponent.h"
 #include "Transform.h"
 #include <memory>
-#include <stdexcept>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -14,7 +12,6 @@ namespace dae
     {
         bool m_MarkedForDeletion{ false };
         Transform m_transform{};
-        std::shared_ptr<Texture2D> m_texture{};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
     public:
@@ -22,20 +19,19 @@ namespace dae
         virtual void Update(float deltaTime);
         virtual void Render() const;
 
-        void SetTexture(const std::string& filename);
         void SetPosition(float x, float y);
 
         template<typename ComponentType, typename... Args>
-        size_t AddComponent(Args&&... args);
+        void AddComponent(Args&&... args);
         void RemoveComponent(size_t index);
         template<typename ComponentType>
-        ComponentType& GetComponent(size_t index);
+        ComponentType* GetComponent();
 
         void SetForDeletion();
         bool IsMarkedForDeletion() const;
 
         GameObject() = default;
-        ~GameObject();
+        ~GameObject() = default;
         GameObject(const GameObject& other) = delete;
         GameObject(GameObject&& other) = delete;
         GameObject& operator=(const GameObject& other) = delete;
@@ -43,20 +39,25 @@ namespace dae
     };
 
     template<typename ComponentType, typename... Args>
-    size_t GameObject::AddComponent(Args&&... args)
+    void GameObject::AddComponent(Args&&... args)
     {
         m_Components.emplace_back(std::make_unique<ComponentType>(std::forward<Args>(args)...));
-        return m_Components.size() - 1;
     }
 
     template<typename ComponentType>
-    ComponentType& GameObject::GetComponent(size_t index)
+    ComponentType* GameObject::GetComponent()
     {
-        if (index < m_Components.size())
+        auto component_type_id{ typeid(ComponentType).hash_code() };
+
+        for (const auto& component : m_Components)
         {
-            return static_cast<ComponentType&>(*m_Components[index]);
+            if (typeid(*component).hash_code() == component_type_id)
+            {
+                return static_cast<ComponentType*>(component.get());
+            }
         }
-        throw std::out_of_range("Component index out of range");
+
+        return nullptr;
     }
 }
 

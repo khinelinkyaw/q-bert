@@ -8,6 +8,7 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "Components/FrameCounterComponent.h"
+#include "Components/TextureComponent.h"
 #include "Scene.h"
 #include <filesystem>
 #include <memory>
@@ -22,22 +23,22 @@ static void load()
     auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
     auto go = std::make_unique<dae::GameObject>();
-    go->SetTexture("background.png");
+    go->AddComponent<dae::TextureComponent>("background.png");
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
-    go->SetTexture("logo.png");
+    go->AddComponent<dae::TextureComponent>("logo.png");
     go->SetPosition(358, 180);
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
-    auto textobj_index = go->AddComponent<dae::TextComponent>("Programming 4 Assignment");
+    go->AddComponent<dae::TextComponent>("Programming 4 Assignment");
     go->SetPosition(292, 20);
-    go->GetComponent<dae::TextComponent>(textobj_index).SetColor({ 255, 255, 0, 255 });
+    go->GetComponent<dae::TextComponent>()->SetColor({ 255, 255, 0, 255 });
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
-    textobj_index = go->AddComponent<dae::FrameCounterComponent>();
+    go->AddComponent<dae::FrameCounterComponent>();
     go->SetPosition(20, 20);
     scene.Add(std::move(go));
 }
