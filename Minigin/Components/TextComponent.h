@@ -14,7 +14,7 @@ namespace dae
     {
     public:
         void FixedUpdate() override;
-        void Update(float deltaTime) override;
+        void Update(float) override;
         void Render(glm::vec3 const& pos) const override;
 
         void SetText(const std::string& text);

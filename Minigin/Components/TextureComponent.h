@@ -1,6 +1,7 @@
 #pragma once
 #include "../Modules/Texture2D.h"
 #include "BaseComponent.h"
+#include <glm/fwd.hpp>
 #include <memory>
 #include <string>
 
@@ -12,7 +13,7 @@ namespace dae
         std::shared_ptr<Texture2D> m_texture{};
     public:
         void FixedUpdate() override;
-        void Update(float deltaTime) override;
+        void Update(float) override;
         void Render(glm::vec3 const& pos) const override;
 
         void SetTexture(const std::string& filename);

@@ -9,9 +9,8 @@ void dae::TextureComponent::FixedUpdate()
 {
 }
 
-void dae::TextureComponent::Update(float deltaTime)
+void dae::TextureComponent::Update(float)
 {
-    deltaTime;
 }
 
 void dae::TextureComponent::Render(glm::vec3 const& pos) const

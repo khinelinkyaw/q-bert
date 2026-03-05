@@ -101,14 +101,14 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
+    load();
+#ifndef __EMSCRIPTEN__
     auto lastTime{ std::chrono::high_resolution_clock::now() };
     auto currentTime{ lastTime };
     float deltaTime{};
     float lag{};
     float const timeStep{ 1.f / 60.f };
 
-    load();
-#ifndef __EMSCRIPTEN__
     while (!m_quit)
     {
         currentTime = std::chrono::high_resolution_clock::now();

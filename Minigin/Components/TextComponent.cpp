@@ -44,9 +44,8 @@ void dae::TextComponent::FixedUpdate()
     }
 }
 
-void dae::TextComponent::Update(float deltaTime)
+void dae::TextComponent::Update(float)
 {
-    deltaTime;
 }
 
 void dae::TextComponent::Render(glm::vec3 const& pos) const

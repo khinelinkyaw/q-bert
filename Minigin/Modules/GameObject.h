@@ -15,9 +15,9 @@ namespace dae
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
     public:
-        virtual void FixedUpdate();
-        virtual void Update(float deltaTime);
-        virtual void Render() const;
+        void FixedUpdate();
+        void Update(float deltaTime);
+        void Render() const;
 
         void SetPosition(float x, float y);
 
@@ -47,13 +47,15 @@ namespace dae
     template<typename ComponentType>
     ComponentType* GameObject::GetComponent()
     {
-        auto component_type_id{ typeid(ComponentType).hash_code() };
+        auto needed_component_type_id{ typeid(ComponentType).hash_code() };
 
         for (const auto& component : m_Components)
         {
-            if (typeid(*component).hash_code() == component_type_id)
+            auto raw_ptr{ component.get() };
+
+            if (needed_component_type_id == typeid(*raw_ptr).hash_code())
             {
-                return static_cast<ComponentType*>(component.get());
+                return static_cast<ComponentType*>(raw_ptr);
             }
         }
 
