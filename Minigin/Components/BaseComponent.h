@@ -6,7 +6,7 @@ namespace dae
     class GameObject;
     class BaseComponent
     {
-    private:
+    protected:
         GameObject* m_pOwner{};
     public:
         virtual void FixedUpdate() = 0;
