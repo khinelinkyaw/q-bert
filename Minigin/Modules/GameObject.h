@@ -1,18 +1,24 @@
 #pragma once
 #include "Components/BaseComponent.h"
 #include "Transform.h"
+#include <algorithm>
 #include <memory>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 namespace dae
 {
+    template<typename T> concept DerivedBase = std::is_base_of<BaseComponent, T>::value;
+
     class Texture2D;
     class GameObject final
     {
+    private:
         bool m_MarkedForDeletion{ false };
         Transform m_transform{};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
+
 
     public:
         void FixedUpdate();
@@ -21,7 +27,7 @@ namespace dae
 
         void SetPosition(float x, float y);
 
-        template<typename ComponentType, typename... Args>
+        template<typename ComponentType, typename... Args> requires DerivedBase<ComponentType>
         void AddComponent(Args&&... args);
         void RemoveComponent(size_t index);
         template<typename ComponentType>
@@ -38,10 +44,12 @@ namespace dae
         GameObject& operator=(GameObject&& other) = delete;
     };
 
-    template<typename ComponentType, typename... Args>
+    template<typename ComponentType, typename... Args> requires DerivedBase<ComponentType>
     void GameObject::AddComponent(Args&&... args)
     {
-        m_Components.emplace_back(std::make_unique<ComponentType>(std::forward<Args>(args)...));
+        std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(args...) };
+        newComponent->SetOwner(this);
+        m_Components.push_back(std::move(newComponent));
     }
 
     template<typename ComponentType>
