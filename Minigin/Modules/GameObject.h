@@ -24,6 +24,7 @@ namespace dae
         void Update(float deltaTime);
         void Render() const;
 
+        Transform GetTransform() const { return m_transform; }
         void SetPosition(float x, float y);
 
         template<typename ComponentType, typename... Args> requires DerivedBase<ComponentType>
