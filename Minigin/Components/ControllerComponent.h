@@ -12,9 +12,9 @@ namespace dae
     class ControllerComponent final : public BaseComponent
     {
     private:
-        std::list<std::unique_ptr<Command>> m_Commands{};
+        std::list<std::unique_ptr<ObjectCommand>> m_Commands{};
     public:
-        void AddCommand(std::unique_ptr<Command> pCommand);
+        void AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand);
         void ClearCommands();
         void ExecuteCommands();
 

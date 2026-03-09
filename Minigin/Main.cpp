@@ -7,8 +7,10 @@
 
 #include "Minigin.h"
 #include "SceneManager.h"
+#include "InputManager.h"
 #include "Components/FrameCounterComponent.h"
 #include "Components/TextureComponent.h"
+#include "Components/ControllerComponent.h"
 #include "Scene.h"
 #include <filesystem>
 #include <memory>
@@ -35,6 +37,13 @@ static void load()
     go->AddComponent<dae::TextComponent>("Programming 4 Assignment");
     go->SetPosition(292, 20);
     go->GetComponent<dae::TextComponent>()->SetColor({ 255, 255, 0, 255 });
+    scene.Add(std::move(go));
+
+    go = std::make_unique<dae::GameObject>();
+    go->AddComponent<dae::TextureComponent>("my_guy.png");
+    go->AddComponent<dae::ControllerComponent>();
+    dae::InputManager::GetInstance().m_PlayerOneObjController = go->GetComponent<dae::ControllerComponent>();
+    go->SetPosition(500, 500);
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();

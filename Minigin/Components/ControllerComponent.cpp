@@ -3,9 +3,9 @@
 #include <memory>
 #include <utility>
 
-void dae::ControllerComponent::AddCommand(std::unique_ptr<Command> pCommand)
+void dae::ControllerComponent::AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand)
 {
-    m_Commands.push_back(std::move(pCommand));
+    m_Commands.push_back(std::move(pObjectCommand));
 }
 
 void dae::ControllerComponent::ClearCommands()
@@ -18,6 +18,7 @@ void dae::ControllerComponent::ExecuteCommands()
     // ုဒီလိုလုပ်တာကောင်းမဲ့ပုံမပေါက်ဘူး။ လာမဲ့ အပတ် စာသင်ချိန်မှာ အပြောခံရဖို့ အခြေအနေရှိတယ်
     while (!m_Commands.empty())
     {
+        m_Commands.front()->SetObject(m_pOwner);
         m_Commands.front()->Execute();
         m_Commands.pop_front();
     }
