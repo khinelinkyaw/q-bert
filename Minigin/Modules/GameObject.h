@@ -19,7 +19,6 @@ namespace dae
         Transform m_transform{};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
-
     public:
         void FixedUpdate();
         void Update(float deltaTime);
