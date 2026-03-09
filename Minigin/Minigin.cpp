@@ -119,8 +119,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 void dae::Minigin::RunOneFrame()
 {
-    auto currentTime{ std::chrono::high_resolution_clock::now() };
-    auto deltaTime{ std::chrono::duration<float>(currentTime - m_lastTime).count() };
+    auto const currentTime{ std::chrono::high_resolution_clock::now() };
+    auto const deltaTime{ std::chrono::duration<float>(currentTime - m_lastTime).count() };
     m_lastTime = currentTime;
 
     m_lag += deltaTime;
