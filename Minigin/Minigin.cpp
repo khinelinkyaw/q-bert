@@ -70,10 +70,10 @@ void PrintSDLVersion()
 }
 
 dae::Minigin::Minigin(const std::filesystem::path& dataPath)
-    : m_lastTime{ std::chrono::high_resolution_clock::now() }
-    , m_lag{ 0.f }
-    , m_timeStep{ 1.f / 60.f }
-    , m_quit{ false }
+    : m_LastTime{ std::chrono::high_resolution_clock::now() }
+    , m_Lag{ 0.f }
+    , m_TimeStep{ 1.f / 60.f }
+    , m_Quit{ false }
 {
     PrintSDLVersion();
 
@@ -108,7 +108,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
     load();
 #ifndef __EMSCRIPTEN__
 
-    while (!m_quit)
+    while (!m_Quit)
     {
         RunOneFrame();
     }
@@ -120,19 +120,19 @@ void dae::Minigin::Run(const std::function<void()>& load)
 void dae::Minigin::RunOneFrame()
 {
     auto const currentTime{ std::chrono::high_resolution_clock::now() };
-    auto const deltaTime{ std::chrono::duration<float>(currentTime - m_lastTime).count() };
-    m_lastTime = currentTime;
+    m_DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
+    m_LastTime = currentTime;
 
-    m_lag += deltaTime;
+    m_Lag += m_DeltaTime;
 
-    m_quit = !InputManager::GetInstance().ProcessInput();
+    m_Quit = !InputManager::GetInstance().ProcessInput();
 
-    while (m_lag >= m_timeStep)
+    while (m_Lag >= m_TimeStep)
     {
         SceneManager::GetInstance().FixedUpdate();
-        m_lag -= m_timeStep;
+        m_Lag -= m_TimeStep;
     }
-    SceneManager::GetInstance().Update(deltaTime);
+    SceneManager::GetInstance().Update();
     SceneManager::GetInstance().CheckForDeletion();
 
     Renderer::GetInstance().Render();

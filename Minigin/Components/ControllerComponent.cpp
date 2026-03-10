@@ -24,7 +24,7 @@ void dae::ControllerComponent::FixedUpdate()
     ExecuteCommands();
 }
 
-void dae::ControllerComponent::Update(float)
+void dae::ControllerComponent::Update()
 {
 }
 

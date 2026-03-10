@@ -14,7 +14,7 @@ namespace dae
         void RemoveAll();
 
         void FixedUpdate();
-        void Update(float deltaTime);
+        void Update();
         void Render() const;
         void CheckForDeletion();
 

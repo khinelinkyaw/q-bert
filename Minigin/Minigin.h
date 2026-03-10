@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MINIGIN_H
+#define MINIGIN_H
+
 #include <chrono>
 #include <filesystem>
 #include <functional>
@@ -8,20 +10,23 @@ namespace dae
     class Minigin final
     {
     private:
-        std::chrono::high_resolution_clock::time_point m_lastTime;
-        float m_lag;
-        float const m_timeStep;
-        bool m_quit;
-
+        std::chrono::high_resolution_clock::time_point m_LastTime;
+        float m_Lag;
+        float const m_TimeStep;
+        bool m_Quit;
+        inline static float m_DeltaTime{};
     public:
-        explicit Minigin(const std::filesystem::path& dataPath);
-        ~Minigin();
         void Run(const std::function<void()>& load);
         void RunOneFrame();
+        static float GetDeltaTime() { return m_DeltaTime; }
 
+        explicit Minigin(const std::filesystem::path& dataPath);
+        ~Minigin();
         Minigin(const Minigin& other) = delete;
         Minigin(Minigin&& other) = delete;
         Minigin& operator=(const Minigin& other) = delete;
         Minigin& operator=(Minigin&& other) = delete;
     };
 }
+
+#endif

@@ -23,7 +23,7 @@ namespace dae
 
     public:
         void FixedUpdate();
-        void Update(float deltaTime);
+        void Update();
         void Render() const;
 
         Transform GetTransform() const { return m_transform; }

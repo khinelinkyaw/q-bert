@@ -1,5 +1,5 @@
-#include "SceneManager.h"
 #include "Scene.h"
+#include "SceneManager.h"
 
 void dae::SceneManager::FixedUpdate()
 {
@@ -9,11 +9,11 @@ void dae::SceneManager::FixedUpdate()
     }
 }
 
-void dae::SceneManager::Update(float deltaTime)
+void dae::SceneManager::Update()
 {
     for (auto& scene : m_scenes)
     {
-        scene->Update(deltaTime);
+        scene->Update();
     }
 }
 

@@ -44,7 +44,7 @@ void dae::TextComponent::FixedUpdate()
     }
 }
 
-void dae::TextComponent::Update(float)
+void dae::TextComponent::Update()
 {
 }
 
