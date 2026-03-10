@@ -42,7 +42,7 @@ static void load()
     go = std::make_unique<dae::GameObject>();
     go->AddComponent<dae::TextureComponent>("my_guy.png");
     go->AddComponent<dae::ControllerComponent>(100.f);
-    dae::InputManager::GetInstance().RegisterController(0, go->GetComponent<dae::ControllerComponent>());
+    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>());
     go->SetPosition(500, 500);
     scene.Add(std::move(go));
 

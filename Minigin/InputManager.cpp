@@ -5,21 +5,26 @@
 #include <SDL3/SDL_keyboard.h>
 #include <SDL3/SDL_scancode.h>
 #include <memory>
+#include <utility>
 
 
-void dae::InputManager::RegisterController(size_t playerIndex, ControllerComponent* controller, InputDeviceType inputType)
+void dae::InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
 {
-    m_PlayerControllers[playerIndex].m_PlayerController = controller;
-    m_PlayerControllers[playerIndex].m_InputType = inputType;
+    struct ControllerInfo newControllerInfo {};
+
+    newControllerInfo.m_PlayerController = controller;
+    newControllerInfo.m_InputType = inputType;
 
     switch (inputType)
     {
     case InputDeviceType::Keyboard:
-        m_PlayerControllers[playerIndex].m_InputDevice = std::make_unique<KeyboardInputDevice>();
+        newControllerInfo.m_InputDevice = std::make_unique<KeyboardInputDevice>();
         break;
     case InputDeviceType::Gamepad:
         break;
     }
+
+    m_PlayerControllers.push_back(std::move(newControllerInfo));
 }
 
 bool dae::InputManager::ProcessInput()
@@ -43,11 +48,8 @@ bool dae::InputManager::ProcessInput()
 
     for (ControllerInfo& controllerInfo : m_PlayerControllers)
     {
-        if (controllerInfo.m_PlayerController && controllerInfo.m_InputDevice)
-        {
-            controllerInfo.UpdateKeyStates();
-            controllerInfo.ProcessInput();
-        }
+        controllerInfo.m_InputDevice->UpdateState();
+        controllerInfo.m_PlayerController->ProcessInput(*controllerInfo.m_InputDevice);
     }
 
     return true;
@@ -121,32 +123,4 @@ dae::KeyboardInputDevice::KeyboardInputDevice()
 {
     m_KeyStates[0].resize(m_NumKeys);
     m_KeyStates[1].resize(m_NumKeys);
-}
-
-void dae::ControllerInfo::ProcessInput()
-{
-    if (m_InputDevice->IsDown(InputAction::MoveUp))
-    {
-        m_PlayerController->AddCommand<MoveCommand>(0.f, -1.0f);
-    }
-    if (m_InputDevice->IsDown(InputAction::MoveRight))
-    {
-        m_PlayerController->AddCommand<MoveCommand>(1.f, 0.0f);
-    }
-    if (m_InputDevice->IsDown(InputAction::MoveDown))
-    {
-        m_PlayerController->AddCommand<MoveCommand>(0.f, 1.0f);
-    }
-    if (m_InputDevice->IsDown(InputAction::MoveLeft))
-    {
-        m_PlayerController->AddCommand<MoveCommand>(-1.f, 0.0f);
-    }
-}
-
-void dae::ControllerInfo::UpdateKeyStates()
-{
-    if (m_InputDevice)
-    {
-        m_InputDevice->UpdateState();
-    }
 }

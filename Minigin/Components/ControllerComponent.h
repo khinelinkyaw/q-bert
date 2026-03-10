@@ -12,18 +12,22 @@ namespace dae
 {
     template<typename T> concept DerivedObjectCommand = std::is_base_of<Command, T>::value;
 
+    class InputDevice;
     class ControllerComponent final : public BaseComponent
     {
     private:
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{};
-    public:
+
         template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
         void AddCommand(Args&& ... args);
         void ClearCommands();
         void ExecuteCommands();
+    public:
+
         void SetSpeed(float speed) { m_Speed = speed; }
         float GetSpeed() const { return m_Speed; }
+        void ProcessInput(InputDevice& inputDevice);
 
         void FixedUpdate() override;
         void Update() override;

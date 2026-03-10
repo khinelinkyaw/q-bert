@@ -1,9 +1,11 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
+#include <windows.h>
+
 #include "Components/ControllerComponent.h"
 #include "Singleton.h"
-//#include <Xinput.h>
+#include <Xinput.h>
 #include <array>
 #include <memory>
 #include <unordered_map>
@@ -68,18 +70,15 @@ namespace dae
         ControllerComponent* m_PlayerController{ nullptr };
         InputDeviceType m_InputType{ InputDeviceType::Keyboard };
         std::unique_ptr<InputDevice> m_InputDevice{ nullptr };
-
-        void ProcessInput();
-        void UpdateKeyStates();
     };
 
     class InputManager final : public Singleton<InputManager>
     {
     private:
-        std::array<ControllerInfo, 2> m_PlayerControllers{};
+        std::vector<ControllerInfo> m_PlayerControllers{};
 
     public:
-        void RegisterController(size_t playerIndex, ControllerComponent* controller, InputDeviceType inputType = InputDeviceType::Keyboard);
+        void RegisterController(ControllerComponent* controller, InputDeviceType inputType = InputDeviceType::Keyboard);
         bool ProcessInput();
     };
 }
