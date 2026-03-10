@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
+
 #include "Components/BaseComponent.h"
 #include "Transform.h"
 #include <algorithm>
@@ -9,7 +11,7 @@
 
 namespace dae
 {
-    template<typename T> concept DerivedBase = std::is_base_of<BaseComponent, T>::value;
+    template<typename T> concept DerivedComponent = std::is_base_of<BaseComponent, T>::value;
 
     class Texture2D;
     class GameObject final
@@ -27,7 +29,7 @@ namespace dae
         Transform GetTransform() const { return m_transform; }
         void SetPosition(float x, float y);
 
-        template<typename ComponentType, typename... Args> requires DerivedBase<ComponentType>
+        template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
         void AddComponent(Args&&... args);
         void RemoveComponent(size_t index);
         template<typename ComponentType>
@@ -44,7 +46,7 @@ namespace dae
         GameObject& operator=(GameObject&& other) = delete;
     };
 
-    template<typename ComponentType, typename... Args> requires DerivedBase<ComponentType>
+    template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
     void GameObject::AddComponent(Args&&... args)
     {
         std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(args...) };
@@ -71,3 +73,4 @@ namespace dae
     }
 }
 
+#endif

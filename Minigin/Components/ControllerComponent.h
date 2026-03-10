@@ -6,15 +6,21 @@
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>
+#include <type_traits>
 
 namespace dae
 {
+    template<typename T> concept DerivedObjectCommand = std::is_base_of<ObjectCommand, T>::value;
+
     class ControllerComponent final : public BaseComponent
     {
     private:
         std::list<std::unique_ptr<ObjectCommand>> m_Commands{};
     public:
-        void AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand);
+        //void AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand);
+
+        template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
+        void AddCommand(Args&& ... args);
         void ClearCommands();
         void ExecuteCommands();
 
@@ -29,6 +35,12 @@ namespace dae
         ControllerComponent& operator=(const ControllerComponent& other) = delete;
         ControllerComponent& operator=(ControllerComponent&& other) = delete;
     };
+
+    template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
+    void ControllerComponent::AddCommand(Args && ...args)
+    {
+        m_Commands.push_back(std::make_unique<CommandType>(args...));
+    }
 }
 
 #endif

@@ -8,3 +8,8 @@ void dae::MoveCommand::Execute()
         m_pObject->SetPosition(NewPosition.GetPosition().x, NewPosition.GetPosition().y);
     }
 }
+
+dae::MoveCommand::MoveCommand(float x, float y)
+    : m_Movement(x, y)
+{
+}

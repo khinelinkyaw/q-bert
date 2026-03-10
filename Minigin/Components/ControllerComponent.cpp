@@ -3,11 +3,6 @@
 #include <memory>
 #include <utility>
 
-void dae::ControllerComponent::AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand)
-{
-    m_Commands.push_back(std::move(pObjectCommand));
-}
-
 void dae::ControllerComponent::ClearCommands()
 {
     m_Commands.clear();
