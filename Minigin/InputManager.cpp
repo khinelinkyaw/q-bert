@@ -119,7 +119,7 @@ dae::KeyboardInputDevice::KeyboardInputDevice()
     , m_KeyStatesPtr(SDL_GetKeyboardState(&m_NumKeys))
 
 {
-    // TODO: make this configurableZ
+    // TODO: make this configurable
     m_Keymap = {
         { InputAction::MoveUp, SDL_SCANCODE_W },
         { InputAction::MoveLeft, SDL_SCANCODE_A },
@@ -147,6 +147,7 @@ dae::GamepadInputDevice::GamepadInputDevice(int controllerIndex)
 {
     // TODO: make this default parameter (better API visibility)
     // TODO: make this configurable
+    // လုပ်စရာတွေ အများကြီးရှိသေးတယ်။
     m_Keymap = {
         { InputAction::MoveUp, XINPUT_GAMEPAD_DPAD_UP },
         { InputAction::MoveLeft, XINPUT_GAMEPAD_DPAD_LEFT },

@@ -42,8 +42,15 @@ static void load()
     go = std::make_unique<dae::GameObject>();
     go->AddComponent<dae::TextureComponent>("my_guy.png");
     go->AddComponent<dae::ControllerComponent>(100.f);
-    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>(), dae::InputDeviceType::Gamepad);
+    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>(), dae::InputDeviceType::Keyboard);
     go->SetPosition(500, 500);
+    scene.Add(std::move(go));
+
+    go = std::make_unique<dae::GameObject>();
+    go->AddComponent<dae::TextureComponent>("another_guy.png");
+    go->AddComponent<dae::ControllerComponent>(300.f);
+    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>(), dae::InputDeviceType::Gamepad);
+    go->SetPosition(600, 500);
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
