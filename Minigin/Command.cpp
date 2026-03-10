@@ -1,6 +1,7 @@
 #include "Command.h"
 #include "Components/ControllerComponent.h"
 #include "Minigin.h"
+#include "Modules/GameObject.h"
 #include "Modules/Transform.h"
 #include <glm/ext/vector_common.hpp>
 
