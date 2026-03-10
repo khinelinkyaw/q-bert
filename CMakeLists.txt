@@ -113,6 +113,7 @@ endif()
 if (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
   find_package(VLD CONFIG)
+  set(LIBS XInput)
 endif()
 
 # Add steam if available
@@ -128,6 +129,7 @@ target_link_libraries("${TARGET_NAME}" PUBLIC
   SDL3::SDL3
   SDL3_ttf::SDL3_ttf
   glm::glm
+  ${LIBS}
   ${VLD_LIBRARIES}
 )
 

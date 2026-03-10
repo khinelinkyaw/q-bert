@@ -18,7 +18,7 @@ namespace dae
     {
     private:
         bool m_MarkedForDeletion{ false };
-        Transform m_transform{};
+        Transform m_Transform{};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
     public:
@@ -26,8 +26,9 @@ namespace dae
         void Update();
         void Render() const;
 
-        Transform GetTransform() const { return m_transform; }
+        Transform GetTransform() const { return m_Transform; }
         void SetPosition(float x, float y);
+        void SetPosition(Transform newPosition);
 
         template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
         void AddComponent(Args&&... args);

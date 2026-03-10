@@ -10,25 +10,26 @@
 
 namespace dae
 {
-    template<typename T> concept DerivedObjectCommand = std::is_base_of<ObjectCommand, T>::value;
+    template<typename T> concept DerivedObjectCommand = std::is_base_of<Command, T>::value;
 
     class ControllerComponent final : public BaseComponent
     {
     private:
-        std::list<std::unique_ptr<ObjectCommand>> m_Commands{};
+        std::list<std::unique_ptr<Command>> m_Commands{};
+        float m_Speed{};
     public:
-        //void AddCommand(std::unique_ptr<ObjectCommand> pObjectCommand);
-
         template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
         void AddCommand(Args&& ... args);
         void ClearCommands();
         void ExecuteCommands();
+        void SetSpeed(float speed) { m_Speed = speed; }
+        float GetSpeed() const { return m_Speed; }
 
         void FixedUpdate() override;
         void Update() override;
         void Render(glm::vec3 const&) const override;
 
-        ControllerComponent() = default;
+        ControllerComponent(float speed = 1.f);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;
         ControllerComponent(ControllerComponent&& other) = delete;

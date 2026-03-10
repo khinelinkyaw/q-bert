@@ -1,7 +1,6 @@
 #include "ControllerComponent.h"
 #include <Command.h>
 #include <memory>
-#include <utility>
 
 void dae::ControllerComponent::ClearCommands()
 {
@@ -13,8 +12,7 @@ void dae::ControllerComponent::ExecuteCommands()
     // ုဒီလိုလုပ်တာကောင်းမဲ့ပုံမပေါက်ဘူး။ လာမဲ့ အပတ် စာသင်ချိန်မှာ အပြောခံရဖို့ အခြေအနေရှိတယ်
     while (!m_Commands.empty())
     {
-        m_Commands.front()->SetObject(m_pOwner);
-        m_Commands.front()->Execute();
+        m_Commands.front()->Execute(*m_pOwner);
         m_Commands.pop_front();
     }
 }
@@ -29,5 +27,11 @@ void dae::ControllerComponent::Update()
 }
 
 void dae::ControllerComponent::Render(glm::vec3 const&) const
+{
+}
+
+dae::ControllerComponent::ControllerComponent(float speed)
+    : m_Speed{ speed }
+    , m_Commands{}
 {
 }

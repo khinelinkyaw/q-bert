@@ -19,23 +19,15 @@ namespace dae
     protected:
         CommandState m_State{ CommandState::Initial };
     public:
-        virtual void Execute() = 0;
+        virtual void Execute(GameObject& gameObject) = 0;
     };
 
-    class ObjectCommand : public Command
-    {
-    protected:
-        GameObject* m_pObject{ nullptr };
-    public:
-        void SetObject(GameObject* pObject) { m_pObject = pObject; }
-    };
-
-    class MoveCommand final : public ObjectCommand
+    class MoveCommand final : public Command
     {
         Transform m_Movement{};
     public:
         void SetMovement(const Transform& movement) { m_Movement = movement; }
-        void Execute() override;
+        void Execute(GameObject& gameObject) override;
 
         MoveCommand(float x = 0.f, float y = 0.f);
     };

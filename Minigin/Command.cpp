@@ -1,12 +1,16 @@
 #include "Command.h"
+#include "Components/ControllerComponent.h"
+#include "Minigin.h"
+#include "Modules/Transform.h"
+#include <glm/ext/vector_common.hpp>
 
-void dae::MoveCommand::Execute()
+void dae::MoveCommand::Execute(GameObject& gameObject)
 {
-    if (m_pObject)
-    {
-        auto const NewPosition{ m_Movement + m_pObject->GetTransform() };
-        m_pObject->SetPosition(NewPosition.GetPosition().x, NewPosition.GetPosition().y);
-    }
+    glm::vec3 l_MovingDirection{ glm::normalize(m_Movement.GetPosition()) };
+    l_MovingDirection *= gameObject.GetComponent<ControllerComponent>()->GetSpeed() * Minigin::GetDeltaTime();
+    auto const l_NewPosition{ Transform{l_MovingDirection} + gameObject.GetTransform() };
+    gameObject.SetPosition(l_NewPosition);
+    m_State = CommandState::Success;
 }
 
 dae::MoveCommand::MoveCommand(float x, float y)

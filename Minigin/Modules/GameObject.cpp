@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Transform.h"
 
 void dae::GameObject::SetForDeletion()
 {
@@ -28,7 +29,7 @@ void dae::GameObject::Update()
 
 void dae::GameObject::Render() const
 {
-    const auto& pos = m_transform.GetPosition();
+    const auto& pos = m_Transform.GetPosition();
 
     for (const auto& component : m_Components)
     {
@@ -38,7 +39,12 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-    m_transform.SetPosition(x, y, 0.0f);
+    m_Transform.SetPosition(x, y, 0.0f);
+}
+
+void dae::GameObject::SetPosition(Transform newPosition)
+{
+    m_Transform = newPosition;
 }
 
 void dae::GameObject::RemoveComponent(size_t index)
