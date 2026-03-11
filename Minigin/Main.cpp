@@ -17,6 +17,7 @@
 #include "Modules/GameObject.h"
 #include <utility>
 #include "Components/TextComponent.h"
+#include "InputDevice.h"
 
 namespace fs = std::filesystem;
 

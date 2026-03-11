@@ -52,7 +52,7 @@ void dae::ControllerComponent::Render(glm::vec3 const&) const
 }
 
 dae::ControllerComponent::ControllerComponent(float speed)
-    : m_Speed{ speed }
-    , m_Commands{}
+    : m_Commands{}
+    , m_Speed{ speed }
 {
 }
