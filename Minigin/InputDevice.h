@@ -1,15 +1,8 @@
 #ifndef INPUT_DEVICE_H
 #define INPUT_DEVICE_H
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
 #include "Components/ControllerComponent.h"
-#include <Xinput.h>
-#include <array>
 #include <memory>
-#include <unordered_map>
-#include <vector>
 
 namespace dae
 {
@@ -30,11 +23,11 @@ namespace dae
     class InputDevice
     {
     protected:
-        int m_CurrentStateIndex{ 0 };
-        std::unordered_map<InputAction, int> m_Keymap{};
+        class InputDeviceImpl;
+        class KeyboardInputDeviceImpl;
+        class GamepadInputDeviceImpl;
+        std::unique_ptr<InputDeviceImpl> m_Pimpl;
 
-        virtual bool GetPreviousKeyState(InputAction action) const = 0;
-        virtual bool GetCurrentKeyState(InputAction action) const = 0;
     public:
         bool IsPressed(InputAction action) const;
         bool IsReleased(InputAction action) const;
@@ -42,42 +35,11 @@ namespace dae
         bool IsDown(InputAction action) const;
         bool IsUp(InputAction action) const;
 
-        virtual void UpdateState() = 0;
+        virtual void UpdateState();
 
-        InputDevice() = default;
+        InputDevice(InputDeviceType inputDeviceType);
         virtual ~InputDevice() = default;
-    };
 
-    class KeyboardInputDevice final : public InputDevice
-    {
-    private:
-        int m_NumKeys;
-        std::array<std::vector<bool>, 2> m_KeyStates;
-        bool const* m_KeyStatesPtr;
-
-        bool GetPreviousKeyState(InputAction action) const override;
-        bool GetCurrentKeyState(InputAction action) const override;
-    public:
-        void UpdateState() override;
-
-        KeyboardInputDevice();
-        ~KeyboardInputDevice() override = default;
-    };
-
-    class GamepadInputDevice final : public InputDevice
-    {
-    private:
-        DWORD m_ControllerIndex;
-        std::array<XINPUT_STATE, 2> m_KeyStates;
-
-        bool GetPreviousKeyState(InputAction action) const override;
-        bool GetCurrentKeyState(InputAction action) const override;
-
-    public:
-        void UpdateState() override;
-
-        GamepadInputDevice(int controllerIndex);
-        ~GamepadInputDevice() override = default;
     };
 
     struct ControllerInfo final

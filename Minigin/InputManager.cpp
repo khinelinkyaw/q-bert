@@ -12,16 +12,7 @@ void dae::InputManager::RegisterController(ControllerComponent* controller, Inpu
 
     newControllerInfo.m_PlayerController = controller;
     newControllerInfo.m_InputType = inputType;
-
-    switch (inputType)
-    {
-    case InputDeviceType::Keyboard:
-        newControllerInfo.m_InputDevice = std::make_unique<KeyboardInputDevice>();
-        break;
-    case InputDeviceType::Gamepad:
-        newControllerInfo.m_InputDevice = std::make_unique<GamepadInputDevice>(0);
-        break;
-    }
+    newControllerInfo.m_InputDevice = std::make_unique<InputDevice>(inputType);
 
     m_PlayerControllers.push_back(std::move(newControllerInfo));
 }
