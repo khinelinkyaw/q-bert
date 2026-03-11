@@ -20,6 +20,7 @@ namespace dae
         CommandState m_State{ CommandState::Initial };
     public:
         virtual void Execute(GameObject& gameObject) = 0;
+        virtual ~Command() = default;
     };
 
     class MoveCommand final : public Command

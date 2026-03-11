@@ -20,13 +20,13 @@ namespace dae
         Gamepad
     };
 
-    class InputDevice
+    class InputDevice final
     {
     protected:
         class InputDeviceImpl;
         class KeyboardInputDeviceImpl;
         class GamepadInputDeviceImpl;
-        std::unique_ptr<InputDeviceImpl> m_Pimpl;
+        InputDeviceImpl* m_Pimpl;
 
     public:
         bool IsPressed(InputAction action) const;
@@ -35,11 +35,10 @@ namespace dae
         bool IsDown(InputAction action) const;
         bool IsUp(InputAction action) const;
 
-        virtual void UpdateState();
+        void UpdateState();
 
         InputDevice(InputDeviceType inputDeviceType);
-        virtual ~InputDevice() = default;
-
+        ~InputDevice();
     };
 
     struct ControllerInfo final

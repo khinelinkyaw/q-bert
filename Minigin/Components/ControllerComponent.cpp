@@ -1,6 +1,6 @@
 #include "ControllerComponent.h"
 #include <Command.h>
-#include <InputManager.h>
+#include <InputDevice.h>
 #include <memory>
 
 void dae::ControllerComponent::ClearCommands()
