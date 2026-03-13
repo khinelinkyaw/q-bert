@@ -10,7 +10,7 @@
 
 namespace dae
 {
-    template<typename T> concept DerivedObjectCommand = std::is_base_of<Command, T>::value;
+    template<typename T> concept DerivedCommandClass = std::is_base_of<Command, T>::value;
 
     class InputDevice;
     class ControllerComponent final : public BaseComponent
@@ -19,7 +19,7 @@ namespace dae
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{};
 
-        template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
+        template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
         void AddCommand(Args&& ... args);
         void ClearCommands();
         void ExecuteCommands();
@@ -41,7 +41,7 @@ namespace dae
         ControllerComponent& operator=(ControllerComponent&& other) = delete;
     };
 
-    template<typename CommandType, typename... Args> requires DerivedObjectCommand<CommandType>
+    template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
     void ControllerComponent::AddCommand(Args && ...args)
     {
         m_Commands.push_back(std::make_unique<CommandType>(args...));
