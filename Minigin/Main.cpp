@@ -6,59 +6,10 @@
 #endif
 
 #include "Minigin.h"
-#include "SceneManager.h"
-#include "InputManager.h"
-#include "Components/FrameCounterComponent.h"
-#include "Components/TextureComponent.h"
-#include "Components/ControllerComponent.h"
-#include "Scene.h"
+#include "../Game/Main.cpp"
 #include <filesystem>
-#include <memory>
-#include "Modules/GameObject.h"
-#include <utility>
-#include "Components/TextComponent.h"
-#include "InputDevice.h"
 
 namespace fs = std::filesystem;
-
-static void load()
-{
-    auto& scene = dae::SceneManager::GetInstance().CreateScene();
-
-    auto go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::TextureComponent>("background.png");
-    scene.Add(std::move(go));
-
-    go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::TextureComponent>("logo.png");
-    go->SetPosition(358, 180);
-    scene.Add(std::move(go));
-
-    go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::TextComponent>("Programming 4 Assignment");
-    go->SetPosition(292, 20);
-    go->GetComponent<dae::TextComponent>()->SetColor({ 255, 255, 0, 255 });
-    scene.Add(std::move(go));
-
-    go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::TextureComponent>("my_guy.png");
-    go->AddComponent<dae::ControllerComponent>(100.f);
-    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>(), dae::InputDeviceType::Keyboard);
-    go->SetPosition(500, 500);
-    scene.Add(std::move(go));
-
-    go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::TextureComponent>("another_guy.png");
-    go->AddComponent<dae::ControllerComponent>(300.f);
-    dae::InputManager::GetInstance().RegisterController(go->GetComponent<dae::ControllerComponent>(), dae::InputDeviceType::Gamepad);
-    go->SetPosition(600, 500);
-    scene.Add(std::move(go));
-
-    go = std::make_unique<dae::GameObject>();
-    go->AddComponent<dae::FrameCounterComponent>();
-    go->SetPosition(20, 20);
-    scene.Add(std::move(go));
-}
 
 int main(int, char* [])
 {
@@ -69,7 +20,7 @@ int main(int, char* [])
     if (!fs::exists(data_location))
         data_location = "../Data/";
 #endif
-    dae::Minigin engine(data_location);
-    engine.Run(load);
+    Engine::Minigin engine(data_location);
+    engine.Run(Game::load);
     return 0;
 }

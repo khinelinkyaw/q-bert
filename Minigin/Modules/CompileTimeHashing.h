@@ -2,7 +2,7 @@
 #ifndef COMPILETIMEHASHING_H
 #define COMPILETIMEHASHING_H
 
-namespace dae
+namespace Engine
 {
 	// Copied from this blog post
 	// https://dev.krzaq.cc/post/switch-on-strings-with-c11/

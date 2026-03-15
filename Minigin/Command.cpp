@@ -5,7 +5,7 @@
 #include "Modules/Transform.h"
 #include <glm/ext/vector_common.hpp>
 
-void dae::MoveCommand::Execute(GameObject& gameObject)
+void Engine::MoveCommand::Execute(GameObject& gameObject)
 {
     glm::vec3 l_MovingDirection{ glm::normalize(m_Movement.GetPosition()) };
     l_MovingDirection *= gameObject.GetComponent<ControllerComponent>()->GetSpeed() * Minigin::GetDeltaTime();
@@ -14,7 +14,7 @@ void dae::MoveCommand::Execute(GameObject& gameObject)
     m_State = CommandState::Success;
 }
 
-dae::MoveCommand::MoveCommand(float x, float y)
+Engine::MoveCommand::MoveCommand(float x, float y)
     : m_Movement(x, y)
 {
 }

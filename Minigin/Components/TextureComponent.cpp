@@ -5,15 +5,15 @@
 #include <glm/fwd.hpp>
 #include <string>
 
-void dae::TextureComponent::FixedUpdate()
+void Engine::TextureComponent::FixedUpdate()
 {
 }
 
-void dae::TextureComponent::Update()
+void Engine::TextureComponent::Update()
 {
 }
 
-void dae::TextureComponent::Render(glm::vec3 const& pos) const
+void Engine::TextureComponent::Render(glm::vec3 const& pos) const
 {
     if (m_texture != nullptr)
     {
@@ -21,17 +21,17 @@ void dae::TextureComponent::Render(glm::vec3 const& pos) const
     }
 }
 
-void dae::TextureComponent::SetTexture(const std::string& filename)
+void Engine::TextureComponent::SetTexture(const std::string& filename)
 {
     m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-dae::TextureComponent::TextureComponent()
+Engine::TextureComponent::TextureComponent()
     : m_texture{ nullptr }
 {
 }
 
-dae::TextureComponent::TextureComponent(const std::string& filename)
+Engine::TextureComponent::TextureComponent(const std::string& filename)
     : m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
 {
 }

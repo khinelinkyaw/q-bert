@@ -43,7 +43,7 @@ void LogSDLVersion(const std::string& message, int major, int minor,
 
 void LoopCallback(void* arg)
 {
-    static_cast<dae::Minigin*>(arg)->RunOneFrame();
+    static_cast<Engine::Minigin*>(arg)->RunOneFrame();
 }
 #endif
 
@@ -69,7 +69,7 @@ void PrintSDLVersion()
         SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-dae::Minigin::Minigin(const std::filesystem::path& dataPath)
+Engine::Minigin::Minigin(const std::filesystem::path& dataPath)
     : m_LastTime{ std::chrono::high_resolution_clock::now() }
     , m_Lag{ 0.f }
     , m_TimeStep{ 1.f / 60.f }
@@ -95,7 +95,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
     ResourceManager::GetInstance().Init(dataPath);
 }
 
-dae::Minigin::~Minigin()
+Engine::Minigin::~Minigin()
 {
     Renderer::GetInstance().Destroy();
     SDL_DestroyWindow(g_window);
@@ -103,7 +103,7 @@ dae::Minigin::~Minigin()
     SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void Engine::Minigin::Run(const std::function<void()>& load)
 {
     load();
 #ifndef __EMSCRIPTEN__
@@ -117,7 +117,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 #endif
 }
 
-void dae::Minigin::RunOneFrame()
+void Engine::Minigin::RunOneFrame()
 {
     auto const currentTime{ std::chrono::high_resolution_clock::now() };
     m_DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();

@@ -15,16 +15,16 @@
 #include <stdexcept>
 #include <string>
 
-dae::TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
+Engine::TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
     : m_needsUpdate(true)
     , m_text(text)
     , m_color(color)
-    , m_font(dae::ResourceManager::GetInstance().LoadFont(font_name, font_size))
+    , m_font(Engine::ResourceManager::GetInstance().LoadFont(font_name, font_size))
     , m_textTexture(nullptr)
 {
 }
 
-void dae::TextComponent::FixedUpdate()
+void Engine::TextComponent::FixedUpdate()
 {
     if (m_needsUpdate)
     {
@@ -44,11 +44,11 @@ void dae::TextComponent::FixedUpdate()
     }
 }
 
-void dae::TextComponent::Update()
+void Engine::TextComponent::Update()
 {
 }
 
-void dae::TextComponent::Render(glm::vec3 const& pos) const
+void Engine::TextComponent::Render(glm::vec3 const& pos) const
 {
     if (m_textTexture != nullptr)
     {
@@ -56,13 +56,13 @@ void dae::TextComponent::Render(glm::vec3 const& pos) const
     }
 }
 
-void dae::TextComponent::SetText(const std::string& text)
+void Engine::TextComponent::SetText(const std::string& text)
 {
     m_text = text;
     m_needsUpdate = true;
 }
 
-void dae::TextComponent::SetColor(const SDL_Color& color)
+void Engine::TextComponent::SetColor(const SDL_Color& color)
 {
     m_color = color;
     m_needsUpdate = true;

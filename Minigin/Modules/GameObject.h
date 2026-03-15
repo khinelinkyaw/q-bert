@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-namespace dae
+namespace Engine
 {
     template<typename T> concept DerivedComponent = std::is_base_of<BaseComponent, T>::value;
 

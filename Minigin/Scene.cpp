@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-using namespace dae;
+using namespace Engine;
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
@@ -34,7 +34,7 @@ void Scene::FixedUpdate()
     }
 }
 
-void dae::Scene::Update()
+void Engine::Scene::Update()
 {
     for (auto& object : m_Objects)
     {
@@ -50,7 +50,7 @@ void Scene::Render() const
     }
 }
 
-void dae::Scene::CheckForDeletion()
+void Engine::Scene::CheckForDeletion()
 {
     std::vector<std::unique_ptr<GameObject>> remaining_objects;
     remaining_objects.reserve(m_Objects.size());

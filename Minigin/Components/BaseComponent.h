@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/fwd.hpp>
 
-namespace dae
+namespace Engine
 {
     class GameObject;
     class BaseComponent

@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace dae
+namespace Engine
 {
     template<typename T> concept DerivedCommandClass = std::is_base_of<Command, T>::value;
 

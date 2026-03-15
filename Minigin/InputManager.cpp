@@ -6,7 +6,7 @@
 #include <utility>
 
 
-void dae::InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
+void Engine::InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
 {
     struct ControllerInfo newControllerInfo {};
 
@@ -17,7 +17,7 @@ void dae::InputManager::RegisterController(ControllerComponent* controller, Inpu
     m_PlayerControllers.push_back(std::move(newControllerInfo));
 }
 
-bool dae::InputManager::ProcessInput()
+bool Engine::InputManager::ProcessInput()
 {
     SDL_Event e;
     while (SDL_PollEvent(&e))

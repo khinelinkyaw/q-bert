@@ -8,24 +8,24 @@
 #include <stdexcept>
 #include <string>
 
-dae::Texture2D::~Texture2D()
+Engine::Texture2D::~Texture2D()
 {
     SDL_DestroyTexture(m_texture);
 }
 
-glm::vec2 dae::Texture2D::GetSize() const
+glm::vec2 Engine::Texture2D::GetSize() const
 {
     float w{}, h{};
     SDL_GetTextureSize(m_texture, &w, &h);
     return { w, h };
 }
 
-SDL_Texture* dae::Texture2D::GetSDLTexture() const
+SDL_Texture* Engine::Texture2D::GetSDLTexture() const
 {
     return m_texture;
 }
 
-dae::Texture2D::Texture2D(const std::string& fullPath)
+Engine::Texture2D::Texture2D(const std::string& fullPath)
 {
     SDL_Surface* surface = SDL_LoadPNG(fullPath.c_str());
     if (!surface)
@@ -50,7 +50,7 @@ dae::Texture2D::Texture2D(const std::string& fullPath)
     }
 }
 
-dae::Texture2D::Texture2D(SDL_Texture* texture) : m_texture{ texture }
+Engine::Texture2D::Texture2D(SDL_Texture* texture) : m_texture{ texture }
 {
     assert(m_texture != nullptr);
 }

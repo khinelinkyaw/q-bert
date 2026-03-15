@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-void dae::SceneManager::FixedUpdate()
+void Engine::SceneManager::FixedUpdate()
 {
     for (auto& scene : m_scenes)
     {
@@ -9,7 +9,7 @@ void dae::SceneManager::FixedUpdate()
     }
 }
 
-void dae::SceneManager::Update()
+void Engine::SceneManager::Update()
 {
     for (auto& scene : m_scenes)
     {
@@ -17,7 +17,7 @@ void dae::SceneManager::Update()
     }
 }
 
-void dae::SceneManager::Render()
+void Engine::SceneManager::Render()
 {
     for (const auto& scene : m_scenes)
     {
@@ -25,7 +25,7 @@ void dae::SceneManager::Render()
     }
 }
 
-void dae::SceneManager::CheckForDeletion()
+void Engine::SceneManager::CheckForDeletion()
 {
     for (auto& scene : m_scenes)
     {
@@ -33,7 +33,7 @@ void dae::SceneManager::CheckForDeletion()
     }
 }
 
-dae::Scene& dae::SceneManager::CreateScene()
+Engine::Scene& Engine::SceneManager::CreateScene()
 {
     m_scenes.emplace_back(new Scene());
     return *m_scenes.back();

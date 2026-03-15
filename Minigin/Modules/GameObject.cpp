@@ -1,17 +1,17 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-void dae::GameObject::SetForDeletion()
+void Engine::GameObject::SetForDeletion()
 {
     m_MarkedForDeletion = true;
 }
 
-bool dae::GameObject::IsMarkedForDeletion() const
+bool Engine::GameObject::IsMarkedForDeletion() const
 {
     return m_MarkedForDeletion;
 }
 
-void dae::GameObject::FixedUpdate()
+void Engine::GameObject::FixedUpdate()
 {
     for (auto& component : m_Components)
     {
@@ -19,7 +19,7 @@ void dae::GameObject::FixedUpdate()
     }
 }
 
-void dae::GameObject::Update()
+void Engine::GameObject::Update()
 {
     for (auto& component : m_Components)
     {
@@ -27,7 +27,7 @@ void dae::GameObject::Update()
     }
 }
 
-void dae::GameObject::Render() const
+void Engine::GameObject::Render() const
 {
     const auto& pos = m_Transform.GetPosition();
 
@@ -37,17 +37,17 @@ void dae::GameObject::Render() const
     }
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void Engine::GameObject::SetPosition(float x, float y)
 {
     m_Transform.SetPosition(x, y, 0.0f);
 }
 
-void dae::GameObject::SetPosition(Transform newPosition)
+void Engine::GameObject::SetPosition(Transform newPosition)
 {
     m_Transform = newPosition;
 }
 
-void dae::GameObject::RemoveComponent(size_t index)
+void Engine::GameObject::RemoveComponent(size_t index)
 {
     if (index < m_Components.size())
     {

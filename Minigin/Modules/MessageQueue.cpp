@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-namespace dae
+namespace Engine
 {
     Message::Message(std::string const& str)
         : m_EventID{ hash_compile_time(str.c_str()) }

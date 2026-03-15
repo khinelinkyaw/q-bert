@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace dae
+namespace Engine
 {
     class InputDevice::InputDeviceImpl
     {

@@ -3,7 +3,7 @@
 #include "TextComponent.h"
 #include <glm/fwd.hpp>
 
-namespace dae
+namespace Engine
 {
     class FrameCounterComponent final : public BaseComponent
     {
