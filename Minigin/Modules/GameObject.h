@@ -50,7 +50,7 @@ namespace dae
     template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
     void GameObject::AddComponent(Args&&... args)
     {
-        std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(args...) };
+        std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(std::forward<Args>(args)...) };
         newComponent->SetOwner(this);
         m_Components.push_back(std::move(newComponent));
     }

@@ -7,6 +7,7 @@
 #include <list>
 #include <memory>
 #include <type_traits>
+#include <utility>
 
 namespace dae
 {
@@ -44,7 +45,7 @@ namespace dae
     template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
     void ControllerComponent::AddCommand(Args && ...args)
     {
-        m_Commands.push_back(std::make_unique<CommandType>(args...));
+        m_Commands.push_back(std::make_unique<CommandType>(std::forward<Args>(args)...));
     }
 }
 
