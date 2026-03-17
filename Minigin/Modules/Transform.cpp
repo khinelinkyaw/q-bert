@@ -1,13 +1,15 @@
 #include "Transform.h"
 
-void Engine::Transform::SetPosition(const float x, const float y, const float z)
+using namespace Engine;
+
+void Transform::SetPosition(const float x, const float y, const float z)
 {
 	m_Position.x = x;
 	m_Position.y = y;
 	m_Position.z = z;
 }
 
-void Engine::Transform::SetPosition(const glm::vec3& position) 
-{ 
-	m_Position = position; 
+void Transform::SetPosition(const glm::vec3& position)
+{
+	m_Position = position;
 }

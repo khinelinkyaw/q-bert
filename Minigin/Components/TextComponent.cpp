@@ -15,16 +15,18 @@
 #include <stdexcept>
 #include <string>
 
-Engine::TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
+using namespace Engine;
+
+TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
     : m_needsUpdate(true)
     , m_text(text)
     , m_color(color)
-    , m_font(Engine::ResourceManager::GetInstance().LoadFont(font_name, font_size))
+    , m_font(ResourceManager::GetInstance().LoadFont(font_name, font_size))
     , m_textTexture(nullptr)
 {
 }
 
-void Engine::TextComponent::FixedUpdate()
+void TextComponent::FixedUpdate()
 {
     if (m_needsUpdate)
     {
@@ -44,11 +46,11 @@ void Engine::TextComponent::FixedUpdate()
     }
 }
 
-void Engine::TextComponent::Update()
+void TextComponent::Update()
 {
 }
 
-void Engine::TextComponent::Render(glm::vec3 const& pos) const
+void TextComponent::Render(glm::vec3 const& pos) const
 {
     if (m_textTexture != nullptr)
     {
@@ -56,13 +58,13 @@ void Engine::TextComponent::Render(glm::vec3 const& pos) const
     }
 }
 
-void Engine::TextComponent::SetText(const std::string& text)
+void TextComponent::SetText(const std::string& text)
 {
     m_text = text;
     m_needsUpdate = true;
 }
 
-void Engine::TextComponent::SetColor(const SDL_Color& color)
+void TextComponent::SetColor(const SDL_Color& color)
 {
     m_color = color;
     m_needsUpdate = true;

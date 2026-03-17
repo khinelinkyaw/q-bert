@@ -34,7 +34,7 @@ void Scene::FixedUpdate()
     }
 }
 
-void Engine::Scene::Update()
+void Scene::Update()
 {
     for (auto& object : m_Objects)
     {
@@ -50,7 +50,7 @@ void Scene::Render() const
     }
 }
 
-void Engine::Scene::CheckForDeletion()
+void Scene::CheckForDeletion()
 {
     std::vector<std::unique_ptr<GameObject>> remaining_objects;
     remaining_objects.reserve(m_Objects.size());

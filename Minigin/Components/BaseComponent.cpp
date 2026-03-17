@@ -1,6 +1,10 @@
 #include "BaseComponent.h"
 
-void Engine::BaseComponent::SetOwner(GameObject* pOwner)
+namespace Engine
 {
-    m_pOwner = pOwner;
+    void BaseComponent::SetOwner(GameObject* pOwner)
+    {
+        m_pOwner = pOwner;
+    }
 }
+

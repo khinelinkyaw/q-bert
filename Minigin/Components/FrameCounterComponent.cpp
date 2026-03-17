@@ -3,19 +3,21 @@
 #include <glm/fwd.hpp>
 #include <string>
 
-Engine::FrameCounterComponent::FrameCounterComponent()
+using namespace Engine;
+
+FrameCounterComponent::FrameCounterComponent()
     : m_FramesPerSecond{}
     , m_AccumulatedTime{}
     , m_TextComponent{ "FPS: 0" }
 {
 }
 
-void Engine::FrameCounterComponent::FixedUpdate()
+void FrameCounterComponent::FixedUpdate()
 {
     m_TextComponent.FixedUpdate();
 }
 
-void Engine::FrameCounterComponent::Update()
+void FrameCounterComponent::Update()
 {
     m_AccumulatedTime += Minigin::GetDeltaTime();
     ++m_FramesPerSecond;
@@ -28,7 +30,7 @@ void Engine::FrameCounterComponent::Update()
     }
 }
 
-void Engine::FrameCounterComponent::Render(glm::vec3 const& pos) const
+void FrameCounterComponent::Render(glm::vec3 const& pos) const
 {
     m_TextComponent.Render(pos);
 }

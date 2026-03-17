@@ -10,7 +10,9 @@
 #include <stdexcept>
 #include <string>
 
-void Engine::Renderer::Init(SDL_Window* window)
+using namespace Engine;
+
+void Renderer::Init(SDL_Window* window)
 {
     m_window = window;
 
@@ -29,7 +31,7 @@ void Engine::Renderer::Init(SDL_Window* window)
     }
 }
 
-void Engine::Renderer::Render() const
+void Renderer::Render() const
 {
     const auto& color = GetBackgroundColor();
     SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
@@ -40,7 +42,7 @@ void Engine::Renderer::Render() const
     SDL_RenderPresent(m_renderer);
 }
 
-void Engine::Renderer::Destroy()
+void Renderer::Destroy()
 {
     if (m_renderer != nullptr)
     {
@@ -49,7 +51,7 @@ void Engine::Renderer::Destroy()
     }
 }
 
-void Engine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
     SDL_FRect dst{};
     dst.x = x;
@@ -58,7 +60,7 @@ void Engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
     SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Engine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
     SDL_FRect dst{};
     dst.x = x;
@@ -68,4 +70,4 @@ void Engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
     SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-SDL_Renderer* Engine::Renderer::GetSDLRenderer() const { return m_renderer; }
+SDL_Renderer* Renderer::GetSDLRenderer() const { return m_renderer; }

@@ -5,8 +5,9 @@
 #include <memory>
 #include <utility>
 
+using namespace Engine;
 
-void Engine::InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
+void InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
 {
     struct ControllerInfo newControllerInfo {};
 
@@ -17,7 +18,7 @@ void Engine::InputManager::RegisterController(ControllerComponent* controller, I
     m_PlayerControllers.push_back(std::move(newControllerInfo));
 }
 
-bool Engine::InputManager::ProcessInput()
+bool InputManager::ProcessInput()
 {
     SDL_Event e;
     while (SDL_PollEvent(&e))

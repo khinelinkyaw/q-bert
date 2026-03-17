@@ -3,12 +3,14 @@
 #include <InputDevice.h>
 #include <memory>
 
-void Engine::ControllerComponent::ClearCommands()
+using namespace Engine;
+
+void ControllerComponent::ClearCommands()
 {
     m_Commands.clear();
 }
 
-void Engine::ControllerComponent::ExecuteCommands()
+void ControllerComponent::ExecuteCommands()
 {
     // ုဒီလိုလုပ်တာကောင်းမဲ့ပုံမပေါက်ဘူး။ လာမဲ့ အပတ် စာသင်ချိန်မှာ အပြောခံရဖို့ အခြေအနေရှိတယ်
     while (!m_Commands.empty())
@@ -18,7 +20,7 @@ void Engine::ControllerComponent::ExecuteCommands()
     }
 }
 
-void Engine::ControllerComponent::ProcessInput(InputDevice& inputDevice)
+void ControllerComponent::ProcessInput(InputDevice& inputDevice)
 {
     if (inputDevice.IsDown(InputAction::MoveUp))
     {
@@ -38,20 +40,20 @@ void Engine::ControllerComponent::ProcessInput(InputDevice& inputDevice)
     }
 }
 
-void Engine::ControllerComponent::FixedUpdate()
+void ControllerComponent::FixedUpdate()
 {
     ExecuteCommands();
 }
 
-void Engine::ControllerComponent::Update()
+void ControllerComponent::Update()
 {
 }
 
-void Engine::ControllerComponent::Render(glm::vec3 const&) const
+void ControllerComponent::Render(glm::vec3 const&) const
 {
 }
 
-Engine::ControllerComponent::ControllerComponent(float speed)
+ControllerComponent::ControllerComponent(float speed)
     : m_Commands{}
     , m_Speed{ speed }
 {

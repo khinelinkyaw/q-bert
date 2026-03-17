@@ -15,7 +15,7 @@ namespace Engine
         virtual void Update() = 0;
         virtual void Render(glm::vec3 const& pos) const = 0;
 
-        virtual void SetOwner(GameObject* pOwner);
+        void SetOwner(GameObject* pOwner);
 
         BaseComponent() = default;
         virtual ~BaseComponent() = default;
