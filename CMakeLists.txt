@@ -33,7 +33,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "Minigin/Components/FrameCounterComponent.cpp"
   "Minigin/Components/TextureComponent.cpp"
   "Minigin/Components/TextureComponent.h"
- "Minigin/Command.h" "Minigin/Command.cpp" "Minigin/Components/ControllerComponent.h" "Minigin/Components/ControllerComponent.cpp" "Minigin/InputDevice.h" "Minigin/InputDevice.cpp"  "Minigin/Modules/MessageQueue.h" "Minigin/Modules/MessageQueue.cpp" "Minigin/Modules/CompileTimeHashing.h" "Game/Main.cpp")
+ "Minigin/Command.h" "Minigin/Command.cpp" "Minigin/Components/ControllerComponent.h" "Minigin/Components/ControllerComponent.cpp" "Minigin/InputDevice.h" "Minigin/InputDevice.cpp"  "Minigin/Modules/MessageQueue.h" "Minigin/Modules/MessageQueue.cpp" "Minigin/Modules/CompileTimeHashing.h" "Game/Main.cpp" "Game/Components/HealthComponent.h" "Game/Components/HealthComponent.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -122,6 +122,10 @@ find_package(Steamworks QUIET)
 
 target_include_directories("${TARGET_NAME}" PUBLIC
   ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/Minigin/Components/
+  ${CMAKE_SOURCE_DIR}/Minigin/Modules/
+  ${CMAKE_SOURCE_DIR}/Game/
+  ${CMAKE_SOURCE_DIR}/Game/Modules/
   ${VLD_INCLUDE_DIR}
 )
 

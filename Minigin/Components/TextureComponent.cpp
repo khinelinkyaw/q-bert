@@ -5,33 +5,36 @@
 #include <glm/fwd.hpp>
 #include <string>
 
-void Engine::TextureComponent::FixedUpdate()
+namespace Engine
 {
-}
-
-void Engine::TextureComponent::Update()
-{
-}
-
-void Engine::TextureComponent::Render(glm::vec3 const& pos) const
-{
-    if (m_texture != nullptr)
+    void TextureComponent::FixedUpdate()
     {
-        Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
     }
-}
 
-void Engine::TextureComponent::SetTexture(const std::string& filename)
-{
-    m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-}
+    void TextureComponent::Update()
+    {
+    }
 
-Engine::TextureComponent::TextureComponent()
-    : m_texture{ nullptr }
-{
-}
+    void TextureComponent::Render(glm::vec3 const& pos) const
+    {
+        if (m_texture != nullptr)
+        {
+            Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+        }
+    }
 
-Engine::TextureComponent::TextureComponent(const std::string& filename)
-    : m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
-{
+    void TextureComponent::SetTexture(const std::string& filename)
+    {
+        m_texture = ResourceManager::GetInstance().LoadTexture(filename);
+    }
+
+    TextureComponent::TextureComponent()
+        : m_texture{ nullptr }
+    {
+    }
+
+    TextureComponent::TextureComponent(const std::string& filename)
+        : m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
+    {
+    }
 }
