@@ -1,6 +1,7 @@
-#include <cstdint>
 #ifndef COMPILETIMEHASHING_H
 #define COMPILETIMEHASHING_H
+
+#include <cstdint>
 
 namespace Engine
 {
@@ -39,6 +40,5 @@ namespace Engine
 		return hash_compile_time(p);
 	}
 }
-
 
 #endif

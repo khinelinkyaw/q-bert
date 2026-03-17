@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BASE_COMPONENT_H
+#define BASE_COMPONENT_H
+
 #include <glm/fwd.hpp>
 
 namespace Engine
@@ -23,3 +25,5 @@ namespace Engine
         BaseComponent& operator=(BaseComponent&& other) = delete;
     };
 }
+
+#endif
