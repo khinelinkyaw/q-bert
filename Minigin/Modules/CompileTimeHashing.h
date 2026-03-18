@@ -35,7 +35,7 @@ namespace GameEngine
 		return result;
 	}
 
-	constexpr unsigned long long operator "" _hash(char const* p, size_t)
+	constexpr unsigned long long operator ""_hash(char const* p, size_t)
 	{
 		return HashCompileTime(p);
 	}
