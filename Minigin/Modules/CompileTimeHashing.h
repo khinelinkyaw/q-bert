@@ -5,7 +5,7 @@
 
 namespace GameEngine
 {
-	// Copied from this blog post
+	// Used code from this blog post
 	// https://dev.krzaq.cc/post/switch-on-strings-with-c11/
 
 	typedef std::uint64_t hash_t;

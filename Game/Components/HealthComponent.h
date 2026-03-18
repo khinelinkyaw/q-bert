@@ -2,7 +2,11 @@
 #define HEALTH_COMPONENT_H
 
 #include <BaseComponent.h>
-#include <MessageQueue.h>
+
+namespace GameEngine
+{
+    class MessageQueue;
+}
 
 namespace Game
 {
@@ -17,9 +21,9 @@ namespace Game
         void CheckHealth();
     public:
 #pragma region BaseClassFunctions
-        virtual void FixedUpdate();
-        virtual void Update();
-        virtual void Render(glm::vec3 const&) const;
+        void FixedUpdate();
+        void Update();
+        void Render(glm::vec3 const&) const;
 #pragma endregion
 
         void TakeDamage();
@@ -30,7 +34,7 @@ namespace Game
         void Revive();
         bool IsDead() const;
 
-        HealthComponent(unsigned int health = 3, unsigned int maxHealth = 3);
+        HealthComponent(GameEngine::MessageQueue* messageQueue, unsigned int health = 3, unsigned int maxHealth = 3);
     };
 }
 

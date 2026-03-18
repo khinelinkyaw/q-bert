@@ -1,4 +1,5 @@
 #include "HealthComponent.h"
+#include <MessageQueue.h>
 
 void Game::HealthComponent::CheckHealth()
 {
@@ -31,10 +32,11 @@ void Game::HealthComponent::Render(glm::vec3 const&) const
 {
 }
 
-Game::HealthComponent::HealthComponent(unsigned int health, unsigned int maxHealth)
+Game::HealthComponent::HealthComponent(GameEngine::MessageQueue* messageQueue, unsigned int health, unsigned int maxHealth)
     : m_IsDead{ false }
     , m_Health{ health }
     , m_MaxHealth{ maxHealth }
+    , m_MessageQueue{ messageQueue }
 {
     CheckHealth();
 }

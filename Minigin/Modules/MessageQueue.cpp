@@ -1,16 +1,13 @@
-#include "MessageQueue.h"
+#include <MessageQueue.h>
 #include <memory>
 #include <string>
 #include <utility>
-
-constexpr GameEngine::Message::Message(std::string const& str)
-    : m_MessageID{ HashCompileTime(str.c_str()) }
-{
-}
+#include <MiniMessage.h>
+#include <Receiver.h>
 
 void GameEngine::MessageQueue::SendMessage(std::string const& messageID)
 {
-    m_MessageQueue[m_QueueTail] = std::make_unique<Message>(messageID);
+    m_MessageQueue[m_QueueTail] = std::make_unique<MiniMessage>(messageID);
     m_QueueTail = (m_QueueTail + 1) % m_QueueSize;
 }
 

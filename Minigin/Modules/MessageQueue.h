@@ -1,35 +1,20 @@
 #ifndef MESSAGE_QUEUE_H
 #define MESSAGE_QUEUE_H
 
-#include <CompileTimeHashing.h>
 #include <array>
+#include <cstdint>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
+#include <MiniMessage.h>
 
 namespace GameEngine
 {
-    class Message final
-    {
-    private:
-        hash_t m_MessageID;
-    public:
-        hash_t GetID() const { return m_MessageID; }
+    typedef std::uint64_t hash_t;
 
-        constexpr Message(std::string const& str);
-        ~Message() = default;
-    };
-
-    class Receiver
-    {
-    public:
-        virtual void HandleMessage(std::unique_ptr<Message> message) = 0;
-        virtual ~Receiver() = default;
-    };
-
-    template<typename T> concept DerivedMessageClass = std::is_base_of<Message, T>::value;
+    //template<typename T> concept DerivedMessageClass = std::is_base_of<Message, T>::value;
     
+    class Receiver;
     class MessageQueue final
     {
     private:
@@ -38,7 +23,7 @@ namespace GameEngine
         int m_QueueTail{};
 
         std::unordered_map<hash_t,Receiver*> m_Receivers{};
-        std::array<std::unique_ptr<Message>, m_QueueSize> m_MessageQueue{};
+        std::array<std::unique_ptr<MiniMessage>, m_QueueSize> m_MessageQueue{};
 
     public:
         ~MessageQueue() = default;

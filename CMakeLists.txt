@@ -33,7 +33,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "Minigin/Components/FrameCounterComponent.cpp"
   "Minigin/Components/TextureComponent.cpp"
   "Minigin/Components/TextureComponent.h"
- "Minigin/Command.h" "Minigin/Command.cpp" "Minigin/Components/ControllerComponent.h" "Minigin/Components/ControllerComponent.cpp" "Minigin/InputDevice.h" "Minigin/InputDevice.cpp"  "Minigin/Modules/MessageQueue.h" "Minigin/Modules/MessageQueue.cpp" "Minigin/Modules/CompileTimeHashing.h" "Game/Main.cpp" "Game/Components/HealthComponent.h" "Game/Components/HealthComponent.cpp" "Minigin/Modules/UIUtils.h" "Minigin/Modules/UIUtils.cpp" "Game/Components/HealthDisplayComponent.h" "Game/Components/HealthDisplayComponent.cpp")
+ "Minigin/Command.h" "Minigin/Command.cpp" "Minigin/Components/ControllerComponent.h" "Minigin/Components/ControllerComponent.cpp" "Minigin/InputDevice.h" "Minigin/InputDevice.cpp"  "Minigin/Modules/MessageQueue.h" "Minigin/Modules/MessageQueue.cpp" "Minigin/Modules/CompileTimeHashing.h" "Game/Main.cpp" "Game/Components/HealthComponent.h" "Game/Components/HealthComponent.cpp" "Minigin/Modules/UIUtils.h" "Minigin/Modules/UIUtils.cpp" "Game/Components/HealthDisplayComponent.h" "Game/Components/HealthDisplayComponent.cpp" "Minigin/Components/Receiver.h" "Minigin/Components/MiniMessage.h" "Minigin/Components/MiniMessage.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
