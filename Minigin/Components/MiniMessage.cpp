@@ -3,6 +3,6 @@
 #include <string>
 
 GameEngine::MiniMessage::MiniMessage(std::string const& str)
-    : m_MessageID{ HashCompileTime(str.c_str()) }
+    : m_MessageID{ HashString(str.c_str()) }
 {
 }
