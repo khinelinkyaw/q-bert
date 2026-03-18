@@ -12,7 +12,7 @@
 
 namespace Game
 {
-    static inline void load()
+    inline void load()
     {
         auto& scene = GameEngine::SceneManager::GetInstance().CreateScene();
 

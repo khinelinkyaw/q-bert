@@ -1,5 +1,5 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef MINI_MESSAGE_H
+#define MINI_MESSAGE_H
 
 #include <cstdint>
 #include <string>

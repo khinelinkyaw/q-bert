@@ -5,11 +5,7 @@
 #include <Receiver.h>
 #include <TextComponent.h>
 #include <memory>
-
-namespace GameEngine
-{
-    class MiniMessage;
-}
+#include <MiniMessage.h>
 
 namespace Game
 {
@@ -31,7 +27,7 @@ namespace Game
 #pragma region BaseClassFunctions
         void FixedUpdate();
         void Update();
-        void Render(glm::vec3 const& pos) const;
+        void Render(glm::vec3 const&) const;
 #pragma endregion
     };
 }

@@ -1,16 +1,16 @@
 #include "HealthDisplayComponent.h"
 #include <TextComponent.h>
 #include <memory>
-#include <MiniMessage.h>
 #include <CompileTimeHashing.h>
 
 void Game::HealthStatusReceiver::HandleMessage(std::unique_ptr<GameEngine::MiniMessage> message)
 {
+
     switch (message->GetID())
     {
-    case "ObjectDamageTaken"_hash:
+    case GameEngine::HashCompileTime("ObjectDamageTaken"):
         break;
-    case "ObjectHealed"_hash:
+    case GameEngine::HashCompileTime("ObjectHealed"):
         break;
     }
 }
@@ -18,4 +18,16 @@ void Game::HealthStatusReceiver::HandleMessage(std::unique_ptr<GameEngine::MiniM
 void Game::HealthStatusReceiver::SetTextPointer(GameEngine::TextComponent* textPtr)
 {
     m_TextPtr = textPtr;
+}
+
+void Game::HealthDisplayComponent::FixedUpdate()
+{
+}
+
+void Game::HealthDisplayComponent::Update()
+{
+}
+
+void Game::HealthDisplayComponent::Render(glm::vec3 const&) const
+{
 }
