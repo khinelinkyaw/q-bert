@@ -5,7 +5,7 @@
 #include <memory>
 #include <utility>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
 {

@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-namespace Engine
+namespace GameEngine
 {
     class Scene;
     class SceneManager final : public Singleton<SceneManager>

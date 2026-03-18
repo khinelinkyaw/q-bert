@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <string>
 
-using namespace Engine;
+using namespace GameEngine;
 
 Texture2D::~Texture2D()
 {

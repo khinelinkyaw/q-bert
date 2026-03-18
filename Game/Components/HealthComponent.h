@@ -1,16 +1,18 @@
 #ifndef HEALTH_COMPONENT_H
 #define HEALTH_COMPONENT_H
 
-#include "BaseComponent.h"
+#include <BaseComponent.h>
+#include <MessageQueue.h>
 
 namespace Game
 {
-    class HealthComponent final : public Engine::BaseComponent
+    class HealthComponent final : public GameEngine::BaseComponent
     {
     private:
         bool m_IsDead;
-        int m_Health;
-        int m_MaxHealth;
+        unsigned int m_Health;
+        unsigned int m_MaxHealth;
+        GameEngine::MessageQueue* m_MessageQueue;
 
         void CheckHealth();
     public:
@@ -20,17 +22,16 @@ namespace Game
         virtual void Render(glm::vec3 const&) const;
 #pragma endregion
 
-        void TakeDamage(unsigned int damage);
-        void Heal(unsigned int addedHealth);
+        void TakeDamage();
+        void Heal();
         int GetHealth() const;
         void SetMaxHealth(unsigned int newMaxHealth);
         void Revive(unsigned int newHealth);
         void Revive();
         bool IsDead() const;
 
-        HealthComponent(int health = 100, int maxHealth = 100);
+        HealthComponent(unsigned int health = 3, unsigned int maxHealth = 3);
     };
 }
-
 
 #endif

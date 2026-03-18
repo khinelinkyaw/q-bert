@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace Engine
+namespace GameEngine
 {
 	// Copied from this blog post
 	// https://dev.krzaq.cc/post/switch-on-strings-with-c11/
@@ -16,12 +16,12 @@ namespace Engine
 		constexpr hash_t Basis = 0xCBF29CE484222325ull;
 	}
 
-	constexpr hash_t hash_compile_time(char const* str, hash_t last_value = Hashing::Basis)
+	constexpr hash_t HashCompileTime(char const* str, hash_t last_value = Hashing::Basis)
 	{
-		return *str ? hash_compile_time(str + 1, (*str ^ last_value) * Hashing::Prime) : last_value;
+		return *str ? HashCompileTime(str + 1, (*str ^ last_value) * Hashing::Prime) : last_value;
 	}
 
-	hash_t hash(char const* str)
+	hash_t Hash(char const* str)
 	{
 		hash_t result{ Hashing::Basis };
 
@@ -37,7 +37,7 @@ namespace Engine
 
 	constexpr unsigned long long operator "" _hash(char const* p, size_t)
 	{
-		return hash_compile_time(p);
+		return HashCompileTime(p);
 	}
 }
 

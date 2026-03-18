@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-namespace Engine
+namespace GameEngine
 {
     template<typename T> concept DerivedComponent = std::is_base_of<BaseComponent, T>::value;
 

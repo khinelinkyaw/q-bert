@@ -14,39 +14,39 @@ namespace Game
 {
     static inline void load()
     {
-        auto& scene = Engine::SceneManager::GetInstance().CreateScene();
+        auto& scene = GameEngine::SceneManager::GetInstance().CreateScene();
 
-        auto go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::TextureComponent>("background.png");
+        auto go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::TextureComponent>("background.png");
         scene.Add(std::move(go));
 
-        go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::TextureComponent>("logo.png");
+        go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::TextureComponent>("logo.png");
         go->SetPosition(358, 180);
         scene.Add(std::move(go));
 
-        go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::TextComponent>("Programming 4 Assignment");
+        go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::TextComponent>("Programming 4 Assignment");
         go->SetPosition(292, 20);
-        go->GetComponent<Engine::TextComponent>()->SetColor({ 255, 255, 0, 255 });
+        go->GetComponent<GameEngine::TextComponent>()->SetColor({ 255, 255, 0, 255 });
         scene.Add(std::move(go));
 
-        go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::TextureComponent>("my_guy.png");
-        go->AddComponent<Engine::ControllerComponent>(100.f);
-        Engine::InputManager::GetInstance().RegisterController(go->GetComponent<Engine::ControllerComponent>(), Engine::InputDeviceType::Keyboard);
+        go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::TextureComponent>("my_guy.png");
+        go->AddComponent<GameEngine::ControllerComponent>(100.f);
+        GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         go->SetPosition(500, 500);
         scene.Add(std::move(go));
 
-        go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::TextureComponent>("another_guy.png");
-        go->AddComponent<Engine::ControllerComponent>(300.f);
-        Engine::InputManager::GetInstance().RegisterController(go->GetComponent<Engine::ControllerComponent>(), Engine::InputDeviceType::Gamepad);
+        go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::TextureComponent>("another_guy.png");
+        go->AddComponent<GameEngine::ControllerComponent>(300.f);
+        GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
         go->SetPosition(600, 500);
         scene.Add(std::move(go));
 
-        go = std::make_unique<Engine::GameObject>();
-        go->AddComponent<Engine::FrameCounterComponent>();
+        go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::FrameCounterComponent>();
         go->SetPosition(20, 20);
         scene.Add(std::move(go));
     }

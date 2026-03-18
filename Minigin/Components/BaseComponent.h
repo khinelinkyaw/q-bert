@@ -3,7 +3,7 @@
 
 #include <glm/fwd.hpp>
 
-namespace Engine
+namespace GameEngine
 {
     class GameObject;
     class BaseComponent

@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <vector>
 
-using namespace Engine;
+using namespace GameEngine;
 
 class InputDevice::InputDeviceImpl
 {

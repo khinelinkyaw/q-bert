@@ -2,7 +2,7 @@
 #include <string>
 
 struct TTF_Font;
-namespace Engine
+namespace GameEngine
 {
 	/**
 	 * Simple RAII wrapper for a TTF_Font

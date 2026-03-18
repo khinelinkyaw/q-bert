@@ -5,7 +5,7 @@
 #include "Singleton.h"
 #include <vector>
 
-namespace Engine
+namespace GameEngine
 {
     class ControllerComponent;
     class InputManager final : public Singleton<InputManager>

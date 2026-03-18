@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void Renderer::Init(SDL_Window* window)
 {

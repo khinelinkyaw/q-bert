@@ -4,7 +4,7 @@
 #include "Components/ControllerComponent.h"
 #include <memory>
 
-namespace Engine
+namespace GameEngine
 {
     enum class InputAction
     {

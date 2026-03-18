@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-namespace Engine
+namespace GameEngine
 {
     class Font;
     class Texture2D;

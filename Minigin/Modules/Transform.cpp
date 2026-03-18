@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-using namespace Engine;
+using namespace GameEngine;
 
 void Transform::SetPosition(const float x, const float y, const float z)
 {

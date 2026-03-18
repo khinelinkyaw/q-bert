@@ -15,7 +15,7 @@
 #include <stdexcept>
 #include <string>
 
-using namespace Engine;
+using namespace GameEngine;
 
 TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
     : m_needsUpdate(true)

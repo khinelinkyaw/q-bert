@@ -12,7 +12,7 @@
 
 namespace fs = std::filesystem;
 
-using namespace Engine;
+using namespace GameEngine;
 
 void ResourceManager::Init(const std::filesystem::path& dataPath)
 {

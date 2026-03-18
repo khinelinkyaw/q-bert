@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {

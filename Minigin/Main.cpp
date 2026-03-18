@@ -20,7 +20,7 @@ int main(int, char* [])
     if (!fs::exists(data_location))
         data_location = "../Data/";
 #endif
-    Engine::Minigin engine(data_location);
+    GameEngine::Minigin engine(data_location);
     engine.Run(Game::load);
     return 0;
 }

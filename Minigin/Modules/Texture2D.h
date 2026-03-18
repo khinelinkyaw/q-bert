@@ -3,7 +3,7 @@
 #include <string>
 
 struct SDL_Texture;
-namespace Engine
+namespace GameEngine
 {
 	/**
 	 * Simple RAII wrapper for an SDL_Texture

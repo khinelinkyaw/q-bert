@@ -1,25 +1,23 @@
 #ifndef MESSAGE_QUEUE_H
 #define MESSAGE_QUEUE_H
 
-#include "CompileTimeHashing.h"
+#include <CompileTimeHashing.h>
 #include <array>
 #include <memory>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
-#include <utility>
 
-namespace Engine
+namespace GameEngine
 {
     class Message final
     {
     private:
-        hash_t m_EventID;
+        hash_t m_MessageID;
     public:
-        hash_t GetID() const { return m_EventID; }
+        hash_t GetID() const { return m_MessageID; }
 
-        Message() = default;
-        Message(std::string const& str);
+        constexpr Message(std::string const& str);
         ~Message() = default;
     };
 
@@ -45,18 +43,21 @@ namespace Engine
     public:
         ~MessageQueue() = default;
 
-        template<typename MessageType, typename... Args> requires DerivedMessageClass<MessageType>
-        void OnMessage(Args&& ... args);
+        //template<typename MessageType, typename... Args> requires DerivedMessageClass<MessageType>
+        //void OnMessage(Args&& ... args);
+
+        void SendMessage(std::string const& messageID);
         void RouteMessage();
+
+        MessageQueue() = default;
     };
 
-    template<typename MessageType, typename... Args> requires DerivedMessageClass<MessageType>
-    inline void MessageQueue::OnMessage(Args && ...args)
-    {
-        m_MessageQueue[m_QueueTail] = std::make_unique<MessageType>(std::forward<Args>(args)...);
-        m_QueueTail = (m_QueueTail + 1) % m_QueueSize;
-    }
+    //template<typename MessageType, typename... Args> requires DerivedMessageClass<MessageType>
+    //inline void MessageQueue::OnMessage(Args && ...args)
+    //{
+    //    m_MessageQueue[m_QueueTail] = std::make_unique<MessageType>(std::forward<Args>(args)...);
+    //    m_QueueTail = (m_QueueTail + 1) % m_QueueSize;
+    //}
 }
-
 
 #endif

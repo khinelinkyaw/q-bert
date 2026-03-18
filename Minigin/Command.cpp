@@ -5,7 +5,7 @@
 #include "Modules/Transform.h"
 #include <glm/ext/vector_common.hpp>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void MoveCommand::Execute(GameObject& gameObject)
 {

@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-namespace Engine
+namespace GameEngine
 {
     class TextureComponent final : public BaseComponent
     {

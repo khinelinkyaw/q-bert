@@ -6,10 +6,12 @@ void Game::HealthComponent::CheckHealth()
     {
         m_IsDead = true;
         m_Health = 0;
+        m_MessageQueue->SendMessage("ObjectDead");
     }
     else if (m_Health > 0 and m_IsDead == true)
     {
         m_IsDead = false;
+        m_MessageQueue->SendMessage("ObjectRevived");
     }
     else if (m_Health > m_MaxHealth)
     {
@@ -29,7 +31,7 @@ void Game::HealthComponent::Render(glm::vec3 const&) const
 {
 }
 
-Game::HealthComponent::HealthComponent(int health, int maxHealth)
+Game::HealthComponent::HealthComponent(unsigned int health, unsigned int maxHealth)
     : m_IsDead{ false }
     , m_Health{ health }
     , m_MaxHealth{ maxHealth }
@@ -37,17 +39,19 @@ Game::HealthComponent::HealthComponent(int health, int maxHealth)
     CheckHealth();
 }
 
-void Game::HealthComponent::TakeDamage(unsigned int damage)
+void Game::HealthComponent::TakeDamage()
 {
-    m_Health -= damage;
+    --m_Health;
 
+    m_MessageQueue->SendMessage("ObjectDamageTaken");
     CheckHealth();
 }
 
-void Game::HealthComponent::Heal(unsigned int addedHealth)
+void Game::HealthComponent::Heal()
 {
-    m_Health += addedHealth;
+    ++m_Health;
 
+    m_MessageQueue->SendMessage("ObjectHealed");
     CheckHealth();
 }
 
@@ -59,6 +63,8 @@ int Game::HealthComponent::GetHealth() const
 void Game::HealthComponent::SetMaxHealth(unsigned int newMaxHealth)
 {
     m_MaxHealth = newMaxHealth;
+
+    CheckHealth();
 }
 
 

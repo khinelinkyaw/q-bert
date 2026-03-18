@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Engine
+namespace GameEngine
 {
     class Transform final
     {

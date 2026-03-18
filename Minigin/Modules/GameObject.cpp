@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-using namespace Engine;
+using namespace GameEngine;
 
 void GameObject::SetForDeletion()
 {

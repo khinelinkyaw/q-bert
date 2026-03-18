@@ -43,7 +43,7 @@ void LogSDLVersion(const std::string& message, int major, int minor,
 
 void LoopCallback(void* arg)
 {
-    static_cast<Engine::Minigin*>(arg)->RunOneFrame();
+    static_cast<GameEngine::Minigin*>(arg)->RunOneFrame();
 }
 #endif
 
@@ -69,7 +69,7 @@ void PrintSDLVersion()
         SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-Engine::Minigin::Minigin(const std::filesystem::path& dataPath)
+GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     : m_LastTime{ std::chrono::high_resolution_clock::now() }
     , m_Lag{ 0.f }
     , m_TimeStep{ 1.f / 60.f }
@@ -83,7 +83,7 @@ Engine::Minigin::Minigin(const std::filesystem::path& dataPath)
         throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
     }
 
-    g_window = SDL_CreateWindow("Programming 4 assignment", 1024, 576,
+    g_window = SDL_CreateWindow("Programming 4 assignment", Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT,
         SDL_WINDOW_OPENGL);
     if (g_window == nullptr)
     {
@@ -95,7 +95,7 @@ Engine::Minigin::Minigin(const std::filesystem::path& dataPath)
     ResourceManager::GetInstance().Init(dataPath);
 }
 
-Engine::Minigin::~Minigin()
+GameEngine::Minigin::~Minigin()
 {
     Renderer::GetInstance().Destroy();
     SDL_DestroyWindow(g_window);
@@ -103,7 +103,7 @@ Engine::Minigin::~Minigin()
     SDL_Quit();
 }
 
-void Engine::Minigin::Run(const std::function<void()>& load)
+void GameEngine::Minigin::Run(const std::function<void()>& load)
 {
     load();
 #ifndef __EMSCRIPTEN__
@@ -117,7 +117,7 @@ void Engine::Minigin::Run(const std::function<void()>& load)
 #endif
 }
 
-void Engine::Minigin::RunOneFrame()
+void GameEngine::Minigin::RunOneFrame()
 {
     auto const currentTime{ std::chrono::high_resolution_clock::now() };
     m_DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();

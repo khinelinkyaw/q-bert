@@ -5,7 +5,7 @@
 #include <map>
 #include "Singleton.h"
 
-namespace Engine
+namespace GameEngine
 {
 	class Texture2D;
 	class Font;

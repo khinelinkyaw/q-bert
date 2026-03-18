@@ -3,7 +3,7 @@
 #include <InputDevice.h>
 #include <memory>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void ControllerComponent::ClearCommands()
 {

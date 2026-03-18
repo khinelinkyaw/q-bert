@@ -2,7 +2,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Font.h"
 
-namespace Engine
+namespace GameEngine
 {
 	TTF_Font* Font::GetFont() const
 	{

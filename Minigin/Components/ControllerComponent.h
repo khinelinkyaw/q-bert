@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace Engine
+namespace GameEngine
 {
     template<typename T> concept DerivedCommandClass = std::is_base_of<Command, T>::value;
 

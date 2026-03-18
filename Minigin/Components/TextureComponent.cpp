@@ -5,7 +5,7 @@
 #include <glm/fwd.hpp>
 #include <string>
 
-using namespace Engine;
+using namespace GameEngine;
 
 void TextureComponent::FixedUpdate()
 {

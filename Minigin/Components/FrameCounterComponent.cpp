@@ -3,7 +3,7 @@
 #include <glm/fwd.hpp>
 #include <string>
 
-using namespace Engine;
+using namespace GameEngine;
 
 FrameCounterComponent::FrameCounterComponent()
     : m_FramesPerSecond{}

@@ -4,7 +4,7 @@
 
 #include "Modules/GameObject.h"
 
-namespace Engine
+namespace GameEngine
 {
     class Scene final
     {

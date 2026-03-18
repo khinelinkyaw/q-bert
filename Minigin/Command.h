@@ -4,7 +4,7 @@
 #include "./Modules/GameObject.h"
 #include "./Modules/Transform.h"
 
-namespace Engine
+namespace GameEngine
 {
     enum class CommandState
     {

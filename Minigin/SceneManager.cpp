@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-using namespace Engine;
+using namespace GameEngine;
 
 void SceneManager::FixedUpdate()
 {
