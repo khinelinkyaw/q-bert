@@ -5,11 +5,13 @@
 
 namespace GameEngine
 {
+    using glm::vec3;
+
     class Transform final
     {
     public:
         Transform() = default;
-        Transform(const glm::vec3& position)
+        Transform(vec3 const& position)
             : m_Position(position)
         {
         }
@@ -19,18 +21,18 @@ namespace GameEngine
             SetPosition(x, y, z);
         }
 
-        const glm::vec3& GetPosition() const { return m_Position; }
+        vec3 const& GetPosition() const { return m_Position; }
         void SetPosition(float x, float y, float z = 0);
-        void SetPosition(const glm::vec3& position);
+        void SetPosition(vec3 const& position);
 
-        Transform operator+(const Transform& other)
+        Transform operator+(Transform const& other)
         {
             Transform result{ m_Position + other.GetPosition() };
             return result;
         }
 
     private:
-        glm::vec3 m_Position;
+        vec3 m_Position;
     };
 }
 

@@ -1,7 +1,6 @@
 #ifndef UI_UTILS_H
 #define UI_UTILS_H
 
-#include <glm/glm.hpp>
 #include <unordered_map>
 #include <array>
 
@@ -33,7 +32,7 @@ namespace GameEngine
         };
 
         std::unordered_map<Direction, int> const UI_DIRECTION_MAP{
-            { Direction::Up, 1 },
+            { Direction::Up, -1 },
             { Direction::Left, -1 },
             { Direction::Down, 1 },
             { Direction::Right, 1 }
