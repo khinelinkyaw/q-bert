@@ -5,7 +5,7 @@
 #include "Components/ControllerComponent.h"
 #include "Scene.h"
 #include <memory>
-#include "Modules/GameObject.h"
+#include "Utils/GameObject.h"
 #include <utility>
 #include "Components/TextComponent.h"
 #include "InputDevice.h"

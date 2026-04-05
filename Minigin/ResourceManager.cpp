@@ -1,5 +1,5 @@
-﻿#include "Modules/Font.h"
-#include "Modules/Texture2D.h"
+﻿#include "Utils/Font.h"
+#include "Utils/Texture2D.h"
 #include "ResourceManager.h"
 #include <SDL3/SDL_error.h>
 #include <SDL3_ttf/SDL_ttf.h>

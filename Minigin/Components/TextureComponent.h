@@ -1,7 +1,7 @@
 #ifndef TEXTURE_COMPONENT_H
 #define TEXTURE_COMPONENT_H
 
-#include "../Modules/Texture2D.h"
+#include "../Utils/Texture2D.h"
 #include "BaseComponent.h"
 #include <glm/fwd.hpp>
 #include <memory>

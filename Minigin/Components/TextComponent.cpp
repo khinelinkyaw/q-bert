@@ -1,6 +1,6 @@
 ﻿#include "Components/TextComponent.h"
-#include "Modules/Font.h"
-#include "Modules/Texture2D.h"
+#include "Utils/Font.h"
+#include "Utils/Texture2D.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL3/SDL_error.h>
