@@ -1,8 +1,9 @@
 #ifndef TEXTURE_COMPONENT_H
 #define TEXTURE_COMPONENT_H
 
-#include <Engine/Rendering/Texture2D.h>
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Misc/GameObject.h>
+#include <Engine/Rendering/Texture2D.h>
 #include <glm/fwd.hpp>
 #include <memory>
 #include <string>
@@ -21,7 +22,7 @@ namespace GameEngine
         void SetTexture(const std::string& filename);
 
         TextureComponent(GameObject* owner);
-        TextureComponent(GameObject* owner, std::string const& filename);
+        //TextureComponent(GameObject* owner, std::string const& filename);
         ~TextureComponent() = default;
         TextureComponent(TextureComponent const& other) = delete;
         TextureComponent(TextureComponent&& other) noexcept = delete;

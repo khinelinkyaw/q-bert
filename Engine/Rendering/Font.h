@@ -10,6 +10,7 @@ namespace GameEngine
 	class Font final
 	{
 	public:
+		// TODO: Make it so that the font can be changed
 		TTF_Font* GetFont() const;
 		explicit Font(const std::string& fullPath, float size);
 		~Font();
@@ -19,6 +20,7 @@ namespace GameEngine
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
 	private:
+		// Change it to a unique ptr
 		TTF_Font* m_font;
 	};
 }

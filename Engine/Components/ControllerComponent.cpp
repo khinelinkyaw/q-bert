@@ -57,9 +57,9 @@ void ControllerComponent::Render(glm::vec3 const&) const
 {
 }
 
-ControllerComponent::ControllerComponent(GameObject* owner, float speed)
+ControllerComponent::ControllerComponent(GameObject* owner)
     : BaseComponent{owner}
     , m_Commands{}
-    , m_Speed{ speed }
+    , m_Speed{ DEFAULT_SPEED }
 {
 }

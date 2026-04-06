@@ -35,8 +35,8 @@ TextureComponent::TextureComponent(GameObject* owner)
 {
 }
 
-TextureComponent::TextureComponent(GameObject* owner, std::string const& filename)
-    : BaseComponent{owner}
-    , m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
-{
-}
+//TextureComponent::TextureComponent(GameObject* owner, std::string const& filename)
+//    : BaseComponent{owner}
+//    , m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
+//{
+//}

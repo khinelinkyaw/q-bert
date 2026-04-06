@@ -4,6 +4,7 @@
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Rendering/Texture2D.h>
 #include <Engine/ResourceManager.h>
+#include <Engine/Utils/Colors.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>
@@ -18,12 +19,12 @@
 
 using namespace GameEngine;
 
-TextComponent::TextComponent(GameObject* owner, std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
+TextComponent::TextComponent(GameObject* owner)
     : BaseComponent{owner}
     , m_needsUpdate(true)
-    , m_text(text)
-    , m_color(color)
-    , m_font(ResourceManager::GetInstance().LoadFont(font_name, font_size))
+    , m_text("")
+    , m_color(Colors::WHITE)
+    , m_font(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36))
     , m_textTexture(nullptr)
 {
 }

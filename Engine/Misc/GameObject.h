@@ -30,8 +30,8 @@ namespace GameEngine
         void SetPosition(float x, float y);
         void SetPosition(Transform newPosition);
 
-        template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
-        void AddComponent(Args&&... args);
+        template<typename ComponentType> requires DerivedComponent<ComponentType>
+        ComponentType* AddComponent();
         void RemoveComponent(size_t index);
         template<typename ComponentType>
         ComponentType* GetComponent();
@@ -47,13 +47,13 @@ namespace GameEngine
         GameObject& operator=(GameObject&& other) = delete;
     };
 
-    template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
-    void GameObject::AddComponent(Args&&... args)
+    template<typename ComponentType> requires DerivedComponent<ComponentType>
+    ComponentType* GameObject::AddComponent()
     {
-        // TODO: this is really bad, really really bad
-        // Anyone using this function doesn't know about the fact that 'this' is added as an argument
-        std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(this, std::forward<Args>(args)...) };
+        std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(this) };
         m_Components.push_back(std::move(newComponent));
+
+        return static_cast<ComponentType*>(m_Components.back().get());
     }
 
     template<typename ComponentType>

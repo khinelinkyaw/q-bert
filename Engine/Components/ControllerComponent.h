@@ -17,6 +17,8 @@ namespace GameEngine
     class ControllerComponent final : public BaseComponent
     {
     private:
+        static float constexpr DEFAULT_SPEED{ 100.f };
+
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{};
 
@@ -34,7 +36,8 @@ namespace GameEngine
         void Update() override;
         void Render(glm::vec3 const&) const override;
 
-        ControllerComponent(GameObject* owner, float speed = 1.f);
+        //ControllerComponent(GameObject* owner, float speed = 1.f);
+        ControllerComponent(GameObject* owner);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;
         ControllerComponent(ControllerComponent&& other) = delete;

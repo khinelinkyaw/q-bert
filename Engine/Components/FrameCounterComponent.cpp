@@ -1,6 +1,7 @@
 #include "BaseComponent.h"
 #include "FrameCounterComponent.h"
 #include <Engine/Minigin.h>
+#include <Engine/Misc/GameObject.h>
 #include <glm/fwd.hpp>
 #include <string>
 
@@ -10,8 +11,9 @@ FrameCounterComponent::FrameCounterComponent(GameObject* owner)
     : BaseComponent{owner}
     , m_FramesPerSecond{}
     , m_AccumulatedTime{}
-    , m_TextComponent{ owner, "FPS: 0" }
+    , m_TextComponent{ owner }
 {
+    m_TextComponent.SetText("FPS: 0");
 }
 
 void FrameCounterComponent::FixedUpdate()
