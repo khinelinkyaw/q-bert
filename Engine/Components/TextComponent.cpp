@@ -1,8 +1,8 @@
-﻿#include "Components/TextComponent.h"
-#include "Utils/Font.h"
-#include "Utils/Texture2D.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+﻿#include <Engine/Components/TextComponent.h>
+#include <Engine/Utils/Font.h>
+#include <Engine/Utils/Texture2D.h>
+#include <Engine/Renderer.h>
+#include <Engine/ResourceManager.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>

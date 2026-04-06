@@ -1,7 +1,7 @@
 #ifndef HEALTH_COMPONENT_H
 #define HEALTH_COMPONENT_H
 
-#include <BaseComponent.h>
+#include <Engine/Components/BaseComponent.h>
 
 namespace GameEngine
 {

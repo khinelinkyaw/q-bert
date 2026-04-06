@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/BaseComponent.h"
+#include <Engine/Components/BaseComponent.h>
 #include <SDL3/SDL_pixels.h>
 #include <cstdint>
 #include <glm/fwd.hpp>

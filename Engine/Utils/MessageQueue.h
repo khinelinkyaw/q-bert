@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <MiniMessage.h>
+#include <Engine/Utils/MiniMessage.h>
 
 namespace GameEngine
 {

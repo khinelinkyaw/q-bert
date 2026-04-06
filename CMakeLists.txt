@@ -15,25 +15,44 @@ endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  "Minigin/Utils/Font.cpp"
-  "Minigin/Utils/GameObject.cpp"
-  Minigin/InputManager.cpp
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Renderer.cpp
-  Minigin/ResourceManager.cpp
-  Minigin/Scene.cpp
-  Minigin/SceneManager.cpp
-  "Minigin/Components/TextComponent.cpp"
-  "Minigin/Utils/Texture2D.cpp"
-  "Minigin/Utils/Transform.cpp"
-  "Minigin/Components/BaseComponent.cpp"
-  "Minigin/Components/BaseComponent.h"
-  "Minigin/Components/FrameCounterComponent.h"
-  "Minigin/Components/FrameCounterComponent.cpp"
-  "Minigin/Components/TextureComponent.cpp"
-  "Minigin/Components/TextureComponent.h"
- "Minigin/Command.h" "Minigin/Command.cpp" "Minigin/Components/ControllerComponent.h" "Minigin/Components/ControllerComponent.cpp" "Minigin/InputDevice.h" "Minigin/InputDevice.cpp"  "Minigin/Utils/MessageQueue.h" "Minigin/Utils/MessageQueue.cpp" "Minigin/Utils/CompileTimeHashing.h" "Game/Main.cpp" "Game/Components/HealthComponent.h" "Game/Components/HealthComponent.cpp" "Minigin/Utils/UIUtils.h"  "Game/Components/HealthDisplayComponent.h" "Game/Components/HealthDisplayComponent.cpp" "Minigin/Components/Receiver.h" "Minigin/Components/MiniMessage.h" "Minigin/Components/MiniMessage.cpp" "Minigin/Utils/Observer.h" "Minigin/Constants.h" "Minigin/Enums.h")
+    "Engine/Utils/Font.cpp"
+    "Engine/Utils/GameObject.cpp"
+    "Engine/InputManager.cpp"
+    "Engine/Main.cpp"
+    "Engine/Minigin.cpp"
+    "Engine/Renderer.cpp"
+    "Engine/ResourceManager.cpp"
+    "Engine/Scene.cpp"
+    "Engine/SceneManager.cpp"
+    "Engine/Components/TextComponent.cpp"
+    "Engine/Utils/Texture2D.cpp"
+    "Engine/Utils/Transform.cpp"
+    "Engine/Components/BaseComponent.cpp"
+    "Engine/Components/BaseComponent.h"
+    "Engine/Components/FrameCounterComponent.h"
+    "Engine/Components/FrameCounterComponent.cpp"
+    "Engine/Components/TextureComponent.cpp"
+    "Engine/Components/TextureComponent.h"
+    "Engine/Command.h" "Engine/Command.cpp"
+    "Engine/Components/ControllerComponent.h"
+    "Engine/Components/ControllerComponent.cpp"
+    "Engine/InputDevice.h"
+    "Engine/InputDevice.cpp"
+    "Engine/Utils/MessageQueue.h"
+    "Engine/Utils/MessageQueue.cpp"
+    "Engine/Utils/CompileTimeHashing.h"
+    "Game/Main.cpp"
+    "Game/Components/HealthComponent.h"
+    "Game/Components/HealthComponent.cpp"
+    "Engine/Utils/UIUtils.h"
+    "Game/Components/HealthDisplayComponent.h"
+    "Game/Components/HealthDisplayComponent.cpp"
+    "Engine/Utils/Receiver.h"
+    "Engine/Utils/MiniMessage.h"
+    "Engine/Utils/MiniMessage.cpp"
+    "Engine/Utils/Observer.h"
+    "Engine/Constants.h"
+    "Engine/Enums.h")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -121,11 +140,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
 target_include_directories("${TARGET_NAME}" PUBLIC
-  ${CMAKE_SOURCE_DIR}/Minigin/
-  ${CMAKE_SOURCE_DIR}/Minigin/Components/
-  ${CMAKE_SOURCE_DIR}/Minigin/Utils/
-  ${CMAKE_SOURCE_DIR}/Game/
-  ${CMAKE_SOURCE_DIR}/Game/Utils/
+  ${CMAKE_SOURCE_DIR}
   ${VLD_INCLUDE_DIR}
 )
 

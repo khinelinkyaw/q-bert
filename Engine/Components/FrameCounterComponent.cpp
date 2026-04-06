@@ -1,5 +1,5 @@
 #include "FrameCounterComponent.h"
-#include "Minigin.h"
+#include <Engine/Minigin.h>
 #include <glm/fwd.hpp>
 #include <string>
 

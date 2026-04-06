@@ -1,5 +1,5 @@
-#include <MiniMessage.h>
-#include <CompileTimeHashing.h>
+#include <Engine/Utils/MiniMessage.h>
+#include <Engine/Utils/CompileTimeHashing.h>
 #include <string>
 
 GameEngine::MiniMessage::MiniMessage(std::string const& str)

@@ -1,7 +1,8 @@
 #include "HealthDisplayComponent.h"
-#include <TextComponent.h>
+#include <Engine/Components/TextComponent.h>
 #include <memory>
-#include <CompileTimeHashing.h>
+#include <Engine/Utils/CompileTimeHashing.h>
+#include <Engine/Utils/MiniMessage.h>
 
 void Game::HealthStatusReceiver::HandleMessage(std::unique_ptr<GameEngine::MiniMessage> message)
 {

@@ -1,8 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "Components/BaseComponent.h"
-#include "Transform.h"
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Utils/Transform.h>
 #include <algorithm>
 #include <memory>
 #include <type_traits>

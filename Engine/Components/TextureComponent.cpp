@@ -1,6 +1,6 @@
-#include "../ResourceManager.h"
-#include "Renderer.h"
-#include "TextureComponent.h"
+#include <Engine/ResourceManager.h>
+#include <Engine/Renderer.h>
+#include <Engine/Components/TextureComponent.h>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 #include <string>

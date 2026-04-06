@@ -1,11 +1,10 @@
 #ifndef HEALTH_DISPLAY_COMPONENT_H
 #define HEALTH_DISPLAY_COMPONENT_H
 
-#include <BaseComponent.h>
-#include <Receiver.h>
-#include <TextComponent.h>
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Utils/Receiver.h>
+#include <Engine/Components/TextComponent.h>
 #include <memory>
-#include <MiniMessage.h>
 
 namespace Game
 {

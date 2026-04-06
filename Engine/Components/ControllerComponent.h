@@ -2,7 +2,7 @@
 #define CONTROLLER_COMPONENT_H
 
 #include "BaseComponent.h"
-#include "Command.h"
+#include <Engine/Command.h>
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>

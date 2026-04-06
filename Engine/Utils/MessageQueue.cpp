@@ -1,9 +1,9 @@
-#include <MessageQueue.h>
+#include <Engine/Utils/MessageQueue.h>
 #include <memory>
 #include <string>
 #include <utility>
-#include <MiniMessage.h>
-#include <Receiver.h>
+#include <Engine/Utils/MiniMessage.h>
+#include <Engine/Utils/Receiver.h>
 
 void GameEngine::MessageQueue::SendMessage(std::string const& messageID)
 {

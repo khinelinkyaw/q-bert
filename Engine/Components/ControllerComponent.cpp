@@ -1,6 +1,6 @@
-#include "ControllerComponent.h"
-#include <Command.h>
-#include <InputDevice.h>
+#include <Engine/Components/ControllerComponent.h>
+#include <Engine/Command.h>
+#include <Engine/InputDevice.h>
 #include <memory>
 
 using namespace GameEngine;
