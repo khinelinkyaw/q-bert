@@ -50,6 +50,8 @@ namespace GameEngine
     template<typename ComponentType, typename... Args> requires DerivedComponent<ComponentType>
     void GameObject::AddComponent(Args&&... args)
     {
+        // TODO: this is really bad, really really bad
+        // Anyone using this function doesn't know about the fact that 'this' is added as an argument
         std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(this, std::forward<Args>(args)...) };
         m_Components.push_back(std::move(newComponent));
     }
