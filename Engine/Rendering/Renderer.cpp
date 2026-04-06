@@ -1,6 +1,6 @@
-﻿#include "Utils/Texture2D.h"
-#include "Renderer.h"
-#include "SceneManager.h"
+﻿#include <Engine/Rendering/Texture2D.h>
+#include <Engine/Rendering/Renderer.h>
+#include <Engine/SceneManager.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_hints.h>
 #include <SDL3/SDL_rect.h>

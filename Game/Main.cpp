@@ -1,14 +1,14 @@
 #include <Engine/SceneManager.h>
-#include <Engine/InputManager.h>
+#include <Engine/Input/InputManager.h>
 #include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Components/ControllerComponent.h>
 #include <Engine/Scene.h>
 #include <memory>
-#include <Engine/Utils/GameObject.h>
+#include <Engine/Misc/GameObject.h>
 #include <utility>
 #include <Engine/Components/TextComponent.h>
-#include <Engine/InputDevice.h>
+#include <Engine/Input/InputDevice.h>
 
 namespace Game
 {

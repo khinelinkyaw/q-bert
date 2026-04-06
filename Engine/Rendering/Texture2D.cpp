@@ -1,5 +1,5 @@
-#include <Engine/Renderer.h>
-#include <Engine/Utils/Texture2D.h>
+#include <Engine/Rendering/Renderer.h>
+#include <Engine/Rendering/Texture2D.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>

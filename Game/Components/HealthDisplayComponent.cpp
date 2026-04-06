@@ -2,7 +2,7 @@
 #include <Engine/Components/TextComponent.h>
 #include <memory>
 #include <Engine/Utils/CompileTimeHashing.h>
-#include <Engine/Utils/MiniMessage.h>
+#include <Engine/Decoupling/MiniMessage.h>
 
 void Game::HealthStatusReceiver::HandleMessage(std::unique_ptr<GameEngine::MiniMessage> message)
 {

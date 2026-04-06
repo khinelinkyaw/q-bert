@@ -1,5 +1,5 @@
-#include "HealthComponent.h"
-#include <Engine/Utils/MessageQueue.h>
+#include <Game/Components/HealthComponent.h>
+#include <Engine/Decoupling/MessageQueue.h>
 
 void Game::HealthComponent::CheckHealth()
 {

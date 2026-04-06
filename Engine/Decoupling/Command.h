@@ -1,8 +1,8 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "./Utils/GameObject.h"
-#include "./Utils/Transform.h"
+#include <Engine/Misc/GameObject.h>
+#include <Engine/Misc/Transform.h>
 
 namespace GameEngine
 {

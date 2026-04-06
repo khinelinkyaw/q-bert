@@ -1,8 +1,8 @@
 #ifndef CONTROLLER_COMPONENT_H
 #define CONTROLLER_COMPONENT_H
 
-#include "BaseComponent.h"
-#include <Engine/Command.h>
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Decoupling/Command.h>
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>

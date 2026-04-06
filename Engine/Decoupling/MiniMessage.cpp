@@ -1,4 +1,4 @@
-#include <Engine/Utils/MiniMessage.h>
+#include <Engine/Decoupling/MiniMessage.h>
 #include <Engine/Utils/CompileTimeHashing.h>
 #include <string>
 

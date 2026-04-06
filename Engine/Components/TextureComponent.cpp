@@ -1,5 +1,5 @@
 #include <Engine/ResourceManager.h>
-#include <Engine/Renderer.h>
+#include <Engine/Rendering/Renderer.h>
 #include <Engine/Components/TextureComponent.h>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>

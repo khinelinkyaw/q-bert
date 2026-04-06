@@ -1,8 +1,8 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "InputDevice.h"
-#include "Singleton.h"
+#include <Engine/Input/InputDevice.h>
+#include <Engine/Misc/Singleton.h>
 #include <vector>
 
 namespace GameEngine

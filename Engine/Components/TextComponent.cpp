@@ -1,7 +1,7 @@
 ﻿#include <Engine/Components/TextComponent.h>
-#include <Engine/Utils/Font.h>
-#include <Engine/Utils/Texture2D.h>
-#include <Engine/Renderer.h>
+#include <Engine/Rendering/Font.h>
+#include <Engine/Rendering/Texture2D.h>
+#include <Engine/Rendering/Renderer.h>
 #include <Engine/ResourceManager.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>

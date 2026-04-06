@@ -1,8 +1,8 @@
-#include "Command.h"
-#include "Components/ControllerComponent.h"
-#include "Minigin.h"
-#include "Utils/GameObject.h"
-#include "Utils/Transform.h"
+#include <Engine/Decoupling/Command.h>
+#include <Engine/Components/ControllerComponent.h>
+#include <Engine/Minigin.h>
+#include <Engine/Misc/GameObject.h>
+#include <Engine/Misc/Transform.h>
 #include <glm/ext/vector_common.hpp>
 
 using namespace GameEngine;

@@ -1,7 +1,7 @@
 #ifndef INPUT_DEVICE_H
 #define INPUT_DEVICE_H
 
-#include "Components/ControllerComponent.h"
+#include <Engine/Components/ControllerComponent.h>
 #include <memory>
 
 namespace GameEngine

@@ -1,6 +1,8 @@
-#pragma once
+#ifndef RENDERER_H
+#define RENDERER_H
+
 #include <SDL3/SDL.h>
-#include "Singleton.h"
+#include <Engine/Misc/Singleton.h>
 
 namespace GameEngine
 {
@@ -28,3 +30,4 @@ namespace GameEngine
 	};
 }
 
+#endif

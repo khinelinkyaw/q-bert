@@ -1,6 +1,6 @@
-#include "Components/ControllerComponent.h"
-#include "InputDevice.h"
-#include "InputManager.h"
+#include <Engine/Components/ControllerComponent.h>
+#include <Engine/Input/InputDevice.h>
+#include <Engine/Input/InputManager.h>
 #include <SDL3/SDL_events.h>
 #include <memory>
 #include <utility>

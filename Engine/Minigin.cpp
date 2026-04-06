@@ -8,11 +8,11 @@
 #endif
 
 // #include <SDL3_image/SDL_image.h>
-#include "InputManager.h"
-#include "Minigin.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
-#include "SceneManager.h"
+#include <Engine/Input/InputManager.h>
+#include <Engine/Minigin.h>
+#include <Engine/Rendering/Renderer.h>
+#include <Engine/ResourceManager.h>
+#include <Engine/SceneManager.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <SDL3/SDL_error.h>
@@ -23,7 +23,7 @@
 #include <chrono>
 #include <filesystem>
 #include <functional>
-#include <Engine/Constants.h>
+#include <Engine/Misc/Constants.h>
 
 SDL_Window* g_window{};
 

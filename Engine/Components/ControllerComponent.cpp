@@ -1,6 +1,6 @@
 #include <Engine/Components/ControllerComponent.h>
-#include <Engine/Command.h>
-#include <Engine/InputDevice.h>
+#include <Engine/Decoupling/Command.h>
+#include <Engine/Input/InputDevice.h>
 #include <memory>
 
 using namespace GameEngine;

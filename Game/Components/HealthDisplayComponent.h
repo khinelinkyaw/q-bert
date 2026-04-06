@@ -2,7 +2,7 @@
 #define HEALTH_DISPLAY_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Utils/Receiver.h>
+#include <Engine/Decoupling/Receiver.h>
 #include <Engine/Components/TextComponent.h>
 #include <memory>
 
