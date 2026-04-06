@@ -12,7 +12,6 @@ void ControllerComponent::ClearCommands()
 
 void ControllerComponent::ExecuteCommands()
 {
-    // ုဒီလိုလုပ်တာကောင်းမဲ့ပုံမပေါက်ဘူး။ လာမဲ့ အပတ် စာသင်ချိန်မှာ အပြောခံရဖို့ အခြေအနေရှိတယ်
     while (!m_Commands.empty())
     {
         m_Commands.front()->Execute(*m_pOwner);
@@ -22,6 +21,9 @@ void ControllerComponent::ExecuteCommands()
 
 void ControllerComponent::ProcessInput(InputDevice& inputDevice)
 {
+    // Where is the origin?
+    // Top left is the origin (0,0)
+
     if (inputDevice.IsDown(InputAction::MoveUp))
     {
         AddCommand<MoveCommand>(0.f, -1.0f);

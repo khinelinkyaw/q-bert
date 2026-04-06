@@ -1,45 +1,40 @@
 #ifndef UI_UTILS_H
 #define UI_UTILS_H
 
-#include <unordered_map>
-#include <array>
+#include <glm/glm.hpp>
+#include <Constants.h>
+#include <Enums.h>
 
 namespace GameEngine
 {
-    enum class Direction
-    {
-        Up,
-        Left,
-        Down,
-        Right
-    };
+    using glm::vec3;
 
-    enum class Corner
+    constexpr vec3 Align(Pivot pivot, float hMargin, float vMargin)
     {
-        UpLeft,
-        UpRight,
-        DownLeft,
-        DownRight
-    };
+        auto [hDir, vDir] { Constants::UI_PIVOT_MAP.at(pivot)};
 
-    namespace Constants
-    {
-        std::unordered_map<Corner, std::array<Direction, 2>> const UI_CORNER_MAP{
-            { Corner::UpLeft,    {Direction::Up, Direction::Left} },
-            { Corner::UpRight,   {Direction::Up, Direction::Right} },
-            { Corner::DownLeft,  {Direction::Down, Direction::Left} },
-            { Corner::DownRight, {Direction::Down, Direction::Right} }
-        };
+        float hAlighment{ Constants::UI_DIRECTION_OFFSET_MAP.at(hDir) };
+        float vAlighment{ Constants::UI_DIRECTION_OFFSET_MAP.at(vDir) };
 
-        std::unordered_map<Direction, int> const UI_DIRECTION_MAP{
-            { Direction::Up, -1 },
-            { Direction::Left, -1 },
-            { Direction::Down, 1 },
-            { Direction::Right, 1 }
-        };
+        float xPos{ static_cast<float>(Constants::WINDOW_WIDTH) * hAlighment };
+        float yPos{ static_cast<float>(Constants::WINDOW_HEIGHT) * vAlighment };
+
+        //float xSign{ Constants::UI_DIRECTION_MULTI_MAP.at(hDir) };
+        //float ySign{ Constants::UI_DIRECTION_MULTI_MAP.at(vDir) };
+
+        xPos += hMargin;
+        yPos += vMargin;
+
+        return vec3{ xPos, yPos, 0.f };
     }
 
+    constexpr vec3 Align(float hPercent, float vPercent)
+    {
+        float xPos{ Constants::WINDOW_WIDTH * hPercent };
+        float yPos{ Constants::WINDOW_HEIGHT * vPercent };
 
+        return vec3{ xPos, yPos, 0.f };
+    }
 }
 
 #endif

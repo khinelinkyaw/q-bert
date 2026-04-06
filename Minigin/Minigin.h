@@ -7,12 +7,6 @@
 
 namespace GameEngine
 {
-    namespace Constants
-    {
-        int const WINDOW_WIDTH{ 1024 };
-        int const WINDOW_HEIGHT{ 576 };
-    }
-
     class Minigin final
     {
     private:
