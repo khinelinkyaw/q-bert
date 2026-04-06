@@ -34,7 +34,7 @@ namespace Game
         void Revive();
         bool IsDead() const;
 
-        HealthComponent(GameEngine::MessageQueue* messageQueue, unsigned int health = 3, unsigned int maxHealth = 3);
+        HealthComponent(GameEngine::GameObject* owner, GameEngine::MessageQueue* messageQueue, unsigned int health = 3, unsigned int maxHealth = 3);
     };
 }
 

@@ -34,7 +34,7 @@ namespace GameEngine
         void Update() override;
         void Render(glm::vec3 const&) const override;
 
-        ControllerComponent(float speed = 1.f);
+        ControllerComponent(GameObject* owner, float speed = 1.f);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;
         ControllerComponent(ControllerComponent&& other) = delete;

@@ -1,7 +1,8 @@
-﻿#include <Engine/Components/TextComponent.h>
+﻿#include "BaseComponent.h"
+#include <Engine/Components/TextComponent.h>
 #include <Engine/Rendering/Font.h>
-#include <Engine/Rendering/Texture2D.h>
 #include <Engine/Rendering/Renderer.h>
+#include <Engine/Rendering/Texture2D.h>
 #include <Engine/ResourceManager.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
@@ -17,8 +18,9 @@
 
 using namespace GameEngine;
 
-TextComponent::TextComponent(std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
-    : m_needsUpdate(true)
+TextComponent::TextComponent(GameObject* owner, std::string const& text, std::string const& font_name, uint8_t font_size, const SDL_Color& color)
+    : BaseComponent{owner}
+    , m_needsUpdate(true)
     , m_text(text)
     , m_color(color)
     , m_font(ResourceManager::GetInstance().LoadFont(font_name, font_size))

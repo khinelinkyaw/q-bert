@@ -1,6 +1,7 @@
-#include <Engine/ResourceManager.h>
-#include <Engine/Rendering/Renderer.h>
+#include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Rendering/Renderer.h>
+#include <Engine/ResourceManager.h>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 #include <string>
@@ -23,17 +24,19 @@ void TextureComponent::Render(glm::vec3 const& pos) const
     }
 }
 
-void TextureComponent::SetTexture(const std::string& filename)
+void TextureComponent::SetTexture(std::string const& filename)
 {
     m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-TextureComponent::TextureComponent()
-    : m_texture{ nullptr }
+TextureComponent::TextureComponent(GameObject* owner)
+    : BaseComponent{owner}
+    , m_texture{ nullptr }
 {
 }
 
-TextureComponent::TextureComponent(const std::string& filename)
-    : m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
+TextureComponent::TextureComponent(GameObject* owner, std::string const& filename)
+    : BaseComponent{owner}
+    , m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
 {
 }

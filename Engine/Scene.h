@@ -1,7 +1,8 @@
-#pragma once
+#ifndef SCENE_H
+#define SCENE_H
+
 #include <memory>
 #include <vector>
-
 #include <Engine/Misc/GameObject.h>
 
 namespace GameEngine
@@ -32,3 +33,5 @@ namespace GameEngine
     };
 
 }  // namespace dae
+
+#endif

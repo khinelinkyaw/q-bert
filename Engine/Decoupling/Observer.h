@@ -11,6 +11,13 @@ namespace GameEngine
         virtual void OnNotify(GameObject const& gameObject, std::string eventId) = 0;
         virtual ~Observer() = default;
     };
+
+    class NullObserver final : public Observer
+    {
+    public:
+        void OnNotify(GameObject const&, std::string) override {};
+        ~NullObserver() override = default;
+    };
 }
 
 #endif

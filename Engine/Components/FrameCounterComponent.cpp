@@ -1,3 +1,4 @@
+#include "BaseComponent.h"
 #include "FrameCounterComponent.h"
 #include <Engine/Minigin.h>
 #include <glm/fwd.hpp>
@@ -5,10 +6,11 @@
 
 using namespace GameEngine;
 
-FrameCounterComponent::FrameCounterComponent()
-    : m_FramesPerSecond{}
+FrameCounterComponent::FrameCounterComponent(GameObject* owner)
+    : BaseComponent{owner}
+    , m_FramesPerSecond{}
     , m_AccumulatedTime{}
-    , m_TextComponent{ "FPS: 0" }
+    , m_TextComponent{ owner, "FPS: 0" }
 {
 }
 

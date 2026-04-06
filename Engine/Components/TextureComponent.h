@@ -20,12 +20,12 @@ namespace GameEngine
 
         void SetTexture(const std::string& filename);
 
-        TextureComponent();
-        TextureComponent(const std::string& filename);
+        TextureComponent(GameObject* owner);
+        TextureComponent(GameObject* owner, std::string const& filename);
         ~TextureComponent() = default;
-        TextureComponent(const TextureComponent& other) = delete;
+        TextureComponent(TextureComponent const& other) = delete;
         TextureComponent(TextureComponent&& other) noexcept = delete;
-        TextureComponent& operator=(const TextureComponent& other) = delete;
+        TextureComponent& operator=(TextureComponent const& other) = delete;
         TextureComponent& operator=(TextureComponent&& other) noexcept = delete;
     };
 }

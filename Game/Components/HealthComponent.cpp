@@ -1,5 +1,6 @@
-#include <Game/Components/HealthComponent.h>
+#include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/MessageQueue.h>
+#include <Game/Components/HealthComponent.h>
 
 void Game::HealthComponent::CheckHealth()
 {
@@ -32,8 +33,9 @@ void Game::HealthComponent::Render(glm::vec3 const&) const
 {
 }
 
-Game::HealthComponent::HealthComponent(GameEngine::MessageQueue* messageQueue, unsigned int health, unsigned int maxHealth)
-    : m_IsDead{ false }
+Game::HealthComponent::HealthComponent(GameEngine::GameObject* owner, GameEngine::MessageQueue* messageQueue, unsigned int health, unsigned int maxHealth)
+    : BaseComponent{owner}
+    , m_IsDead{ false }
     , m_Health{ health }
     , m_MaxHealth{ maxHealth }
     , m_MessageQueue{ messageQueue }

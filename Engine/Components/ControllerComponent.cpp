@@ -1,6 +1,8 @@
+#include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/ControllerComponent.h>
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Input/InputDevice.h>
+#include <Engine/Misc/GameObject.h>
 #include <memory>
 
 using namespace GameEngine;
@@ -55,8 +57,9 @@ void ControllerComponent::Render(glm::vec3 const&) const
 {
 }
 
-ControllerComponent::ControllerComponent(float speed)
-    : m_Commands{}
+ControllerComponent::ControllerComponent(GameObject* owner, float speed)
+    : BaseComponent{owner}
+    , m_Commands{}
     , m_Speed{ speed }
 {
 }
