@@ -51,7 +51,6 @@ namespace GameEngine
     void GameObject::AddComponent(Args&&... args)
     {
         std::unique_ptr<ComponentType> newComponent{ std::make_unique<ComponentType>(this, std::forward<Args>(args)...) };
-        newComponent->SetOwner(this);
         m_Components.push_back(std::move(newComponent));
     }
 
