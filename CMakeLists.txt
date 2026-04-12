@@ -52,7 +52,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
     "Engine/Decoupling/MiniMessage.cpp"
     "Engine/Decoupling/Observer.h"
     "Engine/Misc/Constants.h"
-    "Engine/Misc/Enums.h" "Engine/UI/CanvasComponent.h" "Engine/UI/CanvasComponent.cpp" "Engine/Utils/Colors.h")
+    "Engine/Misc/Enums.h" "Engine/UI/CanvasComponent.h" "Engine/UI/CanvasComponent.cpp" "Engine/Utils/Colors.h" "Engine/Decoupling/Observer.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

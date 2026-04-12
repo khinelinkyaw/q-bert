@@ -1,5 +1,6 @@
 ﻿#include "BaseComponent.h"
 #include <Engine/Components/TextComponent.h>
+#include <Engine/Decoupling/Observer.h>
 #include <Engine/Rendering/Font.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Rendering/Texture2D.h>
@@ -10,12 +11,12 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <cstdint>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 using namespace GameEngine;
 
@@ -61,16 +62,31 @@ void TextComponent::Render(glm::vec3 const& pos) const
     }
 }
 
-void TextComponent::SetText(const std::string& text)
+void TextComponent::SetText(std::string const& text)
 {
     m_text = text;
     m_needsUpdate = true;
 }
 
-void TextComponent::SetColor(const SDL_Color& color)
+void TextComponent::SetColor(SDL_Color const& color)
 {
     m_color = color;
     m_needsUpdate = true;
 }
+
+void GameEngine::TextComponent::OnNotify(GameObject const& gameObject, std::string eventId)
+{
+    gameObject;
+    eventId;
+    //for (auto& pObserver : *m_pObservers)
+    //{
+    //    pObserver->OnNotify(gameObject, eventId);
+    //}
+}
+
+//void GameEngine::TextComponent::AddObserver(std::unique_ptr<Observer> newObserver)
+//{
+//    m_pObservers->push_back(std::move(newObserver));
+//}
 
 
