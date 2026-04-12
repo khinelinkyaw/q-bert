@@ -3,7 +3,6 @@
 #include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Components/ControllerComponent.h>
-#include <Engine/UI/CanvasComponent.h>
 #include <Engine/Scene.h>
 #include <memory>
 #include <Engine/Misc/GameObject.h>
@@ -40,6 +39,7 @@ namespace Game
         scene.Add(std::move(go));
 
         go = std::make_unique<GameEngine::GameObject>();
+        //go->AddComponent<GameEngine::TextureComponent>("another_guy.png");
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
@@ -48,7 +48,6 @@ namespace Game
 
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::FrameCounterComponent>();
-        go->AddComponent<GameEngine::CanvasComponent>();
         go->SetPosition(20, 20);
         scene.Add(std::move(go));
     }

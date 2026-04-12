@@ -1,48 +1,26 @@
-#include <Engine/Components/BaseComponent.h>
-#include <Engine/Components/TextComponent.h>
 #include <Engine/UI/CanvasComponent.h>
-#include <memory>
+#include <Engine/Components/BaseComponent.h>
 #include <string>
-#include <iostream>
 
-GameEngine::TextComponent* GameEngine::CanvasComponent::AddTextComponent(std::string const& id, std::string const& text)
-{
-    TextComponent* newTextComponent{ new TextComponent{m_pOwner} };
-    newTextComponent->SetText(text);
-    m_UIComponentMap.insert({ id, std::unique_ptr<TextComponent>{newTextComponent} });
-    return newTextComponent;
-}
-
-void GameEngine::CanvasComponent::FixedUpdate()
-{
-}
-
-void GameEngine::CanvasComponent::Update()
-{
-}
-
-void GameEngine::CanvasComponent::Render(glm::vec3 const&) const
-{
-}
+//GameEngine::TextComponent& GameEngine::CanvasComponent::AddTextComponent(std::string_view, std::string_view)
+//{
+//     TODO: insert return statement here
+//}
 
 GameEngine::CanvasComponent::CanvasComponent(GameObject* owner)
     : BaseComponent{owner}
-    , m_Observer{}
+    , m_Observer{this}
     , m_UIComponentMap{}
 {
-    m_Observer.BindEvent("Hello", [](int a, int b) { std::cout << (a + b); });
-    m_Observer.OnNotify("Hello", 1, 2);
 }
 
-//void GameEngine::CanvasObserver::OnNotify(GameObject const& gameObject, std::string eventId)
-//{
-//    for (auto& [id, textComponent] : m_pCanvasComponent->m_UIComponentMap)
-//    {
-//        textComponent->OnNotify(gameObject, eventId);
-//    }
-//}
+void GameEngine::CanvasObserver::OnNotify(GameObject& gameObject, std::string eventId)
+{
+    gameObject;
+    eventId;
+}
 
-//GameEngine::CanvasObserver::CanvasObserver(CanvasComponent* pCanvasComponent)
-//    : m_pCanvasComponent{pCanvasComponent}
-//{
-//}
+GameEngine::CanvasObserver::CanvasObserver(CanvasComponent* pCanvasComponent)
+    : m_pCanvasComponent{pCanvasComponent}
+{
+}
