@@ -25,7 +25,7 @@ namespace GameEngine
         virtual ~Observer() = default;
     };
 
-    template<typename ...ArgTypes>
+    template<typename ...ArgTypes> 
     inline void Observer<ArgTypes...>::OnNotify(std::string eventId, ArgTypes && ...args)
     {
         assert(m_EventBindings.contains(eventId));
