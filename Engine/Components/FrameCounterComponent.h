@@ -2,7 +2,8 @@
 #define FRAME_COUNTER_COMPONENT_H
 
 #include "BaseComponent.h"
-#include "TextComponent.h"
+#include <Engine/Components/TextComponent.h>
+
 #include <Engine/Misc/GameObject.h>
 #include <glm/fwd.hpp>
 
@@ -10,6 +11,11 @@ namespace GameEngine
 {
     class FrameCounterComponent final : public BaseComponent
     {
+    private:
+        float m_FramesPerSecond{};
+        float m_AccumulatedTime{};
+        TextComponent m_TextComponent{ this->GetOwnerObject() };
+
     public:
         void FixedUpdate() override;
         void Update() override;
@@ -21,10 +27,7 @@ namespace GameEngine
         FrameCounterComponent(FrameCounterComponent&& other) = delete;
         FrameCounterComponent& operator=(const FrameCounterComponent& other) = delete;
         FrameCounterComponent& operator=(FrameCounterComponent&& other) = delete;
-    private:
-        float m_FramesPerSecond{};
-        float m_AccumulatedTime{};
-        TextComponent m_TextComponent{this->m_pOwner};
+
     };
 }
 

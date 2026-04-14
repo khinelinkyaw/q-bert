@@ -1,26 +1,21 @@
-#include <Engine/UI/CanvasComponent.h>
-#include <Engine/Components/BaseComponent.h>
-#include <string>
+//#include <Engine/Components/BaseComponent.h>
+//#include <Engine/Components/TextComponent.h>
+//#include <Engine/UI/CanvasComponent.h>
+//
+//#include <memory>
+//#include <string>
 
-//GameEngine::TextComponent& GameEngine::CanvasComponent::AddTextComponent(std::string_view, std::string_view)
+//GameEngine::TextComponent* GameEngine::CanvasComponent::AddTextComponent(std::string const& id, std::string const& text)
 //{
-//     TODO: insert return statement here
+//    TextComponent* pNewTextComponent { new TextComponent{GetOwnerObject()}};
+//    pNewTextComponent->SetText(text);
+//    m_UIComponentMap.insert({ id, std::make_unique<TextComponent>(pNewTextComponent) });
+//
+//    return pNewTextComponent;
 //}
-
-GameEngine::CanvasComponent::CanvasComponent(GameObject* owner)
-    : BaseComponent{owner}
-    , m_Observer{this}
-    , m_UIComponentMap{}
-{
-}
-
-void GameEngine::CanvasObserver::OnNotify(GameObject& gameObject, std::string eventId)
-{
-    gameObject;
-    eventId;
-}
-
-GameEngine::CanvasObserver::CanvasObserver(CanvasComponent* pCanvasComponent)
-    : m_pCanvasComponent{pCanvasComponent}
-{
-}
+//
+//GameEngine::CanvasComponent::CanvasComponent(GameObject* owner)
+//    : BaseComponent{owner}
+//    , m_UIComponentMap{}
+//{
+//}

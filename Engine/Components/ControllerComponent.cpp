@@ -16,7 +16,7 @@ void ControllerComponent::ExecuteCommands()
 {
     while (!m_Commands.empty())
     {
-        m_Commands.front()->Execute(*m_pOwner);
+        m_Commands.front()->Execute(*GetOwnerObject());
         m_Commands.pop_front();
     }
 }
@@ -41,6 +41,10 @@ void ControllerComponent::ProcessInput(InputDevice& inputDevice)
     if (inputDevice.IsDown(InputAction::MoveLeft))
     {
         AddCommand<MoveCommand>(-1.f, 0.0f);
+    }
+    if (inputDevice.IsReleased(InputAction::TakeDamage))
+    {
+        AddCommand<TakeDamageCommand>();
     }
 }
 

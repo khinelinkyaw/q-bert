@@ -3,6 +3,10 @@
 
 namespace GameEngine
 {
+    GameObject* BaseComponent::GetOwnerObject() const
+    {
+        return m_pOwner;
+    }
     BaseComponent::BaseComponent(GameObject* owner)
         : m_pOwner{owner}
     {

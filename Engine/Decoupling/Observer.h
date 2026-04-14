@@ -30,14 +30,6 @@ namespace GameEngine
         NullObserver();
         ~NullObserver() override = default;
     };
-
-    //class TextObserver : public Observer
-    //{
-    //private:
-    //    TextComponent* m_pTextComponent;
-    //public:
-    //    ~TextObserver() override = default;
-    //};
 }
 
 #endif

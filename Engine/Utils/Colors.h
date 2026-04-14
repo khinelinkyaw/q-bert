@@ -5,11 +5,11 @@
 
 namespace GameEngine::Colors
 {
-    SDL_Color WHITE { 1, 1, 1, 1 };
-    SDL_Color RED{ 1, 0, 0, 1 };
-    SDL_Color GREEN{ 0, 1, 0, 1 };
-    SDL_Color BLUE{ 0, 0, 1, 1 };
-    SDL_Color BLACK{ 0, 0, 0, 1 };
+    SDL_Color WHITE { 255, 255, 255, 255 };
+    SDL_Color RED{ 255, 0, 0, 255 };
+    SDL_Color GREEN{ 0, 255, 0, 255 };
+    SDL_Color BLUE{ 0, 0, 255, 255 };
+    SDL_Color BLACK{ 0, 0, 0, 255 };
 }
 
 #endif

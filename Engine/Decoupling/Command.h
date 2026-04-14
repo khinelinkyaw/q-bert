@@ -32,6 +32,12 @@ namespace GameEngine
 
         MoveCommand(float x = 0.f, float y = 0.f);
     };
+
+    class TakeDamageCommand final : public Command
+    {
+    public:
+        void Execute(GameObject& gameObject) override;
+    };
 }
 
 #endif

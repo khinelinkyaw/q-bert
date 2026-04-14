@@ -85,7 +85,8 @@ InputDevice::KeyboardInputDeviceImpl::KeyboardInputDeviceImpl()
         { InputAction::MoveUp, SDL_SCANCODE_W },
         { InputAction::MoveLeft, SDL_SCANCODE_A },
         { InputAction::MoveDown, SDL_SCANCODE_S },
-        { InputAction::MoveRight, SDL_SCANCODE_D }
+        { InputAction::MoveRight, SDL_SCANCODE_D },
+        { InputAction::TakeDamage, SDL_SCANCODE_X}
     };
 
     m_KeyStates[0].resize(m_NumKeys);
@@ -133,7 +134,8 @@ InputDevice::GamepadInputDeviceImpl::GamepadInputDeviceImpl(int controllerIndex)
         { InputAction::MoveUp, XINPUT_GAMEPAD_DPAD_UP },
         { InputAction::MoveLeft, XINPUT_GAMEPAD_DPAD_LEFT },
         { InputAction::MoveDown, XINPUT_GAMEPAD_DPAD_DOWN },
-        { InputAction::MoveRight, XINPUT_GAMEPAD_DPAD_RIGHT }
+        { InputAction::MoveRight, XINPUT_GAMEPAD_DPAD_RIGHT },
+        { InputAction::TakeDamage, XINPUT_GAMEPAD_A }
     };
 }
 
@@ -193,7 +195,8 @@ InputDevice::GamepadInputDeviceImpl::GamepadInputDeviceImpl()
         { InputAction::MoveUp, SDL_GAMEPAD_BUTTON_DPAD_UP },
         { InputAction::MoveLeft, SDL_GAMEPAD_BUTTON_DPAD_LEFT },
         { InputAction::MoveDown, SDL_GAMEPAD_BUTTON_DPAD_DOWN },
-        { InputAction::MoveRight, SDL_GAMEPAD_BUTTON_DPAD_RIGHT }
+        { InputAction::MoveRight, SDL_GAMEPAD_BUTTON_DPAD_RIGHT },
+        { InputAction::MoveRight, SDL_GAMEPAD_BUTTON_SOUTH },
     };
 }
 

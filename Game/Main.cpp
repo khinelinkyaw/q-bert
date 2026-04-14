@@ -1,14 +1,16 @@
 #include <Engine/SceneManager.h>
 #include <Engine/Input/InputManager.h>
+#include <Engine/Input/InputDevice.h>
 #include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Components/ControllerComponent.h>
-#include <Engine/Scene.h>
-#include <memory>
-#include <Engine/Misc/GameObject.h>
-#include <utility>
 #include <Engine/Components/TextComponent.h>
-#include <Engine/Input/InputDevice.h>
+#include <Engine/Scene.h>
+#include <Engine/Misc/GameObject.h>
+#include <Game/Components/HealthDisplay.h>
+
+#include <memory>
+#include <utility>
 
 namespace Game
 {
@@ -34,12 +36,13 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>();
+        auto pHealthComp{ go->AddComponent<HealthComponent>() };
+        //go->AddComponent<HealthComponent>();
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         go->SetPosition(500, 500);
         scene.Add(std::move(go));
 
         go = std::make_unique<GameEngine::GameObject>();
-        //go->AddComponent<GameEngine::TextureComponent>("another_guy.png");
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
@@ -49,6 +52,15 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::FrameCounterComponent>();
         go->SetPosition(20, 20);
+        scene.Add(std::move(go));
+
+        go = std::make_unique<GameEngine::GameObject>();
+        go->SetPosition(20, 70);
+        auto pTextComp{ go->AddComponent<GameEngine::TextComponent>() };
+        auto pHealthObserver{ std::make_unique<HealthDisplayObserver>(pTextComp, pHealthComp) };
+        pHealthComp->AddObserver(pHealthObserver.get());
+        pTextComp->SetObserver(std::move(pHealthObserver));
+        pHealthComp->Init(3, 3);
         scene.Add(std::move(go));
     }
 }

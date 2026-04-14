@@ -5,27 +5,30 @@
 #include <Engine/Rendering/Texture2D.h>
 #include <Engine/ResourceManager.h>
 #include <Engine/Utils/Colors.h>
+#include <Engine/Decoupling/Observer.h>
+
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <cstdint>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 using namespace GameEngine;
 
 TextComponent::TextComponent(GameObject* owner)
     : BaseComponent{owner}
-    , m_needsUpdate(true)
-    , m_text("")
-    , m_color(Colors::WHITE)
-    , m_font(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36))
-    , m_textTexture(nullptr)
+    , m_needsUpdate{true}
+    , m_text{"EMPTY"}
+    , m_color{Colors::WHITE}
+    , m_font{ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)}
+    , m_textTexture{nullptr}
+    , m_Observer{}
 {
 }
 
@@ -71,6 +74,16 @@ void TextComponent::SetColor(const SDL_Color& color)
 {
     m_color = color;
     m_needsUpdate = true;
+}
+
+Observer* GameEngine::TextComponent::GetObserver()
+{
+    return m_Observer.get();
+}
+
+void GameEngine::TextComponent::SetObserver(std::unique_ptr<Observer>&& pObserver)
+{
+    m_Observer = std::move(pObserver);
 }
 
 
