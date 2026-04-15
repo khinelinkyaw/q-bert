@@ -7,7 +7,9 @@
 #include <Engine/Components/TextComponent.h>
 #include <Engine/Scene.h>
 #include <Engine/Misc/GameObject.h>
+
 #include <Game/Components/HealthDisplay.h>
+#include <Game/Components/PlayerComponent.h>
 
 #include <memory>
 #include <utility>
@@ -36,7 +38,7 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>();
-        auto pHealthComp{ go->AddComponent<HealthComponent>() };
+        auto pHealthComp{ go->AddComponent<PlayerComponent>() };
         //go->AddComponent<HealthComponent>();
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         go->SetPosition(500, 500);

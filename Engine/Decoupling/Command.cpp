@@ -3,7 +3,7 @@
 #include <Engine/Minigin.h>
 #include <Engine/Misc/GameObject.h>
 #include <Engine/Misc/Transform.h>
-#include <Game/Components/HealthDisplay.h>
+#include <Game/Components/PlayerComponent.h>
 
 #include <glm/ext/vector_common.hpp>
 
@@ -25,7 +25,7 @@ MoveCommand::MoveCommand(float x, float y)
 
 void GameEngine::TakeDamageCommand::Execute(GameObject& gameObject)
 {
-    auto pHealthComponent{ gameObject.GetComponent<Game::HealthComponent>() };
+    auto pHealthComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
 
     pHealthComponent->TakeDamage();
 }
