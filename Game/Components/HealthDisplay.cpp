@@ -13,16 +13,23 @@ void Game::HealthDisplayObserver::OnNotify(GameEngine::GameObject&, std::string 
 {
     if (eventId == "UpdateHealth")
     {
-        std::string newText{ std::format("{}{}", m_Prefix, m_pHealthComponent->GetHealth()) };
-
-        m_pTextComponent->SetText(newText);
+        m_pTextComponent->SetText(std::format("{}: {}", m_PlayerName, m_pHealthComponent->GetHealth()));
     }
+    else if (eventId == "PlayerDied")
+    {
+        m_pTextComponent->SetText(std::format("{}: Dead!", m_PlayerName));
+    }
+}
+
+void Game::HealthDisplayObserver::SetPlayerName(std::string const& prefix)
+{
+    m_PlayerName = prefix;
 }
 
 Game::HealthDisplayObserver::HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, HealthComponent* pHealthComponent)
     : m_pTextComponent{ pTextComponent }
     , m_pHealthComponent{ pHealthComponent }
-    , m_Prefix{}
+    , m_PlayerName{}
 {
     assert(m_pTextComponent != nullptr and m_pHealthComponent != nullptr);
 }
@@ -62,9 +69,12 @@ void Game::HealthComponent::TakeDamage()
     {
         m_IsDead = true;
         m_Health = 0;
+        NotifyObservers("PlayerDied");
     }
-
-    NotifyObservers("UpdateHealth");
+    else
+    {
+        NotifyObservers("UpdateHealth");
+    }
 }
 
 void Game::HealthComponent::Heal()
@@ -126,18 +136,3 @@ void Game::HealthComponent::Init(int health, int maxHealth)
     NotifyObservers("UpdateHealth");
 }
 #pragma endregion
-
-
-//#pragma region HealthDisplayObserver
-//void Game::HealthDisplayComponent::FixedUpdate()
-//{
-//}
-//
-//void Game::HealthDisplayComponent::Update()
-//{
-//}
-//
-//void Game::HealthDisplayComponent::Render(glm::vec3 const&) const
-//{
-//}
-//#pragma endregion

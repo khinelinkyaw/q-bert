@@ -17,10 +17,11 @@ namespace Game
     private:
         GameEngine::TextComponent* m_pTextComponent;
         HealthComponent* m_pHealthComponent;
-        std::string m_Prefix;
+        std::string m_PlayerName;
 
     public:
         void OnNotify(GameEngine::GameObject&, std::string eventId);
+        void SetPlayerName(std::string const& prefix);
 
         HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, HealthComponent* pHealthComponent);
         ~HealthDisplayObserver() override = default;

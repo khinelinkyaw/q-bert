@@ -58,6 +58,7 @@ namespace Game
         go->SetPosition(20, 70);
         auto pTextComp{ go->AddComponent<GameEngine::TextComponent>() };
         auto pHealthObserver{ std::make_unique<HealthDisplayObserver>(pTextComp, pHealthComp) };
+        pHealthObserver->SetPlayerName("Player 1");
         pHealthComp->AddObserver(pHealthObserver.get());
         pTextComp->SetObserver(std::move(pHealthObserver));
         pHealthComp->Init(3, 3);
