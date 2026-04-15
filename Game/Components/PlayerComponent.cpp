@@ -23,6 +23,8 @@ Game::PlayerComponent::PlayerComponent(GameEngine::GameObject* owner)
     , m_IsDead{ false }
     , m_Health{ }
     , m_MaxHealth{}
+    , m_Score{}
+    , m_Name{""}
     , m_pObservers{}
 {
     CheckHealth();
@@ -83,6 +85,33 @@ void Game::PlayerComponent::Revive()
 bool Game::PlayerComponent::IsDead() const
 {
     return m_IsDead;
+}
+
+void Game::PlayerComponent::SetName(std::string const& name)
+{
+    m_Name = name;
+}
+
+std::string Game::PlayerComponent::GetName() const
+{
+    return m_Name;
+}
+
+int Game::PlayerComponent::GetScore() const
+{
+    return m_Score;
+}
+
+void Game::PlayerComponent::IncrementScore(int increment)
+{
+    m_Score += increment;
+
+    if (m_Score < 0)
+    {
+        m_Score = 0;
+    }
+
+    NotifyObservers("UpdateScore");
 }
 
 void Game::PlayerComponent::AddObserver(GameEngine::Observer* pObserver)

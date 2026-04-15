@@ -25,7 +25,14 @@ MoveCommand::MoveCommand(float x, float y)
 
 void GameEngine::TakeDamageCommand::Execute(GameObject& gameObject)
 {
-    auto pHealthComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
+    auto pPlayerComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
 
-    pHealthComponent->TakeDamage();
+    pPlayerComponent->TakeDamage();
+}
+
+void GameEngine::IncreaseScore::Execute(GameObject& gameObject)
+{
+    auto pPlayerComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
+
+    pPlayerComponent->IncrementScore(10);
 }

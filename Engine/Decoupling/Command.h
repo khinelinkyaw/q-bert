@@ -38,6 +38,12 @@ namespace GameEngine
     public:
         void Execute(GameObject& gameObject) override;
     };
+
+    class IncreaseScore final : public Command
+    {
+    public:
+        void Execute(GameObject& gameObject) override;
+    };
 }
 
 #endif

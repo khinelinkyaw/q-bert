@@ -86,7 +86,8 @@ InputDevice::KeyboardInputDeviceImpl::KeyboardInputDeviceImpl()
         { InputAction::MoveLeft, SDL_SCANCODE_A },
         { InputAction::MoveDown, SDL_SCANCODE_S },
         { InputAction::MoveRight, SDL_SCANCODE_D },
-        { InputAction::TakeDamage, SDL_SCANCODE_X}
+        { InputAction::TakeDamage, SDL_SCANCODE_X},
+        { InputAction::IncreaseScore, SDL_SCANCODE_Z }
     };
 
     m_KeyStates[0].resize(m_NumKeys);
@@ -135,7 +136,8 @@ InputDevice::GamepadInputDeviceImpl::GamepadInputDeviceImpl(int controllerIndex)
         { InputAction::MoveLeft, XINPUT_GAMEPAD_DPAD_LEFT },
         { InputAction::MoveDown, XINPUT_GAMEPAD_DPAD_DOWN },
         { InputAction::MoveRight, XINPUT_GAMEPAD_DPAD_RIGHT },
-        { InputAction::TakeDamage, XINPUT_GAMEPAD_A }
+        { InputAction::TakeDamage, XINPUT_GAMEPAD_A },
+        { InputAction::IncreaseScore, XINPUT_GAMEPAD_B }
     };
 }
 
@@ -190,7 +192,6 @@ InputDevice::GamepadInputDeviceImpl::GamepadInputDeviceImpl()
 
     // TODO: make this default parameter (better API visibility)
     // TODO: make this configurable
-    // လုပ်စရာတွေ အများကြီးရှိသေးတယ်။
     m_Keymap = {
         { InputAction::MoveUp, SDL_GAMEPAD_BUTTON_DPAD_UP },
         { InputAction::MoveLeft, SDL_GAMEPAD_BUTTON_DPAD_LEFT },

@@ -12,7 +12,8 @@ namespace GameEngine
         MoveLeft,
         MoveDown,
         MoveRight,
-        TakeDamage
+        TakeDamage,
+        IncreaseScore
     };
 
     enum class InputDeviceType

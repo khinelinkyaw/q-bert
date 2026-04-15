@@ -14,13 +14,12 @@ namespace GameEngine
     private:
         GameObject* m_pOwner{};
 
-    protected:
-        GameObject* GetOwnerObject() const;
-
     public:
         virtual void FixedUpdate() = 0;
         virtual void Update() = 0;
         virtual void Render(vector3 const& pos) const = 0;
+
+        GameObject* GetOwnerObject() const;
 
         BaseComponent() = delete;
         BaseComponent(GameObject* owner);

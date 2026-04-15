@@ -8,7 +8,7 @@
 #include <Engine/Scene.h>
 #include <Engine/Misc/GameObject.h>
 
-#include <Game/Components/HealthDisplay.h>
+#include <Game/Components/Observers.h>
 #include <Game/Components/PlayerComponent.h>
 
 #include <memory>
@@ -38,7 +38,8 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>();
-        auto pHealthComp{ go->AddComponent<PlayerComponent>() };
+        auto pPlayerComp{ go->AddComponent<PlayerComponent>() };
+        pPlayerComp->SetName("Player 1");
         //go->AddComponent<HealthComponent>();
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         go->SetPosition(500, 500);
@@ -59,11 +60,19 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->SetPosition(20, 70);
         auto pTextComp{ go->AddComponent<GameEngine::TextComponent>() };
-        auto pHealthObserver{ std::make_unique<HealthDisplayObserver>(pTextComp, pHealthComp) };
-        pHealthObserver->SetPlayerName("Player 1");
-        pHealthComp->AddObserver(pHealthObserver.get());
+        auto pHealthObserver{ std::make_unique<HealthDisplayObserver>(pTextComp, pPlayerComp) };
+        pPlayerComp->AddObserver(pHealthObserver.get());
         pTextComp->SetObserver(std::move(pHealthObserver));
-        pHealthComp->Init(3, 3);
+        pPlayerComp->Init(3, 3);
+        scene.Add(std::move(go));
+
+        go = std::make_unique<GameEngine::GameObject>();
+        go->SetPosition(20, 95);
+        pTextComp = go->AddComponent<GameEngine::TextComponent>();
+        auto pScoreObserver{ std::make_unique<ScoreDisplayObserver>(pTextComp, pPlayerComp) };
+        pPlayerComp->AddObserver(pScoreObserver.get());
+        pTextComp->SetObserver(std::move(pScoreObserver));
+        pPlayerComp->Init(3, 3);
         scene.Add(std::move(go));
     }
 }

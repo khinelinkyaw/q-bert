@@ -46,6 +46,10 @@ void ControllerComponent::ProcessInput(InputDevice& inputDevice)
     {
         AddCommand<TakeDamageCommand>();
     }
+    if (inputDevice.IsReleased(InputAction::IncreaseScore))
+    {
+        AddCommand<IncreaseScore>();
+    }
 }
 
 void ControllerComponent::FixedUpdate()
