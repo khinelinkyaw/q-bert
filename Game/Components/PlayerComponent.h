@@ -22,9 +22,9 @@ namespace Game
         void CheckHealth();
     public:
 #pragma region BaseClassFunctions
-        void FixedUpdate() {};
-        void Update() {};
-        void Render(glm::vec3 const&) const {};
+        void FixedUpdate() override {};
+        void Update() override {};
+        void Render(glm::vec3 const&) const override {};
 #pragma endregion
 
         void TakeDamage();

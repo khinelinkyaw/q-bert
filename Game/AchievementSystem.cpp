@@ -3,12 +3,12 @@
 #include <Engine/Misc/GameObject.h>
 
 #include <string>
+#include <iostream>
 
 #if USE_STEAMWORKS
 #pragma warning (push)
 #pragma warning (disable:4996)
 #include <isteamuserstats.h>
-#include <iostream>
 #include <isteamuser.h>
 #pragma warning (pop)
 

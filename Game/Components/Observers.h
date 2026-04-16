@@ -18,7 +18,7 @@ namespace Game
         PlayerComponent* m_pPlayerComponent;
 
     public:
-        void OnNotify(GameEngine::GameObject&, std::string eventId);
+        void OnNotify(GameEngine::GameObject&, std::string eventId) override;
 
         HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent);
         ~HealthDisplayObserver() override = default;
@@ -31,7 +31,7 @@ namespace Game
         PlayerComponent* m_pPlayerComponent;
 
     public:
-        void OnNotify(GameEngine::GameObject&, std::string eventId);
+        void OnNotify(GameEngine::GameObject&, std::string eventId) override;
 
         ScoreDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent);
         ~ScoreDisplayObserver() override = default;
