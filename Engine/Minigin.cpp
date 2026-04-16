@@ -13,6 +13,8 @@
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/ResourceManager.h>
 #include <Engine/SceneManager.h>
+#include <Engine/Misc/Constants.h>
+
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <SDL3/SDL_error.h>
@@ -23,7 +25,13 @@
 #include <chrono>
 #include <filesystem>
 #include <functional>
-#include <Engine/Misc/Constants.h>
+
+#if USE_STEAMWORKS
+#pragma warning (push)
+#pragma warning (disable:4996)
+#include <steam_api.h>
+#pragma warning (pop)
+#endif
 
 SDL_Window* g_window{};
 
@@ -76,6 +84,11 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     , m_TimeStep{ 1.f / 60.f }
     , m_Quit{ false }
 {
+#if USE_STEAMWORKS
+    if (!SteamAPI_Init())
+        throw std::runtime_error(std::string("Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)."));
+#endif
+
     PrintSDLVersion();
 
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
@@ -98,6 +111,9 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
 
 GameEngine::Minigin::~Minigin()
 {
+#if USE_STEAMWORKS
+    SteamAPI_Shutdown();
+#endif
     Renderer::GetInstance().Destroy();
     SDL_DestroyWindow(g_window);
     g_window = nullptr;

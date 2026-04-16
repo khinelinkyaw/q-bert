@@ -15,6 +15,7 @@ namespace GameEngine
         float const m_TimeStep;
         bool m_Quit;
         inline static float m_DeltaTime{};
+
     public:
         void Run(const std::function<void()>& load);
         void RunOneFrame();

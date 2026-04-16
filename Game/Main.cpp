@@ -1,12 +1,12 @@
-#include <Engine/SceneManager.h>
-#include <Engine/Input/InputManager.h>
-#include <Engine/Input/InputDevice.h>
-#include <Engine/Components/FrameCounterComponent.h>
-#include <Engine/Components/TextureComponent.h>
 #include <Engine/Components/ControllerComponent.h>
+#include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Components/TextComponent.h>
-#include <Engine/Scene.h>
+#include <Engine/Components/TextureComponent.h>
+#include <Engine/Input/InputDevice.h>
+#include <Engine/Input/InputManager.h>
 #include <Engine/Misc/GameObject.h>
+#include <Engine/Scene.h>
+#include <Engine/SceneManager.h>
 
 #include <Game/Components/Observers.h>
 #include <Game/Components/PlayerComponent.h>
