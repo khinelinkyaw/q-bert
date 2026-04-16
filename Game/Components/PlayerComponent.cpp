@@ -110,6 +110,10 @@ void Game::PlayerComponent::IncrementScore(int increment)
     {
         m_Score = 0;
     }
+    else if (m_Score > 100)
+    {
+        NotifyObservers("FirstAchievement");
+    }
 
     NotifyObservers("UpdateScore");
 }

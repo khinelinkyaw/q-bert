@@ -9,8 +9,6 @@
 
 namespace Game
 {
-    class GameObject;
-
     class PlayerComponent final : public GameEngine::BaseComponent
     {
     private:

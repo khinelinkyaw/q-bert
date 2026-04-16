@@ -153,4 +153,8 @@ void GameEngine::Minigin::RunOneFrame()
     SceneManager::GetInstance().CheckForDeletion();
 
     Renderer::GetInstance().Render();
+
+#if USE_STEAMWORKS
+    SteamAPI_RunCallbacks();
+#endif 
 }

@@ -2,7 +2,6 @@
 #define OBSERVER_H
 
 #include <string>
-//#include <unordered_map>
 
 namespace GameEngine
 {
@@ -11,14 +10,8 @@ namespace GameEngine
 
     class Observer
     {
-    private:
-        //std::unordered_map<std::string, void(*)(GameObject&)> m_EventBindings;
-
     public:
         virtual void OnNotify(GameObject& gameObject, std::string eventId) = 0;
-        //void BindEvent(std::string eventId, void(*func)(GameObject&));
-
-        //Observer();
         virtual ~Observer() = default;
     };
 
