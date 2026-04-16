@@ -36,10 +36,15 @@ namespace Game
         scene.Add(std::move(go));
 
         go = std::make_unique<GameEngine::GameObject>();
+        go->AddComponent<GameEngine::FrameCounterComponent>();
+        go->SetPosition(20, 20);
+        scene.Add(std::move(go));
+
+        go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>();
-        auto pPlayerComp{ go->AddComponent<PlayerComponent>() };
-        pPlayerComp->SetName("Player 1");
+        auto pPlayer1Comp{ go->AddComponent<PlayerComponent>() };
+        pPlayer1Comp->SetName("Player 1");
         //go->AddComponent<HealthComponent>();
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         go->SetPosition(500, 500);
@@ -48,31 +53,46 @@ namespace Game
         go = std::make_unique<GameEngine::GameObject>();
         go->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         go->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
+        auto pPlayer2Comp{ go->AddComponent<PlayerComponent>() };
+        pPlayer2Comp->SetName("Player 2");
         GameEngine::InputManager::GetInstance().RegisterController(go->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
         go->SetPosition(600, 500);
         scene.Add(std::move(go));
 
         go = std::make_unique<GameEngine::GameObject>();
-        go->AddComponent<GameEngine::FrameCounterComponent>();
-        go->SetPosition(20, 20);
-        scene.Add(std::move(go));
-
-        go = std::make_unique<GameEngine::GameObject>();
         go->SetPosition(20, 70);
-        auto pTextComp{ go->AddComponent<GameEngine::TextComponent>() };
-        auto pHealthObserver{ std::make_unique<HealthDisplayObserver>(pTextComp, pPlayerComp) };
-        pPlayerComp->AddObserver(pHealthObserver.get());
-        pTextComp->SetObserver(std::move(pHealthObserver));
-        pPlayerComp->Init(3, 3);
+        auto pP1TextComp{ go->AddComponent<GameEngine::TextComponent>() };
+        auto pP1HealthObserver{ std::make_unique<HealthDisplayObserver>(pP1TextComp, pPlayer1Comp) };
+        pPlayer1Comp->AddObserver(pP1HealthObserver.get());
+        pP1TextComp->SetObserver(std::move(pP1HealthObserver));
+        pPlayer1Comp->Init(3, 3);
         scene.Add(std::move(go));
 
         go = std::make_unique<GameEngine::GameObject>();
-        go->SetPosition(20, 95);
-        pTextComp = go->AddComponent<GameEngine::TextComponent>();
-        auto pScoreObserver{ std::make_unique<ScoreDisplayObserver>(pTextComp, pPlayerComp) };
-        pPlayerComp->AddObserver(pScoreObserver.get());
-        pTextComp->SetObserver(std::move(pScoreObserver));
-        pPlayerComp->Init(3, 3);
+        go->SetPosition(20, 100);
+        pP1TextComp = go->AddComponent<GameEngine::TextComponent>();
+        auto pP1ScoreObserver{ std::make_unique<ScoreDisplayObserver>(pP1TextComp, pPlayer1Comp) };
+        pPlayer1Comp->AddObserver(pP1ScoreObserver.get());
+        pP1TextComp->SetObserver(std::move(pP1ScoreObserver));
+        pPlayer1Comp->Init(3, 3);
+        scene.Add(std::move(go));
+
+        go = std::make_unique<GameEngine::GameObject>();
+        go->SetPosition(500, 70);
+        auto pP2TextComp{ go->AddComponent<GameEngine::TextComponent>() };
+        auto pP2HealthObserver{ std::make_unique<HealthDisplayObserver>(pP2TextComp, pPlayer2Comp) };
+        pPlayer2Comp->AddObserver(pP2HealthObserver.get());
+        pP2TextComp->SetObserver(std::move(pP2HealthObserver));
+        pPlayer2Comp->Init(3, 3);
+        scene.Add(std::move(go));
+
+        go = std::make_unique<GameEngine::GameObject>();
+        go->SetPosition(500, 100);
+        pP2TextComp = go->AddComponent<GameEngine::TextComponent>();
+        auto pP2ScoreObserver{ std::make_unique<ScoreDisplayObserver>(pP2TextComp, pPlayer2Comp) };
+        pPlayer2Comp->AddObserver(pP2ScoreObserver.get());
+        pP2TextComp->SetObserver(std::move(pP2ScoreObserver));
+        pPlayer2Comp->Init(3, 3);
         scene.Add(std::move(go));
     }
 }
