@@ -81,7 +81,6 @@ void PrintSDLVersion()
 GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     : m_LastTime{ std::chrono::high_resolution_clock::now() }
     , m_Lag{ 0.f }
-    , m_TimeStep{ 1.f / 60.f }
     , m_Quit{ false }
 {
 #if USE_STEAMWORKS

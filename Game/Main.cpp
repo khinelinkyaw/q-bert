@@ -9,6 +9,7 @@
 #include <Engine/SceneManager.h>
 
 #include <Game/Components/Observers.h>
+#include <Game/Components/Rotator.h>
 #include <Game/Components/PlayerComponent.h>
 #include <Game/AchievementSystem.h>
 
@@ -42,6 +43,7 @@ namespace Game
         scene.Add(std::move(obj));
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
+        player1->AddComponent<Rotator>()->Init({100.f,100.f,0.0f}, 10.f, -5.f);
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         player1->AddComponent<GameEngine::ControllerComponent>();
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
@@ -51,6 +53,7 @@ namespace Game
         player1->SetPosition(500, 500);
 
         auto player2{ std::make_unique<GameEngine::GameObject>() };
+        player2->AddComponent<Rotator>()->Init({}, 50.f, 5.f);
         player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         player2->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
         auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };

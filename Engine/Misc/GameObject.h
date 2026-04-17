@@ -2,7 +2,6 @@
 #define GAMEOBJECT_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/Transform.h>
 #include <Engine/Components/TransformComponent.h>
 
 #include <algorithm>
