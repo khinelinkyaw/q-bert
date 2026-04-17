@@ -24,11 +24,11 @@ namespace GameEngine
 
     class InputDevice
     {
-    public:
+    protected:
         class InputDeviceImpl;
-    private:
         std::unique_ptr<InputDeviceImpl> m_Pimpl;
 
+        InputDevice(std::unique_ptr<InputDeviceImpl>&& pimpl);
     public:
         bool IsPressed(InputAction action) const;
         bool IsReleased(InputAction action) const;
@@ -38,8 +38,27 @@ namespace GameEngine
 
         void UpdateState();
 
-        InputDevice(InputDeviceType inputDeviceType);
-        ~InputDevice();
+        virtual ~InputDevice();
+    };
+
+    class KeyboardInputDevice final: public InputDevice
+    {
+    private:
+        class KeyboardImpl;
+        
+    public:
+        KeyboardInputDevice();
+        ~KeyboardInputDevice() override = default;
+    };
+
+    class GamepadInputDevice final: public InputDevice
+    {
+    private:
+        class GamepadImpl;
+
+    public:
+        GamepadInputDevice();
+        ~GamepadInputDevice() override = default;
     };
 
     struct ControllerInfo final

@@ -13,7 +13,16 @@ void InputManager::RegisterController(ControllerComponent* controller, InputDevi
 
     newControllerInfo.m_PlayerController = controller;
     newControllerInfo.m_InputType = inputType;
-    newControllerInfo.m_InputDevice = std::make_unique<InputDevice>(inputType);
+
+    switch (inputType)
+    {
+    case InputDeviceType::Keyboard:
+        newControllerInfo.m_InputDevice = std::make_unique<KeyboardInputDevice>();
+        break;
+    case InputDeviceType::Gamepad:
+        newControllerInfo.m_InputDevice = std::make_unique<GamepadInputDevice>();
+        break;
+    }
 
     m_PlayerControllers.push_back(std::move(newControllerInfo));
 }

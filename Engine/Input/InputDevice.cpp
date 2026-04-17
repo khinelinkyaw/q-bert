@@ -6,6 +6,7 @@
 #endif // __EMSCRIPTEN__
 
 #include "InputDevice.h"
+
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_keyboard.h>
 #include <SDL3/SDL_scancode.h>
@@ -13,6 +14,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <utility>
 
 using namespace GameEngine;
 
@@ -27,10 +29,14 @@ public:
     virtual void UpdateState() = 0;
 
     InputDeviceImpl() = default;
+    InputDeviceImpl(InputDeviceImpl const& other) = delete;
+    InputDeviceImpl(InputDeviceImpl&& other) = delete;
+    InputDeviceImpl& operator=(InputDeviceImpl const& other) = delete;
+    InputDeviceImpl& operator=(InputDeviceImpl&& other) = delete;
     virtual ~InputDeviceImpl() = default;
 };
 
-class KeyboardInputDeviceImpl final : public InputDevice::InputDeviceImpl
+class KeyboardInputDevice::KeyboardImpl final : public InputDevice::InputDeviceImpl
 {
 private:
     int m_NumKeys;
@@ -42,11 +48,11 @@ private:
 public:
     void UpdateState() override;
 
-    KeyboardInputDeviceImpl();
-    ~KeyboardInputDeviceImpl() override = default;
+    KeyboardImpl();
+    ~KeyboardImpl() override = default;
 };
 
-void KeyboardInputDeviceImpl::UpdateState()
+void KeyboardInputDevice::KeyboardImpl::UpdateState()
 {
     int l_NextStateIndex{ 1 - m_CurrentStateIndex };
 
@@ -60,7 +66,7 @@ void KeyboardInputDeviceImpl::UpdateState()
     m_CurrentStateIndex = l_NextStateIndex;
 }
 
-bool KeyboardInputDeviceImpl::GetPreviousKeyState(InputAction action) const
+bool KeyboardInputDevice::KeyboardImpl::GetPreviousKeyState(InputAction action) const
 {
     int l_PreviousStateIndex = 1 - m_CurrentStateIndex;
     int scancode = m_Keymap.at(action);
@@ -68,14 +74,14 @@ bool KeyboardInputDeviceImpl::GetPreviousKeyState(InputAction action) const
     return m_KeyStates[l_PreviousStateIndex][scancode];
 }
 
-bool KeyboardInputDeviceImpl::GetCurrentKeyState(InputAction action) const
+bool KeyboardInputDevice::KeyboardImpl::GetCurrentKeyState(InputAction action) const
 {
     int scancode = m_Keymap.at(action);
 
     return m_KeyStates[m_CurrentStateIndex][scancode];
 }
 
-KeyboardInputDeviceImpl::KeyboardInputDeviceImpl()
+KeyboardInputDevice::KeyboardImpl::KeyboardImpl()
     : m_NumKeys{}
     , m_KeyStates{}
     , m_KeyStatesPtr(SDL_GetKeyboardState(&m_NumKeys))
@@ -98,7 +104,7 @@ KeyboardInputDeviceImpl::KeyboardInputDeviceImpl()
 
 
 #ifndef __EMSCRIPTEN__
-class GamepadInputDeviceImpl final : public InputDevice::InputDeviceImpl
+class GamepadInputDevice::GamepadImpl final : public InputDevice::InputDeviceImpl
 {
 private:
     DWORD m_ControllerIndex;
@@ -110,12 +116,12 @@ private:
 public:
     void UpdateState() override;
 
-    GamepadInputDeviceImpl(int controllerIndex = 0);
-    ~GamepadInputDeviceImpl() override = default;
+    GamepadImpl(int controllerIndex = 0);
+    ~GamepadImpl() override = default;
 };
 
 
-void GamepadInputDeviceImpl::UpdateState()
+void GamepadInputDevice::GamepadImpl::UpdateState()
 {
     int l_NextStateIndex{ 1 - m_CurrentStateIndex };
 
@@ -125,7 +131,7 @@ void GamepadInputDeviceImpl::UpdateState()
     m_CurrentStateIndex = l_NextStateIndex;
 }
 
-GamepadInputDeviceImpl::GamepadInputDeviceImpl(int controllerIndex)
+GamepadInputDevice::GamepadImpl::GamepadImpl(int controllerIndex)
     : m_ControllerIndex(controllerIndex)
     , m_KeyStates{}
 {
@@ -141,7 +147,7 @@ GamepadInputDeviceImpl::GamepadInputDeviceImpl(int controllerIndex)
     };
 }
 
-bool GamepadInputDeviceImpl::GetPreviousKeyState(InputAction action) const
+bool GamepadInputDevice::GamepadImpl::GetPreviousKeyState(InputAction action) const
 {
     int l_PreviousStateIndex = 1 - m_CurrentStateIndex;
     int button = m_Keymap.at(action);
@@ -149,14 +155,14 @@ bool GamepadInputDeviceImpl::GetPreviousKeyState(InputAction action) const
     return m_KeyStates[l_PreviousStateIndex].Gamepad.wButtons & button;
 }
 
-bool GamepadInputDeviceImpl::GetCurrentKeyState(InputAction action) const
+bool GamepadInputDevice::GamepadImpl::GetCurrentKeyState(InputAction action) const
 {
     int button = m_Keymap.at(action);
 
     return m_KeyStates[m_CurrentStateIndex].Gamepad.wButtons & button;
 }
 #else
-class GamepadInputDeviceImpl final : public InputDevice::InputDeviceImpl
+class GamepadInputDevice::GamepadImpl final : public InputDevice::InputDeviceImpl
 {
 private:
     constexpr static int m_NumButtons{ 4 };
@@ -169,11 +175,11 @@ private:
 public:
     void UpdateState() override;
 
-    GamepadInputDeviceImpl();
-    ~GamepadInputDeviceImpl() override = default;
+    GamepadImpl();
+    ~GamepadImpl() override = default;
 };
 
-GamepadInputDeviceImpl::GamepadInputDeviceImpl()
+GamepadInputDevice::GamepadImpl()
     : m_pGamepad{}
     , m_KeyStates{}
 {
@@ -201,7 +207,7 @@ GamepadInputDeviceImpl::GamepadInputDeviceImpl()
     };
 }
 
-void GamepadInputDeviceImpl::UpdateState()
+void GamepadInputDevice::GamepadImpl::UpdateState()
 {
     int l_NextStateIndex{ 1 - m_CurrentStateIndex };
 
@@ -214,7 +220,7 @@ void GamepadInputDeviceImpl::UpdateState()
     m_CurrentStateIndex = l_NextStateIndex;
 }
 
-bool GamepadInputDeviceImpl::GetPreviousKeyState(InputAction action) const
+bool GamepadInputDevice::GamepadImpl::GetPreviousKeyState(InputAction action) const
 {
     int l_PreviousStateIndex = 1 - m_CurrentStateIndex;
     int l_SDLButtonIndex = static_cast<int>(action);
@@ -222,7 +228,7 @@ bool GamepadInputDeviceImpl::GetPreviousKeyState(InputAction action) const
     return m_KeyStates[l_PreviousStateIndex][l_SDLButtonIndex];
 }
 
-bool GamepadInputDeviceImpl::GetCurrentKeyState(InputAction action) const
+bool GamepadInputDevice::GamepadImpl::GetCurrentKeyState(InputAction action) const
 {
     int l_SDLButtonIndex = static_cast<int>(action);
 
@@ -231,19 +237,9 @@ bool GamepadInputDeviceImpl::GetCurrentKeyState(InputAction action) const
 #endif
 
 
-
-InputDevice::InputDevice(InputDeviceType inputDeviceType)
-    : m_Pimpl{}
+GameEngine::InputDevice::InputDevice(std::unique_ptr<InputDeviceImpl>&& pimpl)
+    : m_Pimpl{std::move(pimpl)}
 {
-    switch (inputDeviceType)
-    {
-        case InputDeviceType::Keyboard:
-            m_Pimpl = std::make_unique<KeyboardInputDeviceImpl>();
-            break;
-        case InputDeviceType::Gamepad:
-            m_Pimpl = std::make_unique<GamepadInputDeviceImpl>();
-            break;
-    }
 }
 
 bool InputDevice::IsPressed(InputAction action) const
@@ -277,3 +273,13 @@ void InputDevice::UpdateState()
 }
 
 InputDevice::~InputDevice() = default;
+
+GameEngine::KeyboardInputDevice::KeyboardInputDevice()
+    : InputDevice{ std::make_unique<KeyboardImpl>() }
+{
+}
+
+GameEngine::GamepadInputDevice::GamepadInputDevice()
+    : InputDevice{ std::make_unique<GamepadImpl>()}
+{
+}
