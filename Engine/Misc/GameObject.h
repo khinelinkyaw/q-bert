@@ -3,6 +3,8 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/Transform.h>
+#include <Engine/Components/TransformComponent.h>
+
 #include <algorithm>
 #include <memory>
 #include <type_traits>
@@ -18,7 +20,7 @@ namespace GameEngine
     {
     private:
         bool m_MarkedForDeletion{ false };
-        Transform m_Transform{};
+        TransformComponent m_Transform{this};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
     public:
@@ -26,9 +28,11 @@ namespace GameEngine
         void Update();
         void Render() const;
 
-        Transform GetTransform() const { return m_Transform; }
+        TransformComponent* GetTransform() { return &m_Transform; }
+        //TransformComponent GetTransform() const { return m_Transform; }
+
         void SetPosition(float x, float y);
-        void SetPosition(Transform newPosition);
+        void SetPosition(glm::vec3 newPos);
 
         template<typename ComponentType> requires DerivedComponent<ComponentType>
         ComponentType* AddComponent();

@@ -31,7 +31,7 @@ void GameObject::Update()
 
 void GameObject::Render() const
 {
-    const auto& pos = m_Transform.GetPosition();
+    const auto& pos = m_Transform.GetWorldPosition();
 
     for (const auto& component : m_Components)
     {
@@ -41,12 +41,12 @@ void GameObject::Render() const
 
 void GameObject::SetPosition(float x, float y)
 {
-    m_Transform.SetPosition(x, y, 0.0f);
+    m_Transform.SetLocalPosition(glm::vec3{ x, y, 0.f });
 }
 
-void GameObject::SetPosition(Transform newPosition)
+void GameObject::SetPosition(glm::vec3 newPos)
 {
-    m_Transform = newPosition;
+    m_Transform.SetLocalPosition(newPos);
 }
 
 void GameObject::RemoveComponent(size_t index)

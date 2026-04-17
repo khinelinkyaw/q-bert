@@ -41,24 +41,26 @@ namespace Game
         obj->SetPosition(20, 20);
         scene.Add(std::move(obj));
 
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
-        obj->AddComponent<GameEngine::ControllerComponent>();
-        auto pPlayer1Comp{ obj->AddComponent<PlayerComponent>() };
+        auto player1{ std::make_unique<GameEngine::GameObject>() };
+        player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
+        player1->AddComponent<GameEngine::ControllerComponent>();
+        auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");
         //go->AddComponent<HealthComponent>();
-        GameEngine::InputManager::GetInstance().RegisterController(obj->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
-        obj->SetPosition(500, 500);
-        scene.Add(std::move(obj));
+        GameEngine::InputManager::GetInstance().RegisterController(player1->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
+        player1->SetPosition(500, 500);
 
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
-        obj->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
-        auto pPlayer2Comp{ obj->AddComponent<PlayerComponent>() };
+        auto player2{ std::make_unique<GameEngine::GameObject>() };
+        player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
+        player2->AddComponent<GameEngine::ControllerComponent>()->SetSpeed(300.f);
+        auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };
         pPlayer2Comp->SetName("Player 2");
-        GameEngine::InputManager::GetInstance().RegisterController(obj->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
-        obj->SetPosition(600, 500);
-        scene.Add(std::move(obj));
+        GameEngine::InputManager::GetInstance().RegisterController(player2->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
+        player2->SetPosition(50, 50);
+        player2->GetTransform()->SetParent(player1.get());
+
+        scene.Add(std::move(player1));
+        scene.Add(std::move(player2));
 
         obj = std::make_unique<GameEngine::GameObject>();
         obj->SetPosition(20, 70);

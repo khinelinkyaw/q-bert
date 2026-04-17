@@ -6,6 +6,8 @@
 
 namespace GameEngine
 {
+    using vector3 = glm::vec3;
+
     enum class CommandState
     {
         Initial,
@@ -25,9 +27,9 @@ namespace GameEngine
 
     class MoveCommand final : public Command
     {
-        Transform m_Movement{};
+        vector3 m_Movement{};
     public:
-        void SetMovement(const Transform& movement) { m_Movement = movement; }
+        void SetMovement(vector3 const& movement) { m_Movement = movement; }
         void Execute(GameObject& gameObject) override;
 
         MoveCommand(float x = 0.f, float y = 0.f);
