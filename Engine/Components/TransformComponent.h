@@ -30,7 +30,7 @@ namespace GameEngine
 #pragma region BaseComponentFunctions
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vector3 const&) const {};
+        void Render(vector3 const&) const override {};
 #pragma endregion
 
         vector3 GetLocalPosition() const;
