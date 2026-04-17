@@ -22,13 +22,12 @@ namespace GameEngine
         Gamepad
     };
 
-    class InputDevice final
+    class InputDevice
     {
-    protected:
+    public:
         class InputDeviceImpl;
-        class KeyboardInputDeviceImpl;
-        class GamepadInputDeviceImpl;
-        InputDeviceImpl* m_Pimpl;
+    private:
+        std::unique_ptr<InputDeviceImpl> m_Pimpl;
 
     public:
         bool IsPressed(InputAction action) const;

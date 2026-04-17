@@ -30,6 +30,7 @@
 #pragma warning (push)
 #pragma warning (disable:4996)
 #include <steam_api.h>
+#include <steam_api_common.h>
 #pragma warning (pop)
 #endif
 
