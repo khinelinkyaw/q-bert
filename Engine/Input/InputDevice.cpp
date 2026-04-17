@@ -179,7 +179,7 @@ public:
     ~GamepadImpl() override = default;
 };
 
-GamepadInputDevice::GamepadImpl()
+GamepadInputDevice::GamepadImpl::GamepadImpl()
     : m_pGamepad{}
     , m_KeyStates{}
 {
