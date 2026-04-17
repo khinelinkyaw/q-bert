@@ -18,9 +18,9 @@ namespace Game
         float m_Speed;
 
     public:
-        void FixedUpdate();
+        void FixedUpdate() override;
         void Update() override {};
-        void Render(glm::vec3 const&) const {};
+        void Render(glm::vec3 const&) const override {};
 
         void Init(glm::vec3 pivot, float radius, float speed);
 
