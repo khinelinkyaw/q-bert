@@ -44,6 +44,8 @@ namespace GameEngine
             { Pivot::RightLevel,    {Direction::Right, Direction::Level} },
             { Pivot::RightDown,     {Direction::Right, Direction::Down} }
         };
+
+        int constexpr MAX_CONTROLLER_COUNT{ 4 };
     }
 }
 
