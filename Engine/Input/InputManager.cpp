@@ -1,43 +1,24 @@
-#include <Engine/Components/ControllerComponent.h>
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputManager.h>
 
 #include <SDL3/SDL_events.h>
-#include <memory>
-#include <utility>
 
 using namespace GameEngine;
 
-InputDevice* GameEngine::InputManager::GetInputDevice(InputManager::InputSlot inputSlot)
+GamepadInputDevice& GameEngine::InputManager::GetGamepadInputDevice(int playerIndex)
 {
-    auto inputDeviceIter{ m_InputDevices.find(inputSlot) };
-
-    if (inputDeviceIter != m_InputDevices.end())
+    for (GamepadInputDevice& gamepadInputDevice : m_GamepadInputDevices)
     {
-        return inputDeviceIter->second.get();
+        if (gamepadInputDevice.GetPlayerIndex() == playerIndex)
+        {
+            return gamepadInputDevice;
+        }
     }
 
-    return nullptr;
-}
+    GamepadInputDevice::RefreshGamepads();
 
-void InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
-{
-    struct ControllerInfo newControllerInfo {};
-
-    newControllerInfo.m_PlayerController = controller;
-    newControllerInfo.m_InputType = inputType;
-
-    switch (inputType)
-    {
-    case InputDeviceType::Keyboard:
-        newControllerInfo.m_InputDevice = std::make_unique<KeyboardInputDevice>();
-        break;
-    case InputDeviceType::Gamepad:
-        newControllerInfo.m_InputDevice = std::make_unique<GamepadInputDevice>();
-        break;
-    }
-
-    m_PlayerControllers.push_back(std::move(newControllerInfo));
+    m_GamepadInputDevices.emplace_back(playerIndex);
+    return m_GamepadInputDevices.back();
 }
 
 bool InputManager::ProcessInput()
@@ -51,18 +32,12 @@ bool InputManager::ProcessInput()
         }
     }
 
-    for (ControllerInfo& controllerInfo : m_PlayerControllers)
+    m_KeyboardInputDevice.UpdateState();
+
+    for (GamepadInputDevice& gamepadInputDevice : m_GamepadInputDevices)
     {
-        controllerInfo.m_InputDevice->UpdateState();
-        controllerInfo.m_PlayerController->ProcessInput(*controllerInfo.m_InputDevice);
+        gamepadInputDevice.UpdateState();
     }
 
     return true;
-}
-
-GameEngine::InputManager::InputManager()
-    : m_PlayerControllers{}
-    , m_InputDevices{}
-{
-    m_InputDevices.insert({ InputSlot::Keyboard, std::make_unique<KeyboardInputDevice>() });
 }

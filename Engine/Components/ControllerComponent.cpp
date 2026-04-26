@@ -3,6 +3,7 @@
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Misc/GameObject.h>
+#include <cassert>
 #include <memory>
 
 using namespace GameEngine;
@@ -21,32 +22,33 @@ void ControllerComponent::ExecuteCommands()
     }
 }
 
-void ControllerComponent::ProcessInput(InputDevice& inputDevice)
+void ControllerComponent::ProcessInput()
 {
     // Where is the origin?
     // Top left is the origin (0,0)
+    assert(m_pInputDevice != nullptr);
 
-    if (inputDevice.IsDown(InputAction::MoveUp))
+    if (m_pInputDevice->IsDown(InputAction::MoveUp))
     {
         AddCommand<MoveCommand>(0.f, -1.0f);
     }
-    if (inputDevice.IsDown(InputAction::MoveRight))
+    if (m_pInputDevice->IsDown(InputAction::MoveRight))
     {
         AddCommand<MoveCommand>(1.f, 0.0f);
     }
-    if (inputDevice.IsDown(InputAction::MoveDown))
+    if (m_pInputDevice->IsDown(InputAction::MoveDown))
     {
         AddCommand<MoveCommand>(0.f, 1.0f);
     }
-    if (inputDevice.IsDown(InputAction::MoveLeft))
+    if (m_pInputDevice->IsDown(InputAction::MoveLeft))
     {
         AddCommand<MoveCommand>(-1.f, 0.0f);
     }
-    if (inputDevice.IsReleased(InputAction::TakeDamage))
+    if (m_pInputDevice->IsReleased(InputAction::TakeDamage))
     {
         AddCommand<TakeDamageCommand>();
     }
-    if (inputDevice.IsReleased(InputAction::IncreaseScore))
+    if (m_pInputDevice->IsReleased(InputAction::IncreaseScore))
     {
         AddCommand<IncreaseScore>();
     }
@@ -54,6 +56,7 @@ void ControllerComponent::ProcessInput(InputDevice& inputDevice)
 
 void ControllerComponent::FixedUpdate()
 {
+    ProcessInput();
     ExecuteCommands();
 }
 

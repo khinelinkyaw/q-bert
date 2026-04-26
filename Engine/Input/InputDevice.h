@@ -1,10 +1,7 @@
 #ifndef INPUT_DEVICE_H
 #define INPUT_DEVICE_H
 
-#include <Engine/Components/ControllerComponent.h>
-#include <SDL3/SDL_gamepad.h>
 #include <array>
-#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -45,10 +42,6 @@ namespace GameEngine
         virtual void UpdateState() = 0;
 
         InputDevice() = default;
-        InputDevice(InputDevice const& other) = delete;
-        InputDevice(InputDevice&& other) = delete;
-        InputDevice& operator=(InputDevice const& other) = delete;
-        InputDevice& operator=(InputDevice&& other) = delete;
         virtual ~InputDevice() = default;
     };
 
@@ -68,28 +61,26 @@ namespace GameEngine
         ~KeyboardInputDevice() override = default;
     };
 
+    class GamepadMapper;
     class GamepadInputDevice final : public InputDevice
     {
     private:
         static int constexpr m_NumButtons{ 6 };
         std::array<std::array<bool, m_NumButtons>, 2> m_KeyStates{};
-        SDL_Gamepad* m_pGamepad{};
+        int m_PlayerIndex{-1};
 
         bool GetPreviousKeyState(InputAction action) const override;
         bool GetCurrentKeyState(InputAction action) const override;
 
     public:
+        static void RefreshGamepads();
+
         void UpdateState() override;
+        int GetPlayerIndex() const { return m_PlayerIndex; }
 
-        GamepadInputDevice();
+        GamepadInputDevice() = default;
+        GamepadInputDevice(int playerIndex);
         ~GamepadInputDevice() override = default;
-    };
-
-    struct ControllerInfo final
-    {
-        ControllerComponent* m_PlayerController{ nullptr };
-        InputDeviceType m_InputType{ InputDeviceType::Keyboard };
-        std::unique_ptr<InputDevice> m_InputDevice{ nullptr };
     };
 }
 
