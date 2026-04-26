@@ -1,21 +1,24 @@
-#include <Engine/Components/ControllerComponent.h>
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputManager.h>
+
 #include <SDL3/SDL_events.h>
-#include <memory>
-#include <utility>
 
 using namespace GameEngine;
 
-void InputManager::RegisterController(ControllerComponent* controller, InputDeviceType inputType)
+GamepadInputDevice& GameEngine::InputManager::GetGamepadInputDevice(int playerIndex)
 {
-    struct ControllerInfo newControllerInfo {};
+    for (GamepadInputDevice& gamepadInputDevice : m_GamepadInputDevices)
+    {
+        if (gamepadInputDevice.GetPlayerIndex() == playerIndex)
+        {
+            return gamepadInputDevice;
+        }
+    }
 
-    newControllerInfo.m_PlayerController = controller;
-    newControllerInfo.m_InputType = inputType;
-    newControllerInfo.m_InputDevice = std::make_unique<InputDevice>(inputType);
+    GamepadInputDevice::RefreshGamepads();
 
-    m_PlayerControllers.push_back(std::move(newControllerInfo));
+    m_GamepadInputDevices.emplace_back(playerIndex);
+    return m_GamepadInputDevices.back();
 }
 
 bool InputManager::ProcessInput()
@@ -27,20 +30,13 @@ bool InputManager::ProcessInput()
         {
             return false;
         }
-        if (e.type == SDL_EVENT_KEY_DOWN)
-        {
-        }
-        if (e.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-        {
-
-        }
-        // etc...
     }
 
-    for (ControllerInfo& controllerInfo : m_PlayerControllers)
+    m_KeyboardInputDevice.UpdateState();
+
+    for (GamepadInputDevice& gamepadInputDevice : m_GamepadInputDevices)
     {
-        controllerInfo.m_InputDevice->UpdateState();
-        controllerInfo.m_PlayerController->ProcessInput(*controllerInfo.m_InputDevice);
+        gamepadInputDevice.UpdateState();
     }
 
     return true;

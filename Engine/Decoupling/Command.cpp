@@ -11,15 +11,15 @@ using namespace GameEngine;
 
 void MoveCommand::Execute(GameObject& gameObject)
 {
-    glm::vec3 l_MovingDirection{ glm::normalize(m_Movement.GetPosition()) };
-    l_MovingDirection *= gameObject.GetComponent<ControllerComponent>()->GetSpeed() * Minigin::GetDeltaTime();
-    auto const l_NewPosition{ Transform{l_MovingDirection} + gameObject.GetTransform() };
-    gameObject.SetPosition(l_NewPosition);
+    vector3 movingDirection{ glm::normalize(m_Movement) };
+    movingDirection *= gameObject.GetComponent<ControllerComponent>()->GetSpeed() * Minigin::GetDeltaTime();
+    auto const newPosition{ movingDirection + gameObject.GetTransform()->GetLocalPosition() };
+    gameObject.SetPosition(newPosition);
     m_State = CommandState::Success;
 }
 
 MoveCommand::MoveCommand(float x, float y)
-    : m_Movement(x, y)
+    : m_Movement{ x, y, 0.f }
 {
 }
 

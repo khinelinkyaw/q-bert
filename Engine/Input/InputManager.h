@@ -11,11 +11,18 @@ namespace GameEngine
     class InputManager final : public Singleton<InputManager>
     {
     private:
-        std::vector<ControllerInfo> m_PlayerControllers{};
+        KeyboardInputDevice m_KeyboardInputDevice{};
+        std::vector<GamepadInputDevice> m_GamepadInputDevices{};
+        GamepadInputDevice m_NullGamepadInputDevice{};
 
     public:
-        void RegisterController(ControllerComponent* controller, InputDeviceType inputType = InputDeviceType::Keyboard);
+        KeyboardInputDevice& GetKeyboardInputDevice() { return m_KeyboardInputDevice; }
+        GamepadInputDevice& GetGamepadInputDevice(int playerIndex);
+
         bool ProcessInput();
+
+        InputManager() = default;
+        ~InputManager() override = default;
     };
 }
 

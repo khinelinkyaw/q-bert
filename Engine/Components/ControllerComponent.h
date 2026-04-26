@@ -3,6 +3,8 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Command.h>
+#include <Engine/Misc/GameObject.h>
+
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>
@@ -19,6 +21,7 @@ namespace GameEngine
     private:
         static float constexpr DEFAULT_SPEED{ 100.f };
 
+        InputDevice* m_pInputDevice{};
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{};
 
@@ -27,10 +30,11 @@ namespace GameEngine
         void ClearCommands();
         void ExecuteCommands();
     public:
+        void SetInputDevice(InputDevice* inputDevice) { m_pInputDevice = inputDevice; }
 
         void SetSpeed(float speed) { m_Speed = speed; }
         float GetSpeed() const { return m_Speed; }
-        void ProcessInput(InputDevice& inputDevice);
+        void ProcessInput();
 
         void FixedUpdate() override;
         void Update() override;
