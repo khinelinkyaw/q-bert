@@ -1,73 +1,58 @@
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_joystick.h>
-#include <SDL3/SDL_scancode.h>
 
 #include "InputDevice.h"
 
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_keyboard.h>
 #include <array>
-#include <unordered_map>
 #include <vector>
 
 using namespace GameEngine;
 
-bool InputDevice::IsPressed(InputAction action) const
+bool InputDevice::IsPressed(int key) const
 {
-    return GetPreviousKeyState(action) && GetCurrentKeyState(action);
+    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
 }
 
-bool InputDevice::IsReleased(InputAction action) const
+bool InputDevice::IsReleased(int key) const
 {
-    return GetPreviousKeyState(action) && GetCurrentKeyState(action);
+    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
 }
 
-bool InputDevice::IsHeld(InputAction action) const
+bool InputDevice::IsHeld(int key) const
 {
-    return GetPreviousKeyState(action) && GetCurrentKeyState(action);
+    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
 }
 
-bool InputDevice::IsDown(InputAction action) const
+bool InputDevice::IsDown(int key) const
 {
-    return GetCurrentKeyState(action);
+    return GetCurrentKeyState(key);
 }
 
-bool InputDevice::IsUp(InputAction action) const
+bool InputDevice::IsUp(int key) const
 {
-    return GetCurrentKeyState(action);
+    return GetCurrentKeyState(key);
 }
 
 GameEngine::KeyboardInputDevice::KeyboardInputDevice()
 {
+    m_Type = InputDeviceType::Keyboard;
     m_KeyStatesPtr = SDL_GetKeyboardState(&m_NumKeys);
-
-    // TODO: make this configurable
-    m_Keymap = {
-        { InputAction::MoveUp, SDL_SCANCODE_W },
-        { InputAction::MoveLeft, SDL_SCANCODE_A },
-        { InputAction::MoveDown, SDL_SCANCODE_S },
-        { InputAction::MoveRight, SDL_SCANCODE_D },
-        { InputAction::TakeDamage, SDL_SCANCODE_X},
-        { InputAction::IncreaseScore, SDL_SCANCODE_Z }
-    };
 
     m_KeyStates[0].resize(m_NumKeys);
     m_KeyStates[1].resize(m_NumKeys);
 }
 
-bool GameEngine::KeyboardInputDevice::GetPreviousKeyState(InputAction action) const
+bool GameEngine::KeyboardInputDevice::GetPreviousKeyState(int key) const
 {
     int previousStateIndex = 1 - m_CurrentStateIndex;
-    int scancode = m_Keymap.at(action);
-
-    return m_KeyStates[previousStateIndex][scancode];
+    return m_KeyStates[previousStateIndex][key];
 }
 
-bool GameEngine::KeyboardInputDevice::GetCurrentKeyState(InputAction action) const
+bool GameEngine::KeyboardInputDevice::GetCurrentKeyState(int key) const
 {
-    int scancode = m_Keymap.at(action);
-
-    return m_KeyStates[m_CurrentStateIndex][scancode];
+    return m_KeyStates[m_CurrentStateIndex][key];
 }
 
 void GameEngine::KeyboardInputDevice::UpdateState()
@@ -87,31 +72,19 @@ void GameEngine::KeyboardInputDevice::UpdateState()
 GameEngine::GamepadInputDevice::GamepadInputDevice(int playerIndex)
     : m_PlayerIndex{ playerIndex }
 {
-    // TODO: make this default parameter (better API visibility)
-    // TODO: make this configurable
-    m_Keymap = {
-        { InputAction::MoveUp, SDL_GAMEPAD_BUTTON_DPAD_UP },
-        { InputAction::MoveLeft, SDL_GAMEPAD_BUTTON_DPAD_LEFT },
-        { InputAction::MoveDown, SDL_GAMEPAD_BUTTON_DPAD_DOWN },
-        { InputAction::MoveRight, SDL_GAMEPAD_BUTTON_DPAD_RIGHT },
-        { InputAction::TakeDamage, SDL_GAMEPAD_BUTTON_SOUTH },
-        { InputAction::IncreaseScore, SDL_GAMEPAD_BUTTON_NORTH}
-    };
+    m_Type = InputDeviceType::Gamepad;
 }
 
-bool GameEngine::GamepadInputDevice::GetPreviousKeyState(InputAction action) const
+bool GameEngine::GamepadInputDevice::GetPreviousKeyState(int key) const
 {
     int previousStateIndex = 1 - m_CurrentStateIndex;
-    int SDLButtonIndex = static_cast<int>(action);
 
-    return m_KeyStates[previousStateIndex][SDLButtonIndex];
+    return m_KeyStates[previousStateIndex][key];
 }
 
-bool GameEngine::GamepadInputDevice::GetCurrentKeyState(InputAction action) const
+bool GameEngine::GamepadInputDevice::GetCurrentKeyState(int key) const
 {
-    int SDLButtonIndex = static_cast<int>(action);
-
-    return m_KeyStates[m_CurrentStateIndex][SDLButtonIndex];
+    return m_KeyStates[m_CurrentStateIndex][key];
 }
 
 void GameEngine::GamepadInputDevice::RefreshGamepads()
@@ -139,11 +112,7 @@ void GameEngine::GamepadInputDevice::UpdateState()
 
     for (int index = 0; index < m_NumButtons; ++index)
     {
-        SDL_GamepadButton SDLButton = static_cast<SDL_GamepadButton>(m_Keymap.at(static_cast<InputAction>(index)));
-        
-        // Might throw an exception if the gamepad is disconnected during the update, 
-        // but this is a rare edge case and can be handled by refreshing the gamepads in the next update
-        m_KeyStates[nextStateIndex][index] = SDL_GetGamepadButton(pGamepad, SDLButton);
+        m_KeyStates[nextStateIndex][index] = SDL_GetGamepadButton(pGamepad, static_cast<SDL_GamepadButton>(index));
     }
 
     m_CurrentStateIndex = nextStateIndex;

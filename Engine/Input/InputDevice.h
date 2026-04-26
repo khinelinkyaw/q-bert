@@ -1,24 +1,15 @@
 #ifndef INPUT_DEVICE_H
 #define INPUT_DEVICE_H
 
+#include <SDL3/SDL_gamepad.h>
 #include <array>
-#include <unordered_map>
 #include <vector>
 
 namespace GameEngine
 {
-    enum class InputAction
-    {
-        MoveUp,
-        MoveLeft,
-        MoveDown,
-        MoveRight,
-        TakeDamage,
-        IncreaseScore
-    };
-
     enum class InputDeviceType
     {
+        None,
         Keyboard,
         Gamepad
     };
@@ -27,17 +18,19 @@ namespace GameEngine
     {
     protected:
         int m_CurrentStateIndex{ 0 };
-        std::unordered_map<InputAction, int> m_Keymap{};
+        InputDeviceType m_Type{ InputDeviceType::None };
 
-        virtual bool GetPreviousKeyState(InputAction action) const = 0;
-        virtual bool GetCurrentKeyState(InputAction action) const = 0;
+        virtual bool GetPreviousKeyState(int key) const = 0;
+        virtual bool GetCurrentKeyState(int key) const = 0;
 
     public:
-        bool IsPressed(InputAction action) const;
-        bool IsReleased(InputAction action) const;
-        bool IsHeld(InputAction action) const;
-        bool IsDown(InputAction action) const;
-        bool IsUp(InputAction action) const;
+        bool IsPressed(int key) const;
+        bool IsReleased(int key) const;
+        bool IsHeld(int key) const;
+        bool IsDown(int key) const;
+        bool IsUp(int key) const;
+
+        InputDeviceType GetType() const { return m_Type; }
 
         virtual void UpdateState() = 0;
 
@@ -52,8 +45,8 @@ namespace GameEngine
         std::array<std::vector<bool>, 2> m_KeyStates{};
         bool const* m_KeyStatesPtr{};
 
-        bool GetPreviousKeyState(InputAction action) const override;
-        bool GetCurrentKeyState(InputAction action) const override;
+        virtual bool GetPreviousKeyState(int key) const override;
+        virtual bool GetCurrentKeyState(int key) const override;
     public:
         void UpdateState() override;
 
@@ -61,16 +54,15 @@ namespace GameEngine
         ~KeyboardInputDevice() override = default;
     };
 
-    class GamepadMapper;
     class GamepadInputDevice final : public InputDevice
     {
     private:
-        static int constexpr m_NumButtons{ 6 };
+        static int constexpr m_NumButtons{ SDL_GAMEPAD_BUTTON_COUNT + 1 };
         std::array<std::array<bool, m_NumButtons>, 2> m_KeyStates{};
         int m_PlayerIndex{-1};
 
-        bool GetPreviousKeyState(InputAction action) const override;
-        bool GetCurrentKeyState(InputAction action) const override;
+        bool GetPreviousKeyState(int key) const override;
+        bool GetCurrentKeyState(int key) const override;
 
     public:
         static void RefreshGamepads();

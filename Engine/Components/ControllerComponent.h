@@ -5,6 +5,7 @@
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Misc/GameObject.h>
 
+#include <Engine/Input/InputMapping.h>
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>
@@ -23,24 +24,27 @@ namespace GameEngine
 
         InputDevice* m_pInputDevice{};
         std::list<std::unique_ptr<Command>> m_Commands{};
-        float m_Speed{};
+        float m_Speed{ DEFAULT_SPEED };
+        std::unique_ptr<InputMapping> m_InputMappings{ std::make_unique<InputMapping>() };
 
         template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
         void AddCommand(Args&& ... args);
         void ClearCommands();
         void ExecuteCommands();
+
     public:
+        void SetInputMappings(InputMapping const& inputMappings);
+
         void SetInputDevice(InputDevice* inputDevice) { m_pInputDevice = inputDevice; }
+        void ProcessInput();
 
         void SetSpeed(float speed) { m_Speed = speed; }
         float GetSpeed() const { return m_Speed; }
-        void ProcessInput();
 
         void FixedUpdate() override;
         void Update() override;
         void Render(glm::vec3 const&) const override;
 
-        //ControllerComponent(GameObject* owner, float speed = 1.f);
         ControllerComponent(GameObject* owner);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;

@@ -7,12 +7,16 @@
 #include <Engine/Scene.h>
 #include <Engine/SceneManager.h>
 
-#include <Game/Components/Observers.h>
-//#include <Game/Components/Rotator.h>
-#include <Game/Components/PlayerComponent.h>
 #include <Game/AchievementSystem.h>
+#include <Game/Components/Observers.h>
+#include <Game/Components/PlayerComponent.h>
 
+#include <Engine/Input/InputMapping.h>
+#include <SDL3/SDL_gamepad.h>
+#include <SDL3/SDL_scancode.h>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <utility>
 
 namespace Game
@@ -41,26 +45,45 @@ namespace Game
         obj->SetPosition(20, 20);
         scene.Add(std::move(obj));
 
+        std::unordered_map<std::string, SDL_Scancode> keyboardMappings{
+            {"MoveUp", SDL_SCANCODE_UP},
+            {"MoveDown", SDL_SCANCODE_DOWN},
+            {"MoveLeft", SDL_SCANCODE_LEFT},
+            {"MoveRight", SDL_SCANCODE_RIGHT},
+            {"TakeDamage", SDL_SCANCODE_Z},
+            {"IncreaseScore", SDL_SCANCODE_X}
+        };
+
+        std::unordered_map<std::string, SDL_GamepadButton> gamepadMappings{
+            {"MoveUp", SDL_GAMEPAD_BUTTON_DPAD_UP},
+            {"MoveDown", SDL_GAMEPAD_BUTTON_DPAD_DOWN},
+            {"MoveLeft", SDL_GAMEPAD_BUTTON_DPAD_LEFT},
+            {"MoveRight", SDL_GAMEPAD_BUTTON_DPAD_RIGHT},
+            {"TakeDamage", SDL_GAMEPAD_BUTTON_SOUTH},
+            {"IncreaseScore", SDL_GAMEPAD_BUTTON_NORTH}
+        };
+
+        auto inputMapping{ GameEngine::InputMapping{} };
+        inputMapping.SetKeyboardMappings(keyboardMappings);
+        inputMapping.SetGamepadMappings(gamepadMappings);
+
         auto player1{ std::make_unique<GameEngine::GameObject>() };
-        //player1->AddComponent<Rotator>()->Init({100.f,100.f,0.0f}, 10.f, -5.f);
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         auto p1Controller{ player1->AddComponent<GameEngine::ControllerComponent>() };
         p1Controller->SetInputDevice(&GameEngine::InputManager::GetInstance().GetKeyboardInputDevice());
+        p1Controller->SetInputMappings(inputMapping);
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");
-        //go->AddComponent<HealthComponent>();
-        //GameEngine::InputManager::GetInstance().RegisterController(player1->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Keyboard);
         player1->SetPosition(500, 500);
 
         auto player2{ std::make_unique<GameEngine::GameObject>() };
-        //player2->AddComponent<Rotator>()->Init({}, 50.f, 5.f);
         player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         auto p2Controller{ player2->AddComponent<GameEngine::ControllerComponent>() };
         p2Controller->SetInputDevice(&GameEngine::InputManager::GetInstance().GetGamepadInputDevice(0));
         p2Controller->SetSpeed(300.f);
+        p2Controller->SetInputMappings(inputMapping);
         auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };
         pPlayer2Comp->SetName("Player 2");
-        //GameEngine::InputManager::GetInstance().RegisterController(player2->GetComponent<GameEngine::ControllerComponent>(), GameEngine::InputDeviceType::Gamepad);
         player2->SetPosition(50, 50);
         player2->GetTransform()->SetParent(player1.get());
 
