@@ -13,8 +13,7 @@ else()
   set(TARGET_PARAM WIN32)
 endif()
 
-# list source files here
-add_executable(${TARGET_NAME} ${TARGET_PARAM}
+set(GameEngine
     "Engine/Rendering/Font.cpp"
     "Engine/Misc/GameObject.cpp"
     "Engine/Input/InputManager.cpp"
@@ -41,16 +40,39 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
     "Engine/Decoupling/MessageQueue.h"
     "Engine/Decoupling/MessageQueue.cpp"
     "Engine/Utils/CompileTimeHashing.h"
-    "Game/Main.cpp"
-    "Game/Components/Observers.h"
-    "Game/Components/Observers.cpp"
     "Engine/UI/UIUtils.h"
     "Engine/Decoupling/Receiver.h"
     "Engine/Decoupling/MiniMessage.h"
     "Engine/Decoupling/MiniMessage.cpp"
     "Engine/Decoupling/Observer.h"
     "Engine/Misc/Constants.h"
-    "Engine/Misc/Enums.h" "Engine/UI/CanvasComponent.h" "Engine/UI/CanvasComponent.cpp" "Engine/Utils/Colors.h" "Engine/Decoupling/Observer.cpp" "Game/Components/PlayerComponent.h" "Game/Components/PlayerComponent.cpp" "Game/AchievementSystem.h" "Game/AchievementSystem.cpp" "Engine/Components/TransformComponent.h" "Engine/Components/TransformComponent.cpp" "Game/Components/Rotator.h" "Game/Components/Rotator.cpp" "Engine/Input/InputMapping.h" "Engine/Input/InputMapping.cpp")
+    "Engine/Misc/Enums.h"
+    "Engine/UI/CanvasComponent.h"
+    "Engine/UI/CanvasComponent.cpp"
+    "Engine/Utils/Colors.h"
+    "Engine/Decoupling/Observer.cpp"
+    "Engine/Components/TransformComponent.h"
+    "Engine/Components/TransformComponent.cpp"
+    "Engine/Input/InputMapping.h"
+    "Engine/Input/InputMapping.cpp"
+)
+
+add_library(GameEngine STATIC ${GameEngine})
+
+target_compile_features(GameEngine PUBLIC cxx_std_20)
+
+# list source files here
+add_executable(${TARGET_NAME} ${TARGET_PARAM}
+    "Game/Main.cpp"
+    "Game/Components/Observers.h"
+    "Game/Components/Observers.cpp"
+    "Game/Components/PlayerComponent.h"
+    "Game/Components/PlayerComponent.cpp"
+    "Game/AchievementSystem.h"
+    "Game/AchievementSystem.cpp"
+    "Game/Components/Rotator.h"
+    "Game/Components/Rotator.cpp"
+)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -137,6 +159,19 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
+target_include_directories(GameEngine PUBLIC
+  ${CMAKE_SOURCE_DIR}
+  ${VLD_INCLUDE_DIR}
+)
+
+target_link_libraries(GameEngine PUBLIC
+  SDL3::SDL3
+  SDL3_ttf::SDL3_ttf
+  glm::glm
+  ${LIBS}
+  ${VLD_LIBRARIES}
+)
+
 target_include_directories("${TARGET_NAME}" PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${VLD_INCLUDE_DIR}
@@ -148,6 +183,7 @@ target_link_libraries("${TARGET_NAME}" PUBLIC
   glm::glm
   ${LIBS}
   ${VLD_LIBRARIES}
+  GameEngine
 )
 
 if(MSVC)
@@ -205,6 +241,9 @@ elseif(WIN32)
   endforeach()
 
   if(Steamworks_FOUND)
+    target_link_libraries(GameEngine PUBLIC Steamworks::Steamworks)
+    target_compile_definitions(GameEngine PRIVATE USE_STEAMWORKS)
+
     target_link_libraries("${TARGET_NAME}" PUBLIC Steamworks::Steamworks)
     target_compile_definitions(${TARGET_NAME} PRIVATE USE_STEAMWORKS)
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD

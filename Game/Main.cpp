@@ -6,17 +6,15 @@
 #include <Engine/Misc/GameObject.h>
 #include <Engine/Scene.h>
 #include <Engine/SceneManager.h>
+#include <Engine/Input/InputMapping.h>
 
 #include <Game/AchievementSystem.h>
 #include <Game/Components/Observers.h>
 #include <Game/Components/PlayerComponent.h>
 
-#include <Engine/Input/InputMapping.h>
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_scancode.h>
 #include <memory>
-#include <string>
-#include <unordered_map>
 #include <utility>
 
 namespace Game
