@@ -45,27 +45,17 @@ namespace Game
         obj->SetPosition(20, 20);
         scene.Add(std::move(obj));
 
-        std::unordered_map<std::string, SDL_Scancode> keyboardMappings{
-            {"MoveUp", SDL_SCANCODE_UP},
-            {"MoveDown", SDL_SCANCODE_DOWN},
-            {"MoveLeft", SDL_SCANCODE_LEFT},
-            {"MoveRight", SDL_SCANCODE_RIGHT},
-            {"TakeDamage", SDL_SCANCODE_Z},
-            {"IncreaseScore", SDL_SCANCODE_X}
-        };
-
-        std::unordered_map<std::string, SDL_GamepadButton> gamepadMappings{
-            {"MoveUp", SDL_GAMEPAD_BUTTON_DPAD_UP},
-            {"MoveDown", SDL_GAMEPAD_BUTTON_DPAD_DOWN},
-            {"MoveLeft", SDL_GAMEPAD_BUTTON_DPAD_LEFT},
-            {"MoveRight", SDL_GAMEPAD_BUTTON_DPAD_RIGHT},
-            {"TakeDamage", SDL_GAMEPAD_BUTTON_SOUTH},
-            {"IncreaseScore", SDL_GAMEPAD_BUTTON_NORTH}
+        GameEngine::InputMapping::ActionMapping actionMappings{
+            {"MoveUp", {SDL_SCANCODE_UP, SDL_GAMEPAD_BUTTON_DPAD_UP}},
+            {"MoveDown", {SDL_SCANCODE_DOWN, SDL_GAMEPAD_BUTTON_DPAD_DOWN}},
+            {"MoveLeft", {SDL_SCANCODE_LEFT, SDL_GAMEPAD_BUTTON_DPAD_LEFT}},
+            {"MoveRight", {SDL_SCANCODE_RIGHT, SDL_GAMEPAD_BUTTON_DPAD_RIGHT}},
+            {"TakeDamage", {SDL_SCANCODE_Z, SDL_GAMEPAD_BUTTON_SOUTH}},
+            {"IncreaseScore", {SDL_SCANCODE_X, SDL_GAMEPAD_BUTTON_NORTH}}
         };
 
         auto inputMapping{ GameEngine::InputMapping{} };
-        inputMapping.SetKeyboardMappings(keyboardMappings);
-        inputMapping.SetGamepadMappings(gamepadMappings);
+        inputMapping.SetActionMappings(actionMappings);
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");

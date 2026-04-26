@@ -4,8 +4,8 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Misc/GameObject.h>
-
 #include <Engine/Input/InputMapping.h>
+
 #include <glm/fwd.hpp>
 #include <list>
 #include <memory>
@@ -42,8 +42,8 @@ namespace GameEngine
         float GetSpeed() const { return m_Speed; }
 
         void FixedUpdate() override;
-        void Update() override;
-        void Render(glm::vec3 const&) const override;
+        void Update() override {};
+        void Render(glm::vec3 const&) const override {};
 
         ControllerComponent(GameObject* owner);
         ~ControllerComponent() override = default;

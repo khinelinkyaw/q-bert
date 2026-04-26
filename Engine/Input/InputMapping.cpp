@@ -8,9 +8,9 @@ int GameEngine::InputMapping::GetInputKey(std::string const& actionName)
     switch (m_InputDeviceType)
     {
     case InputDeviceType::Keyboard:
-        return static_cast<int>(m_KeyboardMappings[actionName]);
+        return static_cast<int>(m_ActionMappings[actionName].first);
     case InputDeviceType::Gamepad:
-        return static_cast<int>(m_GamepadMappings[actionName]);
+        return static_cast<int>(m_ActionMappings[actionName].second);
     default:
         return -1;
     }

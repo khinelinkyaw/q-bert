@@ -68,14 +68,6 @@ void ControllerComponent::FixedUpdate()
     ExecuteCommands();
 }
 
-void ControllerComponent::Update()
-{
-}
-
-void ControllerComponent::Render(glm::vec3 const&) const
-{
-}
-
 ControllerComponent::ControllerComponent(GameObject* owner)
     : BaseComponent{owner}
 {
