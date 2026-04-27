@@ -13,69 +13,27 @@ else()
   set(TARGET_PARAM WIN32)
 endif()
 
-set(GameEngine
-    "Engine/Rendering/Font.cpp"
-    "Engine/Misc/GameObject.cpp"
-    "Engine/Input/InputManager.cpp"
-    "Engine/Main.cpp"
-    "Engine/Minigin.cpp"
-    "Engine/Rendering/Renderer.cpp"
-    "Engine/ResourceManager.cpp"
-    "Engine/Scene.cpp"
-    "Engine/SceneManager.cpp"
-    "Engine/Components/TextComponent.cpp"
-    "Engine/Rendering/Texture2D.cpp"
-    "Engine/Misc/Transform.cpp"
-    "Engine/Components/BaseComponent.cpp"
-    "Engine/Components/BaseComponent.h"
-    "Engine/Components/FrameCounterComponent.h"
-    "Engine/Components/FrameCounterComponent.cpp"
-    "Engine/Components/TextureComponent.cpp"
-    "Engine/Components/TextureComponent.h"
-    "Engine/Decoupling/Command.h" "Engine/Decoupling/Command.cpp"
-    "Engine/Components/ControllerComponent.h"
-    "Engine/Components/ControllerComponent.cpp"
-    "Engine/Input/InputDevice.h"
-    "Engine/Input/InputDevice.cpp"
-    "Engine/Decoupling/MessageQueue.h"
-    "Engine/Decoupling/MessageQueue.cpp"
-    "Engine/Utils/CompileTimeHashing.h"
-    "Engine/UI/UIUtils.h"
-    "Engine/Decoupling/Receiver.h"
-    "Engine/Decoupling/MiniMessage.h"
-    "Engine/Decoupling/MiniMessage.cpp"
-    "Engine/Decoupling/Observer.h"
-    "Engine/Misc/Constants.h"
-    "Engine/Misc/Enums.h"
-    "Engine/UI/CanvasComponent.h"
-    "Engine/UI/CanvasComponent.cpp"
-    "Engine/Utils/Colors.h"
-    "Engine/Decoupling/Observer.cpp"
-    "Engine/Components/TransformComponent.h"
-    "Engine/Components/TransformComponent.cpp"
-    "Engine/Input/InputMapping.h"
-    "Engine/Input/InputMapping.cpp"
+add_library(GameEngine STATIC)
+
+file(GLOB_RECURSE ENGINE_SOURCE_FILES CONFIGURE_DEPENDS Engine/*.cpp)
+file(GLOB_RECURSE ENGINE_HEADER_FILES CONFIGURE_DEPENDS Engine/*.h)
+
+target_sources(GameEngine 
+	PRIVATE 
+		${ENGINE_SOURCE_FILES} 
+		
+	PUBLIC
+		FILE_SET engineHeaders
+        TYPE HEADERS
+		FILES
+			${ENGINE_HEADER_FILES}
 )
 
-add_library(GameEngine STATIC ${GameEngine})
+target_compile_features(GameEngine PUBLIC cxx_std_20) # enable c++20 features
 
-target_compile_features(GameEngine PUBLIC cxx_std_20)
-
-# list source files here
-add_executable(${TARGET_NAME} ${TARGET_PARAM}
-    "Game/Main.cpp"
-    "Game/Components/Observers.h"
-    "Game/Components/Observers.cpp"
-    "Game/Components/PlayerComponent.h"
-    "Game/Components/PlayerComponent.cpp"
-    "Game/AchievementSystem.h"
-    "Game/AchievementSystem.cpp"
-    "Game/Components/Rotator.h"
-    "Game/Components/Rotator.cpp"
-)
-
-# enable c++20 features
-target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
+add_executable(${TARGET_NAME} ${TARGET_PARAM})
+add_subdirectory(Game)
+target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20) # enable c++20 features
 
 include(FetchContent)
 # add glm
@@ -159,12 +117,12 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
-target_include_directories(GameEngine PUBLIC
+target_include_directories(GameEngine PRIVATE
   ${CMAKE_SOURCE_DIR}
   ${VLD_INCLUDE_DIR}
 )
 
-target_link_libraries(GameEngine PUBLIC
+target_link_libraries(GameEngine PRIVATE
   SDL3::SDL3
   SDL3_ttf::SDL3_ttf
   glm::glm
@@ -173,17 +131,16 @@ target_link_libraries(GameEngine PUBLIC
 )
 
 target_include_directories("${TARGET_NAME}" PUBLIC
-  ${CMAKE_SOURCE_DIR}
   ${VLD_INCLUDE_DIR}
 )
 
 target_link_libraries("${TARGET_NAME}" PUBLIC
+  GameEngine
   SDL3::SDL3
   SDL3_ttf::SDL3_ttf
   glm::glm
   ${LIBS}
   ${VLD_LIBRARIES}
-  GameEngine
 )
 
 if(MSVC)
