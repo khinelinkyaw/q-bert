@@ -2,8 +2,6 @@
 #include <Engine/Components/ControllerComponent.h>
 #include <Engine/Minigin.h>
 #include <Engine/Misc/GameObject.h>
-#include <Engine/Misc/Transform.h>
-#include <Game/Components/PlayerComponent.h>
 
 #include <glm/ext/vector_common.hpp>
 
@@ -21,18 +19,4 @@ void MoveCommand::Execute(GameObject& gameObject)
 MoveCommand::MoveCommand(float x, float y)
     : m_Movement{ x, y, 0.f }
 {
-}
-
-void GameEngine::TakeDamageCommand::Execute(GameObject& gameObject)
-{
-    auto pPlayerComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
-
-    pPlayerComponent->TakeDamage();
-}
-
-void GameEngine::IncreaseScore::Execute(GameObject& gameObject)
-{
-    auto pPlayerComponent{ gameObject.GetComponent<Game::PlayerComponent>() };
-
-    pPlayerComponent->IncrementScore(10);
 }

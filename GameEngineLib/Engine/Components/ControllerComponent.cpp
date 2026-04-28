@@ -4,9 +4,9 @@
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/GameObject.h>
+
 #include <cassert>
 #include <memory>
-#include <utility>
 
 using namespace GameEngine;
 
@@ -51,14 +51,6 @@ void ControllerComponent::ProcessInput()
     if (m_pInputDevice->IsDown(m_InputMappings->GetInputKey("MoveLeft")))
     {
         AddCommand<MoveCommand>(-1.f, 0.0f);
-    }
-    if (m_pInputDevice->IsReleased(m_InputMappings->GetInputKey("TakeDamage")))
-    {
-        AddCommand<TakeDamageCommand>();
-    }
-    if (m_pInputDevice->IsReleased(m_InputMappings->GetInputKey("IncreaseScore")))
-    {
-        AddCommand<IncreaseScore>();
     }
 }
 

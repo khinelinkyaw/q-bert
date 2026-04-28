@@ -1,0 +1,44 @@
+# Game Engine CMake
+file(GLOB_RECURSE ENGINE_SOURCE_FILES CONFIGURE_DEPENDS *.cpp)
+file(GLOB_RECURSE ENGINE_HEADER_FILES CONFIGURE_DEPENDS *.h)
+
+add_library(GameEngineLib STATIC)
+
+target_sources(GameEngineLib
+    PRIVATE 
+        ${ENGINE_SOURCE_FILES} 
+        
+    PUBLIC
+        FILE_SET gameEngineHeaders
+        TYPE HEADERS
+        FILES
+            ${ENGINE_HEADER_FILES}
+)
+
+target_compile_features(GameEngineLib PRIVATE cxx_std_20) # enable c++20 features
+
+target_include_directories(GameEngineLib
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    PRIVATE
+        ${VLD_INCLUDE_DIR}
+)
+
+target_link_libraries(GameEngineLib PRIVATE
+    SDL3::SDL3
+    SDL3_ttf::SDL3_ttf
+    glm::glm
+    ${VLD_LIBRARIES}
+)
+
+if (WIN32 AND Steamworks_FOUND)
+    target_link_libraries(GameEngineLib PUBLIC Steamworks::Steamworks)
+    target_compile_definitions(GameEngineLib PRIVATE USE_STEAMWORKS)
+endif()
+
+if(MSVC)
+    # compile at warning level 4 + treat warnings as errors
+    target_compile_options(GameEngineLib PRIVATE /W4 /WX)
+else()
+    target_compile_options(GameEngineLib PRIVATE -Wall -Wextra -Werror)
+endif()

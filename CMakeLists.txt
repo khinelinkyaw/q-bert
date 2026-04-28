@@ -1,39 +1,17 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(QBert)
 
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
 
 if(EMSCRIPTEN)
-  set(TARGET_NAME minigin_web)
+  set(TARGET_NAME QBertWeb)
   set(TARGET_PARAM )
 else()
-  set(TARGET_NAME minigin)
+  set(TARGET_NAME QBert)
   set(TARGET_PARAM WIN32)
 endif()
-
-add_library(GameEngine STATIC)
-
-file(GLOB_RECURSE ENGINE_SOURCE_FILES CONFIGURE_DEPENDS Engine/*.cpp)
-file(GLOB_RECURSE ENGINE_HEADER_FILES CONFIGURE_DEPENDS Engine/*.h)
-
-target_sources(GameEngine 
-	PRIVATE 
-		${ENGINE_SOURCE_FILES} 
-		
-	PUBLIC
-		FILE_SET engineHeaders
-        TYPE HEADERS
-		FILES
-			${ENGINE_HEADER_FILES}
-)
-
-target_compile_features(GameEngine PUBLIC cxx_std_20) # enable c++20 features
-
-add_executable(${TARGET_NAME} ${TARGET_PARAM})
-add_subdirectory(Game)
-target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20) # enable c++20 features
 
 include(FetchContent)
 # add glm
@@ -117,25 +95,25 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
-target_include_directories(GameEngine PRIVATE
-  ${CMAKE_SOURCE_DIR}
+add_subdirectory(GameEngineLib)
+
+# Q*Bert CMake
+file(GLOB_RECURSE GAME_SOURCE_FILES CONFIGURE_DEPENDS Game/*.cpp)
+file(GLOB_RECURSE GAME_HEADER_FILES CONFIGURE_DEPENDS Game/*.h)
+
+add_executable(${TARGET_NAME} ${TARGET_PARAM})
+
+target_sources(${TARGET_NAME} PRIVATE ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
+
+target_compile_features(${TARGET_NAME} PRIVATE cxx_std_20) # enable c++20 features
+
+target_include_directories("${TARGET_NAME}" PRIVATE
   ${VLD_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/Game
 )
 
-target_link_libraries(GameEngine PRIVATE
-  SDL3::SDL3
-  SDL3_ttf::SDL3_ttf
-  glm::glm
-  ${LIBS}
-  ${VLD_LIBRARIES}
-)
-
-target_include_directories("${TARGET_NAME}" PUBLIC
-  ${VLD_INCLUDE_DIR}
-)
-
-target_link_libraries("${TARGET_NAME}" PUBLIC
-  GameEngine
+target_link_libraries("${TARGET_NAME}" PRIVATE
+  GameEngineLib
   SDL3::SDL3
   SDL3_ttf::SDL3_ttf
   glm::glm
@@ -198,9 +176,6 @@ elseif(WIN32)
   endforeach()
 
   if(Steamworks_FOUND)
-    target_link_libraries(GameEngine PUBLIC Steamworks::Steamworks)
-    target_compile_definitions(GameEngine PRIVATE USE_STEAMWORKS)
-
     target_link_libraries("${TARGET_NAME}" PUBLIC Steamworks::Steamworks)
     target_compile_definitions(${TARGET_NAME} PRIVATE USE_STEAMWORKS)
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD

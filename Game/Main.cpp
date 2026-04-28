@@ -8,9 +8,9 @@
 #include <Engine/SceneManager.h>
 #include <Engine/Input/InputMapping.h>
 
-#include <Game/AchievementSystem.h>
-#include <Game/Components/Observers.h>
-#include <Game/Components/PlayerComponent.h>
+#include "AchievementSystem.h"
+#include "Components/Observers.h"
+#include "Components/PlayerComponent.h"
 
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_scancode.h>

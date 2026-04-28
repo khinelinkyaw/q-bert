@@ -1,7 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextComponent.h>
-#include <Game/Components/Observers.h>
-#include <Game/Components/PlayerComponent.h>
+#include <Components/Observers.h>
+#include <Components/PlayerComponent.h>
 
 #include <cassert>
 #include <format>
