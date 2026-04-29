@@ -1,5 +1,6 @@
 #include <Engine/Misc/GameObject.h>
 #include <Engine/Scene.h>
+
 #include <algorithm>
 #include <cassert>
 #include <memory>

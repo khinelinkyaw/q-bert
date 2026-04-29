@@ -1,6 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
-#include <Game/Components/PlayerComponent.h>
+
+#include <Components/PlayerComponent.h>
 
 #include <string>
 
