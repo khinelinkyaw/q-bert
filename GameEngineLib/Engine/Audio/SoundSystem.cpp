@@ -38,8 +38,12 @@ void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
     {
         std::unique_lock<std::mutex> lock(mtx);
         cv.wait(lock, [this] { return !m_PlayQueue.empty(); });
+
         int soundId = m_PlayQueue.front();
         m_PlayQueue.pop();
+
+        lock.unlock();
+
         std::cout << "Playing " << soundId << "\n";
 
         auto iter{ m_SoundMap.find(soundId) };
@@ -47,7 +51,7 @@ void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
         if (iter == m_SoundMap.end())
         {
             std::cout << "Sound " << soundId << " not found\n";
-            return;
+            continue;
         }
 
         ma_sound_start(&(iter->second));
@@ -58,13 +62,14 @@ void MiniAudioSoundSystem::AudioImpl::Play(int soundId)
 {
     std::lock_guard<std::mutex> lock(mtx);
     m_PlayQueue.push(soundId);
+    std::cout << "Pushed " << soundId << " to the queue\n";
     cv.notify_one();
 }
 
 void MiniAudioSoundSystem::AudioImpl::Load(int soundId, std::string const& filePath)
 {
     auto [iter, condition] = m_SoundMap.insert({ soundId, ma_sound{} });
-    auto result{ ma_sound_init_from_file(&m_Engine, "./Data/jump.mp3", 0, nullptr, nullptr, &iter->second)};
+    auto result{ ma_sound_init_from_file(&m_Engine, "./Data/jump.mp3", 0, nullptr, nullptr, &iter->second) };
 
     if (result != MA_SUCCESS)
     {
