@@ -1,4 +1,5 @@
 # Game Engine CMake
+
 file(GLOB_RECURSE ENGINE_SOURCE_FILES CONFIGURE_DEPENDS *.cpp)
 file(GLOB_RECURSE ENGINE_HEADER_FILES CONFIGURE_DEPENDS *.h)
 
@@ -28,6 +29,7 @@ target_link_libraries(GameEngineLib PRIVATE
     SDL3::SDL3
     SDL3_ttf::SDL3_ttf
     glm::glm
+    miniaudio
     ${VLD_LIBRARIES}
 )
 

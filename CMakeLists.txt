@@ -26,6 +26,18 @@ if(NOT glm_FOUND)
   FetchContent_MakeAvailable(glm)
 endif()
 
+find_package(miniaudio CONFIG QUIET)
+if(NOT miniaudio_FOUND)
+  FetchContent_Declare(
+    miniaudio
+    GIT_REPOSITORY https://github.com/mackron/miniaudio.git
+    GIT_TAG 0.11.25
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+  )
+  FetchContent_MakeAvailable(miniaudio)
+endif()
+
 # Add SDL3
 find_package(SDL3 3.4 CONFIG QUIET)
 if(NOT SDL3_FOUND)

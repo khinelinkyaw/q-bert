@@ -1,13 +1,8 @@
-﻿#include <iostream>
-#include <sstream>
-#include <stdexcept>
-
-#if WIN32
+﻿#if WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
-// #include <SDL3_image/SDL_image.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Minigin.h>
 #include <Engine/Rendering/Renderer.h>
@@ -16,12 +11,16 @@
 #include <Engine/Misc/Constants.h>
 
 #include <SDL3_ttf/SDL_ttf.h>
-#include <string>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_version.h>
 #include <SDL3/SDL_video.h>
+
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
 #include <chrono>
 #include <filesystem>
 #include <functional>
