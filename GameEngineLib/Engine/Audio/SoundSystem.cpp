@@ -8,6 +8,7 @@
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <stop_token>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -25,7 +26,7 @@ private:
     std::condition_variable cv{};
     std::jthread consumer{};
 
-    void ConsumeQueue();
+    void ConsumeQueue(std::stop_token stopToken);
     void LoadSoundFile(int soundId, std::string const& filePath);
 
 public:
@@ -35,25 +36,27 @@ public:
     ~AudioImpl();
 };
 
-void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
+void MiniAudioSoundSystem::AudioImpl::ConsumeQueue(std::stop_token stopToken)
 {
     while (true)
     {
         std::unique_lock<std::mutex> lock(queueMutex);
-        cv.wait(lock, [this] { return !m_PlayQueue.empty(); });
+        cv.wait(lock, [this, &stopToken] { return !m_PlayQueue.empty() or stopToken.stop_requested(); });
+
+        if (stopToken.stop_requested()) return;
 
         int soundId = m_PlayQueue.front();
         m_PlayQueue.pop();
 
         lock.unlock();
 
-        DEBUG_CONSOLE("Playing " << soundId)
+        DEBUG_CONSOLE("SoundSystem", "Playing " << soundId)
 
         auto iter{ m_SoundMap.find(soundId) };
 
         if (iter == m_SoundMap.end())
         {
-            DEBUG_CONSOLE("Sound " << soundId << " not found")
+            DEBUG_CONSOLE("SoundSystem", "Sound " << soundId << " not found")
             continue;
         }
 
@@ -64,13 +67,13 @@ void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
 void MiniAudioSoundSystem::AudioImpl::LoadSoundFile(int soundId, std::string const& filePath)
 {
     std::lock_guard<std::mutex> lock(fileLoadingMutex);
-    DEBUG_CONSOLE("Loading sound at " << filePath)
+    DEBUG_CONSOLE("SoundSystem","Loading sound at " << filePath)
 
     auto findIter{ m_SoundMap.find(soundId) };
 
     if (findIter != m_SoundMap.end())
     {
-        DEBUG_CONSOLE("Sound file with ID " << soundId << " already loaded")
+        DEBUG_CONSOLE("SoundSystem","Sound file with ID " << soundId << " already loaded")
         return;
     }
 
@@ -80,7 +83,7 @@ void MiniAudioSoundSystem::AudioImpl::LoadSoundFile(int soundId, std::string con
 
     if (result != MA_SUCCESS)
     {
-        DEBUG_CONSOLE("Sound file " << filePath << " could not be loaded")
+        DEBUG_CONSOLE("SoundSystem","Sound file " << filePath << " could not be loaded")
     }
 }
 
@@ -88,14 +91,13 @@ void MiniAudioSoundSystem::AudioImpl::Play(int soundId)
 {
     std::lock_guard<std::mutex> lock(queueMutex);
     m_PlayQueue.push(soundId);
-    DEBUG_CONSOLE("Pushed " << soundId << " to the queue")
+    DEBUG_CONSOLE("SoundSystem","Pushed " << soundId << " to the queue")
     cv.notify_one();
 }
 
 void MiniAudioSoundSystem::AudioImpl::Load(int soundId, std::string const& filePath)
 {
-    //auto result{ std::async(std::launch::async, [soundId, &filePath, this] { this->LoadSoundFile(soundId, filePath); }) };
-    std::thread newThread([soundId, filePath, this]
+    std::jthread newThread([soundId, filePath, this]
         {
             this->LoadSoundFile(soundId, filePath);
         });
@@ -112,16 +114,19 @@ MiniAudioSoundSystem::AudioImpl::AudioImpl()
 
     if (result != MA_SUCCESS)
     {
-        DEBUG_CONSOLE("Engine initialization failed\n")
+        DEBUG_CONSOLE("SoundSystem","Engine initialization failed\n")
     }
     else
     {
-        consumer = std::jthread([this] { this->ConsumeQueue(); });
+        consumer = std::jthread([this](std::stop_token stopToken) { this->ConsumeQueue(stopToken); });
     }
 }
 
 MiniAudioSoundSystem::AudioImpl::~AudioImpl()
 {
+    consumer.request_stop();
+    cv.notify_one();
+
     for (auto& [id, sound] : m_SoundMap)
     {
         ma_sound_uninit(&sound);

@@ -3,9 +3,9 @@
 
 #ifndef NDEBUG
 #include <iostream>
-#define DEBUG_CONSOLE(str) std::cout << str << std::endl;
+#define DEBUG_CONSOLE(category, str) std::cout << "[" << category << "]: " << str << std::endl;
 #else
-#define DEBUG_CONSOLE(str)
+#define DEBUG_CONSOLE(category, str)
 #endif
 
 #endif
