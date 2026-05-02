@@ -1,6 +1,6 @@
 #include "SoundSystem.h"
 
-#include <Engine/macros.h>
+#include <Engine/Macros.h>
 
 #include <miniaudio.h>
 
@@ -13,6 +13,8 @@
 #include <thread>
 #include <unordered_map>
 #include <utility>
+
+using namespace GameEngine;
 
 class MiniAudioSoundSystem::AudioImpl final
 {

@@ -4,27 +4,30 @@
 #include <memory>
 #include <string>
 
-class SoundSystem
+namespace GameEngine
 {
-public:
-    virtual void Play(int soundId) = 0;
-    virtual void Load(int soundId, std::string const& filePath) = 0;
+    class SoundSystem
+    {
+    public:
+        virtual void Play(int soundId) = 0;
+        virtual void Load(int soundId, std::string const& filePath) = 0;
 
-    virtual ~SoundSystem() = default;
-};
+        virtual ~SoundSystem() = default;
+    };
 
-class MiniAudioSoundSystem final: public SoundSystem
-{
-private:
-    class AudioImpl;
-    std::unique_ptr<AudioImpl> m_Impl{};
+    class MiniAudioSoundSystem final : public SoundSystem
+    {
+    private:
+        class AudioImpl;
+        std::unique_ptr<AudioImpl> m_Impl{};
 
-public:
-    void Play(int soundId);
-    void Load(int soundId, std::string const& filePath) override;
+    public:
+        void Play(int soundId);
+        void Load(int soundId, std::string const& filePath) override;
 
-    MiniAudioSoundSystem();
-    ~MiniAudioSoundSystem();
-};
+        MiniAudioSoundSystem();
+        ~MiniAudioSoundSystem() override;
+    };
+}
 
 #endif

@@ -9,6 +9,8 @@
 #include <Engine/ResourceManager.h>
 #include <Engine/SceneManager.h>
 #include <Engine/Misc/Constants.h>
+#include <Engine/ServiceLocator.h>
+#include <Engine/Audio/SoundSystem.h>
 
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_error.h>
@@ -17,12 +19,14 @@
 #include <SDL3/SDL_version.h>
 #include <SDL3/SDL_video.h>
 
+#include <memory>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <chrono>
 #include <filesystem>
+#include <utility>
 #include <functional>
 
 #if USE_STEAMWORKS
@@ -106,6 +110,9 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
 
     Renderer::GetInstance().Init(g_window);
     ResourceManager::GetInstance().Init(dataPath);
+
+    ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<MiniAudioSoundSystem>());
+    ServiceLocator::GetInstance().GetSoundSystem().Load(0, "./Data/jump.mp3");
 }
 
 GameEngine::Minigin::~Minigin()
