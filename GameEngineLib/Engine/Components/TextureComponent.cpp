@@ -2,6 +2,7 @@
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/ResourceManager.h>
+
 #include <glm/ext/vector_float3.hpp>
 #include <glm/fwd.hpp>
 #include <string>

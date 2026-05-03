@@ -3,6 +3,7 @@
 
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Misc/Singleton.h>
+
 #include <vector>
 
 namespace GameEngine
@@ -13,11 +14,12 @@ namespace GameEngine
     private:
         KeyboardInputDevice m_KeyboardInputDevice{};
         std::vector<GamepadInputDevice> m_GamepadInputDevices{};
-        GamepadInputDevice m_NullGamepadInputDevice{};
+        NullInputDevice m_NullInputDevice{};
 
     public:
         KeyboardInputDevice& GetKeyboardInputDevice() { return m_KeyboardInputDevice; }
         GamepadInputDevice& GetGamepadInputDevice(int playerIndex);
+        NullInputDevice& GetNullInputDevice() { return m_NullInputDevice; }
 
         bool ProcessInput();
 

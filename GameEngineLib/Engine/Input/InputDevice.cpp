@@ -117,3 +117,17 @@ void GameEngine::GamepadInputDevice::UpdateState()
 
     m_CurrentStateIndex = nextStateIndex;
 }
+
+bool GameEngine::NullInputDevice::GetPreviousKeyState(int) const
+{
+    return false;
+}
+
+bool GameEngine::NullInputDevice::GetCurrentKeyState(int) const
+{
+    return false;
+}
+
+void GameEngine::NullInputDevice::UpdateState()
+{
+}

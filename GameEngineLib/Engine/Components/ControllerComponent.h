@@ -3,8 +3,8 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Command.h>
-#include <Engine/Misc/GameObject.h>
 #include <Engine/Input/InputMapping.h>
+#include <Engine/Misc/GameObject.h>
 
 #include <glm/fwd.hpp>
 #include <list>
@@ -22,10 +22,9 @@ namespace GameEngine
     private:
         static float constexpr DEFAULT_SPEED{ 100.f };
 
-        InputDevice* m_pInputDevice{};
+        std::unique_ptr<InputMapping> m_pInputMapping{};
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{ DEFAULT_SPEED };
-        std::unique_ptr<InputMapping> m_InputMappings{ std::make_unique<InputMapping>() };
 
         template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
         void AddCommand(Args&& ... args);
@@ -33,9 +32,7 @@ namespace GameEngine
         void ExecuteCommands();
 
     public:
-        void SetInputMappings(InputMapping const& inputMappings);
-
-        void SetInputDevice(InputDevice* inputDevice) { m_pInputDevice = inputDevice; }
+        //void SetInputMapping(InputMapping* inputMapping) { m_pInputMapping = std::make_unique<InputMapping>(std::move(inputMapping)); }
         void ProcessInput();
 
         void SetSpeed(float speed) { m_Speed = speed; }
