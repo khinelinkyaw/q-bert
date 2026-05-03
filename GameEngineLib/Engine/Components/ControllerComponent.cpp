@@ -37,7 +37,7 @@ void ControllerComponent::ProcessInput()
     {
         AddCommand<MoveCommand>(0.f, -1.0f);
 
-        ServiceLocator::GetInstance().GetSoundSystem().Play(0);
+        ServiceLocator::Get().GetSoundSystem().Play(0);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {

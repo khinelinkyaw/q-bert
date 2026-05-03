@@ -38,7 +38,7 @@ Texture2D::Texture2D(const std::string& fullPath)
     }
 
     m_texture = SDL_CreateTextureFromSurface(
-        Renderer::GetInstance().GetSDLRenderer(),
+        Renderer::Get().GetSDLRenderer(),
         surface
     );
 

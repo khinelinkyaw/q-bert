@@ -108,11 +108,11 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
             SDL_GetError());
     }
 
-    Renderer::GetInstance().Init(g_window);
-    ResourceManager::GetInstance().Init(dataPath);
+    Renderer::Get().Init(g_window);
+    ResourceManager::Get().Init(dataPath);
 
-    ServiceLocator::GetInstance().RegisterSoundSystem(std::make_unique<MiniAudioSoundSystem>());
-    ServiceLocator::GetInstance().GetSoundSystem().Load(0, "./Data/jump.mp3");
+    ServiceLocator::Get().RegisterSoundSystem(std::make_unique<MiniAudioSoundSystem>());
+    ServiceLocator::Get().GetSoundSystem().Load(0, "./Data/jump.mp3");
 }
 
 GameEngine::Minigin::~Minigin()
@@ -120,7 +120,7 @@ GameEngine::Minigin::~Minigin()
 #if USE_STEAMWORKS
     SteamAPI_Shutdown();
 #endif
-    Renderer::GetInstance().Destroy();
+    Renderer::Get().Destroy();
     SDL_DestroyWindow(g_window);
     g_window = nullptr;
     SDL_Quit();
@@ -148,17 +148,17 @@ void GameEngine::Minigin::RunOneFrame()
 
     m_Lag += m_DeltaTime;
 
-    m_Quit = !InputManager::GetInstance().ProcessInput();
+    m_Quit = !InputManager::Get().ProcessInput();
 
     while (m_Lag >= m_TimeStep)
     {
-        SceneManager::GetInstance().FixedUpdate();
+        SceneManager::Get().FixedUpdate();
         m_Lag -= m_TimeStep;
     }
-    SceneManager::GetInstance().Update();
-    SceneManager::GetInstance().CheckForDeletion();
+    SceneManager::Get().Update();
+    SceneManager::Get().CheckForDeletion();
 
-    Renderer::GetInstance().Render();
+    Renderer::Get().Render();
 
 #if USE_STEAMWORKS
     SteamAPI_RunCallbacks();

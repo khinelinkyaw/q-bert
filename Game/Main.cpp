@@ -17,13 +17,12 @@
 #include <SDL3/SDL_scancode.h>
 #include <memory>
 #include <utility>
-#include <Engine/Input/InputManager.h>
 
 namespace Game
 {
     inline void load()
     {
-        auto& scene = GameEngine::SceneManager::GetInstance().CreateScene();
+        auto& scene = GameEngine::SceneManager::Get().CreateScene();
 
         auto obj = std::make_unique<GameEngine::GameObject>();
         obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("background.png");
@@ -51,12 +50,12 @@ namespace Game
         playerInputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_LEFT, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
         playerInputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_RIGHT, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
 
-        auto inputMapping{ GameEngine::InputManager::GetInstance().AddInputMapping("Player", std::move(playerInputMapping)) };
+        auto inputMapping{ GameEngine::InputManager::Get().AddInputMapping("Player", std::move(playerInputMapping)) };
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         auto p1Controller{ player1->AddComponent<GameEngine::ControllerComponent>() };
-        p1Controller->Init(inputMapping, &GameEngine::InputManager::GetInstance().GetKeyboardInputDevice());
+        p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");
         player1->SetPosition(500, 500);
@@ -64,7 +63,7 @@ namespace Game
         auto player2{ std::make_unique<GameEngine::GameObject>() };
         player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         auto p2Controller{ player2->AddComponent<GameEngine::ControllerComponent>() };
-        p2Controller->Init(inputMapping, &GameEngine::InputManager::GetInstance().GetGamepadInputDevice(0), 300.f);
+        p2Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(0), 300.f);
         auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };
         pPlayer2Comp->SetName("Player 2");
         player2->SetPosition(50, 50);

@@ -26,7 +26,7 @@ TextComponent::TextComponent(GameObject* owner)
     , m_needsUpdate{true}
     , m_text{"EMPTY"}
     , m_color{Colors::WHITE}
-    , m_font{ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)}
+    , m_font{ResourceManager::Get().LoadFont("Lingua.otf", 36)}
     , m_textTexture{nullptr}
     , m_Observer{}
 {
@@ -41,7 +41,7 @@ void TextComponent::FixedUpdate()
         {
             throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
         }
-        auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+        auto texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surf);
         if (texture == nullptr)
         {
             throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
@@ -60,7 +60,7 @@ void TextComponent::Render(glm::vec3 const& pos) const
 {
     if (m_textTexture != nullptr)
     {
-        Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
+        Renderer::Get().RenderTexture(*m_textTexture, pos.x, pos.y);
     }
 }
 

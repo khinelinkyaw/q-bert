@@ -21,13 +21,13 @@ void TextureComponent::Render(glm::vec3 const& pos) const
 {
     if (m_texture != nullptr)
     {
-        Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+        Renderer::Get().RenderTexture(*m_texture, pos.x, pos.y);
     }
 }
 
 void TextureComponent::SetTexture(std::string const& filename)
 {
-    m_texture = ResourceManager::GetInstance().LoadTexture(filename);
+    m_texture = ResourceManager::Get().LoadTexture(filename);
 }
 
 TextureComponent::TextureComponent(GameObject* owner)
