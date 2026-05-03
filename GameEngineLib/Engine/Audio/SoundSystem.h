@@ -22,7 +22,7 @@ namespace GameEngine
         std::unique_ptr<AudioImpl> m_Impl{};
 
     public:
-        void Play(int soundId);
+        void Play(int soundId) override;
         void Load(int soundId, std::string const& filePath) override;
 
         MiniAudioSoundSystem();

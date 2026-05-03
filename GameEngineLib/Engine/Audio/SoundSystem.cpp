@@ -8,7 +8,11 @@
 #include <memory>
 #include <mutex>
 #include <queue>
-#include <stop_token>
+
+#ifndef __EMSCRIPTEN__
+    #include <stop_token>
+#endif
+
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -22,13 +26,16 @@ private:
     ma_engine m_Engine{};
     std::unordered_map<int, ma_sound> m_SoundMap;
     std::queue<int> m_PlayQueue;
-    ma_engine_config m_EngineConfig{};
     std::mutex queueMutex{};
     std::mutex fileLoadingMutex{};
     std::condition_variable cv{};
     std::jthread consumer{};
 
+#ifndef __EMSCRIPTEN__
     void ConsumeQueue(std::stop_token stopToken);
+#else
+    void ConsumeQueue();
+#endif
     void LoadSoundFile(int soundId, std::string const& filePath);
 
 public:
@@ -38,14 +45,22 @@ public:
     ~AudioImpl();
 };
 
+#ifndef __EMSCRIPTEN__
 void MiniAudioSoundSystem::AudioImpl::ConsumeQueue(std::stop_token stopToken)
+#else
+void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
+#endif
 {
     while (true)
     {
         std::unique_lock<std::mutex> lock(queueMutex);
-        cv.wait(lock, [this, &stopToken] { return !m_PlayQueue.empty() or stopToken.stop_requested(); });
 
+#ifndef __EMSCRIPTEN__
+        cv.wait(lock, [this, &stopToken] { return !m_PlayQueue.empty() or stopToken.stop_requested(); });
         if (stopToken.stop_requested()) return;
+#else
+        cv.wait(lock, [this] { return !m_PlayQueue.empty(); });
+#endif
 
         int soundId = m_PlayQueue.front();
         m_PlayQueue.pop();
@@ -120,14 +135,20 @@ MiniAudioSoundSystem::AudioImpl::AudioImpl()
     }
     else
     {
+#ifndef __EMSCRIPTEN__
         consumer = std::jthread([this](std::stop_token stopToken) { this->ConsumeQueue(stopToken); });
+#else
+        consumer = std::jthread([this] { this->ConsumeQueue(); });
+#endif
     }
 }
 
 MiniAudioSoundSystem::AudioImpl::~AudioImpl()
 {
+#ifndef __EMSCRIPTEN__
     consumer.request_stop();
     cv.notify_one();
+#endif
 
     for (auto& [id, sound] : m_SoundMap)
     {
