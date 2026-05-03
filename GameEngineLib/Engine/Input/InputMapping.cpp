@@ -2,12 +2,11 @@
 
 #include <Engine/Misc/Constants.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputDevice.h>
 
 #include <string>
 
-bool GameEngine::InputMapping::GetActionState(std::string const& actionName) const
+bool GameEngine::InputMapping::GetActionState(std::string const& actionName, InputDevice const& inputDevice) const
 {
     auto actionMappingIter{ m_ActionMappings.find(actionName) };
 
@@ -18,7 +17,7 @@ bool GameEngine::InputMapping::GetActionState(std::string const& actionName) con
 
     InputCode inputCode{ InputCode::NONE };
 
-    switch (m_InputDevice->GetType())
+    switch (inputDevice.GetType())
     {
     case InputDeviceType::None:
         return false;
@@ -40,21 +39,16 @@ bool GameEngine::InputMapping::GetActionState(std::string const& actionName) con
     switch (actionMapping.actionType)
     {
     case InputActionType::Pressed:
-        return m_InputDevice->IsPressed(underlyingCode);
+        return inputDevice.IsPressed(underlyingCode);
     case InputActionType::Released:
-        return m_InputDevice->IsReleased(underlyingCode);
+        return inputDevice.IsReleased(underlyingCode);
     case InputActionType::Held:
-        return m_InputDevice->IsHeld(underlyingCode);
+        return inputDevice.IsHeld(underlyingCode);
     case InputActionType::Down:
-        return m_InputDevice->IsDown(underlyingCode);
+        return inputDevice.IsDown(underlyingCode);
     case InputActionType::Up:
-        return m_InputDevice->IsUp(underlyingCode);
+        return inputDevice.IsUp(underlyingCode);
     }
 
     return false;
-}
-
-GameEngine::InputMapping::InputMapping()
-    : m_InputDevice{ &InputManager::GetInstance().GetNullInputDevice() }
-{
 }

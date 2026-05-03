@@ -7,6 +7,7 @@
 #include <Engine/Scene.h>
 #include <Engine/SceneManager.h>
 #include <Engine/Input/InputMapping.h>
+#include <Engine/Misc/Enums.h>
 
 #include "AchievementSystem.h"
 #include "Components/Observers.h"
@@ -16,6 +17,7 @@
 #include <SDL3/SDL_scancode.h>
 #include <memory>
 #include <utility>
+#include <Engine/Input/InputManager.h>
 
 namespace Game
 {
@@ -43,23 +45,18 @@ namespace Game
         obj->SetPosition(20, 20);
         scene.Add(std::move(obj));
 
-        GameEngine::InputMapping::ActionMapping actionMappings{
-            {"MoveUp", {SDL_SCANCODE_UP, SDL_GAMEPAD_BUTTON_DPAD_UP}},
-            {"MoveDown", {SDL_SCANCODE_DOWN, SDL_GAMEPAD_BUTTON_DPAD_DOWN}},
-            {"MoveLeft", {SDL_SCANCODE_LEFT, SDL_GAMEPAD_BUTTON_DPAD_LEFT}},
-            {"MoveRight", {SDL_SCANCODE_RIGHT, SDL_GAMEPAD_BUTTON_DPAD_RIGHT}},
-            {"TakeDamage", {SDL_SCANCODE_Z, SDL_GAMEPAD_BUTTON_SOUTH}},
-            {"IncreaseScore", {SDL_SCANCODE_X, SDL_GAMEPAD_BUTTON_NORTH}}
-        };
+        std::unique_ptr<GameEngine::InputMapping> playerInputMapping{ std::make_unique<GameEngine::InputMapping>() };
+        playerInputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
+        playerInputMapping->SetActionMapping("MoveDown", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_DOWN, GameEngine::InputCode::GP_BUTTON_DPAD_DOWN);
+        playerInputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_LEFT, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
+        playerInputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_RIGHT, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
 
-        auto inputMapping{ GameEngine::InputMapping{} };
-        inputMapping.SetActionMappings(actionMappings);
+        auto inputMapping{ GameEngine::InputManager::GetInstance().AddInputMapping("Player", std::move(playerInputMapping)) };
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
         auto p1Controller{ player1->AddComponent<GameEngine::ControllerComponent>() };
-        p1Controller->SetInputDevice(&GameEngine::InputManager::GetInstance().GetKeyboardInputDevice());
-        p1Controller->SetInputMappings(inputMapping);
+        p1Controller->Init(inputMapping, &GameEngine::InputManager::GetInstance().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");
         player1->SetPosition(500, 500);
@@ -67,9 +64,7 @@ namespace Game
         auto player2{ std::make_unique<GameEngine::GameObject>() };
         player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
         auto p2Controller{ player2->AddComponent<GameEngine::ControllerComponent>() };
-        p2Controller->SetInputDevice(&GameEngine::InputManager::GetInstance().GetGamepadInputDevice(0));
-        p2Controller->SetSpeed(300.f);
-        p2Controller->SetInputMappings(inputMapping);
+        p2Controller->Init(inputMapping, &GameEngine::InputManager::GetInstance().GetGamepadInputDevice(0), 300.f);
         auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };
         pPlayer2Comp->SetName("Player 2");
         player2->SetPosition(50, 50);

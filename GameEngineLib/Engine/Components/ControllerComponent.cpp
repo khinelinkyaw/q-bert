@@ -6,8 +6,8 @@
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/GameObject.h>
 #include <Engine/ServiceLocator.h>
-#include <Engine/Misc/Enums.h>
 
+#include <Engine/Input/InputDevice.h>
 #include <cassert>
 #include <memory>
 
@@ -33,21 +33,21 @@ void ControllerComponent::ProcessInput()
     // Top left is the origin (0,0)
     assert(m_pInputMapping != nullptr);
 
-    if (m_pInputMapping->GetActionState("MoveUp"))
+    if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
         AddCommand<MoveCommand>(0.f, -1.0f);
 
         ServiceLocator::GetInstance().GetSoundSystem().Play(0);
     }
-    if (m_pInputMapping->GetActionState("MoveRight"))
+    if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
         AddCommand<MoveCommand>(1.f, 0.0f);
     }
-    if (m_pInputMapping->GetActionState("MoveDown"))
+    if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
         AddCommand<MoveCommand>(0.f, 1.0f);
     }
-    if (m_pInputMapping->GetActionState("MoveLeft"))
+    if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
         AddCommand<MoveCommand>(-1.f, 0.0f);
     }
@@ -59,13 +59,14 @@ void ControllerComponent::FixedUpdate()
     ExecuteCommands();
 }
 
+void GameEngine::ControllerComponent::Init(InputMapping* pInputMapping, InputDevice* pInputDevice, float speed)
+{
+    m_pInputMapping = pInputMapping;
+    m_pInputDevice = pInputDevice;
+    m_Speed = speed;
+}
+
 ControllerComponent::ControllerComponent(GameObject* owner)
     : BaseComponent{owner}
-    , m_pInputMapping{ std::make_unique<InputMapping>() }
 {
-    m_pInputMapping->SetInputDevice(&GameEngine::InputManager::GetInstance().GetGamepadInputDevice(0));
-    m_pInputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
-    m_pInputMapping->SetActionMapping("MoveDown", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_DOWN, GameEngine::InputCode::GP_BUTTON_DPAD_DOWN);
-    m_pInputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_LEFT, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
-    m_pInputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_RIGHT, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
 }

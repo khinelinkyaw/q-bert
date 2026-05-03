@@ -22,7 +22,9 @@ namespace GameEngine
     private:
         static float constexpr DEFAULT_SPEED{ 100.f };
 
-        std::unique_ptr<InputMapping> m_pInputMapping{};
+        InputMapping* m_pInputMapping{};
+        InputDevice* m_pInputDevice{};
+
         std::list<std::unique_ptr<Command>> m_Commands{};
         float m_Speed{ DEFAULT_SPEED };
 
@@ -32,7 +34,6 @@ namespace GameEngine
         void ExecuteCommands();
 
     public:
-        //void SetInputMapping(InputMapping* inputMapping) { m_pInputMapping = std::make_unique<InputMapping>(std::move(inputMapping)); }
         void ProcessInput();
 
         void SetSpeed(float speed) { m_Speed = speed; }
@@ -42,6 +43,7 @@ namespace GameEngine
         void Update() override {};
         void Render(glm::vec3 const&) const override {};
 
+        void Init(InputMapping* pInputMapping, InputDevice* pInputDevice, float speed = DEFAULT_SPEED);
         ControllerComponent(GameObject* owner);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;

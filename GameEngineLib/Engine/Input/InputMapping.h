@@ -19,13 +19,10 @@ namespace GameEngine
     class InputMapping final
     {
     private:
-        InputDevice* m_InputDevice{};
         std::unordered_map<std::string, ActionMapping> m_ActionMappings{};
 
     public:
-        void SetInputDevice(InputDevice* inputDevice) { m_InputDevice = inputDevice; }
-
-        bool GetActionState(std::string const& actionName) const;
+        bool GetActionState(std::string const& actionName, InputDevice const& inputDevice) const;
 
         void SetActionMapping(std::string const& actionName,
                               InputActionType actionType,
@@ -34,8 +31,6 @@ namespace GameEngine
         {
             m_ActionMappings.insert({ actionName, {actionType, keyboardCode, gamepadCode} });
         }
-
-        InputMapping();
     };
 }
 
