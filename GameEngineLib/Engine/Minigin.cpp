@@ -82,6 +82,12 @@ void PrintSDLVersion()
         SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
+void GameEngine::Minigin::SetWindowSize(int width, int height)
+{
+    SDL_SetWindowSize(g_window, width, height);
+    Renderer::Get().SetRenderLogicalPresentation(width, height);
+}
+
 GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     : m_LastTime{ std::chrono::high_resolution_clock::now() }
     , m_Lag{ 0.f }
@@ -107,6 +113,7 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
         throw std::runtime_error(std::string("SDL_CreateWindow Error: ") +
             SDL_GetError());
     }
+    SDL_SetWindowResizable(g_window, true);
 
     Renderer::Get().Init(g_window);
     ResourceManager::Get().Init(dataPath);

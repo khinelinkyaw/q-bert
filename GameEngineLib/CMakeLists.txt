@@ -14,7 +14,7 @@ target_sources(GameEngineLib
         TYPE HEADERS
         FILES
             ${ENGINE_HEADER_FILES}
-)
+ "Engine/Physics/Collision.h" "Engine/Physics/Structs.cpp")
 
 target_compile_features(GameEngineLib PRIVATE cxx_std_20) # enable c++20 features
 

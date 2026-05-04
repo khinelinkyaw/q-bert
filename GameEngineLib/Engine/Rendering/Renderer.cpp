@@ -1,11 +1,14 @@
 ﻿#include <Engine/Rendering/Texture2D.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/SceneManager.h>
+#include <Engine/Minigin.h>
+
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_hints.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -71,3 +74,8 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 }
 
 SDL_Renderer* Renderer::GetSDLRenderer() const { return m_renderer; }
+
+bool GameEngine::Renderer::SetRenderLogicalPresentation(int width, int height)
+{
+    return SDL_SetRenderLogicalPresentation(m_renderer, width, height, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+}
