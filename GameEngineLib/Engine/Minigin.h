@@ -22,7 +22,7 @@ namespace GameEngine
         static float GetDeltaTime() { return m_DeltaTime; }
         static float GetFixedTimeStep() { return m_TimeStep; }
 
-        static void SetWindowSize(int width, int height);
+        static void SetGameScreenSize(int width, int height);
 
         explicit Minigin(const std::filesystem::path& dataPath);
         ~Minigin();

@@ -82,7 +82,7 @@ void PrintSDLVersion()
         SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-void GameEngine::Minigin::SetWindowSize(int width, int height)
+void GameEngine::Minigin::SetGameScreenSize(int width, int height)
 {
     SDL_SetWindowSize(g_window, width, height);
     Renderer::Get().SetRenderLogicalPresentation(width, height);

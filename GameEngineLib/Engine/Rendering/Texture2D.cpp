@@ -50,6 +50,8 @@ Texture2D::Texture2D(const std::string& fullPath)
             std::string("Failed to create texture from surface: ") + SDL_GetError()
         );
     }
+
+    SDL_SetTextureScaleMode(m_texture, SDL_SCALEMODE_PIXELART);
 }
 
 Texture2D::Texture2D(SDL_Texture* texture) : m_texture{ texture }
