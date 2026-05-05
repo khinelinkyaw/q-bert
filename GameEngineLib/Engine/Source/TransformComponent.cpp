@@ -1,5 +1,6 @@
-#include "TransformComponent.h"
+#include <Engine/Components/TransformComponent.h>
 #include <Engine/Misc/GameObject.h>
+
 #include <algorithm>
 
 namespace GameEngine

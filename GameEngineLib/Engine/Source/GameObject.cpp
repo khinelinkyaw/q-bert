@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include <Engine/Misc/GameObject.h>
 
 using namespace GameEngine;
 

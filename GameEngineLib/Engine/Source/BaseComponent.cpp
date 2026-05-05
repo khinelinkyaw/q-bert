@@ -1,4 +1,4 @@
-#include "BaseComponent.h"
+#include <Engine/Components/BaseComponent.h>
 #include <cassert>
 
 namespace GameEngine

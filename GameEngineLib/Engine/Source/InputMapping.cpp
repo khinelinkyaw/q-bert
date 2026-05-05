@@ -1,4 +1,4 @@
-#include "InputMapping.h"
+#include <Engine/Input/InputMapping.h>
 
 #include <Engine/Misc/Constants.h>
 #include <Engine/Misc/Enums.h>

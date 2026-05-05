@@ -1,6 +1,8 @@
-#include <stdexcept>
+#include <Engine/Rendering/Font.h>
+
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Font.h"
+
+#include <stdexcept>
 
 namespace GameEngine
 {

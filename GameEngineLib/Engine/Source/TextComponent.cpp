@@ -1,4 +1,4 @@
-﻿#include "BaseComponent.h"
+﻿#include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextComponent.h>
 #include <Engine/Rendering/Font.h>
 #include <Engine/Rendering/Renderer.h>

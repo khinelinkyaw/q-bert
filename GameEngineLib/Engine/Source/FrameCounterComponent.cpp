@@ -1,8 +1,10 @@
-#include "BaseComponent.h"
-#include "FrameCounterComponent.h"
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Minigin.h>
 #include <Engine/Misc/GameObject.h>
+
 #include <glm/fwd.hpp>
+
 #include <string>
 
 using namespace GameEngine;

@@ -1,10 +1,10 @@
+#include <Engine/Input/InputDevice.h>
+
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_joystick.h>
-
-#include "InputDevice.h"
-
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_keyboard.h>
+
 #include <array>
 #include <vector>
 
