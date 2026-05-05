@@ -1,10 +1,7 @@
-#include "PlayerCommands.h"
-
-#include <Engine/Misc/GameObject.h>
-
+#include <Commands/PlayerCommands.h>
 #include <Components/PlayerComponent.h>
 
-//#include <glm/ext/vector_common.hpp>
+#include <Engine/Misc/GameObject.h>
 
 void TakeDamageCommand::Execute(GameEngine::GameObject& gameObject)
 {

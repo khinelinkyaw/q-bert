@@ -8,6 +8,8 @@
 #include <Engine/SceneManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
+#include <Engine/Minigin.h>
+#include <Engine/Rendering/Renderer.h>
 
 #include "AchievementSystem.h"
 #include "Components/Observers.h"
@@ -22,26 +24,19 @@ namespace Game
 {
     inline void load()
     {
+        int constexpr screenWidth{ 400 };
+        int constexpr screenHeight{ 400 };
+
         auto& scene = GameEngine::SceneManager::Get().CreateScene();
 
         auto obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("background.png");
-        scene.Add(std::move(obj));
-
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("logo.png");
-        obj->SetPosition(358, 180);
-        scene.Add(std::move(obj));
-
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextComponent>()->SetText("Programming 4 Assignment");
-        obj->SetPosition(292, 20);
-        obj->GetComponent<GameEngine::TextComponent>()->SetColor({ 255, 255, 0, 255 });
+        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("cubes.png");
+        obj->SetPosition(75.f, 75.f);
         scene.Add(std::move(obj));
 
         obj = std::make_unique<GameEngine::GameObject>();
         obj->AddComponent<GameEngine::FrameCounterComponent>();
-        obj->SetPosition(20, 20);
+        obj->SetPosition(20.f, 20.f);
         scene.Add(std::move(obj));
 
         std::unique_ptr<GameEngine::InputMapping> playerInputMapping{ std::make_unique<GameEngine::InputMapping>() };
@@ -58,58 +53,9 @@ namespace Game
         p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");
-        player1->SetPosition(500, 500);
-
-        auto player2{ std::make_unique<GameEngine::GameObject>() };
-        player2->AddComponent<GameEngine::TextureComponent>()->SetTexture("another_guy.png");
-        auto p2Controller{ player2->AddComponent<GameEngine::ControllerComponent>() };
-        p2Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(0), 300.f);
-        auto pPlayer2Comp{ player2->AddComponent<PlayerComponent>() };
-        pPlayer2Comp->SetName("Player 2");
-        player2->SetPosition(50, 50);
-        player2->GetTransform()->SetParent(player1.get());
-
+        player1->SetPosition(180.f, 63.f);
         scene.Add(std::move(player1));
-        scene.Add(std::move(player2));
 
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->SetPosition(20, 70);
-        auto pP1TextComp{ obj->AddComponent<GameEngine::TextComponent>() };
-        auto pP1HealthObserver{ std::make_unique<HealthDisplayObserver>(pP1TextComp, pPlayer1Comp) };
-        pPlayer1Comp->AddObserver(pP1HealthObserver.get());
-        pP1TextComp->SetObserver(std::move(pP1HealthObserver));
-        pPlayer1Comp->Init(3, 3);
-        scene.Add(std::move(obj));
-
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->SetPosition(20, 100);
-        pP1TextComp = obj->AddComponent<GameEngine::TextComponent>();
-        auto pP1ScoreObserver{ std::make_unique<ScoreDisplayObserver>(pP1TextComp, pPlayer1Comp) };
-        pPlayer1Comp->AddObserver(pP1ScoreObserver.get());
-        pP1TextComp->SetObserver(std::move(pP1ScoreObserver));
-        pPlayer1Comp->Init(3, 3);
-        scene.Add(std::move(obj));
-
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->SetPosition(500, 70);
-        auto pP2TextComp{ obj->AddComponent<GameEngine::TextComponent>() };
-        auto pP2HealthObserver{ std::make_unique<HealthDisplayObserver>(pP2TextComp, pPlayer2Comp) };
-        pPlayer2Comp->AddObserver(pP2HealthObserver.get());
-        pP2TextComp->SetObserver(std::move(pP2HealthObserver));
-        pPlayer2Comp->Init(3, 3);
-        scene.Add(std::move(obj));
-
-        obj = std::make_unique<GameEngine::GameObject>();
-        obj->SetPosition(500, 100);
-        pP2TextComp = obj->AddComponent<GameEngine::TextComponent>();
-        auto pP2ScoreObserver{ std::make_unique<ScoreDisplayObserver>(pP2TextComp, pPlayer2Comp) };
-        pPlayer2Comp->AddObserver(pP2ScoreObserver.get());
-        pP2TextComp->SetObserver(std::move(pP2ScoreObserver));
-        pPlayer2Comp->Init(3, 3);
-        scene.Add(std::move(obj));
-
-        auto achievementObj{ CreateAchievementObject() };
-        pPlayer1Comp->AddObserver(achievementObj->GetComponent<AchievementComponent>()->GetAchievementSystem());
-        scene.Add(std::move(achievementObj));
+        GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
     }
 }

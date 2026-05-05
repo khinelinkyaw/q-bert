@@ -1,7 +1,7 @@
 #include <cmath>
 #include <numbers>
 
-#include "Rotator.h"
+#include <Components/Rotator.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/GameObject.h>
