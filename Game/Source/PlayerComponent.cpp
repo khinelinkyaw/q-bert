@@ -16,7 +16,6 @@ void Game::PlayerComponent::CheckHealth()
     {
         m_IsDead = false;
     }
-
 }
 
 Game::PlayerComponent::PlayerComponent(GameEngine::GameObject* owner)

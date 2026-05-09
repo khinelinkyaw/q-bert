@@ -2,7 +2,6 @@
 #define COMMAND_H
 
 #include <Engine/Misc/GameObject.h>
-#include <Engine/Misc/Transform.h>
 
 namespace GameEngine
 {
@@ -23,16 +22,6 @@ namespace GameEngine
     public:
         virtual void Execute(GameObject& gameObject) = 0;
         virtual ~Command() = default;
-    };
-
-    class MoveCommand final : public Command
-    {
-        vector3 m_Movement{};
-    public:
-        void SetMovement(vector3 const& movement) { m_Movement = movement; }
-        void Execute(GameObject& gameObject) override;
-
-        MoveCommand(float x = 0.f, float y = 0.f);
     };
 }
 

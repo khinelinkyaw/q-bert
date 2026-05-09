@@ -12,20 +12,20 @@
 #include <type_traits>
 #include <utility>
 
-namespace GameEngine
+namespace Game
 {
-    template<typename T> concept DerivedCommandClass = std::is_base_of<Command, T>::value;
+    template<typename T> concept DerivedCommandClass = std::is_base_of<GameEngine::Command, T>::value;
 
-    class InputDevice;
-    class ControllerComponent final : public BaseComponent
+    class GameEngine::InputDevice;
+    class ControllerComponent final : public GameEngine::BaseComponent
     {
     private:
         static float constexpr DEFAULT_SPEED{ 100.f };
 
-        InputMapping* m_pInputMapping{};
-        InputDevice* m_pInputDevice{};
+        GameEngine::InputMapping* m_pInputMapping{};
+        GameEngine::InputDevice* m_pInputDevice{};
 
-        std::list<std::unique_ptr<Command>> m_Commands{};
+        std::list<std::unique_ptr<GameEngine::Command>> m_Commands{};
         float m_Speed{ DEFAULT_SPEED };
 
         template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
@@ -43,8 +43,8 @@ namespace GameEngine
         void Update() override {};
         void Render(glm::vec3 const&) const override {};
 
-        void Init(InputMapping* pInputMapping, InputDevice* pInputDevice, float speed = DEFAULT_SPEED);
-        ControllerComponent(GameObject* owner);
+        void Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice, float speed = DEFAULT_SPEED);
+        ControllerComponent(GameEngine::GameObject* owner);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;
         ControllerComponent(ControllerComponent&& other) = delete;

@@ -1,17 +1,19 @@
 #include <Engine/Audio/SoundSystem.h>
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Components/ControllerComponent.h>
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/GameObject.h>
 #include <Engine/ServiceLocator.h>
-
 #include <Engine/Input/InputDevice.h>
+
+#include <Components/ControllerComponent.h>
+#include <Commands/PlayerCommands.h>
+
 #include <cassert>
 #include <memory>
 
-using namespace GameEngine;
+using namespace Game;
 
 void ControllerComponent::ClearCommands()
 {
@@ -37,7 +39,7 @@ void ControllerComponent::ProcessInput()
     {
         AddCommand<MoveCommand>(0.f, -1.0f);
 
-        ServiceLocator::Get().GetSoundSystem().Play(0);
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
@@ -59,14 +61,14 @@ void ControllerComponent::FixedUpdate()
     ExecuteCommands();
 }
 
-void GameEngine::ControllerComponent::Init(InputMapping* pInputMapping, InputDevice* pInputDevice, float speed)
+void ControllerComponent::Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice, float speed)
 {
     m_pInputMapping = pInputMapping;
     m_pInputDevice = pInputDevice;
     m_Speed = speed;
 }
 
-ControllerComponent::ControllerComponent(GameObject* owner)
+ControllerComponent::ControllerComponent(GameEngine::GameObject* owner)
     : BaseComponent{owner}
 {
 }

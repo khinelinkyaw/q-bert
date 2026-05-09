@@ -1,6 +1,4 @@
-#include <Engine/Components/ControllerComponent.h>
 #include <Engine/Components/FrameCounterComponent.h>
-#include <Engine/Components/TextComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Misc/GameObject.h>
@@ -9,14 +7,10 @@
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
 #include <Engine/Minigin.h>
-#include <Engine/Rendering/Renderer.h>
 
-#include "AchievementSystem.h"
-#include "Components/Observers.h"
 #include "Components/PlayerComponent.h"
+#include "Components/ControllerComponent.h"
 
-#include <SDL3/SDL_gamepad.h>
-#include <SDL3/SDL_scancode.h>
 #include <memory>
 #include <utility>
 
@@ -49,7 +43,7 @@ namespace Game
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
-        auto p1Controller{ player1->AddComponent<GameEngine::ControllerComponent>() };
+        auto p1Controller{ player1->AddComponent<ControllerComponent>() };
         p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
         pPlayer1Comp->SetName("Player 1");

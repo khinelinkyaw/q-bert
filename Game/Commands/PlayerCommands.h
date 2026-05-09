@@ -4,16 +4,29 @@
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Misc/GameObject.h>
 
-class TakeDamageCommand final : public GameEngine::Command
+namespace Game
 {
-public:
-    void Execute(GameEngine::GameObject& gameObject) override;
-};
+    class MoveCommand final : public GameEngine::Command
+    {
+        glm::vec3 m_Movement{};
+    public:
+        void SetMovement(glm::vec3 const& movement) { m_Movement = movement; }
+        void Execute(GameEngine::GameObject& gameObject) override;
 
-class IncreaseScore final : public GameEngine::Command
-{
-public:
-    void Execute(GameEngine::GameObject& gameObject) override;
-};
+        MoveCommand(float x = 0.f, float y = 0.f);
+    };
+
+    class TakeDamageCommand final : public GameEngine::Command
+    {
+    public:
+        void Execute(GameEngine::GameObject& gameObject) override;
+    };
+
+    class IncreaseScore final : public GameEngine::Command
+    {
+    public:
+        void Execute(GameEngine::GameObject& gameObject) override;
+    };
+}
 
 #endif
