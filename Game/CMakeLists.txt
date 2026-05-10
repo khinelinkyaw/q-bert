@@ -5,7 +5,7 @@ file(GLOB_RECURSE GAME_HEADER_FILES CONFIGURE_DEPENDS *.h)
 
 add_executable(${TARGET_NAME} ${TARGET_PARAM})
 
-target_sources(${TARGET_NAME} PRIVATE ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
+target_sources(${TARGET_NAME} PUBLIC ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
 
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_20) # enable c++20 features
 
