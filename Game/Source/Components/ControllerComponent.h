@@ -4,7 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Command.h>
 #include <Engine/Input/InputMapping.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <glm/fwd.hpp>
 #include <list>

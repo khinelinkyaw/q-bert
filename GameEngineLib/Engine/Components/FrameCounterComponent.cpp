@@ -1,7 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/FrameCounterComponent.h>
-#include <Engine/Minigin.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/Minigin.h>
+#include <Engine/Core/GameObject.h>
 
 #include <glm/fwd.hpp>
 

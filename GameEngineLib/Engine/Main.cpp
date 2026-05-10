@@ -5,8 +5,8 @@
 #include <vld.h>
 #endif
 
-#include "Minigin.h"
-#include "../Game/Main.cpp"
+#include <Engine/Core/Minigin.h>
+#include "../../Game/Source/Main.cpp"
 #include <filesystem>
 
 namespace fs = std::filesystem;

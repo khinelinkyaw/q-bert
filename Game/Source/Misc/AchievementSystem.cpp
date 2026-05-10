@@ -1,7 +1,7 @@
-#include <AchievementSystem.h>
+#include <Misc/AchievementSystem.h>
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <string>
 

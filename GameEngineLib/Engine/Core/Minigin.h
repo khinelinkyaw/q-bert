@@ -4,6 +4,7 @@
 #include <chrono>
 #include <filesystem>
 #include <functional>
+#include <Engine/Core/GameObject.h>
 
 namespace GameEngine
 {

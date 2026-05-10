@@ -1,5 +1,5 @@
-#include <Engine/Scene.h>
-#include <Engine/SceneManager.h>
+#include <Engine/Core/Scene.h>
+#include <Engine/Core/SceneManager.h>
 
 using namespace GameEngine;
 

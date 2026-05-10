@@ -1,5 +1,5 @@
 #include <Engine/Components/TransformComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <algorithm>
 

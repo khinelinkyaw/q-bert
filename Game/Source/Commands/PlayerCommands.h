@@ -1,10 +1,10 @@
 #ifndef PLAYER_COMMANDS_H
 #define PLAYER_COMMANDS_H
 
-#include <Characters/AnimationState.h>
+#include <Characters/MovementState.h>
 
 #include <Engine/Decoupling/Command.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 namespace Game
 {

@@ -11,7 +11,7 @@ target_compile_features(${TARGET_NAME} PRIVATE cxx_std_20) # enable c++20 featur
 
 target_include_directories("${TARGET_NAME}" PRIVATE
   ${VLD_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source"
 )
 
 target_link_libraries("${TARGET_NAME}" PRIVATE

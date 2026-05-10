@@ -4,7 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
 
-#include "Characters/AnimationState.h"
+#include <Characters/MovementState.h>
 
 #include <memory>
 #include <string>

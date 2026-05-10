@@ -1,8 +1,8 @@
-#include <Characters/AnimationState.h>
+#include <Characters/MovementState.h>
 
-#include <Engine/Minigin.h>
+#include <Engine/Core/Minigin.h>
 #include <Engine/Components/TextureComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <cmath>
 #include <memory>

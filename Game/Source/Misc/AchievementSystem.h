@@ -3,7 +3,7 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <memory>
 #include <string>

@@ -3,7 +3,7 @@
 
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Components/TransformComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <list>
 #include <memory>

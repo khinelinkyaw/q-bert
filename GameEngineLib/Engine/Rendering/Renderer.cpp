@@ -1,7 +1,7 @@
 ﻿#include <Engine/Rendering/Texture2D.h>
 #include <Engine/Rendering/Renderer.h>
-#include <Engine/SceneManager.h>
-#include <Engine/Minigin.h>
+#include <Engine/Core/SceneManager.h>
+#include <Engine/Core/Minigin.h>
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_hints.h>

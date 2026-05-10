@@ -1,10 +1,10 @@
 #ifndef QBERT_H
 #define QBERT_H
 
-#include <Characters/AnimationState.h>
+#include <Characters/MovementState.h>
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 #include <memory>
 

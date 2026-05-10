@@ -1,14 +1,14 @@
 #include <Engine/Components/FrameCounterComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Input/InputManager.h>
-#include <Engine/Misc/GameObject.h>
-#include <Engine/Scene.h>
-#include <Engine/SceneManager.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Core/Scene.h>
+#include <Engine/Core/SceneManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Minigin.h>
+#include <Engine/Core/Minigin.h>
 
-#include "PlayerComponent.h"
+#include "Components/PlayerComponent.h"
 #include "Components/ControllerComponent.h"
 
 #include <memory>

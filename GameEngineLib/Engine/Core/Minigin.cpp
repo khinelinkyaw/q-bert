@@ -4,12 +4,12 @@
 #endif
 
 #include <Engine/Input/InputManager.h>
-#include <Engine/Minigin.h>
+#include <Engine/Core/Minigin.h>
 #include <Engine/Rendering/Renderer.h>
-#include <Engine/ResourceManager.h>
-#include <Engine/SceneManager.h>
+#include <Engine/Core/ResourceManager.h>
+#include <Engine/Core/SceneManager.h>
 #include <Engine/Misc/Constants.h>
-#include <Engine/ServiceLocator.h>
+#include <Engine/Core/ServiceLocator.h>
 #include <Engine/Audio/SoundSystem.h>
 
 #include <SDL3_ttf/SDL_ttf.h>

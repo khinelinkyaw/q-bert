@@ -1,7 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
 
-#include <PlayerComponent.h>
+#include <Components/PlayerComponent.h>
 
 #include <string>
 

@@ -3,7 +3,7 @@
 #include <Engine/Rendering/Font.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Rendering/Texture2D.h>
-#include <Engine/ResourceManager.h>
+#include <Engine/Core/ResourceManager.h>
 #include <Engine/Utils/Colors.h>
 #include <Engine/Decoupling/Observer.h>
 

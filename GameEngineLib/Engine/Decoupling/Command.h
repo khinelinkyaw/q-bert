@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 namespace GameEngine
 {

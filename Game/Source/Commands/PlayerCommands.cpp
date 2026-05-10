@@ -2,8 +2,8 @@
 #include <Components/ControllerComponent.h>
 
 #include <Engine/Decoupling/Command.h>
-#include <Engine/Minigin.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/Minigin.h>
+#include <Engine/Core/GameObject.h>
 
 using namespace Game;
 

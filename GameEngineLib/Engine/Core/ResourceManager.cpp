@@ -1,6 +1,6 @@
 ﻿#include <Engine/Rendering/Font.h>
 #include <Engine/Rendering/Texture2D.h>
-#include <Engine/ResourceManager.h>
+#include <Engine/Core/ResourceManager.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <cstdint>

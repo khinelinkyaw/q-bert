@@ -1,7 +1,7 @@
 #ifndef SCENE_MANAGER_H
 #define SCENE_MANAGER_H
 
-#include <Engine/Scene.h>
+#include <Engine/Core/Scene.h>
 #include <Engine/Misc/Singleton.h>
 #include <memory>
 #include <vector>

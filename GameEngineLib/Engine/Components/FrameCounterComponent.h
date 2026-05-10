@@ -4,7 +4,7 @@
 #include "BaseComponent.h"
 #include <Engine/Components/TextComponent.h>
 
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 #include <glm/fwd.hpp>
 
 namespace GameEngine

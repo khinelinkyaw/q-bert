@@ -2,7 +2,7 @@
 #define TEXTURE_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
 
 #include <glm/fwd.hpp>

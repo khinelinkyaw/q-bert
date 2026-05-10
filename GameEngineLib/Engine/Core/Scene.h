@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <vector>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 
 namespace GameEngine
 {
