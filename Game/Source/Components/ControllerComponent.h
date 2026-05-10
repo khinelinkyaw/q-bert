@@ -20,13 +20,10 @@ namespace Game
     class ControllerComponent final : public GameEngine::BaseComponent
     {
     private:
-        static float constexpr DEFAULT_SPEED{ 100.f };
-
         GameEngine::InputMapping* m_pInputMapping{};
         GameEngine::InputDevice* m_pInputDevice{};
 
         std::list<std::unique_ptr<GameEngine::Command>> m_Commands{};
-        float m_Speed{ DEFAULT_SPEED };
 
         template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
         void AddCommand(Args&& ... args);
@@ -36,14 +33,11 @@ namespace Game
     public:
         void ProcessInput();
 
-        void SetSpeed(float speed) { m_Speed = speed; }
-        float GetSpeed() const { return m_Speed; }
-
         void FixedUpdate() override;
         void Update() override {};
         void Render(glm::vec3 const&) const override {};
 
-        void Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice, float speed = DEFAULT_SPEED);
+        void Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice);
         ControllerComponent(GameEngine::GameObject* owner);
         ~ControllerComponent() override = default;
         ControllerComponent(const ControllerComponent& other) = delete;

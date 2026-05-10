@@ -2,7 +2,7 @@
 #include <Engine/Components/TextComponent.h>
 
 #include <Components/Observers.h>
-#include <Components/PlayerComponent.h>
+#include <Components/Qbert.h>
 
 #include <cassert>
 #include <format>
@@ -20,7 +20,7 @@ void Game::HealthDisplayObserver::OnNotify(GameEngine::GameObject&, std::string 
     }
 }
 
-Game::HealthDisplayObserver::HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent)
+Game::HealthDisplayObserver::HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, QBert* pPlayerComponent)
     : m_pTextComponent{ pTextComponent }
     , m_pPlayerComponent{ pPlayerComponent }
 {
@@ -35,7 +35,7 @@ void Game::ScoreDisplayObserver::OnNotify(GameEngine::GameObject&, std::string e
     }
 }
 
-Game::ScoreDisplayObserver::ScoreDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent)
+Game::ScoreDisplayObserver::ScoreDisplayObserver(GameEngine::TextComponent* pTextComponent, QBert* pPlayerComponent)
     : m_pTextComponent{ pTextComponent }
     , m_pPlayerComponent{ pPlayerComponent }
 {

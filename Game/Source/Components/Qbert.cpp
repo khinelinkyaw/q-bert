@@ -1,11 +1,15 @@
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Observer.h>
 
-#include <Components/PlayerComponent.h>
+#include <Characters/MovementState.h>
+#include <Components/Qbert.h>
 
+#include <memory>
 #include <string>
+#include <utility>
 
-void Game::PlayerComponent::CheckHealth()
+void Game::QBert::CheckHealth()
 {
     if (m_Health <= 0)
     {
@@ -18,18 +22,31 @@ void Game::PlayerComponent::CheckHealth()
     }
 }
 
-Game::PlayerComponent::PlayerComponent(GameEngine::GameObject* owner)
+void Game::QBert::Update()
+{
+    auto newState = m_pMovementState->Update(GetOwnerObject());
+
+    if (newState)
+    {
+        m_pMovementState->OnExit();
+        m_pMovementState = std::move(newState);
+        m_pMovementState->OnEnter();
+    }
+}
+
+Game::QBert::QBert(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
-    , m_IsDead{ false }
-    , m_Health{ }
-    , m_MaxHealth{}
-    , m_Score{}
-    , m_Name{""}
+    , m_pMovementState{ std::make_unique<IdleState>(owner) }
 {
     CheckHealth();
 }
 
-void Game::PlayerComponent::TakeDamage()
+void Game::QBert::SendEvent(MovementEvent event)
+{
+    m_pMovementState->SendEvent(event);
+}
+
+void Game::QBert::TakeDamage()
 {
     --m_Health;
 
@@ -45,7 +62,7 @@ void Game::PlayerComponent::TakeDamage()
     }
 }
 
-void Game::PlayerComponent::Heal()
+void Game::QBert::Heal()
 {
     ++m_Health;
 
@@ -57,51 +74,51 @@ void Game::PlayerComponent::Heal()
     NotifyObservers("UpdateHealth");
 }
 
-int Game::PlayerComponent::GetHealth() const
+int Game::QBert::GetHealth() const
 {
     return m_Health;
 }
 
-void Game::PlayerComponent::SetMaxHealth(int newMaxHealth)
+void Game::QBert::SetMaxHealth(int newMaxHealth)
 {
     m_MaxHealth = newMaxHealth;
 
     CheckHealth();
 }
 
-void Game::PlayerComponent::Revive(int newHealth)
+void Game::QBert::Revive(int newHealth)
 {
     m_Health = newHealth;
 
     CheckHealth();
 }
 
-void Game::PlayerComponent::Revive()
+void Game::QBert::Revive()
 {
     Revive(m_MaxHealth);
 }
 
-bool Game::PlayerComponent::IsDead() const
+bool Game::QBert::IsDead() const
 {
     return m_IsDead;
 }
 
-void Game::PlayerComponent::SetName(std::string const& name)
+void Game::QBert::SetName(std::string const& name)
 {
     m_Name = name;
 }
 
-std::string Game::PlayerComponent::GetName() const
+std::string Game::QBert::GetName() const
 {
     return m_Name;
 }
 
-int Game::PlayerComponent::GetScore() const
+int Game::QBert::GetScore() const
 {
     return m_Score;
 }
 
-void Game::PlayerComponent::IncrementScore(int increment)
+void Game::QBert::IncrementScore(int increment)
 {
     m_Score += increment;
 
@@ -117,12 +134,12 @@ void Game::PlayerComponent::IncrementScore(int increment)
     NotifyObservers("UpdateScore");
 }
 
-void Game::PlayerComponent::AddObserver(GameEngine::Observer* pObserver)
+void Game::QBert::AddObserver(GameEngine::Observer* pObserver)
 {
     m_pObservers.push_back(pObserver);
 }
 
-void Game::PlayerComponent::NotifyObservers(std::string eventId)
+void Game::QBert::NotifyObservers(std::string eventId)
 {
     for (auto pObserver : m_pObservers)
     {
@@ -130,7 +147,7 @@ void Game::PlayerComponent::NotifyObservers(std::string eventId)
     }
 }
 
-void Game::PlayerComponent::Init(int health, int maxHealth)
+void Game::QBert::Init(int health, int maxHealth)
 {
     m_Health = health;
     m_MaxHealth = maxHealth;

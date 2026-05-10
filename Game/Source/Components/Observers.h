@@ -3,24 +3,24 @@
 
 #include <Engine/Components/TextComponent.h>
 #include <Engine/Decoupling/Observer.h>
-
 #include <Engine/Components/BaseComponent.h>
+
 #include <string>
 
 namespace Game
 {
-    class PlayerComponent;
+    class QBert;
 
     class HealthDisplayObserver final: public GameEngine::Observer
     {
     private:
         GameEngine::TextComponent* m_pTextComponent;
-        PlayerComponent* m_pPlayerComponent;
+        QBert* m_pPlayerComponent;
 
     public:
         void OnNotify(GameEngine::GameObject&, std::string eventId) override;
 
-        HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent);
+        HealthDisplayObserver(GameEngine::TextComponent* pTextComponent, QBert* pPlayerComponent);
         ~HealthDisplayObserver() override = default;
     };
 
@@ -28,12 +28,12 @@ namespace Game
     {
     private:
         GameEngine::TextComponent* m_pTextComponent;
-        PlayerComponent* m_pPlayerComponent;
+        QBert* m_pPlayerComponent;
 
     public:
         void OnNotify(GameEngine::GameObject&, std::string eventId) override;
 
-        ScoreDisplayObserver(GameEngine::TextComponent* pTextComponent, PlayerComponent* pPlayerComponent);
+        ScoreDisplayObserver(GameEngine::TextComponent* pTextComponent, QBert* pPlayerComponent);
         ~ScoreDisplayObserver() override = default;
     };
 }

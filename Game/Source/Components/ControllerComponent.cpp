@@ -7,6 +7,7 @@
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Input/InputDevice.h>
 
+#include <Characters/MovementState.h>
 #include <Components/ControllerComponent.h>
 #include <Commands/PlayerCommands.h>
 
@@ -37,21 +38,21 @@ void ControllerComponent::ProcessInput()
 
     if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(0.f, -1.0f);
+        AddCommand<MoveCommand>(MovementEvent::OnHoppedUp);
 
         GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(1.f, 0.0f);
+        AddCommand<MoveCommand>(MovementEvent::OnHoppedRight);
     }
     if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(0.f, 1.0f);
+        AddCommand<MoveCommand>(MovementEvent::OnHoppedDown);
     }
     if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(-1.f, 0.0f);
+        AddCommand<MoveCommand>(MovementEvent::OnHoppedLeft);
     }
 }
 
@@ -61,11 +62,10 @@ void ControllerComponent::FixedUpdate()
     ExecuteCommands();
 }
 
-void ControllerComponent::Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice, float speed)
+void ControllerComponent::Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice)
 {
     m_pInputMapping = pInputMapping;
     m_pInputDevice = pInputDevice;
-    m_Speed = speed;
 }
 
 ControllerComponent::ControllerComponent(GameEngine::GameObject* owner)

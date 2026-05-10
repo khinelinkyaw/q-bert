@@ -1,8 +1,9 @@
-#ifndef PLAYER_COMPONENT_H
-#define PLAYER_COMPONENT_H
+#ifndef QBERT_H
+#define QBERT_H
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
+#include <Engine/Core/GameObject.h>
 
 #include <Characters/MovementState.h>
 
@@ -12,14 +13,14 @@
 
 namespace Game
 {
-    class PlayerComponent final : public GameEngine::BaseComponent
+    class QBert final : public GameEngine::BaseComponent
     {
     private:
-        bool m_IsDead{};
+        bool m_IsDead{ false };
         int m_Health{};
         int m_MaxHealth{};
         int m_Score{};
-        std::string m_Name{};
+        std::string m_Name{""};
         std::vector<GameEngine::Observer*> m_pObservers{};
         std::unique_ptr<MovementState> m_pMovementState{};
 
@@ -27,9 +28,10 @@ namespace Game
     public:
 #pragma region BaseClassFunctions
         void FixedUpdate() override {};
-        void Update() override {};
+        void Update() override;
         void Render(glm::vec3 const&) const override {};
 #pragma endregion
+        void SendEvent(MovementEvent event);
 
         void TakeDamage();
         void Heal();
@@ -49,8 +51,8 @@ namespace Game
         void NotifyObservers(std::string eventId);
         void Init(int health, int maxHealth);
 
-        PlayerComponent(GameEngine::GameObject* owner);
-        ~PlayerComponent() override = default;
+        QBert(GameEngine::GameObject* owner);
+        ~QBert() override = default;
     };
 }
 

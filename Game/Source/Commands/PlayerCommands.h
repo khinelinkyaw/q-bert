@@ -11,12 +11,11 @@ namespace Game
     class MoveCommand final : public GameEngine::Command
     {
     private:
-        glm::vec3 m_Movement{};
+        MovementEvent m_MovementEvent{};
     public:
-        void SetMovement(glm::vec3 const& movement) { m_Movement = movement; }
         void Execute(GameEngine::GameObject& gameObject) override;
 
-        MoveCommand(float x = 0.f, float y = 0.f);
+        MoveCommand(MovementEvent movementEvent);
     };
 }
 

@@ -1,26 +1,19 @@
 #include <Commands/PlayerCommands.h>
-#include <Components/ControllerComponent.h>
+#include <Characters/MovementState.h>
+#include <Components/Qbert.h>
 
-#include <Engine/Decoupling/Command.h>
-#include <Engine/Core/Minigin.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Decoupling/Command.h>
 
 using namespace Game;
 
 void MoveCommand::Execute(GameEngine::GameObject& gameObject)
 {
-    auto speed{ gameObject.GetComponent<ControllerComponent>()->GetSpeed() };
-    //gameObject.GetComponent<PlayerComponent>
-
-    glm::vec3 movingDirection{ glm::normalize(m_Movement) };
-    movingDirection *= speed * GameEngine::Minigin::GetDeltaTime();
-    auto const newPosition{ movingDirection + gameObject.GetTransform()->GetLocalPosition() };
-    gameObject.SetPosition(newPosition);
-
+    gameObject.GetComponent<QBert>()->SendEvent(m_MovementEvent);
     m_State = GameEngine::CommandState::Success;
 }
 
-MoveCommand::MoveCommand(float x, float y)
-    : m_Movement{ x, y, 0.f }
+Game::MoveCommand::MoveCommand(MovementEvent movementEvent)
+    : m_MovementEvent{ movementEvent }
 {
 }

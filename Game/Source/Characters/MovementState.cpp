@@ -22,47 +22,50 @@ MovementState::MovementState(GameEngine::GameObject* gameObject)
 
 std::unique_ptr<MovementState> HopState::Update(GameEngine::GameObject* gameObject)
 {
+    std::unique_ptr<MovementState> result{};
     float time{ m_ElapsedTime / DURATION };
 
-    if (time > 1.f)
+    if (time > 1.0f)
     {
-        return std::make_unique<IdleState>(gameObject);
+        m_pTransformComponent->SetLocalPosition(m_DestPos);
+        result = std::make_unique<IdleState>(gameObject);
+    }
+    else
+    {
+        float arcHeight{ HOP_HEIGHT * (4.0f * time * (1.f - time)) };
+        float x{ std::lerp(m_StartPos.x, m_DestPos.x, time) };
+        float y{ std::lerp(m_StartPos.y, m_DestPos.y, time) - arcHeight};
+
+        m_pTransformComponent->SetLocalPosition({ x, y, 0.f });
+
+        m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
     }
 
-    auto currentPos{ m_pTransformComponent->GetLocalPosition() };
-
-    float x{ std::lerp(currentPos.x, m_Destination.x, time) };
-    float y{ std::lerp(currentPos.y, m_Destination.y, time) - MAX_HEIGHT * (4.0f * time * (1.0f - time)) };
-
-    m_pTransformComponent->SetLocalPosition({ x,y,0.f });
-
-    m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
-
-    return nullptr;
+    return result;
 }
 
 void HopState::OnEnter()
 {
-    m_pTextureComponent->SetTexture(m_HopTexturePath);
-    m_ElapsedTime = 0.f;
-
-    auto currentPosition{ m_pTransformComponent->GetLocalPosition() };
+    //m_pTextureComponent->SetTexture(m_HopTexturePath);
+    m_StartPos = m_pTransformComponent->GetLocalPosition();
 
     switch (m_HopDirection)
     {
     case MovementEvent::OnHoppedUp:
-        m_Destination = { currentPosition.x, currentPosition.y - HOP_RANGE, 0.f };
+        m_DestPos = { m_StartPos.x - HOP_RANGE_X, m_StartPos.y - HOP_RANGE_Y, 0.f};
         break;
     case MovementEvent::OnHoppedDown:
-        m_Destination = { currentPosition.x, currentPosition.y + HOP_RANGE, 0.f };
+        m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y, 0.f };
         break;
     case MovementEvent::OnHoppedLeft:
-        m_Destination = { currentPosition.x - HOP_RANGE, currentPosition.y, 0.f };
+        m_DestPos = { m_StartPos.x - HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y, 0.f };
         break;
     case MovementEvent::OnHoppedRight:
-        m_Destination = { currentPosition.x + HOP_RANGE, currentPosition.y, 0.f };
+        m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y - HOP_RANGE_Y, 0.f };
         break;
     }
+
+    m_ElapsedTime = 0.f;
 }
 
 HopState::HopState(GameEngine::GameObject* gameObject, MovementEvent hopDirection)
@@ -96,7 +99,7 @@ std::unique_ptr<MovementState> Game::IdleState::Update(GameEngine::GameObject* g
 
 void IdleState::OnEnter()
 {
-    m_pTextureComponent->SetTexture(m_IdleTexturePath);
+    //m_pTextureComponent->SetTexture(m_IdleTexturePath);
 }
 
 IdleState::IdleState(GameEngine::GameObject* gameObject)

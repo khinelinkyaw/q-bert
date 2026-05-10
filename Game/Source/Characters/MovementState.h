@@ -42,13 +42,15 @@ namespace Game
     class HopState final : public MovementState
     {
     private:
-        static float constexpr MAX_HEIGHT{ 10.f };
-        static float constexpr DURATION{ 2.f };
-        static float constexpr HOP_RANGE{ 50.f };
+        static float constexpr DURATION{ 0.35f };
+        static float constexpr HOP_HEIGHT{ 10.f };
+        static float constexpr HOP_RANGE_X{ 17.f };
+        static float constexpr HOP_RANGE_Y{ 25.f };
         MovementEvent m_HopDirection{};
         float m_ElapsedTime{};
         std::string m_HopTexturePath{};
-        glm::vec3 m_Destination{};
+        glm::vec3 m_StartPos{};
+        glm::vec3 m_DestPos{};
 
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) override;
