@@ -9,8 +9,6 @@
 #include <vld.h>
 #endif
 
-#include <filesystem>
-
 namespace fs = std::filesystem;
 
 namespace GameEngine
