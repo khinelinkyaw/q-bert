@@ -4,7 +4,14 @@
 #include <chrono>
 #include <filesystem>
 #include <functional>
-#include <Engine/Core/GameObject.h>
+
+#if _DEBUG && __has_include(<vld.h>)
+#include <vld.h>
+#endif
+
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace GameEngine
 {
@@ -32,6 +39,19 @@ namespace GameEngine
         Minigin& operator=(const Minigin& other) = delete;
         Minigin& operator=(Minigin&& other) = delete;
     };
+
+    void inline RunGame(const std::function<void()>& gameLoad)
+    {
+#if __EMSCRIPTEN__
+        fs::path data_location = "";
+#else
+        fs::path data_location = "./Data/";
+        if (!fs::exists(data_location))
+            data_location = "../Data/";
+#endif
+        GameEngine::Minigin engine(data_location);
+        engine.Run(gameLoad);
+    }
 }
 
 #endif

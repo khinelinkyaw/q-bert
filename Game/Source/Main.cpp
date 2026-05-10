@@ -8,8 +8,8 @@
 #include <Engine/Misc/Enums.h>
 #include <Engine/Core/Minigin.h>
 
-#include "Components/PlayerComponent.h"
-#include "Components/ControllerComponent.h"
+//#include "Components/Qbert.h"
+//#include "Components/ControllerComponent.h"
 
 #include <memory>
 #include <utility>
@@ -39,17 +39,23 @@ namespace Game
         playerInputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_LEFT, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
         playerInputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_RIGHT, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
 
-        auto inputMapping{ GameEngine::InputManager::Get().AddInputMapping("Player", std::move(playerInputMapping)) };
+        //auto inputMapping{ GameEngine::InputManager::Get().AddInputMapping("Player", std::move(playerInputMapping)) };
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
-        auto p1Controller{ player1->AddComponent<ControllerComponent>() };
-        p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
-        auto pPlayer1Comp{ player1->AddComponent<PlayerComponent>() };
-        pPlayer1Comp->SetName("Player 1");
+        //auto p1Controller{ player1->AddComponent<ControllerComponent>() };
+        //p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
+        //auto pPlayer1Comp{ player1->AddComponent<QBert>() };
+        //pPlayer1Comp->SetName("Player 1");
         player1->SetPosition(180.f, 63.f);
         scene.Add(std::move(player1));
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
     }
+}
+
+int main(int, char* [])
+{
+    GameEngine::RunGame(Game::load);
+    return 0;
 }
