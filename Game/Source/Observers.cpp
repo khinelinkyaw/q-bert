@@ -2,7 +2,7 @@
 #include <Engine/Components/TextComponent.h>
 
 #include <Components/Observers.h>
-#include <Components/PlayerComponent.h>
+#include <PlayerComponent.h>
 
 #include <cassert>
 #include <format>

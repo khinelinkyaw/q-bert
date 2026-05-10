@@ -4,7 +4,9 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
+
 #include <glm/fwd.hpp>
+
 #include <memory>
 #include <string>
 

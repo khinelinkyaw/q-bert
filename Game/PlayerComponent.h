@@ -4,6 +4,9 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
 
+#include "Characters/AnimationState.h"
+
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -12,12 +15,13 @@ namespace Game
     class PlayerComponent final : public GameEngine::BaseComponent
     {
     private:
-        bool m_IsDead;
-        int m_Health;
-        int m_MaxHealth;
-        int m_Score;
-        std::string m_Name;
-        std::vector<GameEngine::Observer*> m_pObservers;
+        bool m_IsDead{};
+        int m_Health{};
+        int m_MaxHealth{};
+        int m_Score{};
+        std::string m_Name{};
+        std::vector<GameEngine::Observer*> m_pObservers{};
+        std::unique_ptr<MovementState> m_pMovementState{};
 
         void CheckHealth();
     public:

@@ -8,7 +8,7 @@
 #include <Engine/Misc/Enums.h>
 #include <Engine/Minigin.h>
 
-#include "Components/PlayerComponent.h"
+#include "PlayerComponent.h"
 #include "Components/ControllerComponent.h"
 
 #include <memory>

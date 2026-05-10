@@ -1,7 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Decoupling/Observer.h>
 
-#include <Components/PlayerComponent.h>
+#include <PlayerComponent.h>
 
 #include <string>
 
@@ -25,7 +25,6 @@ Game::PlayerComponent::PlayerComponent(GameEngine::GameObject* owner)
     , m_MaxHealth{}
     , m_Score{}
     , m_Name{""}
-    , m_pObservers{}
 {
     CheckHealth();
 }

@@ -1,5 +1,7 @@
 #include <Characters/Qbert.h>
-
-void Game::QQQQ()
-{
-}
+#include <Engine/Components/BaseComponent.h>
+//
+//Game::QBertComponent::QBertComponent(GameEngine::GameObject* owner)
+//    : BaseComponent{owner}
+//{
+//}
