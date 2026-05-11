@@ -38,12 +38,12 @@ void GameObject::Render() const
     }
 }
 
-void GameObject::SetPosition(float x, float y)
+void GameObject::SetLocationPosition(float x, float y)
 {
     m_Transform.SetLocalPosition(glm::vec3{ x, y, 0.f });
 }
 
-void GameObject::SetPosition(glm::vec3 newPos)
+void GameObject::SetLocationPosition(glm::vec3 newPos)
 {
     m_Transform.SetLocalPosition(newPos);
 }

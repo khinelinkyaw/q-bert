@@ -30,8 +30,8 @@ namespace GameEngine
         TransformComponent* GetTransform() { return &m_Transform; }
         //TransformComponent GetTransform() const { return m_Transform; }
 
-        void SetPosition(float x, float y);
-        void SetPosition(glm::vec3 newPos);
+        void SetLocationPosition(float x, float y);
+        void SetLocationPosition(glm::vec3 newPos);
 
         template<typename ComponentType> requires DerivedComponent<ComponentType>
         ComponentType* AddComponent();

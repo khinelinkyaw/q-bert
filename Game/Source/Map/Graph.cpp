@@ -8,6 +8,7 @@
 #include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
+#include <vector>
 
 using namespace Game;
 
@@ -32,6 +33,48 @@ void Graph::CreateNewConnection(int fromBlockId, int toBlockId)
 
 void Game::Graph::GenerateConnections()
 {
+    for (int row{ 0 }; row < TOTAL_ROWS; ++row)
+    {
+        auto blockIds{ GetBlockIdsInARow(row) };
+
+        for (int index{ 0 }; index < blockIds.size(); ++index)
+        {
+            CreateNewConnection(blockIds[index], GetBlockIdInRow(row - 1, index));
+            CreateNewConnection(blockIds[index], GetBlockIdInRow(row - 1, index - 1));
+            CreateNewConnection(blockIds[index], GetBlockIdInRow(row + 1, index));
+            CreateNewConnection(blockIds[index], GetBlockIdInRow(row + 1, index + 1));
+        }
+    }
+}
+
+std::vector<int> Game::Graph::GetBlockIdsInARow(int row) const
+{
+    std::vector<int> result{};
+
+    int firstBlockIdInRow{ ((row * (row + 1)) / 2) };
+
+    for (int index{ 0 }; index <= row; ++index)
+    {
+        result.push_back(firstBlockIdInRow + index);
+    }
+
+    return result;
+}
+
+int Game::Graph::GetBlockIdInRow(int row, int indexInRow) const
+{
+    if (row < 0 or indexInRow > row or indexInRow < 0)
+    {
+        return Block::INVALID_ID;
+    }
+
+    int blockIdInRow{ ((row * (row + 1)) / 2) + indexInRow};
+
+    if (blockIdInRow >= TOTAL_BLOCKS)
+    {
+        return Block::INVALID_ID;
+    }
+    return blockIdInRow;
 }
 
 void Game::Graph::Render(glm::vec3 const& pos) const
@@ -44,6 +87,20 @@ void Game::Graph::Render(glm::vec3 const& pos) const
         if (texturePtr != nullptr)
         {
             GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
+        }
+    }
+
+    for (auto& connection : m_Connections)
+    {
+        auto fromBlock{ GetBlock(connection.GetFromCell()) };
+        auto toBlock{ GetBlock(connection.GetToCell()) };
+        if (fromBlock.GetId() != Block::INVALID_ID and toBlock.GetId() != Block::INVALID_ID)
+        {
+            GameEngine::Renderer::Get().DrawLine(
+                pos + glm::vec3(fromBlock.GetSurfaceCenter(), 0.f),
+                pos + glm::vec3(toBlock.GetSurfaceCenter(), 0.f),
+                SDL_Color{ 255, 255, 255, 255 }
+            );
         }
     }
 }
@@ -63,30 +120,40 @@ Block* Graph::GetBlock(int blockId)
     return nullptr;
 }
 
-glm::vec3 Game::Graph::GetCellCenter(Block const&) const
+Block Game::Graph::GetBlock(int blockId) const
 {
-    return glm::vec3();
+    auto iter{ std::ranges::find_if(m_Blocks, [blockId](Block const& block)
+    {
+        return block.GetId() == blockId;
+    }) };
+
+    if (iter != m_Blocks.end())
+    {
+        return *iter;
+    }
+
+    return Block{Block::INVALID_ID, BlockType::Green};
 }
 
-glm::vec3 Game::Graph::GetCellCenter(int ) const
+glm::vec3 Game::Graph::GetBlockSurfaceCenter(int blockId) const
 {
-    return glm::vec3();
+    return GetOwnerObject()->GetTransform()->GetLocalPosition() + glm::vec3{ GetBlock(blockId).GetSurfaceCenter(), 0.f };
 }
 
 Game::Graph::Graph(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
-    m_Blocks.reserve(m_TotalBlocks);
+    m_Blocks.reserve(TOTAL_BLOCKS);
 
     int row{ 0 };
     int nextRowIncrement{ row };
-    for (int index = 0; index < m_TotalBlocks; ++index)
+    for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
         m_Blocks.emplace_back(index, BlockType::Green);
 
         m_Blocks.back().SetPosition(
-            (row * BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * BLOCK_SIZE) - (BLOCK_SIZE/2.f),
-            row * BLOCK_SIZE * 0.75f
+            (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE/2.f),
+            row * Block::BLOCK_SIZE * 0.75f
         );
 
         if (index == nextRowIncrement)
@@ -103,4 +170,6 @@ Game::Graph::Graph(GameEngine::GameObject* owner)
     m_Textures.insert({ BlockType::Green, greenTextureComp });
     m_Textures.insert({ BlockType::Blue, blueTextureComp });
     m_Textures.insert({ BlockType::Magenta, magentaTextureComp });
+
+    GenerateConnections();
 }

@@ -17,27 +17,31 @@ namespace Game
     class Graph final : public GameEngine::BaseComponent
     {
     public:
-        static float constexpr BLOCK_SIZE{ 32.f };
+        static int constexpr TOTAL_BLOCKS{ 28 };
+        static int constexpr TOTAL_ROWS{ 7 };
 
     private:
-        int m_TotalBlocks{ 28 };
         std::vector<Block> m_Blocks{};
         std::vector<Connection> m_Connections{};
         std::unordered_map<BlockType, std::shared_ptr<GameEngine::Texture2D>> m_Textures{};
 
         void CreateNewConnection(int fromBlockId, int toBlockId);
         void GenerateConnections();
+
+        std::vector<int> GetBlockIdsInARow(int row) const;
+        int GetBlockIdInRow(int row, int indexInRow) const;
+
     public:
         void FixedUpdate() override {};
         void Update() override {};
         void Render(glm::vec3 const& pos) const override;
 
         Block* GetBlock(int blockId);
+        Block GetBlock(int blockId) const;
+
+        glm::vec3 GetBlockSurfaceCenter(int blockId) const;
         //Block* GetBlock(int rowIndex, int colIndex);
         //Block* GetBlock(float worldX, float worldY);
-
-        glm::vec3 GetCellCenter(Block const& block) const;
-        glm::vec3 GetCellCenter(int blockId) const;
 
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;

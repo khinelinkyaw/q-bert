@@ -16,6 +16,8 @@ namespace Game
     {
     public:
         static int constexpr INVALID_ID{ -1 };
+        static float constexpr BLOCK_SIZE{ 32.f };
+
     private:
         glm::vec2 m_Position{};
         int m_Id{ INVALID_ID };
@@ -25,6 +27,8 @@ namespace Game
         int GetId() const;
         BlockType GetType() const;
         void SetType(BlockType cellType);
+
+        glm::vec2 GetSurfaceCenter() const { return glm::vec2{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f }; }
 
         void SetPosition(glm::vec2 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = glm::vec2{ x, y }; }
