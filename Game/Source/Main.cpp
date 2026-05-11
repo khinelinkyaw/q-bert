@@ -8,6 +8,7 @@
 #include <Engine/Core/Minigin.h>
 
 #include <Components/Qbert.h>
+#include <Map/Graph.h>
 #include <Components/ControllerComponent.h>
 
 #include <memory>
@@ -22,10 +23,10 @@ namespace Game
 
         auto& scene = GameEngine::SceneManager::Get().CreateScene();
 
-        auto obj = std::make_unique<GameEngine::GameObject>();
-        obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("cubes.png");
-        obj->SetPosition(75.f, 75.f);
-        scene.Add(std::move(obj));
+        //auto obj = std::make_unique<GameEngine::GameObject>();
+        //obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("cubes.png");
+        //obj->SetPosition(75.f, 75.f);
+        //scene.Add(std::move(obj));
 
         std::unique_ptr<GameEngine::InputMapping> playerInputMapping{ std::make_unique<GameEngine::InputMapping>() };
         playerInputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
@@ -43,6 +44,11 @@ namespace Game
         pPlayer1Comp->SetName("Player 1");
         player1->SetPosition(180.f, 63.f);
         scene.Add(std::move(player1));
+
+        auto obj = std::make_unique<GameEngine::GameObject>();
+        obj->AddComponent<Graph>();
+        obj->SetPosition(screenWidth/2.f, 100.f);
+        scene.Add(std::move(obj));
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
     }
