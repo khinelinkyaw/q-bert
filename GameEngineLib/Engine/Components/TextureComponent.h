@@ -4,6 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
+#include <Engine/Misc/Enums.h>
 
 #include <memory>
 #include <string>
@@ -13,13 +14,17 @@ namespace GameEngine
     class TextureComponent final : public BaseComponent
     {
     private:
+        glm::vec2 m_Origin{ 0.f, 0.f };
         std::shared_ptr<Texture2D> m_texture{};
+
     public:
         void FixedUpdate() override;
         void Update() override;
         void Render(glm::vec3 const& pos) const override;
 
         void SetTexture(const std::string& filename);
+        void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
+        void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
 
         TextureComponent(GameObject* owner);
         //TextureComponent(GameObject* owner, std::string const& filename);

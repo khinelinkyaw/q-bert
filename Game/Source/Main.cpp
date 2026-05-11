@@ -37,7 +37,9 @@ namespace Game
         scene.Add(std::move(obj));
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
-        player1->AddComponent<GameEngine::TextureComponent>()->SetTexture("my_guy.png");
+        auto player1TextureComp{ player1->AddComponent<GameEngine::TextureComponent>() };
+        player1TextureComp->SetTexture("my_guy.png");
+        player1TextureComp->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
         auto p1Controller{ player1->AddComponent<ControllerComponent>() };
         p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<QBert>() };
