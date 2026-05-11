@@ -5,8 +5,6 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
 
-#include <glm/fwd.hpp>
-
 #include <memory>
 #include <string>
 
