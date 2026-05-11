@@ -88,6 +88,11 @@ void GameEngine::Minigin::SetGameScreenSize(int width, int height)
     Renderer::Get().SetRenderLogicalPresentation(width, height);
 }
 
+void GameEngine::Minigin::MaximizeWindow()
+{
+    SDL_MaximizeWindow(g_window);
+}
+
 GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     : m_LastTime{ std::chrono::high_resolution_clock::now() }
     , m_Lag{ 0.f }

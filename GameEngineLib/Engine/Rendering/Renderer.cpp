@@ -73,6 +73,22 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
     SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
+void GameEngine::Renderer::DrawLine(float x1, float y1, float x2, float y2, const SDL_Color& color) const
+{
+    SDL_SetRenderDrawColor(GetSDLRenderer(), color.r, color.g, color.b, color.a);
+    SDL_RenderLine(GetSDLRenderer(), x1, y1, x2, y2);
+}
+
+void GameEngine::Renderer::DrawLine(glm::vec2 const& start, glm::vec2 const& end, const SDL_Color& color) const
+{
+    DrawLine(start.x, start.y, end.x, end.y, color);
+}
+
+void GameEngine::Renderer::DrawLine(glm::vec3 const& start, glm::vec3 const& end, const SDL_Color& color) const
+{
+    DrawLine(start.x, start.y, end.x, end.y, color);
+}
+
 SDL_Renderer* Renderer::GetSDLRenderer() const { return m_renderer; }
 
 bool GameEngine::Renderer::SetRenderLogicalPresentation(int width, int height)

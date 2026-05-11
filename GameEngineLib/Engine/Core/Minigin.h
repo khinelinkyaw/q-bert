@@ -29,6 +29,7 @@ namespace GameEngine
         static float GetFixedTimeStep() { return m_TimeStep; }
 
         static void SetGameScreenSize(int width, int height);
+        static void MaximizeWindow();
 
         explicit Minigin(const std::filesystem::path& dataPath);
         ~Minigin();
