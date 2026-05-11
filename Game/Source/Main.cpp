@@ -23,11 +23,6 @@ namespace Game
 
         auto& scene = GameEngine::SceneManager::Get().CreateScene();
 
-        //auto obj = std::make_unique<GameEngine::GameObject>();
-        //obj->AddComponent<GameEngine::TextureComponent>()->SetTexture("cubes.png");
-        //obj->SetPosition(75.f, 75.f);
-        //scene.Add(std::move(obj));
-
         std::unique_ptr<GameEngine::InputMapping> playerInputMapping{ std::make_unique<GameEngine::InputMapping>() };
         playerInputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
         playerInputMapping->SetActionMapping("MoveDown", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_DOWN, GameEngine::InputCode::GP_BUTTON_DPAD_DOWN);

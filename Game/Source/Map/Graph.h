@@ -5,9 +5,10 @@
 #include <Map/Connection.h>
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Rendering/Texture2D.h>
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -22,7 +23,7 @@ namespace Game
         int m_TotalBlocks{ 28 };
         std::vector<Block> m_Blocks{};
         std::vector<Connection> m_Connections{};
-        std::unordered_map<BlockType, GameEngine::TextureComponent*> m_Textures{};
+        std::unordered_map<BlockType, std::shared_ptr<GameEngine::Texture2D>> m_Textures{};
 
         void CreateNewConnection(int fromBlockId, int toBlockId);
         void GenerateConnections();

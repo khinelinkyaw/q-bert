@@ -4,7 +4,8 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Components/TextureComponent.h>
+#include <Engine/Core/ResourceManager.h>
+#include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
 
@@ -37,10 +38,12 @@ void Game::Graph::Render(glm::vec3 const& pos) const
 {
     for (auto& block : m_Blocks)
     {
-        auto textureIter{ m_Textures.find(block.GetType()) };
-        if (textureIter != m_Textures.end())
+        auto texturePtr{ m_Textures.find(block.GetType())->second };
+        auto blockPos{ block.GetPosition() };
+
+        if (texturePtr != nullptr)
         {
-            textureIter->second->Render(pos + glm::vec3(block.GetPosition(), 0.f));
+            GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
         }
     }
 }
@@ -82,7 +85,7 @@ Game::Graph::Graph(GameEngine::GameObject* owner)
         m_Blocks.emplace_back(index, BlockType::Green);
 
         m_Blocks.back().SetPosition(
-            (row * BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * BLOCK_SIZE),
+            (row * BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * BLOCK_SIZE) - (BLOCK_SIZE/2.f),
             row * BLOCK_SIZE * 0.75f
         );
 
@@ -93,14 +96,9 @@ Game::Graph::Graph(GameEngine::GameObject* owner)
         }
     }
 
-    auto greenTextureComp{ owner->AddComponent<GameEngine::TextureComponent>() };
-    greenTextureComp->SetTexture("GreenBlock.png");
-
-    auto blueTextureComp{ owner->AddComponent<GameEngine::TextureComponent>() };
-    blueTextureComp->SetTexture("BlueBlock.png");
-
-    auto magentaTextureComp{ owner->AddComponent<GameEngine::TextureComponent>() };
-    magentaTextureComp->SetTexture("MagentaBlock.png");
+    auto greenTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("GreenBlock.png")};
+    auto blueTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("BlueBlock.png") };
+    auto magentaTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("MagentaBlock.png") };
 
     m_Textures.insert({ BlockType::Green, greenTextureComp });
     m_Textures.insert({ BlockType::Blue, blueTextureComp });
