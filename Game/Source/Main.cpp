@@ -1,4 +1,4 @@
-#include <Engine/Components/TextureComponent.h>
+#include <Engine/Animation/Animation.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Minigin.h>
 #include <Engine/Core/Scene.h>
@@ -12,6 +12,7 @@
 #include <Map/Graph.h>
 
 #include "Characters/MovementState.h"
+#include <Engine/Components/TextureComponent.h>
 #include <memory>
 #include <utility>
 
@@ -40,9 +41,9 @@ namespace Game
         MovementState::SetGraph(graphComp);
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
-        auto player1TextureComp{ player1->AddComponent<GameEngine::TextureComponent>() };
-        player1TextureComp->SetTexture("my_guy.png");
-        player1TextureComp->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
+        auto player1SpriteComp{ player1->AddComponent<GameEngine::SpriteComponent>() };
+        player1SpriteComp->Init("QBert.png", 1, 8);
+        player1->GetComponent<GameEngine::TextureComponent>()->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
         auto p1Controller{ player1->AddComponent<ControllerComponent>() };
         p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<QBert>() };

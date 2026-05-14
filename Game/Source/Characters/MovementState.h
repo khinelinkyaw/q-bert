@@ -1,26 +1,32 @@
 #ifndef ANIMATION_STATE_H
 #define ANIMATION_STATE_H
 
-#include <Engine/Components/TextureComponent.h>
+#include <Engine/Animation/Animation.h>
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
 
-#include <Map/Graph.h>
 #include <Map/Block.h>
+#include <Map/Graph.h>
 
-#include <list>
 #include <memory>
+#include <queue>
 #include <string>
+#include <utility>
 
 namespace Game
 {
+    enum class FacingDir
+    {
+        UpRight = 0,
+        UpLeft = 2,
+        DownRight = 4,
+        DownLeft = 6
+    };
+
     enum class MovementEvent
     {
-        OnHoppedUp,
-        OnHoppedDown,
-        OnHoppedLeft,
-        OnHoppedRight,
-        OnIdle,
+        OnIdle = 0,
+        OnHop = 1,
         OnDeath,
         OnVictory
     };
@@ -28,20 +34,22 @@ namespace Game
     class MovementState
     {
     protected:
-        GameEngine::TransformComponent* m_pTransformComponent{};
-        GameEngine::TextureComponent* m_pTextureComponent{};
-        std::list<MovementEvent> m_EventQueue{};
         static Graph* m_pGraph;
+
+        GameEngine::TransformComponent* m_pTransformComponent{};
+        GameEngine::SpriteComponent* m_pTextureComponent{};
+        std::queue<std::pair<MovementEvent, FacingDir>> m_EventQueue{};
+        FacingDir m_CurrentDirection{ FacingDir::UpRight };
 
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) = 0;
         virtual void OnEnter() = 0;
         virtual void OnExit() = 0;
-        void SendEvent(MovementEvent event);
+        void SendEvent(MovementEvent event, FacingDir direction);
 
         static void SetGraph(Graph* graph) { m_pGraph = graph; }
 
-        MovementState(GameEngine::GameObject* gameObject);
+        MovementState(GameEngine::GameObject* gameObject, FacingDir direction);
         virtual ~MovementState() = default;
     };
     inline Graph* MovementState::m_pGraph = nullptr;
@@ -53,7 +61,7 @@ namespace Game
         static float constexpr HOP_HEIGHT{ 10.f };
         static float constexpr HOP_RANGE_X{ Block::BLOCK_SIZE / 2.f };
         static float constexpr HOP_RANGE_Y{ Block::BLOCK_SIZE * 0.75f };
-        MovementEvent m_HopDirection{};
+
         float m_ElapsedTime{};
         std::string m_HopTexturePath{};
         glm::vec3 m_StartPos{};
@@ -64,7 +72,7 @@ namespace Game
         void OnEnter() override;
         void OnExit() override;
 
-        HopState(GameEngine::GameObject* gameObject, MovementEvent hopDirection);
+        HopState(GameEngine::GameObject* gameObject, FacingDir direction);
         ~HopState() override = default;
     };
 
@@ -78,7 +86,7 @@ namespace Game
         void OnEnter() override;
         void OnExit() override {};
 
-        IdleState(GameEngine::GameObject* gameObject);
+        IdleState(GameEngine::GameObject* gameObject, FacingDir direction);
         ~IdleState() override = default;
     };
 }

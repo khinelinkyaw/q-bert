@@ -33,7 +33,7 @@ namespace Game
         void Update() override;
         void Render(glm::vec3 const&) const override {};
 #pragma endregion
-        void SendEvent(MovementEvent event);
+        void SendEvent(MovementEvent event, FacingDir direction);
 
         void TakeDamage();
         void Heal();

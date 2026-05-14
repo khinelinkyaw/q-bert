@@ -9,11 +9,12 @@ using namespace Game;
 
 void MoveCommand::Execute(GameEngine::GameObject& gameObject)
 {
-    gameObject.GetComponent<QBert>()->SendEvent(m_MovementEvent);
+    gameObject.GetComponent<QBert>()->SendEvent(m_MovementEvent, m_Direction);
     m_State = GameEngine::CommandState::Success;
 }
 
-Game::MoveCommand::MoveCommand(MovementEvent movementEvent)
+Game::MoveCommand::MoveCommand(MovementEvent movementEvent, FacingDir direction)
     : m_MovementEvent{ movementEvent }
+    , m_Direction{ direction }
 {
 }

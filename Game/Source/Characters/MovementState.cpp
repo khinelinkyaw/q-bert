@@ -1,7 +1,7 @@
 #include <Map/Graph.h>
 #include <Characters/MovementState.h>
 
-#include <Engine/Components/TextureComponent.h>
+#include <Engine/Animation/Animation.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Minigin.h>
 
@@ -10,14 +10,15 @@
 
 using namespace Game;
 
-void MovementState::SendEvent(MovementEvent event)
+void MovementState::SendEvent(MovementEvent event, FacingDir direction)
 {
-    m_EventQueue.push_back(event);
+    m_EventQueue.push({ event, direction });
 }
 
-MovementState::MovementState(GameEngine::GameObject* gameObject)
+MovementState::MovementState(GameEngine::GameObject* gameObject, FacingDir direction)
     : m_pTransformComponent{ gameObject->GetTransform() }
-    , m_pTextureComponent{ gameObject->GetComponent<GameEngine::TextureComponent>() }
+    , m_pTextureComponent{ gameObject->GetComponent<GameEngine::SpriteComponent>() }
+    , m_CurrentDirection{ direction }
 {
 }
 
@@ -29,7 +30,7 @@ std::unique_ptr<MovementState> HopState::Update(GameEngine::GameObject* gameObje
     if (time > 1.0f)
     {
         m_pTransformComponent->SetLocalPosition(m_DestPos);
-        result = std::make_unique<IdleState>(gameObject);
+        result = std::make_unique<IdleState>(gameObject, m_CurrentDirection);
     }
     else
     {
@@ -50,22 +51,23 @@ void HopState::OnEnter()
     //m_pTextureComponent->SetTexture(m_HopTexturePath);
     m_StartPos = m_pTransformComponent->GetLocalPosition();
 
-    switch (m_HopDirection)
+    switch (m_CurrentDirection)
     {
-    case MovementEvent::OnHoppedUp:
+    case FacingDir::UpLeft:
         m_DestPos = { m_StartPos.x - HOP_RANGE_X, m_StartPos.y - HOP_RANGE_Y, 0.f};
         break;
-    case MovementEvent::OnHoppedDown:
+    case FacingDir::DownRight:
         m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y, 0.f };
         break;
-    case MovementEvent::OnHoppedLeft:
+    case FacingDir::DownLeft:
         m_DestPos = { m_StartPos.x - HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y, 0.f };
         break;
-    case MovementEvent::OnHoppedRight:
+    case FacingDir::UpRight:
         m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y - HOP_RANGE_Y, 0.f };
         break;
     }
 
+    m_pTextureComponent->SetSpriteIndex(static_cast<int>(m_CurrentDirection) + static_cast<int>(MovementEvent::OnHop));
     m_ElapsedTime = 0.f;
 }
 
@@ -76,9 +78,8 @@ void HopState::OnExit()
     m_pGraph->SendEvent(GraphEvent::QBertMoved, m_pTransformComponent->GetOwnerObject());
 }
 
-HopState::HopState(GameEngine::GameObject* gameObject, MovementEvent hopDirection)
-    : MovementState{gameObject}
-    , m_HopDirection{hopDirection}
+HopState::HopState(GameEngine::GameObject* gameObject, FacingDir direction)
+    : MovementState{gameObject, direction}
 {
 }
 
@@ -87,19 +88,14 @@ std::unique_ptr<MovementState> IdleState::Update(GameEngine::GameObject* gameObj
     if (!m_EventQueue.empty())
     {
         auto event{ m_EventQueue.front() };
-        m_EventQueue.pop_front();
 
-        switch (event)
+        switch (event.first)
         {
-        case MovementEvent::OnHoppedUp:
-            return std::make_unique<HopState>(gameObject, MovementEvent::OnHoppedUp);
-        case MovementEvent::OnHoppedDown:
-            return std::make_unique<HopState>(gameObject, MovementEvent::OnHoppedDown);
-        case MovementEvent::OnHoppedLeft:
-            return std::make_unique<HopState>(gameObject, MovementEvent::OnHoppedLeft);
-        case MovementEvent::OnHoppedRight:
-            return std::make_unique<HopState>(gameObject, MovementEvent::OnHoppedRight);
+        case MovementEvent::OnHop:
+            return std::make_unique<HopState>(gameObject, event.second);
         }
+
+        m_EventQueue.pop();
     }
 
     return nullptr;
@@ -107,10 +103,10 @@ std::unique_ptr<MovementState> IdleState::Update(GameEngine::GameObject* gameObj
 
 void IdleState::OnEnter()
 {
-    //m_pTextureComponent->SetTexture(m_IdleTexturePath);
+    m_pTextureComponent->SetSpriteIndex(static_cast<int>(m_CurrentDirection) + static_cast<int>(MovementEvent::OnIdle));
 }
 
-IdleState::IdleState(GameEngine::GameObject* gameObject)
-    :MovementState{ gameObject }
+IdleState::IdleState(GameEngine::GameObject* gameObject, FacingDir direction)
+    : MovementState{ gameObject, direction }
 {
 }

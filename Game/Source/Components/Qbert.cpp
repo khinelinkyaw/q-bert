@@ -36,14 +36,14 @@ void Game::QBert::Update()
 
 Game::QBert::QBert(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
-    , m_pMovementState{ std::make_unique<IdleState>(owner) }
+    , m_pMovementState{ std::make_unique<IdleState>(owner, FacingDir::DownRight) }
 {
     CheckHealth();
 }
 
-void Game::QBert::SendEvent(MovementEvent event)
+void Game::QBert::SendEvent(MovementEvent event, FacingDir direction)
 {
-    m_pMovementState->SendEvent(event);
+    m_pMovementState->SendEvent(event, direction);
 }
 
 void Game::QBert::TakeDamage()

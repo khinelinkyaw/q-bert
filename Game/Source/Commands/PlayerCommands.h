@@ -12,10 +12,12 @@ namespace Game
     {
     private:
         MovementEvent m_MovementEvent{};
+        FacingDir m_Direction{};
+
     public:
         void Execute(GameEngine::GameObject& gameObject) override;
 
-        MoveCommand(MovementEvent movementEvent);
+        MoveCommand(MovementEvent movementEvent, FacingDir direction);
     };
 }
 

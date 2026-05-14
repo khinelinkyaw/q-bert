@@ -5,7 +5,6 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/Macros.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Components/TextureComponent.h>
@@ -119,10 +118,10 @@ void Graph::HandleEvents()
     {
     case GraphEvent::QBertMoved:
         auto qbertObj{ event.second };
-        //auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
-        auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
+        auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
+        //auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
 
-        auto blockUnderQbert{ GetBlock(qBertOrigin.x, qBertOrigin.y) };
+        auto blockUnderQbert{ GetBlock(qbertPos.x, qbertPos.y) };
 
         if (blockUnderQbert == nullptr)
         {

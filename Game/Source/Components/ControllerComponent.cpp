@@ -38,21 +38,21 @@ void ControllerComponent::ProcessInput()
 
     if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHoppedUp);
+        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::UpLeft);
 
         GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHoppedRight);
+        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::UpRight);
     }
     if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHoppedDown);
+        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::DownRight);
     }
     if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHoppedLeft);
+        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::DownLeft);
     }
 }
 
