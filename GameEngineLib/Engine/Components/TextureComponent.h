@@ -16,19 +16,23 @@ namespace GameEngine
     {
     private:
         glm::vec2 m_Origin{ 0.f, 0.f };
+        Rect<float> m_SrcRect{};
         std::shared_ptr<Texture2D> m_Texture{};
 
     public:
-        void FixedUpdate() override;
-        void Update() override;
+        void FixedUpdate() override {};
+        void Update() override {};
         void Render(glm::vec3 const& pos) const override;
 
         void SetTexture(const std::string& filename);
         void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
         void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
-        glm::vec2 GetOrigin() const;
 
-        Rect<float> GetSize() const;
+        void SetSrcRect(float x, float y, float width, float height);
+        void SetSrcRect(Rect<float> const& srcRect);
+        Rect<float> GetSrcRect() const;
+
+        Rect<float> GetTextureSize() const;
 
         TextureComponent(GameObject* owner);
         ~TextureComponent() = default;

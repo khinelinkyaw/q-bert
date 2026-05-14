@@ -1,9 +1,11 @@
 #ifndef ENGINE_STRUCTS_H
 #define ENGINE_STRUCTS_H
-//
-//#include <glm/fwd.hpp>
-//
+
+#include <SDL3/SDL_rect.h>
 //#include <array>
+
+#include <glm/glm.hpp>
+#include <glm/fwd.hpp>
 
 namespace GameEngine
 {
@@ -17,6 +19,25 @@ namespace GameEngine
 
         Rect() = default;
         Rect(T _x, T _y, T _width, T _height);
+
+        Rect<T>& operator+(glm::vec2 const& offset)
+        {
+            x += offset.x;
+            y += offset.y;
+            return *this;
+        }
+
+        Rect<T>& operator-(glm::vec2 const& offset)
+        {
+            x -= offset.x;
+            y -= offset.y;
+            return *this;
+        }
+
+        SDL_FRect ToSDLRect() const
+        {
+            return SDL_FRect{ x, y, width, height };
+        }
     };
 
     template<typename T>

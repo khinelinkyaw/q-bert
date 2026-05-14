@@ -5,40 +5,48 @@
 #include <Engine/Misc/Structs.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/UI/Utils.h>
+#include <Engine/Core/GameObject.h>
 
 #include <glm/fwd.hpp>
+
+#include <SDL3/SDL_rect.h>
 
 #include <string>
 
 using namespace GameEngine;
 
-void TextureComponent::FixedUpdate()
-{
-}
-
-void TextureComponent::Update()
-{
-}
-
 void TextureComponent::Render(glm::vec3 const& pos) const
 {
     if (m_Texture != nullptr)
     {
-        Renderer::Get().RenderTexture(*m_Texture, pos.x - m_Origin.x, pos.y - m_Origin.y);
+        SDL_FRect srcRect = m_SrcRect.ToSDLRect();
+        SDL_FRect dstRect{
+            pos.x - m_Origin.x,
+            pos.y - m_Origin.y,
+            m_SrcRect.width,
+            m_SrcRect.height
+        };
+
+        Renderer::Get().RenderTexture(*m_Texture, srcRect, dstRect);
     }
 }
 
 void TextureComponent::SetTexture(std::string const& filename)
 {
     m_Texture = ResourceManager::Get().LoadTexture(filename);
+
+    if (m_Texture != nullptr)
+    {
+        auto textureSize{ m_Texture->GetSize() };
+        m_SrcRect = Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
+    }
 }
 
 void TextureComponent::SetOrigin(float x, float y, Pivot pivot)
 {
-    auto textureSize{ m_Texture->GetSize() };
-    Rect<float> srcRect{0.f, 0.f, textureSize.x, textureSize.y};
+    Rect<float> rect{0.f, 0.f, m_SrcRect.width, m_SrcRect.height};
 
-    m_Origin = GameEngine::UI::AlignToRect(x, y, srcRect, pivot);
+    m_Origin = GameEngine::UI::AlignToRect(x, y, rect, pivot);
 }
 
 void TextureComponent::SetOrigin(glm::vec2 origin, Pivot pivot)
@@ -46,24 +54,31 @@ void TextureComponent::SetOrigin(glm::vec2 origin, Pivot pivot)
     SetOrigin(origin.x, origin.y, pivot);
 }
 
-glm::vec2 TextureComponent::GetOrigin() const
+void GameEngine::TextureComponent::SetSrcRect(float x, float y, float width, float height)
 {
-    auto worldPos{ GetOwnerObject()->GetTransform()->GetWorldPosition() };
-
-    return glm::vec2{
-            m_Origin.x + worldPos.x,
-            m_Origin.y + worldPos.y
-        };
+    m_SrcRect = Rect<float>{ x, y, width, height };
 }
 
-Rect<float> TextureComponent::GetSize() const
+void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& srcRect)
 {
-    if (m_Texture != nullptr)
-    {
-        auto textureSize{ m_Texture->GetSize() };
-        return Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
-    }
-    return Rect<float>{};
+    m_SrcRect = srcRect;
+}
+
+Rect<float> TextureComponent::GetSrcRect() const
+{
+    return m_SrcRect;
+}
+
+Rect<float> GameEngine::TextureComponent::GetTextureSize() const
+{
+    auto textureSize{ m_Texture->GetSize() };
+
+    return Rect<float>{
+        0.f,
+        0.f,
+        textureSize.x,
+        textureSize.y
+    };
 }
 
 TextureComponent::TextureComponent(GameObject* owner)

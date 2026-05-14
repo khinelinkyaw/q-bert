@@ -1,7 +1,6 @@
-﻿#include <Engine/Rendering/Texture2D.h>
+﻿#include <Engine/Core/SceneManager.h>
 #include <Engine/Rendering/Renderer.h>
-#include <Engine/Core/SceneManager.h>
-#include <Engine/Core/Minigin.h>
+#include <Engine/Rendering/Texture2D.h>
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_hints.h>
@@ -9,6 +8,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 
+#include <Engine/Misc/Structs.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -71,6 +71,11 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
     dst.w = width;
     dst.h = height;
     SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void GameEngine::Renderer::RenderTexture(const Texture2D& texture, SDL_FRect const& srcRect, SDL_FRect const& dstRect) const
+{
+    SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), &srcRect, &dstRect);
 }
 
 void GameEngine::Renderer::DrawLine(float x1, float y1, float x2, float y2, const SDL_Color& color) const
