@@ -27,6 +27,7 @@ namespace Game
         int GetId() const;
         BlockType GetType() const;
         void SetType(BlockType cellType);
+        void CycleType();
 
         glm::vec3 GetSurfaceCenter() const { return glm::vec3{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z }; }
 

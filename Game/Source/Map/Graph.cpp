@@ -132,7 +132,7 @@ void Graph::HandleEvents()
         else
         {
             // Notify block change
-            DEBUG_CONSOLE("Graph", "Qbert on " << blockUnderQbert->GetId());
+            blockUnderQbert->CycleType();
         }
 
         break;

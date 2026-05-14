@@ -5,7 +5,6 @@
 #include <Engine/Decoupling/Observer.h>
 #include <Engine/Core/GameObject.h>
 
-#include <Map/Graph.h>
 #include <Characters/MovementState.h>
 
 #include <memory>
@@ -16,10 +15,12 @@ namespace Game
 {
     class QBert final : public GameEngine::BaseComponent
     {
+    public:
+        static int constexpr STARTING_HEALTH{ 3 };
     private:
         bool m_IsDead{ false };
-        int m_Health{};
-        int m_MaxHealth{};
+        int m_Health{ STARTING_HEALTH };
+        int m_MaxHealth{ STARTING_HEALTH };
         int m_Score{};
         std::string m_Name{""};
         std::vector<GameEngine::Observer*> m_pObservers{};
