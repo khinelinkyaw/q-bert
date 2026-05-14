@@ -27,7 +27,6 @@ namespace GameEngine
         void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
 
         TextureComponent(GameObject* owner);
-        //TextureComponent(GameObject* owner, std::string const& filename);
         ~TextureComponent() = default;
         TextureComponent(TextureComponent const& other) = delete;
         TextureComponent(TextureComponent&& other) noexcept = delete;

@@ -50,9 +50,3 @@ TextureComponent::TextureComponent(GameObject* owner)
     , m_texture{ nullptr }
 {
 }
-
-//TextureComponent::TextureComponent(GameObject* owner, std::string const& filename)
-//    : BaseComponent{owner}
-//    , m_texture{ ResourceManager::GetInstance().LoadTexture(filename) }
-//{
-//}
