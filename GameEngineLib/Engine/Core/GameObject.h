@@ -22,6 +22,7 @@ namespace GameEngine
         TransformComponent m_Transform{this};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
+
     public:
         void FixedUpdate();
         void Update();
@@ -38,6 +39,7 @@ namespace GameEngine
         void RemoveComponent(size_t index);
         template<typename ComponentType>
         ComponentType* GetComponent();
+        std::vector<BaseComponent*> GetAllComponents() const;
 
         void SetForDeletion();
         bool IsMarkedForDeletion() const;

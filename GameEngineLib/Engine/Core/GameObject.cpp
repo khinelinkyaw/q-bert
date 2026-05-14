@@ -1,6 +1,21 @@
+#include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 
+#include <vector>
+
 using namespace GameEngine;
+
+std::vector<BaseComponent*> GameEngine::GameObject::GetAllComponents() const
+{
+    std::vector<BaseComponent*> result{};
+
+    for (const auto& component : m_Components)
+    {
+        result.push_back(component.get());
+    }
+
+    return result;
+}
 
 void GameObject::SetForDeletion()
 {
