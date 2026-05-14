@@ -44,8 +44,8 @@ namespace Game
     private:
         static float constexpr DURATION{ 0.35f };
         static float constexpr HOP_HEIGHT{ 10.f };
-        static float constexpr HOP_RANGE_X{ 17.f };
-        static float constexpr HOP_RANGE_Y{ 25.f };
+        static float constexpr HOP_RANGE_X{ 16.f };
+        static float constexpr HOP_RANGE_Y{ 24.f };
         MovementEvent m_HopDirection{};
         float m_ElapsedTime{};
         std::string m_HopTexturePath{};
