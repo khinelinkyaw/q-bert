@@ -5,6 +5,7 @@
 #include <Engine/Misc/Structs.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/UI/Utils.h>
+
 #include <glm/fwd.hpp>
 
 #include <string>
@@ -32,7 +33,7 @@ void TextureComponent::SetTexture(std::string const& filename)
     m_Texture = ResourceManager::Get().LoadTexture(filename);
 }
 
-void GameEngine::TextureComponent::SetOrigin(float x, float y, Pivot pivot)
+void TextureComponent::SetOrigin(float x, float y, Pivot pivot)
 {
     auto textureSize{ m_Texture->GetSize() };
     Rect<float> srcRect{0.f, 0.f, textureSize.x, textureSize.y};
@@ -40,12 +41,22 @@ void GameEngine::TextureComponent::SetOrigin(float x, float y, Pivot pivot)
     m_Origin = GameEngine::UI::AlignToRect(x, y, srcRect, pivot);
 }
 
-void GameEngine::TextureComponent::SetOrigin(glm::vec2 origin, Pivot pivot)
+void TextureComponent::SetOrigin(glm::vec2 origin, Pivot pivot)
 {
     SetOrigin(origin.x, origin.y, pivot);
 }
 
-Rect<float> GameEngine::TextureComponent::GetSize() const
+glm::vec2 TextureComponent::GetOrigin() const
+{
+    auto worldPos{ GetOwnerObject()->GetTransform()->GetWorldPosition() };
+
+    return glm::vec2{
+            m_Origin.x + worldPos.x,
+            m_Origin.y + worldPos.y
+        };
+}
+
+Rect<float> TextureComponent::GetSize() const
 {
     if (m_Texture != nullptr)
     {

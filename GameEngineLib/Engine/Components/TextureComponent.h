@@ -26,6 +26,7 @@ namespace GameEngine
         void SetTexture(const std::string& filename);
         void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
         void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
+        glm::vec2 GetOrigin() const;
 
         Rect<float> GetSize() const;
 
