@@ -1,16 +1,17 @@
 #include <Engine/Components/TextureComponent.h>
-#include <Engine/Input/InputManager.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/Minigin.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Core/Minigin.h>
 
+#include <Components/ControllerComponent.h>
 #include <Components/Qbert.h>
 #include <Map/Graph.h>
-#include <Components/ControllerComponent.h>
 
+#include "Characters/MovementState.h"
 #include <memory>
 #include <utility>
 
@@ -35,6 +36,8 @@ namespace Game
         auto graphComp{ obj->AddComponent<Graph>() };
         obj->SetLocationPosition(screenWidth / 2.f, 100.f);
         scene.Add(std::move(obj));
+
+        MovementState::SetGraph(graphComp);
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
         auto player1TextureComp{ player1->AddComponent<GameEngine::TextureComponent>() };

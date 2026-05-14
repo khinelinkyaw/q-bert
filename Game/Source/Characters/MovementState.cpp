@@ -1,15 +1,16 @@
+#include <Map/Graph.h>
 #include <Characters/MovementState.h>
 
-#include <Engine/Core/Minigin.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/Minigin.h>
 
 #include <cmath>
 #include <memory>
 
 using namespace Game;
 
-void Game::MovementState::SendEvent(MovementEvent event)
+void MovementState::SendEvent(MovementEvent event)
 {
     m_EventQueue.push_back(event);
 }
@@ -68,13 +69,20 @@ void HopState::OnEnter()
     m_ElapsedTime = 0.f;
 }
 
+void HopState::OnExit()
+{
+    assert(m_pGraph != nullptr);
+
+    m_pGraph->SendEvent(GraphEvent::QBertMoved, m_pTransformComponent->GetOwnerObject());
+}
+
 HopState::HopState(GameEngine::GameObject* gameObject, MovementEvent hopDirection)
     : MovementState{gameObject}
     , m_HopDirection{hopDirection}
 {
 }
 
-std::unique_ptr<MovementState> Game::IdleState::Update(GameEngine::GameObject* gameObject)
+std::unique_ptr<MovementState> IdleState::Update(GameEngine::GameObject* gameObject)
 {
     if (!m_EventQueue.empty())
     {

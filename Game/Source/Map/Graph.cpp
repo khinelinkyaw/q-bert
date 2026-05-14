@@ -1,11 +1,14 @@
+#include <Components/Qbert.h>
 #include <Map/Block.h>
 #include <Map/Connection.h>
 #include <Map/Graph.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/Macros.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Rendering/Renderer.h>
+#include <Engine/Components/TextureComponent.h>
 
 #include <algorithm>
 #include <vector>
@@ -31,7 +34,7 @@ void Graph::CreateNewConnection(int fromBlockId, int toBlockId)
     m_Connections.push_back(newConnection);
 }
 
-void Game::Graph::GenerateConnections()
+void Graph::GenerateConnections()
 {
     for (int row{ 0 }; row < TOTAL_ROWS; ++row)
     {
@@ -47,7 +50,7 @@ void Game::Graph::GenerateConnections()
     }
 }
 
-std::vector<int> Game::Graph::GetBlockIdsInARow(int row) const
+std::vector<int> Graph::GetBlockIdsInARow(int row) const
 {
     std::vector<int> result{};
 
@@ -61,7 +64,7 @@ std::vector<int> Game::Graph::GetBlockIdsInARow(int row) const
     return result;
 }
 
-int Game::Graph::GetBlockIdInRow(int row, int indexInRow) const
+int Graph::GetBlockIdInRow(int row, int indexInRow) const
 {
     if (row < 0 or indexInRow > row or indexInRow < 0)
     {
@@ -77,7 +80,73 @@ int Game::Graph::GetBlockIdInRow(int row, int indexInRow) const
     return blockIdInRow;
 }
 
-void Game::Graph::Render(glm::vec3 const& pos) const
+std::vector<Block*> Graph::GetConnectedToBlocks(int blockId)
+{
+    std::vector<Block*> result{};
+
+    if (blockId == Block::INVALID_ID)
+    {
+        return result;
+    }
+
+    for (auto& connection : m_Connections)
+    {
+        if (connection.GetFromCell() == blockId)
+        {
+            auto toBlock{ GetBlock(connection.GetToCell()) };
+            result.push_back(toBlock);
+        }
+    }
+
+    return result;
+}
+
+std::vector<Block*> Graph::GetConnectedToBlocks(Block const& block)
+{
+    return GetConnectedToBlocks(block.GetId());
+}
+
+void Graph::HandleEvents()
+{
+    if (m_EventQueue.empty())
+    {
+        return;
+    }
+
+    auto& event{ m_EventQueue.front() };
+
+    switch (event.first)
+    {
+    case GraphEvent::QBertMoved:
+        auto qbertObj{ event.second };
+        //auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
+        auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
+
+        auto blockUnderQbert{ GetBlock(qBertOrigin.x, qBertOrigin.y) };
+
+        if (blockUnderQbert == nullptr)
+        {
+            // Player loses a health or dies
+            qbertObj->SetLocationPosition(GetBlockSurfaceCenter(0));
+        }
+        else
+        {
+            // Notify block change
+            DEBUG_CONSOLE("Graph", "Qbert on " << blockUnderQbert->GetId());
+        }
+
+        break;
+    }
+
+    m_EventQueue.pop();
+}
+
+void Graph::Update()
+{
+    HandleEvents();
+}
+
+void Graph::Render(glm::vec3 const& pos) const
 {
     for (auto& block : m_Blocks)
     {
@@ -90,19 +159,19 @@ void Game::Graph::Render(glm::vec3 const& pos) const
         }
     }
 
-    for (auto& connection : m_Connections)
-    {
-        auto fromBlock{ GetBlock(connection.GetFromCell()) };
-        auto toBlock{ GetBlock(connection.GetToCell()) };
-        if (fromBlock.GetId() != Block::INVALID_ID and toBlock.GetId() != Block::INVALID_ID)
-        {
-            GameEngine::Renderer::Get().DrawLine(
-                pos + glm::vec3(fromBlock.GetSurfaceCenter(), 0.f),
-                pos + glm::vec3(toBlock.GetSurfaceCenter(), 0.f),
-                SDL_Color{ 255, 255, 255, 255 }
-            );
-        }
-    }
+    //for (auto& connection : m_Connections)
+    //{
+    //    auto fromBlock{ GetBlock(connection.GetFromCell()) };
+    //    auto toBlock{ GetBlock(connection.GetToCell()) };
+    //    if (fromBlock.GetId() != Block::INVALID_ID and toBlock.GetId() != Block::INVALID_ID)
+    //    {
+    //        GameEngine::Renderer::Get().DrawLine(
+    //            pos + fromBlock.GetSurfaceCenter(),
+    //            pos + toBlock.GetSurfaceCenter(),
+    //            SDL_Color{ 255, 255, 255, 255 }
+    //        );
+    //    }
+    //}
 }
 
 Block* Graph::GetBlock(int blockId)
@@ -120,7 +189,7 @@ Block* Graph::GetBlock(int blockId)
     return nullptr;
 }
 
-Block Game::Graph::GetBlock(int blockId) const
+Block Graph::GetBlock(int blockId) const
 {
     auto iter{ std::ranges::find_if(m_Blocks, [blockId](Block const& block)
     {
@@ -135,12 +204,51 @@ Block Game::Graph::GetBlock(int blockId) const
     return Block{Block::INVALID_ID, BlockType::Green};
 }
 
-glm::vec3 Game::Graph::GetBlockSurfaceCenter(int blockId) const
+glm::vec3 Graph::GetBlockSurfaceCenter(int blockId) const
 {
-    return GetOwnerObject()->GetTransform()->GetLocalPosition() + glm::vec3{ GetBlock(blockId).GetSurfaceCenter(), 0.f };
+    return GetOwnerObject()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
 }
 
-Game::Graph::Graph(GameEngine::GameObject* owner)
+void Graph::SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject)
+{
+    m_EventQueue.push({ graphEvent, pObject });
+}
+
+Block* Graph::GetBlock(int row, int indexInRow)
+{
+    return GetBlock(GetBlockIdInRow(row, indexInRow));
+}
+
+Block* Graph::GetBlock(float worldX, float worldY)
+{
+    auto localPos{ GetOwnerObject()->GetTransform()->GetLocalPosition() };
+    float localX{ worldX - localPos.x };
+    float localY{ worldY - localPos.y };
+
+    std::vector<Block*> collidingBlockIds{};
+
+    for (auto& block : m_Blocks)
+    {
+        if (block.IsColliding(localX, localY))
+        {
+            collidingBlockIds.push_back(&block);
+        }
+    }
+
+    auto TopMostIter{ std::ranges::max_element(collidingBlockIds, [this](Block* blockA, Block* blockB)
+    {
+        return blockA->GetPosition().z < blockB->GetPosition().z;
+    }) };
+
+    if (TopMostIter != collidingBlockIds.end())
+    {
+        return *TopMostIter;
+    }
+
+    return nullptr;
+}
+
+Graph::Graph(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
     m_Blocks.reserve(TOTAL_BLOCKS);
@@ -151,10 +259,11 @@ Game::Graph::Graph(GameEngine::GameObject* owner)
     {
         m_Blocks.emplace_back(index, BlockType::Green);
 
-        m_Blocks.back().SetPosition(
-            (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE/2.f),
-            row * Block::BLOCK_SIZE * 0.75f
-        );
+        m_Blocks.back().SetPosition(glm::vec3{
+            (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
+            row * Block::BLOCK_SIZE * 0.75f,
+            static_cast<float>(row)
+        });
 
         if (index == nextRowIncrement)
         {

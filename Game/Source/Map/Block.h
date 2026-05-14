@@ -19,7 +19,7 @@ namespace Game
         static float constexpr BLOCK_SIZE{ 32.f };
 
     private:
-        glm::vec2 m_Position{};
+        glm::vec3 m_Position{};
         int m_Id{ INVALID_ID };
         BlockType m_BlockType{ BlockType::Green };
 
@@ -28,11 +28,17 @@ namespace Game
         BlockType GetType() const;
         void SetType(BlockType cellType);
 
-        glm::vec2 GetSurfaceCenter() const { return glm::vec2{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f }; }
+        glm::vec3 GetSurfaceCenter() const { return glm::vec3{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z }; }
 
-        void SetPosition(glm::vec2 position) { m_Position = position; }
-        void SetPosition(float x, float y) { m_Position = glm::vec2{ x, y }; }
-        glm::vec2 GetPosition() const { return m_Position; }
+        void SetPosition(glm::vec3 position) { m_Position = position; }
+        void SetPosition(float x, float y) { m_Position = glm::vec3{ x, y, m_Position.z }; }
+        glm::vec3 GetPosition() const { return m_Position; }
+
+        bool IsColliding(float worldX, float worldY) const
+        {
+            return worldX >= m_Position.x && worldX <= m_Position.x + BLOCK_SIZE
+                && worldY >= m_Position.y && worldY <= m_Position.y + BLOCK_SIZE;
+        }
 
         Block(int id, BlockType blockType);
 

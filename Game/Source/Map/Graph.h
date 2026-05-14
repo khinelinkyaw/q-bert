@@ -8,12 +8,22 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
 
+#include <glm/fwd.hpp>
+
 #include <memory>
+#include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
+#include <queue>
 
 namespace Game
 {
+    enum class GraphEvent
+    {
+        QBertMoved
+    };
+
     class Graph final : public GameEngine::BaseComponent
     {
     public:
@@ -24,24 +34,31 @@ namespace Game
         std::vector<Block> m_Blocks{};
         std::vector<Connection> m_Connections{};
         std::unordered_map<BlockType, std::shared_ptr<GameEngine::Texture2D>> m_Textures{};
+        std::queue<std::pair<GraphEvent, GameEngine::GameObject*>> m_EventQueue{};
 
         void CreateNewConnection(int fromBlockId, int toBlockId);
         void GenerateConnections();
 
         std::vector<int> GetBlockIdsInARow(int row) const;
         int GetBlockIdInRow(int row, int indexInRow) const;
+        std::vector<Block*> GetConnectedToBlocks(int blockId);
+        std::vector<Block*> GetConnectedToBlocks(Block const& block);
+
+        void HandleEvents();
 
     public:
         void FixedUpdate() override {};
-        void Update() override {};
+        void Update() override;
         void Render(glm::vec3 const& pos) const override;
 
         Block* GetBlock(int blockId);
         Block GetBlock(int blockId) const;
+        Block* GetBlock(int row, int indexInRow);
+        Block* GetBlock(float worldX, float worldY);
 
         glm::vec3 GetBlockSurfaceCenter(int blockId) const;
-        //Block* GetBlock(int rowIndex, int colIndex);
-        //Block* GetBlock(float worldX, float worldY);
+
+        void SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject);
 
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;

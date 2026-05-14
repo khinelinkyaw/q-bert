@@ -5,6 +5,9 @@
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
 
+#include <Map/Graph.h>
+#include <Map/Block.h>
+
 #include <list>
 #include <memory>
 #include <string>
@@ -28,6 +31,7 @@ namespace Game
         GameEngine::TransformComponent* m_pTransformComponent{};
         GameEngine::TextureComponent* m_pTextureComponent{};
         std::list<MovementEvent> m_EventQueue{};
+        static Graph* m_pGraph;
 
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) = 0;
@@ -35,17 +39,20 @@ namespace Game
         virtual void OnExit() = 0;
         void SendEvent(MovementEvent event);
 
+        static void SetGraph(Graph* graph) { m_pGraph = graph; }
+
         MovementState(GameEngine::GameObject* gameObject);
         virtual ~MovementState() = default;
     };
+    inline Graph* MovementState::m_pGraph = nullptr;
 
     class HopState final : public MovementState
     {
     private:
         static float constexpr DURATION{ 0.35f };
         static float constexpr HOP_HEIGHT{ 10.f };
-        static float constexpr HOP_RANGE_X{ 16.f };
-        static float constexpr HOP_RANGE_Y{ 24.f };
+        static float constexpr HOP_RANGE_X{ Block::BLOCK_SIZE / 2.f };
+        static float constexpr HOP_RANGE_Y{ Block::BLOCK_SIZE * 0.75f };
         MovementEvent m_HopDirection{};
         float m_ElapsedTime{};
         std::string m_HopTexturePath{};
@@ -55,7 +62,7 @@ namespace Game
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) override;
         void OnEnter() override;
-        void OnExit() override {};
+        void OnExit() override;
 
         HopState(GameEngine::GameObject* gameObject, MovementEvent hopDirection);
         ~HopState() override = default;

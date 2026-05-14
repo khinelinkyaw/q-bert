@@ -5,6 +5,7 @@
 #include <Engine/Decoupling/Observer.h>
 #include <Engine/Core/GameObject.h>
 
+#include <Map/Graph.h>
 #include <Characters/MovementState.h>
 
 #include <memory>
