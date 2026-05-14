@@ -1,83 +1,55 @@
 #include <Engine/Animation/Animation.h>
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Core/ResourceManager.h>
+#include <Engine/Components/TextureComponent.h>
 #include <Engine/Misc/Structs.h>
-#include <Engine/Rendering/Renderer.h>
 
-#include <cstdint>
 #include <string>
 
-void GameEngine::SpriteComponent::FixedUpdate()
+void GameEngine::SpriteComponent::SetSpriteIndex(int index)
 {
-}
-
-void GameEngine::SpriteComponent::Update()
-{
-}
-
-void GameEngine::SpriteComponent::Render(vector3 const&) const
-{
-}
-
-GameEngine::Rect<float> GameEngine::SpriteComponent::GetSpriteRect(uint8_t index)
-{
-    if (index < m_TotalSprites)
+    if (index >= 0 and index < m_SpriteRects.size())
     {
-        return m_SpriteRects[index];
-    }
-
-    return Rect<float>();
-}
-
-void GameEngine::SpriteComponent::RenderSprite(uint8_t index)
-{
-    if (m_Texture != nullptr and index < m_TotalSprites)
-    {
-        auto& renderRect{ m_SpriteRects[index] };
-        Renderer::Get().RenderTexture(
-            *m_Texture,
-            renderRect.x,
-            renderRect.y,
-            renderRect.width,
-            renderRect.height
-        );
+        m_TextureComponent->SetSrcRect(m_SpriteRects[index]);
     }
 }
 
-void GameEngine::SpriteComponent::Init(std::string const& filePath, uint8_t rows, uint8_t cols, uint8_t totalSprites)
+void GameEngine::SpriteComponent::Init(std::string const& filePath, int rows, int cols, int totalSprites)
 {
-    m_Texture = ResourceManager::Get().LoadTexture(filePath);
-    m_Rows = rows;
-    m_Cols = cols;
-    m_TotalSprites = totalSprites;
+    m_TextureComponent = GetOwnerObject()->AddComponent<TextureComponent>();
+    m_TextureComponent->SetTexture(filePath);
 
-    if (m_Texture != nullptr)
+    auto textureSize{ m_TextureComponent->GetTextureSize() };
+    auto spriteWidth{ textureSize.width / cols };
+    auto spriteHeight{ textureSize.height / rows };
+
+    if (m_TotalSprites == 0 or m_TotalSprites > rows * cols)
     {
-        auto spriteSize{ m_Texture->GetSize() };
+        m_TotalSprites = rows * cols;
+    }
+    else
+    {
+        m_TotalSprites = totalSprites;
+    }
 
-        auto spriteWidth{ static_cast<int>(spriteSize.x) % cols };
-        auto spriteHeight{ static_cast<int>(spriteSize.y) % rows };
+    m_SpriteRects.reserve(m_TotalSprites);
 
-        if (m_TotalSprites == 0) m_TotalSprites = rows * cols;
-
-        m_SpriteRects.reserve(m_TotalSprites);
-
-        for (uint8_t rowIdx{}; rowIdx < rows and m_SpriteRects.size() < m_TotalSprites; ++rowIdx)
+    for (int rowIndex{ 0 }; rowIndex < rows and m_SpriteRects.size() < m_TotalSprites; ++rowIndex)
+    {
+        for (int colIndex{ 0 }; colIndex < cols and m_SpriteRects.size() < m_TotalSprites; ++colIndex)
         {
-            for (uint8_t colIdx{}; colIdx < cols and m_SpriteRects.size() < m_TotalSprites; ++colIdx)
-            {
-                m_SpriteRects.emplace_back(
-                    static_cast<float>(spriteWidth * colIdx),
-                    static_cast<float>(spriteHeight * rowIdx),
-                    static_cast<float>(spriteWidth),
-                    static_cast<float>(spriteHeight)
-                );
-            }
+            m_SpriteRects.emplace_back(
+                static_cast<float>(spriteWidth * colIndex),
+                static_cast<float>(spriteHeight * rowIndex),
+                static_cast<float>(spriteWidth),
+                static_cast<float>(spriteHeight)
+            );
         }
     }
+
+    SetSpriteIndex(0);
 }
 
 GameEngine::SpriteComponent::SpriteComponent(GameObject* owner)
-    :BaseComponent{owner}
+    : BaseComponent{owner}
 {
 }
