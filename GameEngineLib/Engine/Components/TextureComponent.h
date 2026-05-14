@@ -5,6 +5,7 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
 #include <Engine/Misc/Enums.h>
+#include <Engine/Misc/Structs.h>
 
 #include <memory>
 #include <string>
@@ -15,7 +16,7 @@ namespace GameEngine
     {
     private:
         glm::vec2 m_Origin{ 0.f, 0.f };
-        std::shared_ptr<Texture2D> m_texture{};
+        std::shared_ptr<Texture2D> m_Texture{};
 
     public:
         void FixedUpdate() override;
@@ -25,6 +26,8 @@ namespace GameEngine
         void SetTexture(const std::string& filename);
         void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
         void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
+
+        Rect<float> GetSize() const;
 
         TextureComponent(GameObject* owner);
         ~TextureComponent() = default;
