@@ -1,10 +1,13 @@
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Rendering/Texture2D.h>
+
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
-#include <cassert>
+
 #include <glm/ext/vector_float2.hpp>
+
+#include <cassert>
 #include <stdexcept>
 #include <string>
 
