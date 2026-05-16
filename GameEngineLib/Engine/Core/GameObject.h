@@ -3,17 +3,13 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TransformComponent.h>
+#include <Engine/Decoupling/Event.h>
 
-#include <algorithm>
 #include <memory>
-#include <type_traits>
-#include <utility>
 #include <vector>
 
 namespace GameEngine
 {
-    template<typename T> concept DerivedComponent = std::is_base_of<BaseComponent, T>::value;
-
     class Texture2D;
     class GameObject final
     {
@@ -22,24 +18,20 @@ namespace GameEngine
         TransformComponent m_Transform{this};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
-
     public:
         void FixedUpdate();
         void Update();
         void Render() const;
 
         TransformComponent* GetTransform() { return &m_Transform; }
-        //TransformComponent GetTransform() const { return m_Transform; }
 
-        void SetLocationPosition(float x, float y);
-        void SetLocationPosition(glm::vec3 newPos);
+        void SendEvent(std::unique_ptr<EventArg>&& pEventArg);
 
         template<typename ComponentType> requires DerivedComponent<ComponentType>
         ComponentType* AddComponent();
         void RemoveComponent(size_t index);
         template<typename ComponentType>
         ComponentType* GetComponent();
-        std::vector<BaseComponent*> GetAllComponents() const;
 
         void SetForDeletion();
         bool IsMarkedForDeletion() const;

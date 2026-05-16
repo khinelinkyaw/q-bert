@@ -1,17 +1,21 @@
 #include "CollisionComponent.h"
 
-#include <Engine/Core/GameObject.h>
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/Structs.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Core/ServiceLocator.h>
+#include <Engine/Decoupling/Event.h>
+#include <Engine/Misc/Structs.h>
 #include <Engine/Rendering/Renderer.h>
+
+#include <algorithm>
+#include <memory>
 
 using namespace GameEngine;
 
 Rect<float> GameEngine::CollisionComponent::GetRect() const
 {
-    auto position{ GetOwnerObject()->GetTransform()->GetWorldPosition() };
+    auto position{ GetOwner()->GetTransform()->GetWorldPosition() };
 
     return {
         position.x + m_CollisionRect.x,
@@ -31,9 +35,33 @@ void CollisionComponent::SetRect(Rect<float> const& collisionRect)
     m_CollisionRect = collisionRect;
 }
 
-void CollisionComponent::NotifyOnCollision(GameObject* other)
+void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionComponent*> const& newCollisions)
 {
-    m_CollisionObserver.OnNotify(*other, "OnCollision");
+    for (auto const& component : newCollisions)
+    {
+        auto iter{ std::ranges::find(m_CollidingComponents, component) };
+
+        if (iter == m_CollidingComponents.end())
+        {
+            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionEnter", component->GetOwner() }));
+        }
+        else
+        {
+            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionStay", component->GetOwner() }));
+        }
+    }
+
+    for (auto const& component : m_CollidingComponents)
+    {
+        auto iter{ std::ranges::find(newCollisions, component) };
+
+        if (iter == newCollisions.end())
+        {
+            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionExit", component->GetOwner() }));
+        }
+    }
+
+    m_CollidingComponents = newCollisions;
 }
 
 void GameEngine::CollisionComponent::Render(glm::vec3 const& pos) const
@@ -44,7 +72,6 @@ void GameEngine::CollisionComponent::Render(glm::vec3 const& pos) const
 
 CollisionComponent::CollisionComponent(GameObject* owner)
     : BaseComponent{ owner }
-    , m_CollisionObserver{ owner }
 {
     auto textureComp{ owner->GetComponent<TextureComponent>() };
 

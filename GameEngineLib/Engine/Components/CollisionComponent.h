@@ -3,15 +3,18 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/Structs.h>
-#include <Engine/Physics/CollisionObserver.h>
+
+#include <vector>
 
 namespace GameEngine
 {
+    class GameObject;
     class CollisionComponent final : public BaseComponent
     {
     private:
+        std::vector<CollisionComponent*> m_CollidingComponents{};
+
         Rect<float> m_CollisionRect{};
-        CollisionObserver m_CollisionObserver{ nullptr };
         bool m_Active{ true };
 
     public:
@@ -20,7 +23,7 @@ namespace GameEngine
         void SetRect(Rect<float> const& collisionRect);
         void SetActive(bool active) { m_Active = active; }
 
-        void NotifyOnCollision(GameObject* other);
+        void CheckCollisions(std::vector<CollisionComponent*> const& otherComponents);
 
         void FixedUpdate() override {};
         void Update() override {};

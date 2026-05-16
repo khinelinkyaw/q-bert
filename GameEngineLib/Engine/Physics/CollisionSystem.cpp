@@ -1,7 +1,9 @@
 #include "CollisionSystem.h"
-#include "CollisionSystem.h"
 
+#include <Engine/Components/CollisionComponent.h>
 #include <Engine/Physics/Utils.h>
+
+#include <vector>
 
 using namespace GameEngine;
 
@@ -9,16 +11,19 @@ void CollisionSystem::CheckCollisions()
 {
     for (auto eachComponent : m_CollisionComponents)
     {
+        std::vector<CollisionComponent*> newCollisions{};
+
         for (auto otherComponent : m_CollisionComponents)
         {
             if (eachComponent == otherComponent) continue;
 
             if (Collision::CollisionBetweenRects<float>(eachComponent->GetRect(), otherComponent->GetRect()))
             {
-                eachComponent->NotifyOnCollision(otherComponent->GetOwnerObject());
-                otherComponent->NotifyOnCollision(eachComponent->GetOwnerObject());
+                newCollisions.push_back(otherComponent);
             }
         }
+
+        eachComponent->CheckCollisions(newCollisions);
     }
 }
 

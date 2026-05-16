@@ -19,7 +19,7 @@ target_sources(GameEngineLib
             ${ENGINE_HEADER_FILES}
 )
 
-target_compile_features(GameEngineLib PRIVATE cxx_std_20) # enable c++20 features
+target_compile_features(GameEngineLib PUBLIC cxx_std_20) # enable c++20 features
 
 target_include_directories(GameEngineLib
     PUBLIC

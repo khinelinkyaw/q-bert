@@ -1,7 +1,11 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
+#include <Engine/Decoupling/Event.h>
+#include <Engine/Core/Macros.h>
 #include <glm/fwd.hpp>
+
+#include <type_traits>
 
 namespace GameEngine
 {
@@ -18,9 +22,12 @@ namespace GameEngine
         virtual void FixedUpdate() = 0;
         virtual void Update() = 0;
         virtual void Render(vector3 const& pos) const = 0;
-        virtual void OnCollision(GameObject*) const {};
+        virtual void OnCollisionEnter(GameObject*) const {};
+        virtual void OnCollisionStay(GameObject*) const {};
+        virtual void OnCollisionExit(GameObject*) const {};
+        virtual void OnEvent(EventArg const&) {};
 
-        GameObject* GetOwnerObject() const;
+        GameObject* GetOwner() const;
 
         BaseComponent() = delete;
         BaseComponent(GameObject* owner);
@@ -30,6 +37,8 @@ namespace GameEngine
         BaseComponent& operator=(const BaseComponent& other) = delete;
         BaseComponent& operator=(BaseComponent&& other) = delete;
     };
+
+    template<typename T> concept DerivedComponent = std::is_base_of<BaseComponent, T>::value;
 }
 
 #endif

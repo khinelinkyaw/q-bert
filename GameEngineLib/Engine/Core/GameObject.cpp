@@ -1,21 +1,12 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Decoupling/Event.h>
 
+#include <memory>
+#include <string>
 #include <vector>
 
 using namespace GameEngine;
-
-std::vector<BaseComponent*> GameEngine::GameObject::GetAllComponents() const
-{
-    std::vector<BaseComponent*> result{};
-
-    for (const auto& component : m_Components)
-    {
-        result.push_back(component.get());
-    }
-
-    return result;
-}
 
 void GameObject::SetForDeletion()
 {
@@ -53,14 +44,40 @@ void GameObject::Render() const
     }
 }
 
-void GameObject::SetLocationPosition(float x, float y)
+void GameEngine::GameObject::SendEvent(std::unique_ptr<EventArg>&& pEventArg)
 {
-    m_Transform.SetLocalPosition(glm::vec3{ x, y, 0.f });
-}
+    if (pEventArg->EventId == "OnCollisionEnter")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionEnter(otherObject);
+        }
+        return;
+    }
+    else if (pEventArg->EventId == "OnCollisionStay")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionStay(otherObject);
+        }
+        return;
+    }
+    else if (pEventArg->EventId == "OnCollisionExit")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionExit(otherObject);
+        }
+        return;
+    }
 
-void GameObject::SetLocationPosition(glm::vec3 newPos)
-{
-    m_Transform.SetLocalPosition(newPos);
+    for (const auto& component : m_Components)
+    {
+        component->OnEvent(*pEventArg.get());
+    }
 }
 
 void GameObject::RemoveComponent(size_t index)
