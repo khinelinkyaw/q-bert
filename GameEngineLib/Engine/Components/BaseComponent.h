@@ -22,10 +22,10 @@ namespace GameEngine
         virtual void FixedUpdate() = 0;
         virtual void Update() = 0;
         virtual void Render(vector3 const& pos) const = 0;
-        virtual void OnCollisionEnter(GameObject*) const {};
-        virtual void OnCollisionStay(GameObject*) const {};
-        virtual void OnCollisionExit(GameObject*) const {};
-        virtual void OnEvent(EventArg const&) {};
+        virtual void OnCollisionEnter(GameObject* collidingObject) const;
+        virtual void OnCollisionStay(GameObject* collidingObject) const;
+        virtual void OnCollisionExit(GameObject* collidingObject) const;
+        virtual void OnEvent(EventArg const& eventArg);
 
         GameObject* GetOwner() const;
 
