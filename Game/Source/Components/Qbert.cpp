@@ -3,6 +3,7 @@
 #include <Engine/Decoupling/Observer.h>
 
 #include <Characters/MovementState.h>
+#include <Commands/PlayerCommands.h>
 #include <Components/Qbert.h>
 
 #include <memory>
@@ -24,7 +25,7 @@ void Game::QBert::CheckHealth()
 
 void Game::QBert::Update()
 {
-    auto newState = m_pMovementState->Update(GetOwnerObject());
+    auto newState = m_pMovementState->Update(GetOwner());
 
     if (newState)
     {
@@ -41,9 +42,14 @@ Game::QBert::QBert(GameEngine::GameObject* owner)
     CheckHealth();
 }
 
-void Game::QBert::SendEvent(MovementEvent event, FacingDir direction)
+void Game::QBert::OnEvent(GameEngine::EventArg* eventArg)
 {
-    m_pMovementState->SendEvent(event, direction);
+    if (eventArg->EventId == "OnMove")
+    {
+        auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };
+
+        m_pMovementState->SendEvent(movementEventArg->MovementEvent, movementEventArg->Direction);
+    }
 }
 
 void Game::QBert::TakeDamage()
@@ -143,7 +149,7 @@ void Game::QBert::NotifyObservers(std::string eventId)
 {
     for (auto pObserver : m_pObservers)
     {
-        pObserver->OnNotify(*GetOwnerObject(), eventId);
+        pObserver->OnNotify(*GetOwner(), eventId);
     }
 }
 

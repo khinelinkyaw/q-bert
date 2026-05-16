@@ -14,21 +14,12 @@
 
 namespace Game
 {
-    template<typename T> concept DerivedCommandClass = std::is_base_of<GameEngine::Command, T>::value;
-
     class GameEngine::InputDevice;
     class ControllerComponent final : public GameEngine::BaseComponent
     {
     private:
         GameEngine::InputMapping* m_pInputMapping{};
         GameEngine::InputDevice* m_pInputDevice{};
-
-        std::list<std::unique_ptr<GameEngine::Command>> m_Commands{};
-
-        template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
-        void AddCommand(Args&& ... args);
-        void ClearCommands();
-        void ExecuteCommands();
 
     public:
         void ProcessInput();
@@ -45,12 +36,6 @@ namespace Game
         ControllerComponent& operator=(const ControllerComponent& other) = delete;
         ControllerComponent& operator=(ControllerComponent&& other) = delete;
     };
-
-    template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
-    void ControllerComponent::AddCommand(Args && ...args)
-    {
-        m_Commands.push_back(std::make_unique<CommandType>(std::forward<Args>(args)...));
-    }
 }
 
 #endif

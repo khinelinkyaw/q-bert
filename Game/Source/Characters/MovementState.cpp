@@ -4,6 +4,7 @@
 #include <Engine/Animation/Animation.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Minigin.h>
+#include <Engine/Core/ServiceLocator.h>
 
 #include <cmath>
 #include <memory>
@@ -69,13 +70,15 @@ void HopState::OnEnter()
 
     m_pTextureComponent->SetSpriteIndex(static_cast<int>(m_CurrentDirection) + static_cast<int>(MovementEvent::OnHop));
     m_ElapsedTime = 0.f;
+
+    GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
 }
 
 void HopState::OnExit()
 {
     assert(m_pGraph != nullptr);
 
-    m_pGraph->SendEvent(GraphEvent::QBertMoved, m_pTransformComponent->GetOwnerObject());
+    m_pGraph->SendEvent(GraphEvent::QBertMoved, m_pTransformComponent->GetOwner());
 }
 
 HopState::HopState(GameEngine::GameObject* gameObject, FacingDir direction)

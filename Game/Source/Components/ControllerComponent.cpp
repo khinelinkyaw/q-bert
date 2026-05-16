@@ -1,34 +1,17 @@
-#include <Engine/Audio/SoundSystem.h>
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Decoupling/Command.h>
-#include <Engine/Input/InputManager.h>
-#include <Engine/Input/InputMapping.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/ServiceLocator.h>
 #include <Engine/Input/InputDevice.h>
+#include <Engine/Input/InputMapping.h>
 
 #include <Characters/MovementState.h>
-#include <Components/ControllerComponent.h>
 #include <Commands/PlayerCommands.h>
+#include <Components/ControllerComponent.h>
 
 #include <cassert>
 #include <memory>
+#include <utility>
 
 using namespace Game;
-
-void ControllerComponent::ClearCommands()
-{
-    m_Commands.clear();
-}
-
-void ControllerComponent::ExecuteCommands()
-{
-    while (!m_Commands.empty())
-    {
-        m_Commands.front()->Execute(*GetOwnerObject());
-        m_Commands.pop_front();
-    }
-}
 
 void ControllerComponent::ProcessInput()
 {
@@ -38,28 +21,29 @@ void ControllerComponent::ProcessInput()
 
     if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::UpLeft);
-
-        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
+        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::UpLeft}) };
+        GetOwner()->SendEvent(std::move(eventArg));
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::UpRight);
+        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::UpRight}) };
+        GetOwner()->SendEvent(std::move(eventArg));
     }
     if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::DownRight);
+        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::DownRight}) };
+        GetOwner()->SendEvent(std::move(eventArg));
     }
     if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
-        AddCommand<MoveCommand>(MovementEvent::OnHop, FacingDir::DownLeft);
+        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::DownLeft}) };
+        GetOwner()->SendEvent(std::move(eventArg));
     }
 }
 
 void ControllerComponent::FixedUpdate()
 {
     ProcessInput();
-    ExecuteCommands();
 }
 
 void ControllerComponent::Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice)
