@@ -15,7 +15,7 @@ namespace GameEngine
     void BaseComponent::OnCollisionExit(GameObject*) const
     {
     }
-    void BaseComponent::OnEvent(EventArg const&)
+    void BaseComponent::OnEvent(EventArg*)
     {
     }
     GameObject* BaseComponent::GetOwner() const

@@ -25,7 +25,7 @@ namespace GameEngine
         virtual void OnCollisionEnter(GameObject* collidingObject) const;
         virtual void OnCollisionStay(GameObject* collidingObject) const;
         virtual void OnCollisionExit(GameObject* collidingObject) const;
-        virtual void OnEvent(EventArg const& eventArg);
+        virtual void OnEvent(EventArg* eventArg);
 
         GameObject* GetOwner() const;
 

@@ -76,7 +76,7 @@ void GameEngine::GameObject::SendEvent(std::unique_ptr<EventArg>&& pEventArg)
 
     for (const auto& component : m_Components)
     {
-        component->OnEvent(*pEventArg.get());
+        component->OnEvent(pEventArg.get());
     }
 }
 
