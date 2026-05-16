@@ -20,7 +20,7 @@ namespace Game
 {
     enum class GraphEvent
     {
-        QBertMoved
+        EntityMoved
     };
 
     class Graph final : public GameEngine::BaseComponent

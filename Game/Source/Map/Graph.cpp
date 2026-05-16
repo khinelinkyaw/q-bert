@@ -113,7 +113,7 @@ void Graph::HandleEvents()
 
         switch (event.first)
         {
-        case GraphEvent::QBertMoved:
+        case GraphEvent::EntityMoved:
             auto qbertObj{ event.second };
             auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
             //auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
