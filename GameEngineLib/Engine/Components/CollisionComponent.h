@@ -23,7 +23,7 @@ namespace GameEngine
         void SetRect(Rect<float> const& collisionRect);
         void SetActive(bool active) { m_Active = active; }
 
-        void CheckCollisions(std::vector<CollisionComponent*> const& otherComponents);
+        void CheckCollisions(std::vector<CollisionComponent*>&& otherComponents);
 
         void FixedUpdate() override {};
         void Update() override {};

@@ -3,6 +3,8 @@
 #include <Engine/Components/CollisionComponent.h>
 #include <Engine/Physics/Utils.h>
 
+#include <algorithm>
+#include <utility>
 #include <vector>
 
 using namespace GameEngine;
@@ -23,7 +25,7 @@ void CollisionSystem::CheckCollisions()
             }
         }
 
-        eachComponent->CheckCollisions(newCollisions);
+        eachComponent->CheckCollisions(std::move(newCollisions));
     }
 }
 

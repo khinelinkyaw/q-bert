@@ -10,6 +10,8 @@
 
 #include <algorithm>
 #include <memory>
+#include <utility>
+#include <vector>
 
 using namespace GameEngine;
 
@@ -35,7 +37,7 @@ void CollisionComponent::SetRect(Rect<float> const& collisionRect)
     m_CollisionRect = collisionRect;
 }
 
-void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionComponent*> const& newCollisions)
+void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionComponent*>&& newCollisions)
 {
     for (auto const& component : newCollisions)
     {
@@ -61,7 +63,7 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
         }
     }
 
-    m_CollidingComponents = newCollisions;
+    m_CollidingComponents = std::move(newCollisions);
 }
 
 void GameEngine::CollisionComponent::Render(glm::vec3 const& pos) const
