@@ -15,6 +15,15 @@ namespace GameEngine
         virtual ~SoundSystem() = default;
     };
 
+    class NullSoundSystem final : public SoundSystem
+    {
+    public:
+        void Play(int) override {};
+        void Load(int, std::string const&) override {};
+
+        ~NullSoundSystem() override = default;
+    };
+
     class MiniAudioSoundSystem final : public SoundSystem
     {
     private:
