@@ -25,6 +25,8 @@ namespace GameEngine
         void Render(glm::vec3 const& pos) const override;
 
         void SetTexture(const std::string& filename);
+        
+        glm::vec2 GetOrigin() const { return m_Origin; }
         void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
         void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
 

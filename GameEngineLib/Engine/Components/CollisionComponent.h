@@ -24,10 +24,10 @@ namespace GameEngine
 
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(glm::vec3 const&) const override {};
+        void Render(glm::vec3 const& pos) const override;
 
         CollisionComponent(GameObject* owner);
-        ~CollisionComponent() override = default;
+        ~CollisionComponent() override;
     };
 }
 
