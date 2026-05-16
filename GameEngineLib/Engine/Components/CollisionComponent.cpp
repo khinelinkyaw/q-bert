@@ -65,10 +65,10 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
     m_CollidingComponents = std::move(newCollisions);
 }
 
-void GameEngine::CollisionComponent::Render(glm::vec3 const& pos) const
+void GameEngine::CollisionComponent::Render(glm::vec3 const&) const
 {
-    SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
-    Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
+    //SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
+    //Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
 }
 
 CollisionComponent::CollisionComponent(GameObject* owner)
