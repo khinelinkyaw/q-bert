@@ -1,8 +1,10 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Observer.h>
+#include <Engine/Animation/Animation.h>
 
 #include <Characters/MovementState.h>
+#include <Misc/Constants.h>
 #include <Commands/PlayerCommands.h>
 #include <Components/Qbert.h>
 
@@ -37,7 +39,7 @@ void Game::QBert::Update()
 
 Game::QBert::QBert(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
-    , m_pMovementState{ std::make_unique<IdleState>(owner, FacingDir::DownRight) }
+    , m_pMovementState{ std::make_unique<IdleState>(owner, LookDirection::DownRight) }
 {
     CheckHealth();
 }
@@ -49,6 +51,14 @@ void Game::QBert::OnEvent(GameEngine::EventArg* eventArg)
         auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };
 
         m_pMovementState->SendEvent(movementEventArg->MovementEvent, movementEventArg->Direction);
+    }
+    else if (eventArg->EventId == "ChangeSprite")
+    {
+        auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };
+
+        GetOwner()->GetComponent<GameEngine::SpriteComponent>()->SetSpriteIndex(
+            GetSpriteIndexFromMap(Consts::QBERT_SPRITE_MAP, movementEventArg->Direction, movementEventArg->MovementEvent)
+        );
     }
 }
 

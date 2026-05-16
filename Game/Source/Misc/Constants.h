@@ -1,6 +1,58 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include <Characters/MovementState.h>
 
+#include <unordered_map>
+
+namespace Game
+{
+    namespace Consts
+    {
+        std::unordered_map<int, int> const QBERT_SPRITE_MAP{
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnIdle),     0 },
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnHop),      1 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnIdle),      2 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnHop),       3 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnIdle),   4 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnHop),    5 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    6 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     7 },
+        };
+
+        std::unordered_map<int, int> const RED_SLIME_SPRITE_MAP{
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnIdle),     0 },
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnHop),      1 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnIdle),      0 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnHop),       1 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnIdle),   0 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnHop),    1 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    0 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     1 },
+        };
+
+        std::unordered_map<int, int> const GREEN_SLIME_SPRITE_MAP{
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnIdle),     2 },
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnHop),      3 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnIdle),      2 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnHop),       3 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnIdle),   2 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnHop),    3 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    2 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     3 },
+        };
+
+        std::unordered_map<int, int> const PURPLE_SLIME_SPRITE_MAP{
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnIdle),     4 },
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnHop),      5 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnIdle),      4 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnHop),       5 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnIdle),   4 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnHop),    5 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    4 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     5 },
+        };
+    }
+}
 
 #endif

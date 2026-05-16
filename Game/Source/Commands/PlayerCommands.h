@@ -3,28 +3,14 @@
 
 #include <Characters/MovementState.h>
 
-#include <Engine/Decoupling/Command.h>
 #include <Engine/Decoupling/Event.h>
-#include <Engine/Core/GameObject.h>
 
 namespace Game
 {
     struct EventArgMove final : public GameEngine::EventArg
     {
         MovementEvent MovementEvent{ MovementEvent::OnIdle };
-        FacingDir Direction{ FacingDir::UpRight };
-    };
-
-    class MoveCommand final : public GameEngine::Command
-    {
-    private:
-        MovementEvent m_MovementEvent{};
-        FacingDir m_Direction{};
-
-    public:
-        void Execute(GameEngine::GameObject& gameObject) override;
-
-        MoveCommand(MovementEvent movementEvent, FacingDir direction);
+        LookDirection Direction{ LookDirection::UpRight };
     };
 }
 

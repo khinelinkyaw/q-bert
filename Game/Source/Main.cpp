@@ -9,6 +9,7 @@
 #include <Engine/Components/CollisionComponent.h>
 
 #include <Components/ControllerComponent.h>
+#include <Components/Slime.h>
 #include <Components/Qbert.h>
 #include <Map/Graph.h>
 
@@ -42,24 +43,20 @@ namespace Game
         MovementState::SetGraph(graphComp);
 
         auto player1{ std::make_unique<GameEngine::GameObject>() };
-        auto player1SpriteComp{ player1->AddComponent<GameEngine::SpriteComponent>() };
-        player1SpriteComp->Init("QBert.png", 1, 8);
-        player1->GetComponent<GameEngine::TextureComponent>()->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
-        auto p1Controller{ player1->AddComponent<ControllerComponent>() };
-        p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
-        auto pPlayer1Comp{ player1->AddComponent<QBert>() };
-        pPlayer1Comp->SetName("Player 1");
-        player1->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(0));
-        player1->AddComponent<GameEngine::CollisionComponent>();
+        auto creatureComp{ player1->AddComponent<BaseCreature>() };
+        creatureComp->Init(Creature::QBert);
+        player1->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(1));
+        auto playerController{ player1->AddComponent<ControllerComponent>() };
+        playerController->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         scene.Add(std::move(player1));
 
-        auto qbert{ std::make_unique<GameEngine::GameObject>() };
-        auto qbertSprite{ qbert->AddComponent<GameEngine::SpriteComponent>() };
-        qbertSprite->Init("QBert.png", 1, 8);
-        qbert->GetComponent<GameEngine::TextureComponent>()->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
-        qbert->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(3));
-        qbert->AddComponent<GameEngine::CollisionComponent>();
-        scene.Add(std::move(qbert));
+        auto slime{ std::make_unique<GameEngine::GameObject>() };
+        auto slimeComponent{ slime->AddComponent<BaseCreature>() };
+        slimeComponent->Init(Creature::RedSlime);
+        slime->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(3));
+        auto slimeController{ slime->AddComponent<ControllerComponent>() };
+        slimeController->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
+        scene.Add(std::move(slime));
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
         GameEngine::Minigin::MaximizeWindow();

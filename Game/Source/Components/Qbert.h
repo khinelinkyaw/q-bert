@@ -4,10 +4,10 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Observer.h>
+#include <Engine/Decoupling/Event.h>
 
 #include <Characters/MovementState.h>
 
-#include <Engine/Decoupling/Event.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,6 +18,7 @@ namespace Game
     {
     public:
         static int constexpr STARTING_HEALTH{ 3 };
+
     private:
         bool m_IsDead{ false };
         int m_Health{ STARTING_HEALTH };
@@ -28,6 +29,7 @@ namespace Game
         std::unique_ptr<MovementState> m_pMovementState{};
 
         void CheckHealth();
+
     public:
 #pragma region BaseClassFunctions
         void FixedUpdate() override {};

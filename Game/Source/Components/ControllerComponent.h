@@ -2,15 +2,10 @@
 #define CONTROLLER_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Decoupling/Command.h>
-#include <Engine/Input/InputMapping.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Input/InputMapping.h>
 
 #include <glm/fwd.hpp>
-#include <list>
-#include <memory>
-#include <type_traits>
-#include <utility>
 
 namespace Game
 {

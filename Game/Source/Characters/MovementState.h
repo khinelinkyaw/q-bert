@@ -1,7 +1,6 @@
 #ifndef ANIMATION_STATE_H
 #define ANIMATION_STATE_H
 
-#include <Engine/Animation/Animation.h>
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
 
@@ -11,25 +10,40 @@
 #include <memory>
 #include <queue>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 namespace Game
 {
-    enum class FacingDir
+    enum class LookDirection
     {
         UpRight = 0,
-        UpLeft = 2,
-        DownRight = 4,
-        DownLeft = 6
+        UpLeft = 1,
+        DownRight = 2,
+        DownLeft = 3
     };
 
     enum class MovementEvent
     {
-        OnIdle = 0,
-        OnHop = 1,
-        OnDeath,
-        OnVictory
+        OnIdle = 00,
+        OnHop = 10,
+        OnDeath = 20,
+        OnVictory = 30
     };
+
+    inline int GetSpriteIndexFromMap(std::unordered_map<int, int> const& spriteIndexMap, LookDirection direction, MovementEvent movementEvent)
+    {
+        auto iter{ spriteIndexMap.find(static_cast<int>(direction) + static_cast<int>(movementEvent)) };
+
+        if (iter != spriteIndexMap.end())
+        {
+            return iter->second;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     
     class MovementState
     {
@@ -37,19 +51,21 @@ namespace Game
         static Graph* m_pGraph;
 
         GameEngine::TransformComponent* m_pTransformComponent{};
-        GameEngine::SpriteComponent* m_pTextureComponent{};
-        std::queue<std::pair<MovementEvent, FacingDir>> m_EventQueue{};
-        FacingDir m_CurrentDirection{ FacingDir::UpRight };
+        std::queue<std::pair<MovementEvent, LookDirection>> m_EventQueue{};
+        LookDirection m_Direction{ LookDirection::UpRight };
+        MovementEvent m_Event{ MovementEvent::OnIdle };
 
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) = 0;
         virtual void OnEnter() = 0;
         virtual void OnExit() = 0;
-        void SendEvent(MovementEvent event, FacingDir direction);
+        void SendEvent(MovementEvent event, LookDirection direction);
+
+        void RefreshSprite();
 
         static void SetGraph(Graph* graph) { m_pGraph = graph; }
 
-        MovementState(GameEngine::GameObject* gameObject, FacingDir direction);
+        MovementState(GameEngine::GameObject* gameObject, LookDirection direction);
         virtual ~MovementState() = default;
     };
     inline Graph* MovementState::m_pGraph = nullptr;
@@ -72,7 +88,7 @@ namespace Game
         void OnEnter() override;
         void OnExit() override;
 
-        HopState(GameEngine::GameObject* gameObject, FacingDir direction);
+        HopState(GameEngine::GameObject* gameObject, LookDirection direction);
         ~HopState() override = default;
     };
 
@@ -86,7 +102,7 @@ namespace Game
         void OnEnter() override;
         void OnExit() override {};
 
-        IdleState(GameEngine::GameObject* gameObject, FacingDir direction);
+        IdleState(GameEngine::GameObject* gameObject, LookDirection direction);
         ~IdleState() override = default;
     };
 }
