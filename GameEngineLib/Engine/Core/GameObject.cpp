@@ -1,9 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
 
 #include <memory>
-#include <string>
 #include <vector>
 
 using namespace GameEngine;

@@ -5,6 +5,7 @@
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Decoupling/Event.h>
 
+#include <algorithm>
 #include <memory>
 #include <utility>
 #include <vector>
