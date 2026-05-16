@@ -8,7 +8,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 
-#include <Engine/Misc/Structs.h>
+#include <SDL3/SDL_pixels.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -92,6 +92,44 @@ void GameEngine::Renderer::DrawLine(glm::vec2 const& start, glm::vec2 const& end
 void GameEngine::Renderer::DrawLine(glm::vec3 const& start, glm::vec3 const& end, const SDL_Color& color) const
 {
     DrawLine(start.x, start.y, end.x, end.y, color);
+}
+
+void GameEngine::Renderer::DrawRect(float x, float y, float width, float height, const SDL_Color& color) const
+{
+    SDL_FRect rect{ x, y, width, height };
+    DrawRect(rect, color);
+}
+
+void GameEngine::Renderer::DrawRect(glm::vec2 const& pos, glm::vec2 const& size, const SDL_Color& color) const
+{
+    DrawRect(pos.x, pos.y, size.x, size.y, color);
+}
+
+void GameEngine::Renderer::DrawRect(glm::vec3 const& pos, glm::vec2 const& size, const SDL_Color& color) const
+{
+    DrawRect(pos.x, pos.y, size.x, size.y, color);
+}
+
+void GameEngine::Renderer::DrawRect(SDL_FRect const& rect, const SDL_Color& color) const
+{
+    SDL_SetRenderDrawColor(GetSDLRenderer(), color.r, color.g, color.b, color.a);
+    SDL_RenderRect(GetSDLRenderer(), &rect);
+}
+
+void GameEngine::Renderer::DrawPoint(float centerX, float centerY, const SDL_Color& color) const
+{
+    SDL_SetRenderDrawColor(GetSDLRenderer(), color.r, color.g, color.b, color.a);
+    SDL_RenderPoint(GetSDLRenderer(), centerX, centerY);
+}
+
+void GameEngine::Renderer::DrawPoint(glm::vec2 const& center, const SDL_Color& color) const
+{
+    DrawPoint(center.x, center.y, color);
+}
+
+void GameEngine::Renderer::DrawPoint(glm::vec3 const& center, const SDL_Color& color) const
+{
+    DrawPoint(center.x, center.y, color);
 }
 
 SDL_Renderer* Renderer::GetSDLRenderer() const { return m_renderer; }
