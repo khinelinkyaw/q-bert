@@ -35,10 +35,10 @@ namespace Game
         void SetPosition(float x, float y) { m_Position = glm::vec3{ x, y, m_Position.z }; }
         glm::vec3 GetPosition() const { return m_Position; }
 
-        bool IsColliding(float worldX, float worldY) const
+        bool IsCollidingOnSurface(float worldX, float worldY) const
         {
             return worldX >= m_Position.x && worldX <= m_Position.x + BLOCK_SIZE
-                && worldY >= m_Position.y && worldY <= m_Position.y + BLOCK_SIZE;
+                && worldY >= m_Position.y && worldY <= m_Position.y + BLOCK_SIZE/2.f;
         }
 
         Block(int id, BlockType blockType);

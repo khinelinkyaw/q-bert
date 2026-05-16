@@ -224,26 +224,13 @@ Block* Graph::GetBlock(float worldX, float worldY)
     float localX{ worldX - localPos.x };
     float localY{ worldY - localPos.y };
 
-    std::vector<Block*> collidingBlockIds{};
-
     for (auto& block : m_Blocks)
     {
-        if (block.IsColliding(localX, localY))
+        if (block.IsCollidingOnSurface(localX, localY))
         {
-            collidingBlockIds.push_back(&block);
+            return &block;
         }
     }
-
-    auto TopMostIter{ std::ranges::max_element(collidingBlockIds, [this](Block* blockA, Block* blockB)
-    {
-        return blockA->GetPosition().z < blockB->GetPosition().z;
-    }) };
-
-    if (TopMostIter != collidingBlockIds.end())
-    {
-        return *TopMostIter;
-    }
-
     return nullptr;
 }
 
