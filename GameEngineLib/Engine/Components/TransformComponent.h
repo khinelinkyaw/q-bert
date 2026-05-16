@@ -35,6 +35,7 @@ namespace GameEngine
 
         vector3 GetLocalPosition() const;
         void SetLocalPosition(vector3 newPos);
+        void SetLocalPosition(float x, float y);
         void SetX(float x);
         void SetY(float y);
 

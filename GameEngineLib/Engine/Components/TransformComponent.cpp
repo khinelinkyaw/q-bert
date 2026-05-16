@@ -26,6 +26,11 @@ namespace GameEngine
         SetDirtyFlagRecursively();
     }
 
+    void TransformComponent::SetLocalPosition(float x, float y)
+    {
+        SetLocalPosition(vector3{ x, y, 0.f });
+    }
+
     void TransformComponent::SetX(float x)
     {
         m_LocalPosition.x = x;
@@ -46,7 +51,7 @@ namespace GameEngine
 
     void TransformComponent::SetParent(GameObject* newParentObj)
     {
-        if (newParentObj == GetOwnerObject() or std::ranges::find(m_ChildObjs, newParentObj) != m_ChildObjs.end() or m_ParentObj == newParentObj)
+        if (newParentObj == GetOwner() or std::ranges::find(m_ChildObjs, newParentObj) != m_ChildObjs.end() or m_ParentObj == newParentObj)
         {
             return;
         }
@@ -61,12 +66,12 @@ namespace GameEngine
         }
 
         if (m_ParentObj)
-            m_ParentObj->GetTransform()->RemoveChild(GetOwnerObject());
+            m_ParentObj->GetTransform()->RemoveChild(GetOwner());
 
         m_ParentObj = newParentObj;
 
         if (m_ParentObj)
-            m_ParentObj->GetTransform()->AddChild(GetOwnerObject());
+            m_ParentObj->GetTransform()->AddChild(GetOwner());
     }
 
     void TransformComponent::AddChild(GameObject* childObj)
