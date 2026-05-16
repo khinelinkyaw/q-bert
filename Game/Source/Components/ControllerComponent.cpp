@@ -8,8 +8,6 @@
 #include <Components/ControllerComponent.h>
 
 #include <cassert>
-#include <memory>
-#include <utility>
 
 using namespace Game;
 
@@ -21,23 +19,19 @@ void ControllerComponent::ProcessInput()
 
     if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
-        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::UpLeft}) };
-        GetOwner()->SendEvent(std::move(eventArg));
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, FacingDir::UpLeft);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
-        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::UpRight}) };
-        GetOwner()->SendEvent(std::move(eventArg));
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, FacingDir::UpRight);
     }
     if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
-        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::DownRight}) };
-        GetOwner()->SendEvent(std::move(eventArg));
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, FacingDir::DownRight);
     }
     if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
-        std::unique_ptr<EventArgMove> eventArg{ std::make_unique<EventArgMove>(EventArgMove{"OnMove", MovementEvent::OnHop, FacingDir::DownLeft}) };
-        GetOwner()->SendEvent(std::move(eventArg));
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, FacingDir::DownLeft);
     }
 }
 
