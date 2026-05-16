@@ -6,6 +6,7 @@
 #include <Engine/Decoupling/Event.h>
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace GameEngine
@@ -25,7 +26,8 @@ namespace GameEngine
 
         TransformComponent* GetTransform() { return &m_Transform; }
 
-        void SendEvent(std::unique_ptr<EventArg>&& pEventArg);
+        template<typename EventArgType, typename... Args> requires DerivedEventArg<EventArgType>
+        void SendEvent(Args&& ... args);
 
         template<typename ComponentType> requires DerivedComponent<ComponentType>
         ComponentType* AddComponent();
@@ -43,6 +45,45 @@ namespace GameEngine
         GameObject& operator=(const GameObject& other) = delete;
         GameObject& operator=(GameObject&& other) = delete;
     };
+
+    template<typename EventArgType, typename ...Args> requires DerivedEventArg<EventArgType>
+    inline void GameObject::SendEvent(Args&& ...args)
+    {
+        std::unique_ptr<EventArg> pEventArg{ std::make_unique<EventArgType>(EventArgType{std::forward<Args>(args)...}) };
+
+        if (pEventArg->EventId == "OnCollisionEnter")
+        {
+            for (const auto& component : m_Components)
+            {
+                auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+                component->OnCollisionEnter(otherObject);
+            }
+            return;
+        }
+        else if (pEventArg->EventId == "OnCollisionStay")
+        {
+            for (const auto& component : m_Components)
+            {
+                auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+                component->OnCollisionStay(otherObject);
+            }
+            return;
+        }
+        else if (pEventArg->EventId == "OnCollisionExit")
+        {
+            for (const auto& component : m_Components)
+            {
+                auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+                component->OnCollisionExit(otherObject);
+            }
+            return;
+        }
+
+        for (const auto& component : m_Components)
+        {
+            component->OnEvent(pEventArg.get());
+        }
+    }
 
     template<typename ComponentType> requires DerivedComponent<ComponentType>
     ComponentType* GameObject::AddComponent()

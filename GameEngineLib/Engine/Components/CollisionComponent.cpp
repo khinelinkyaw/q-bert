@@ -9,7 +9,6 @@
 #include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
-#include <memory>
 #include <utility>
 #include <vector>
 
@@ -45,11 +44,11 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
 
         if (iter == m_CollidingComponents.end())
         {
-            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionEnter", component->GetOwner() }));
+            GetOwner()->SendEvent<EventArgCollision>("OnCollisionEnter", component->GetOwner());
         }
         else
         {
-            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionStay", component->GetOwner() }));
+            GetOwner()->SendEvent<EventArgCollision>("OnCollisionStay", component->GetOwner());
         }
     }
 
@@ -59,7 +58,7 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
 
         if (iter == newCollisions.end())
         {
-            GetOwner()->SendEvent(std::make_unique<EventArgCollision>(EventArgCollision{ "OnCollisionExit", component->GetOwner() }));
+            GetOwner()->SendEvent<EventArgCollision>("OnCollisionExit", component->GetOwner());
         }
     }
 
