@@ -1,5 +1,6 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Scene.h>
+#include <Engine/Core/ServiceLocator.h>
 
 #include <algorithm>
 #include <cassert>
@@ -33,6 +34,8 @@ void Scene::FixedUpdate()
     {
         object->FixedUpdate();
     }
+
+    ServiceLocator::Get().GetCollisionSystem().CheckCollisions();
 }
 
 void Scene::Update()

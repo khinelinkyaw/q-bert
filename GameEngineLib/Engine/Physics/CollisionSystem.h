@@ -3,17 +3,19 @@
 
 #include <Engine/Components/CollisionComponent.h>
 
-#include <vector>
+#include <list>
 
 namespace GameEngine
 {
     class CollisionSystem final
     {
     private:
-        std::vector<CollisionComponent*> m_CollisionComponents{};
+        std::list<CollisionComponent*> m_CollisionComponents{};
 
     public:
         void CheckCollisions();
+        void AddCollisionComponent(CollisionComponent* collisionComponent) { m_CollisionComponents.push_back(collisionComponent); }
+        void RemoveCollisionComponent(CollisionComponent* collisionComponent);
     };
 }
 
