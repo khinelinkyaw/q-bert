@@ -6,6 +6,7 @@
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
+#include <Engine/Components/CollisionComponent.h>
 
 #include <Components/ControllerComponent.h>
 #include <Components/Qbert.h>
@@ -35,7 +36,7 @@ namespace Game
 
         auto obj = std::make_unique<GameEngine::GameObject>();
         auto graphComp{ obj->AddComponent<Graph>() };
-        obj->SetLocationPosition(screenWidth / 2.f, 100.f);
+        obj->GetTransform()->SetLocalPosition(screenWidth / 2.f, 100.f);
         scene.Add(std::move(obj));
 
         MovementState::SetGraph(graphComp);
@@ -48,8 +49,17 @@ namespace Game
         p1Controller->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
         auto pPlayer1Comp{ player1->AddComponent<QBert>() };
         pPlayer1Comp->SetName("Player 1");
-        player1->SetLocationPosition(graphComp->GetBlockSurfaceCenter(0));
+        player1->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(0));
+        player1->AddComponent<GameEngine::CollisionComponent>();
         scene.Add(std::move(player1));
+
+        auto qbert{ std::make_unique<GameEngine::GameObject>() };
+        auto qbertSprite{ qbert->AddComponent<GameEngine::SpriteComponent>() };
+        qbertSprite->Init("QBert.png", 1, 8);
+        qbert->GetComponent<GameEngine::TextureComponent>()->SetOrigin(0.f, 0.f, GameEngine::Pivot::MiddleDown);
+        qbert->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(3));
+        qbert->AddComponent<GameEngine::CollisionComponent>();
+        scene.Add(std::move(qbert));
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
         GameEngine::Minigin::MaximizeWindow();

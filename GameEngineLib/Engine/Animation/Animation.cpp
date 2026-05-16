@@ -15,7 +15,7 @@ void GameEngine::SpriteComponent::SetSpriteIndex(int index)
 
 void GameEngine::SpriteComponent::Init(std::string const& filePath, int rows, int cols, int totalSprites)
 {
-    m_TextureComponent = GetOwnerObject()->AddComponent<TextureComponent>();
+    m_TextureComponent = GetOwner()->AddComponent<TextureComponent>();
     m_TextureComponent->SetTexture(filePath);
 
     auto textureSize{ m_TextureComponent->GetTextureSize() };

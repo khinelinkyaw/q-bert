@@ -107,37 +107,35 @@ std::vector<Block*> Graph::GetConnectedToBlocks(Block const& block)
 
 void Graph::HandleEvents()
 {
-    if (m_EventQueue.empty())
+    while (m_EventQueue.empty() == false)
     {
-        return;
-    }
+        auto& event{ m_EventQueue.front() };
 
-    auto& event{ m_EventQueue.front() };
-
-    switch (event.first)
-    {
-    case GraphEvent::QBertMoved:
-        auto qbertObj{ event.second };
-        auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
-        //auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
-
-        auto blockUnderQbert{ GetBlock(qbertPos.x, qbertPos.y) };
-
-        if (blockUnderQbert == nullptr)
+        switch (event.first)
         {
-            // Player loses a health or dies
-            qbertObj->SetLocationPosition(GetBlockSurfaceCenter(0));
-        }
-        else
-        {
-            // Notify block change
-            blockUnderQbert->CycleType();
+        case GraphEvent::QBertMoved:
+            auto qbertObj{ event.second };
+            auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
+            //auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
+
+            auto blockUnderQbert{ GetBlock(qbertPos.x, qbertPos.y) };
+
+            if (blockUnderQbert == nullptr)
+            {
+                // Player loses a health or dies
+                qbertObj->GetTransform()->SetLocalPosition(GetBlockSurfaceCenter(0));
+            }
+            else
+            {
+                // Notify block change
+                blockUnderQbert->CycleType();
+            }
+
+            break;
         }
 
-        break;
+        m_EventQueue.pop();
     }
-
-    m_EventQueue.pop();
 }
 
 void Graph::Update()
@@ -205,7 +203,7 @@ Block Graph::GetBlock(int blockId) const
 
 glm::vec3 Graph::GetBlockSurfaceCenter(int blockId) const
 {
-    return GetOwnerObject()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
+    return GetOwner()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
 }
 
 void Graph::SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject)
@@ -220,7 +218,7 @@ Block* Graph::GetBlock(int row, int indexInRow)
 
 Block* Graph::GetBlock(float worldX, float worldY)
 {
-    auto localPos{ GetOwnerObject()->GetTransform()->GetLocalPosition() };
+    auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
     float localX{ worldX - localPos.x };
     float localY{ worldY - localPos.y };
 

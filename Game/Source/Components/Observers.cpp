@@ -41,5 +41,5 @@ Game::ScoreDisplayObserver::ScoreDisplayObserver(GameEngine::TextComponent* pTex
 {
     assert(m_pTextComponent != nullptr and m_pPlayerComponent != nullptr);
 
-    OnNotify(*pPlayerComponent->GetOwnerObject(), "UpdateScore");
+    OnNotify(*pPlayerComponent->GetOwner(), "UpdateScore");
 }

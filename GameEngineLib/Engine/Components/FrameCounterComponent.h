@@ -14,7 +14,7 @@ namespace GameEngine
     private:
         float m_FramesPerSecond{};
         float m_AccumulatedTime{};
-        TextComponent m_TextComponent{ this->GetOwnerObject() };
+        TextComponent m_TextComponent{ this->GetOwner() };
 
     public:
         void FixedUpdate() override;

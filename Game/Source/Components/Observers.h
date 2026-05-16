@@ -3,8 +3,6 @@
 
 #include <Engine/Components/TextComponent.h>
 #include <Engine/Decoupling/Observer.h>
-#include <Engine/Components/BaseComponent.h>
-
 #include <string>
 
 namespace Game
