@@ -2,9 +2,12 @@
 #define SLIME_H
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Decoupling/Event.h>
+#include <Engine/Core/GameObject.h>
 
 #include <Characters/MovementState.h>
 
+#include <memory>
 #include <unordered_map>
 
 namespace Game
