@@ -51,21 +51,21 @@ GamepadInputDevice& GameEngine::InputManager::GetGamepadInputDevice(int playerIn
 
 bool InputManager::ProcessInput()
 {
-    SDL_Event e;
-    while (SDL_PollEvent(&e))
-    {
-        if (e.type == SDL_EVENT_QUIT)
-        {
-            return false;
-        }
-    }
-
     m_KeyboardInputDevice.UpdateState();
 
     for (GamepadInputDevice& gamepadInputDevice : m_GamepadInputDevices)
     {
         gamepadInputDevice.UpdateState();
     }
+
+    //SDL_Event e;
+    //while (SDL_PollEvent(&e))
+    //{
+    //    if (e.type == SDL_EVENT_QUIT)
+    //    {
+    //        return false;
+    //    }
+    //}
 
     return true;
 }

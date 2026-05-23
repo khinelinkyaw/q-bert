@@ -19,8 +19,8 @@ namespace Game
     public:
         void ProcessInput();
 
-        void FixedUpdate() override;
-        void Update() override {};
+        void FixedUpdate() override {};
+        void Update() override;
         void Render(glm::vec3 const&) const override {};
 
         void Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice);

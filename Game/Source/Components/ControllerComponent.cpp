@@ -35,7 +35,7 @@ void ControllerComponent::ProcessInput()
     }
 }
 
-void ControllerComponent::FixedUpdate()
+void ControllerComponent::Update()
 {
     ProcessInput();
 }
