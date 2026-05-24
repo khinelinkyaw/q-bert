@@ -1,5 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Decoupling/Event.h>
+#include <Engine/Physics/EventArgCollision.h>
 
 #include <memory>
 #include <vector>
@@ -41,42 +43,42 @@ void GameObject::Render() const
         component->Render(pos);
     }
 }
-//
-//void GameEngine::GameObject::SendEvent(std::unique_ptr<EventArg>&& pEventArg)
-//{
-//    if (pEventArg->EventId == "OnCollisionEnter")
-//    {
-//        for (const auto& component : m_Components)
-//        {
-//            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
-//            component->OnCollisionEnter(otherObject);
-//        }
-//        return;
-//    }
-//    else if (pEventArg->EventId == "OnCollisionStay")
-//    {
-//        for (const auto& component : m_Components)
-//        {
-//            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
-//            component->OnCollisionStay(otherObject);
-//        }
-//        return;
-//    }
-//    else if (pEventArg->EventId == "OnCollisionExit")
-//    {
-//        for (const auto& component : m_Components)
-//        {
-//            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
-//            component->OnCollisionExit(otherObject);
-//        }
-//        return;
-//    }
-//
-//    for (const auto& component : m_Components)
-//    {
-//        component->OnEvent(pEventArg.get());
-//    }
-//}
+
+void GameEngine::GameObject::SendEvent(std::unique_ptr<EventArg>&& pEventArg)
+{
+    if (pEventArg->EventId == "OnCollisionEnter")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionEnter(otherObject);
+        }
+        return;
+    }
+    else if (pEventArg->EventId == "OnCollisionStay")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionStay(otherObject);
+        }
+        return;
+    }
+    else if (pEventArg->EventId == "OnCollisionExit")
+    {
+        for (const auto& component : m_Components)
+        {
+            auto otherObject = static_cast<EventArgCollision*>(pEventArg.get())->OtherObject;
+            component->OnCollisionExit(otherObject);
+        }
+        return;
+    }
+
+    for (const auto& component : m_Components)
+    {
+        component->OnEvent(pEventArg.get());
+    }
+}
 
 void GameObject::RemoveComponent(size_t index)
 {
