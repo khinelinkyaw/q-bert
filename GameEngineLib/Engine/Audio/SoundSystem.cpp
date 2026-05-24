@@ -1,5 +1,4 @@
 #include <Engine/Audio/SoundSystem.h>
-
 #include <Engine/Core/Macros.h>
 
 #include <miniaudio.h>
@@ -67,7 +66,7 @@ void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
 
         lock.unlock();
 
-        DEBUG_CONSOLE("SoundSystem", "Playing " << soundId)
+        //DEBUG_CONSOLE("SoundSystem", "Playing " << soundId)
 
         auto iter{ m_SoundMap.find(soundId) };
 
@@ -108,7 +107,7 @@ void MiniAudioSoundSystem::AudioImpl::Play(int soundId)
 {
     std::lock_guard<std::mutex> lock(queueMutex);
     m_PlayQueue.push(soundId);
-    DEBUG_CONSOLE("SoundSystem","Pushed " << soundId << " to the queue")
+    //DEBUG_CONSOLE("SoundSystem","Pushed " << soundId << " to the queue")
     cv.notify_one();
 }
 

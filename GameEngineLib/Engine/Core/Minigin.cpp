@@ -26,7 +26,6 @@
 #include <string>
 #include <chrono>
 #include <filesystem>
-#include <utility>
 #include <functional>
 
 #if USE_STEAMWORKS
