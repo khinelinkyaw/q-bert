@@ -3,8 +3,10 @@
 
 #include <Engine/Core/Scene.h>
 #include <Engine/Misc/Singleton.h>
+
 #include <memory>
-#include <vector>
+#include <string>
+#include <unordered_map>
 
 namespace GameEngine
 {
@@ -12,7 +14,12 @@ namespace GameEngine
     class SceneManager final : public Singleton<SceneManager>
     {
     public:
-        Scene& CreateScene();
+        Scene& CreateScene(std::string const& name);
+        Scene* GetScene(std::string const& name) const;
+        Scene* GetActiveScene() const;
+
+        bool SetActiveScene(std::string const& name);
+        bool SetActiveScene(Scene* scene);
 
         void FixedUpdate();
         void Update();
@@ -22,7 +29,9 @@ namespace GameEngine
     private:
         friend class Singleton<SceneManager>;
         SceneManager() = default;
-        std::vector<std::unique_ptr<Scene>> m_scenes{};
+
+        std::string m_ActiveSceneName{};
+        std::unordered_map<std::string, std::unique_ptr<Scene>> m_Scenes{};
     };
 }
 
