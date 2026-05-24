@@ -58,14 +58,14 @@ bool InputManager::ProcessInput()
         gamepadInputDevice.UpdateState();
     }
 
-    //SDL_Event e;
-    //while (SDL_PollEvent(&e))
-    //{
-    //    if (e.type == SDL_EVENT_QUIT)
-    //    {
-    //        return false;
-    //    }
-    //}
+    SDL_Event e;
+    while (SDL_PollEvent(&e))
+    {
+        if (e.type == SDL_EVENT_QUIT)
+        {
+            return false;
+        }
+    }
 
     return true;
 }
