@@ -26,10 +26,14 @@ namespace Game
     enum class MovementEvent
     {
         OnIdle = 00,
+        OnIdleWait = 00,
         OnHop = 10,
         OnDeath = 20,
-        OnVictory = 30
+        OnVictory = 30,
+        OnFalling = 40
     };
+
+    using MoveQueue = std::queue<std::pair<MovementEvent, LookDirection>>;
 
     inline int GetSpriteIndexFromMap(std::unordered_map<int, int> const& spriteIndexMap, LookDirection direction, MovementEvent movementEvent)
     {
@@ -51,24 +55,46 @@ namespace Game
         static Graph* m_pGraph;
 
         GameEngine::TransformComponent* m_pTransformComponent{};
-        std::queue<std::pair<MovementEvent, LookDirection>> m_EventQueue{};
-        LookDirection m_Direction{ LookDirection::UpRight };
-        MovementEvent m_Event{ MovementEvent::OnIdle };
+        LookDirection m_Direction{};
+        MovementEvent m_Event{};
 
     public:
-        virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) = 0;
+        virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) = 0;
         virtual void OnEnter() = 0;
         virtual void OnExit() = 0;
-        void SendEvent(MovementEvent event, LookDirection direction);
 
         void RefreshSprite();
 
         static void SetGraph(Graph* graph) { m_pGraph = graph; }
 
-        MovementState(GameEngine::GameObject* gameObject, LookDirection direction);
+        MovementState(GameEngine::GameObject* gameObject, LookDirection direction, MovementEvent event);
         virtual ~MovementState() = default;
     };
     inline Graph* MovementState::m_pGraph = nullptr;
+
+    class IdleState : public MovementState
+    {
+    public:
+        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
+        void OnEnter() override;
+        void OnExit() override {};
+
+        IdleState(GameEngine::GameObject* gameObject, LookDirection direction);
+        ~IdleState() override = default;
+    };
+
+    class IdleWaitState final : public IdleState
+    {
+    private:
+        float m_ElapsedTime{};
+        float m_Duration{ 0.5f };
+
+    public:
+        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
+
+        IdleWaitState(GameEngine::GameObject* gameObject, LookDirection direction);
+        ~IdleWaitState() override = default;
+    };
 
     class HopState final : public MovementState
     {
@@ -84,7 +110,7 @@ namespace Game
         glm::vec3 m_DestPos{};
 
     public:
-        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) override;
+        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         void OnEnter() override;
         void OnExit() override;
 
@@ -92,18 +118,22 @@ namespace Game
         ~HopState() override = default;
     };
 
-    class IdleState final : public MovementState
+    class FallingState final : public MovementState
     {
     private:
-        std::string m_IdleTexturePath{};
+        static float constexpr FALL_HEIGHT{ 300.f };
+        static float constexpr DURATION{ 1.f };
 
+        float m_ElapsedTime{};
+        glm::vec3 m_StartPos{};
+        glm::vec3 m_DestPos{};
     public:
-        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject) override;
-        void OnEnter() override;
+        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
+        void OnEnter() override {};
         void OnExit() override {};
 
-        IdleState(GameEngine::GameObject* gameObject, LookDirection direction);
-        ~IdleState() override = default;
+        FallingState(GameEngine::GameObject* gameObject, LookDirection direction);
+        ~FallingState() override = default;
     };
 }
 
