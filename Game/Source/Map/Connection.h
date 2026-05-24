@@ -15,9 +15,9 @@ namespace Game
         float m_Weight{ 1.f };
 
     public:
-        std::pair<int, int> GetConnectedCells() const;
-        int GetToCell() const { return m_ToBlockId; }
-        int GetFromCell() const { return m_FromBlockId; }
+        std::pair<int, int> GetConnectionBlocks() const;
+        int GetToBlock() const { return m_ToBlockId; }
+        int GetFromBlock() const { return m_FromBlockId; }
         float GetWeight() const { return m_Weight; }
 
         Connection(int fromBlockId, int toBlockId);

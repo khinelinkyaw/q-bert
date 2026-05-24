@@ -57,6 +57,8 @@ namespace Game
 
         glm::vec3 GetBlockSurfaceCenter(int blockId) const;
 
+        std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
+
         void SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject);
 
         Graph(GameEngine::GameObject* owner);

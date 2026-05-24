@@ -2,12 +2,13 @@
 #include <Map/Block.h>
 #include <Map/Connection.h>
 #include <Map/Graph.h>
+#include <Characters/Breed.h>
+#include <Components/BaseCreature.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Rendering/Renderer.h>
-#include <Engine/Components/TextureComponent.h>
 
 #include <algorithm>
 #include <vector>
@@ -90,9 +91,9 @@ std::vector<Block*> Graph::GetConnectedToBlocks(int blockId)
 
     for (auto& connection : m_Connections)
     {
-        if (connection.GetFromCell() == blockId)
+        if (connection.GetFromBlock() == blockId)
         {
-            auto toBlock{ GetBlock(connection.GetToCell()) };
+            auto toBlock{ GetBlock(connection.GetToBlock()) };
             result.push_back(toBlock);
         }
     }
@@ -114,21 +115,23 @@ void Graph::HandleEvents()
         switch (event.first)
         {
         case GraphEvent::EntityMoved:
-            auto qbertObj{ event.second };
-            auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
-            //auto qBertOrigin{ qbertObj->GetComponent<GameEngine::TextureComponent>()->GetOrigin() };
+            auto obj{ event.second };
+            auto objPos{ obj->GetTransform()->GetWorldPosition() };
+            auto creatureComp{ obj->GetComponent<BaseCreature>() };
 
-            auto blockUnderQbert{ GetBlock(qbertPos.x, qbertPos.y) };
+            if (!creatureComp) return;
+
+            auto blockUnderQbert{ GetBlock(objPos.x, objPos.y) };
 
             if (blockUnderQbert == nullptr)
             {
                 // Player loses a health or dies
-                qbertObj->GetTransform()->SetLocalPosition(GetBlockSurfaceCenter(0));
+                //obj->GetTransform()->SetLocalPosition(GetBlockSurfaceCenter(0));
+                creatureComp->GetBreed()->OnEmptyBlock(*obj, *this);
             }
             else
             {
-                // Notify block change
-                blockUnderQbert->CycleType();
+                creatureComp->GetBreed()->OnNewBlock(blockUnderQbert);
             }
 
             break;
@@ -155,20 +158,6 @@ void Graph::Render(glm::vec3 const& pos) const
             GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
         }
     }
-
-    //for (auto& connection : m_Connections)
-    //{
-    //    auto fromBlock{ GetBlock(connection.GetFromCell()) };
-    //    auto toBlock{ GetBlock(connection.GetToCell()) };
-    //    if (fromBlock.GetId() != Block::INVALID_ID and toBlock.GetId() != Block::INVALID_ID)
-    //    {
-    //        GameEngine::Renderer::Get().DrawLine(
-    //            pos + fromBlock.GetSurfaceCenter(),
-    //            pos + toBlock.GetSurfaceCenter(),
-    //            SDL_Color{ 255, 255, 255, 255 }
-    //        );
-    //    }
-    //}
 }
 
 Block* Graph::GetBlock(int blockId)
@@ -204,6 +193,21 @@ Block Graph::GetBlock(int blockId) const
 glm::vec3 Graph::GetBlockSurfaceCenter(int blockId) const
 {
     return GetOwner()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
+}
+
+std::vector<Connection const*> Game::Graph::GetConnectionsFromCell(int blockId) const
+{
+    std::vector<Connection const*> result{};
+
+    for (auto const& connection : m_Connections)
+    {
+        if (connection.GetFromBlock() == blockId)
+        {
+            result.push_back(&connection);
+        }
+    }
+
+    return result;
 }
 
 void Graph::SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject)

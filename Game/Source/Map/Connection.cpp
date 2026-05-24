@@ -5,7 +5,7 @@
 
 using namespace Game;
 
-std::pair<int, int> Connection::GetConnectedCells() const
+std::pair<int, int> Connection::GetConnectionBlocks() const
 {
     return std::pair<int, int>{m_FromBlockId, m_ToBlockId};
 }
