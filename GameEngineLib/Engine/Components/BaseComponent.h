@@ -2,7 +2,7 @@
 #define BASE_COMPONENT_H
 
 #include <Engine/Decoupling/Event.h>
-#include <Engine/Core/Macros.h>
+
 #include <glm/fwd.hpp>
 
 #include <type_traits>

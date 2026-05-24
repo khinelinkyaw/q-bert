@@ -6,18 +6,12 @@
 
 namespace GameEngine
 {
-    class GameObject;
     struct EventArg
     {
         std::string EventId{};
     };
 
     template<typename T> concept DerivedEventArg = std::is_base_of<EventArg, T>::value;
-
-    struct EventArgCollision final : public EventArg
-    {
-        GameObject* OtherObject{};
-    };
 }
 
 #endif

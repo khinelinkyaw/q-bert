@@ -4,9 +4,8 @@
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/ServiceLocator.h>
-#include <Engine/Decoupling/Event.h>
 #include <Engine/Misc/Structs.h>
-#include <Engine/Rendering/Renderer.h>
+#include <Engine/Physics/EventArgCollision.h>
 
 #include <algorithm>
 #include <utility>
