@@ -52,6 +52,24 @@ namespace Game
             {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    4 },
             {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     5 },
         };
+
+        std::unordered_map<int, int> const COILY_SPRITE_MAP{
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnIdle),     0 },
+            {static_cast<int>(LookDirection::UpRight) + static_cast<int>(MovementEvent::OnHop),      1 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnIdle),      2 },
+            {static_cast<int>(LookDirection::UpLeft) + static_cast<int>(MovementEvent::OnHop),       3 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnIdle),   4 },
+            {static_cast<int>(LookDirection::DownRight) + static_cast<int>(MovementEvent::OnHop),    5 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnIdle),    6 },
+            {static_cast<int>(LookDirection::DownLeft) + static_cast<int>(MovementEvent::OnHop),     7 },
+        };
+
+        namespace Enemy
+        {
+            float constexpr IDLE_DURATION{ 1.f };
+            int constexpr   MAX_RED_GREEN_SLIME_PATH_SIZE{ 6 };
+            int constexpr   MAX_PURPLE_SLIME_PATH_SIZE{ 5 };
+        };
     }
 }
 
