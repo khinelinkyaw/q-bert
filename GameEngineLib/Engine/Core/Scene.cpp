@@ -1,10 +1,12 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/ServiceLocator.h>
+#include <Engine/Misc/Types.h>
 
 #include <algorithm>
 #include <cassert>
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -70,7 +72,7 @@ void Scene::CheckForDeletion()
     m_Objects = std::move(remaining_objects);
 }
 
-GameObject* GameEngine::Scene::GetObjectById(int id) const
+GameObject* GameEngine::Scene::GetObjectById(ObjectID id) const
 {
     for (auto const& object : m_Objects)
     {
@@ -81,4 +83,29 @@ GameObject* GameEngine::Scene::GetObjectById(int id) const
     }
 
     return nullptr;
+}
+
+GameObject* GameEngine::Scene::GetObjectByName(std::string const& name) const
+{
+    if (auto iter{ m_NameToIdMap.find(name) }; iter != m_NameToIdMap.end())
+    {
+        return GetObjectById(iter->second);
+    }
+    return nullptr;
+}
+
+bool GameEngine::Scene::SetObjectName(std::string const& name, ObjectID id)
+{
+    auto obj{ GetObjectById(id) };
+
+    if (obj == nullptr) return false;
+
+    m_NameToIdMap[name] = id;
+    return true;
+}
+
+GameObject& GameEngine::Scene::CreateGameObject()
+{
+    m_Objects.push_back(std::make_unique<GameObject>());
+    return *m_Objects.back().get();
 }

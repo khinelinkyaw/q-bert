@@ -3,6 +3,8 @@
 
 #include <Engine/Core/Scene.h>
 #include <Engine/Misc/Singleton.h>
+#include <Engine/Misc/Types.h>
+#include <Engine/Core/GameObject.h>
 
 #include <memory>
 #include <string>
@@ -20,6 +22,9 @@ namespace GameEngine
 
         bool SetActiveScene(std::string const& name);
         bool SetActiveScene(Scene* scene);
+
+        GameObject* GetObjectById(ObjectID id) const;
+        GameObject* GetObjectByName(std::string const& name) const;
 
         void FixedUpdate();
         void Update();

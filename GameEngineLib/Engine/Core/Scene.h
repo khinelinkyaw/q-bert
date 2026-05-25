@@ -1,9 +1,13 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <memory>
-#include <vector>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
+
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace GameEngine
 {
@@ -19,7 +23,12 @@ namespace GameEngine
         void Render() const;
         void CheckForDeletion();
 
-        GameObject* GetObjectById(int id) const;
+        GameObject* GetObjectById(ObjectID id) const;
+        GameObject* GetObjectByName(std::string const& name) const;
+
+        bool SetObjectName(std::string const& name, ObjectID id);
+
+        GameObject& CreateGameObject();
 
         ~Scene() = default;
         Scene(const Scene& other) = delete;
@@ -31,6 +40,7 @@ namespace GameEngine
         friend class SceneManager;
         explicit Scene() = default;
 
+        std::unordered_map<std::string, ObjectID> m_NameToIdMap{}; 
         std::vector<std::unique_ptr<GameObject>> m_Objects{};
     };
 

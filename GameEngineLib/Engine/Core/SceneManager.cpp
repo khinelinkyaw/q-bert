@@ -1,6 +1,8 @@
 #include <Engine/Core/Macros.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Misc/Types.h>
+#include <Engine/Core/GameObject.h>
 
 #include <memory>
 #include <string>
@@ -83,4 +85,28 @@ bool GameEngine::SceneManager::SetActiveScene(Scene* scene)
     }
 
     return false;
+}
+
+GameObject* GameEngine::SceneManager::GetObjectById(ObjectID id) const
+{
+    auto activeScene{ GetActiveScene() };
+
+    if (activeScene)
+    {
+        return activeScene->GetObjectById(id);
+    }
+
+    return nullptr;
+}
+
+GameObject* GameEngine::SceneManager::GetObjectByName(std::string const& name) const
+{
+    auto activeScene{ GetActiveScene() };
+
+    if (activeScene)
+    {
+        return activeScene->GetObjectByName(name);
+    }
+
+    return nullptr;
 }
