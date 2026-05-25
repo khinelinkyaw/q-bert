@@ -30,7 +30,6 @@ namespace Game
         OnHop = 10,
         OnDeath = 20,
         OnVictory = 30,
-        OnFalling = 40
     };
 
     using MoveQueue = std::queue<std::pair<MovementEvent, LookDirection>>;
@@ -58,12 +57,14 @@ namespace Game
         LookDirection m_Direction{};
         MovementEvent m_Event{};
 
+
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) = 0;
-        virtual void OnEnter() = 0;
+        virtual void OnEnter();
         virtual void OnExit() = 0;
 
-        void RefreshSprite();
+        void RefreshSprite() { RefreshSprite(m_Event, m_Direction); }
+        void RefreshSprite(MovementEvent event, LookDirection direction);
 
         static void SetGraph(Graph* graph) { m_pGraph = graph; }
 
@@ -129,7 +130,7 @@ namespace Game
         glm::vec3 m_DestPos{};
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
-        void OnEnter() override {};
+        //void OnEnter() override;
         void OnExit() override {};
 
         FallingState(GameEngine::GameObject* gameObject, LookDirection direction);

@@ -12,9 +12,14 @@
 
 using namespace Game;
 
-void Game::MovementState::RefreshSprite()
+void Game::MovementState::OnEnter()
 {
-    m_pTransformComponent->GetOwner()->SendEvent<EventArgMove>("ChangeSprite", m_Event, m_Direction);
+    RefreshSprite();
+}
+
+void Game::MovementState::RefreshSprite(MovementEvent event, LookDirection direction)
+{
+    m_pTransformComponent->GetOwner()->SendEvent<EventArgMove>("ChangeSprite", event, direction);
 }
 
 MovementState::MovementState(GameEngine::GameObject* gameObject, LookDirection direction, MovementEvent event)
@@ -49,8 +54,8 @@ std::unique_ptr<MovementState> IdleState::Update(GameEngine::GameObject* gameObj
 
 void IdleState::OnEnter()
 {
-    RefreshSprite();
     m_pTransformComponent->GetOwner()->SendEvent<GameEngine::EventArg>("IdleEnter");
+    MovementState::OnEnter();
 }
 
 IdleState::IdleState(GameEngine::GameObject* gameObject, LookDirection direction)
@@ -119,17 +124,18 @@ void HopState::OnEnter()
         break;
     }
 
-    RefreshSprite();
     m_ElapsedTime = 0.f;
 
     GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
+
+    MovementState::OnEnter();
 }
 
 void HopState::OnExit()
 {
     assert(m_pGraph != nullptr);
 
-    m_pGraph->SendEvent(GraphEvent::EntityMoved, m_pTransformComponent->GetOwner());
+    m_pGraph->SendEvent(GraphEvent::EntityMoved, m_pTransformComponent->GetOwner()->GetId());
 }
 
 HopState::HopState(GameEngine::GameObject* gameObject, LookDirection direction)
@@ -159,7 +165,7 @@ std::unique_ptr<MovementState> Game::FallingState::Update(GameEngine::GameObject
 }
 
 Game::FallingState::FallingState(GameEngine::GameObject* gameObject, LookDirection direction)
-    : MovementState{ gameObject, direction, MovementEvent::OnFalling }
+    : MovementState{ gameObject, direction, MovementEvent::OnHop }
 {
     m_DestPos = m_pTransformComponent->GetLocalPosition();
     m_StartPos = { m_DestPos.x, m_DestPos.y - FALL_HEIGHT, 0.f };
