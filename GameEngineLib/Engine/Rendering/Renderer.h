@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include <Engine/Misc/Singleton.h>
+#include <Engine/Misc/Types.h>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_pixels.h>
@@ -35,16 +36,16 @@ namespace GameEngine
 
         void DrawLine(float x1, float y1, float x2, float y2, const SDL_Color& color) const;
         void DrawLine(glm::vec2 const& start, glm::vec2 const& end, const SDL_Color& color) const;
-        void DrawLine(glm::vec3 const& start, glm::vec3 const& end, const SDL_Color& color) const;
+        void DrawLine(vec3 const& start, vec3 const& end, const SDL_Color& color) const;
 
         void DrawRect(float x, float y, float width, float height, const SDL_Color& color) const;
         void DrawRect(glm::vec2 const& pos, glm::vec2 const& size, const SDL_Color& color) const;
-        void DrawRect(glm::vec3 const& pos, glm::vec2 const& size, const SDL_Color& color) const;
+        void DrawRect(vec3 const& pos, glm::vec2 const& size, const SDL_Color& color) const;
         void DrawRect(SDL_FRect const& rect, const SDL_Color& color) const;
 
         void DrawPoint(float centerX, float centerY, const SDL_Color& color) const;
         void DrawPoint(glm::vec2 const& center, const SDL_Color& color) const;
-        void DrawPoint(glm::vec3 const& center, const SDL_Color& color) const;
+        void DrawPoint(vec3 const& center, const SDL_Color& color) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

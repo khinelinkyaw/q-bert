@@ -2,6 +2,7 @@
 #define BASE_COMPONENT_H
 
 #include <Engine/Decoupling/Event.h>
+#include <Engine/Misc/Types.h>
 
 #include <glm/fwd.hpp>
 
@@ -9,8 +10,6 @@
 
 namespace GameEngine
 {
-    using vector3 = glm::vec3;
-
     class GameObject;
 
     class BaseComponent
@@ -21,7 +20,7 @@ namespace GameEngine
     public:
         virtual void FixedUpdate() = 0;
         virtual void Update() = 0;
-        virtual void Render(vector3 const& pos) const = 0;
+        virtual void Render(vec3 const& pos) const = 0;
         virtual void OnCollisionEnter(GameObject* collidingObject) const;
         virtual void OnCollisionStay(GameObject* collidingObject) const;
         virtual void OnCollisionExit(GameObject* collidingObject) const;

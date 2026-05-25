@@ -2,21 +2,21 @@
 #define TRANSFORM_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Misc/Types.h>
 
 #include <glm/glm.hpp>
+
 #include <vector>
 
 namespace GameEngine
 {
-    using vector3 = glm::vec3;
-
     class GameObject;
 
     class TransformComponent final : public BaseComponent
     {
     private:
-        vector3 m_LocalPosition;
-        mutable vector3 m_WorldPosition;
+        vec3 m_LocalPosition;
+        mutable vec3 m_WorldPosition;
         GameObject* m_ParentObj;
         std::vector<GameObject*> m_ChildObjs;
         mutable bool m_DirtyFlag;
@@ -30,16 +30,16 @@ namespace GameEngine
 #pragma region BaseComponentFunctions
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vector3 const&) const override {};
+        void Render(vec3 const&) const override {};
 #pragma endregion
 
-        vector3 GetLocalPosition() const;
-        void SetLocalPosition(vector3 newPos);
+        vec3 GetLocalPosition() const;
+        void SetLocalPosition(vec3 newPos);
         void SetLocalPosition(float x, float y);
         void SetX(float x);
         void SetY(float y);
 
-        vector3 GetWorldPosition() const;
+        vec3 GetWorldPosition() const;
 
         void SetParent(GameObject* newParentObjarentObj);
 

@@ -4,6 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/Structs.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Misc/Types.h>
 
 #include <string>
 #include <vector>
@@ -28,7 +29,7 @@ namespace GameEngine
 
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vector3 const&) const override {};
+        void Render(vec3 const&) const override {};
 
         void Init(std::string const& filePath, int rows, int cols, int totalSprites = 0);
         SpriteComponent(GameObject* owner);

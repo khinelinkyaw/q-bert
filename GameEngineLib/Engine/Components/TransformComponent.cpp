@@ -15,12 +15,12 @@ namespace GameEngine
         }
     }
 
-    vector3 TransformComponent::GetLocalPosition() const
+    vec3 TransformComponent::GetLocalPosition() const
     {
         return m_LocalPosition;
     }
 
-    void TransformComponent::SetLocalPosition(vector3 newPos)
+    void TransformComponent::SetLocalPosition(vec3 newPos)
     {
         m_LocalPosition = newPos;
         SetDirtyFlagRecursively();
@@ -28,7 +28,7 @@ namespace GameEngine
 
     void TransformComponent::SetLocalPosition(float x, float y)
     {
-        SetLocalPosition(vector3{ x, y, 0.f });
+        SetLocalPosition(vec3{ x, y, 0.f });
     }
 
     void TransformComponent::SetX(float x)
@@ -43,7 +43,7 @@ namespace GameEngine
         SetDirtyFlagRecursively();
     }
 
-    vector3 TransformComponent::GetWorldPosition() const
+    vec3 TransformComponent::GetWorldPosition() const
     {
         UpdateWorldPosition();
         return m_WorldPosition;

@@ -19,7 +19,7 @@ namespace GameEngine
     public:
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vector3 const&) const override {};
+        void Render(vec3 const&) const override {};
 
         template<typename CommandType, typename... Args> requires DerivedCommandClass<CommandType>
         void AddCommand(Args&& ... args);

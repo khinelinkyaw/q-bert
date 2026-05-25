@@ -89,7 +89,7 @@ void GameEngine::Renderer::DrawLine(glm::vec2 const& start, glm::vec2 const& end
     DrawLine(start.x, start.y, end.x, end.y, color);
 }
 
-void GameEngine::Renderer::DrawLine(glm::vec3 const& start, glm::vec3 const& end, const SDL_Color& color) const
+void GameEngine::Renderer::DrawLine(vec3 const& start, vec3 const& end, const SDL_Color& color) const
 {
     DrawLine(start.x, start.y, end.x, end.y, color);
 }
@@ -105,7 +105,7 @@ void GameEngine::Renderer::DrawRect(glm::vec2 const& pos, glm::vec2 const& size,
     DrawRect(pos.x, pos.y, size.x, size.y, color);
 }
 
-void GameEngine::Renderer::DrawRect(glm::vec3 const& pos, glm::vec2 const& size, const SDL_Color& color) const
+void GameEngine::Renderer::DrawRect(vec3 const& pos, glm::vec2 const& size, const SDL_Color& color) const
 {
     DrawRect(pos.x, pos.y, size.x, size.y, color);
 }
@@ -127,7 +127,7 @@ void GameEngine::Renderer::DrawPoint(glm::vec2 const& center, const SDL_Color& c
     DrawPoint(center.x, center.y, color);
 }
 
-void GameEngine::Renderer::DrawPoint(glm::vec3 const& center, const SDL_Color& color) const
+void GameEngine::Renderer::DrawPoint(vec3 const& center, const SDL_Color& color) const
 {
     DrawPoint(center.x, center.y, color);
 }

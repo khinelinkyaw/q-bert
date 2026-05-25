@@ -19,7 +19,7 @@ namespace GameEngine
     public:
         void FixedUpdate() override;
         void Update() override;
-        void Render(glm::vec3 const& pos) const override;
+        void Render(vec3 const& pos) const override;
 
         FrameCounterComponent(GameObject* owner);
         ~FrameCounterComponent() = default;

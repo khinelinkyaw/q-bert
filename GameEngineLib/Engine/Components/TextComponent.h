@@ -27,7 +27,7 @@ namespace GameEngine
     public:
         void FixedUpdate() override;
         void Update() override;
-        void Render(vector3 const& pos) const override;
+        void Render(vec3 const& pos) const override;
 
         void SetText(const std::string& text);
         void SetColor(const SDL_Color& color);

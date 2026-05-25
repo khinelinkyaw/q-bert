@@ -7,8 +7,6 @@
 
 namespace GameEngine
 {
-    using vector3 = glm::vec3;
-
     enum class CommandState
     {
         Initial,

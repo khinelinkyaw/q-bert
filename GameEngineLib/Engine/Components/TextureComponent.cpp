@@ -15,7 +15,7 @@
 
 using namespace GameEngine;
 
-void TextureComponent::Render(glm::vec3 const& pos) const
+void TextureComponent::Render(vec3 const& pos) const
 {
     if (m_Texture != nullptr)
     {

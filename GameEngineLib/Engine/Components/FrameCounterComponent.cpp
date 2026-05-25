@@ -36,7 +36,7 @@ void FrameCounterComponent::Update()
     }
 }
 
-void FrameCounterComponent::Render(glm::vec3 const& pos) const
+void FrameCounterComponent::Render(vec3 const& pos) const
 {
     m_TextComponent.Render(pos);
 }
