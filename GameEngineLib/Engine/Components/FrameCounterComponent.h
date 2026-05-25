@@ -2,10 +2,9 @@
 #define FRAME_COUNTER_COMPONENT_H
 
 #include "BaseComponent.h"
-#include <Engine/Components/TextComponent.h>
 
+#include <Engine/Components/TextComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <glm/fwd.hpp>
 
 namespace GameEngine
 {

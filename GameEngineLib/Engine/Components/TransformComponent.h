@@ -4,8 +4,6 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Misc/Types.h>
 
-#include <glm/glm.hpp>
-
 #include <vector>
 
 namespace GameEngine

@@ -4,8 +4,6 @@
 #include <Engine/Decoupling/Event.h>
 #include <Engine/Misc/Types.h>
 
-#include <glm/fwd.hpp>
-
 #include <type_traits>
 
 namespace GameEngine
