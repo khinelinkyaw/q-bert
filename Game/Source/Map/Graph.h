@@ -49,14 +49,14 @@ namespace Game
     public:
         void FixedUpdate() override {};
         void Update() override;
-        void Render(glm::vec3 const& pos) const override;
+        void Render(vec3 const& pos) const override;
 
         Block* GetBlock(int blockId);
         Block GetBlock(int blockId) const;
         Block* GetBlock(int row, int indexInRow);
         Block* GetBlock(float worldX, float worldY);
 
-        glm::vec3 GetBlockSurfaceCenter(int blockId) const;
+        vec3 GetBlockSurfaceCenter(int blockId) const;
 
         std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
 

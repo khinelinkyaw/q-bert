@@ -55,7 +55,7 @@ namespace Game
 
 	public:
 		static inline float GetHeuristicCost(Block const& startBlock, Block const& endBlock);
-		//static std::vector<glm::vec3> ConvertToFloatPath(std::vector<Block*> const& blockPath, Graph* pGraph);
+		//static std::vector<vec3> ConvertToFloatPath(std::vector<Block*> const& blockPath, Graph* pGraph);
 		static inline PathResult FindPath(Block* const pStartBlock, Block * const pDestBlock, Graph* pGraph, std::vector<Block const*>* finalPath);
 	};
 }

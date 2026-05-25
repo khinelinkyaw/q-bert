@@ -37,6 +37,13 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
 
         m_MoveQueue.emplace(movementEventArg->MovementEvent, movementEventArg->Direction);
     }
+    if (eventArg->EventId == "IdleEnter")
+    {
+        if (m_MoveQueue.empty())
+        {
+            GetOwner()->SendEvent<GameEngine::EventArg>("EndOfPath");
+        }
+    }
     else if (eventArg->EventId == "ChangeSprite")
     {
         auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };

@@ -150,7 +150,7 @@ void Graph::Update()
     HandleEvents();
 }
 
-void Graph::Render(glm::vec3 const& pos) const
+void Graph::Render(vec3 const& pos) const
 {
     for (auto& block : m_Blocks)
     {
@@ -194,7 +194,7 @@ Block Graph::GetBlock(int blockId) const
     return Block{Block::INVALID_ID, BlockType::Green};
 }
 
-glm::vec3 Graph::GetBlockSurfaceCenter(int blockId) const
+vec3 Graph::GetBlockSurfaceCenter(int blockId) const
 {
     return GetOwner()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
 }
@@ -251,7 +251,7 @@ Graph::Graph(GameEngine::GameObject* owner)
     {
         m_Blocks.emplace_back(index, BlockType::Green);
 
-        m_Blocks.back().SetPosition(glm::vec3{
+        m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
             row * Block::BLOCK_SIZE * 0.75f,
             static_cast<float>(row)

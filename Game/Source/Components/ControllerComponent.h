@@ -21,7 +21,7 @@ namespace Game
 
         void FixedUpdate() override {};
         void Update() override;
-        void Render(glm::vec3 const&) const override {};
+        void Render(vec3 const&) const override {};
 
         void Init(GameEngine::InputMapping* pInputMapping, GameEngine::InputDevice* pInputDevice);
         ControllerComponent(GameEngine::GameObject* owner);

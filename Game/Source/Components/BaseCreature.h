@@ -35,7 +35,7 @@ namespace Game
     public:
         void FixedUpdate() override {};
         void Update() override;
-        void Render(glm::vec3 const&) const override {};
+        void Render(vec3 const&) const override {};
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
         Breed* GetBreed() const { return m_pBreed.get(); }

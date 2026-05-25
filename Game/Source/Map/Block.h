@@ -1,6 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include <Engine/Misc/Types.h>
+
 #include <glm/glm.hpp>
 
 namespace Game
@@ -19,7 +21,7 @@ namespace Game
         static float constexpr BLOCK_SIZE{ 32.f };
 
     private:
-        glm::vec3 m_Position{};
+        vec3 m_Position{};
         int m_Id{ INVALID_ID };
         BlockType m_BlockType{ BlockType::Green };
 
@@ -29,11 +31,11 @@ namespace Game
         void SetType(BlockType cellType);
         void CycleType();
 
-        glm::vec3 GetSurfaceCenter() const { return glm::vec3{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z }; }
+        vec3 GetSurfaceCenter() const { return vec3{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z }; }
 
-        void SetPosition(glm::vec3 position) { m_Position = position; }
-        void SetPosition(float x, float y) { m_Position = glm::vec3{ x, y, m_Position.z }; }
-        glm::vec3 GetPosition() const { return m_Position; }
+        void SetPosition(vec3 position) { m_Position = position; }
+        void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
+        vec3 GetPosition() const { return m_Position; }
 
         bool IsCollidingOnSurface(float worldX, float worldY) const
         {

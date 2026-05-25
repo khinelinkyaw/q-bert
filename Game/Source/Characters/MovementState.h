@@ -107,8 +107,8 @@ namespace Game
 
         float m_ElapsedTime{};
         std::string m_HopTexturePath{};
-        glm::vec3 m_StartPos{};
-        glm::vec3 m_DestPos{};
+        vec3 m_StartPos{};
+        vec3 m_DestPos{};
 
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
@@ -126,8 +126,8 @@ namespace Game
         static float constexpr DURATION{ 1.f };
 
         float m_ElapsedTime{};
-        glm::vec3 m_StartPos{};
-        glm::vec3 m_DestPos{};
+        vec3 m_StartPos{};
+        vec3 m_DestPos{};
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         //void OnEnter() override;
