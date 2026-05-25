@@ -1,16 +1,15 @@
 #include "SlimeController.h"
 
-#include <Misc/Constants.h>
+#include <Components/BaseCreature.h>
 #include <Components/EnemySpawner.h>
+#include <Misc/Constants.h>
 
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Decoupling/Event.h>
 #include <Engine/Core/SceneManager.h>
 
 #include <utility>
-
-void Game::SlimeController::Update()
-{
-
-}
 
 void Game::SlimeController::OnEvent(GameEngine::EventArg* eventArg)
 {

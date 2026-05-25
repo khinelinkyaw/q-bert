@@ -4,9 +4,10 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Event.h>
+#include <Engine/Misc/Types.h>
 
-#include <Commands/PlayerCommands.h>
 #include <Characters/MovementState.h>
+#include <Commands/PlayerCommands.h>
 #include <Components/BaseCreature.h>
 
 #include <chrono>
@@ -40,7 +41,7 @@ namespace Game
 
     public:
         void FixedUpdate() override {};
-        void Update() override;
+        void Update() override {};
         void Render(vec3 const&) const override {};
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
