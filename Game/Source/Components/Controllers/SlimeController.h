@@ -9,6 +9,7 @@
 #include <Characters/MovementState.h>
 #include <Commands/PlayerCommands.h>
 #include <Components/BaseCreature.h>
+#include <Misc/Types.h>
 
 #include <chrono>
 #include <memory>
@@ -17,8 +18,6 @@
 
 namespace Game
 {
-    using MovePath = std::queue<std::unique_ptr<EventArgMove>>;
-
     namespace SlimeFunctions
     {
         inline void GenerateRandomPath(int pathSize, MovePath& path)

@@ -5,6 +5,7 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Minigin.h>
 #include <Engine/Core/ServiceLocator.h>
+#include <Engine/Core/SceneManager.h>
 #include <Engine/Decoupling/Event.h>
 
 #include <cmath>
@@ -63,16 +64,21 @@ IdleState::IdleState(GameEngine::GameObject* gameObject, LookDirection direction
 {
 }
 
-std::unique_ptr<MovementState> Game::IdleWaitState::Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue)
+std::unique_ptr<MovementState> Game::IdleWaitState::Update(GameEngine::GameObject* gameObject, MoveQueue&)
 {
     m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
 
     if (m_ElapsedTime > m_Duration)
     {
-        return IdleState::Update(gameObject, moveQueue);
+        return std::make_unique<IdleState>(gameObject, m_Direction);
     }
 
     return nullptr;
+}
+
+void Game::IdleWaitState::OnExit()
+{
+    m_pTransformComponent->GetOwner()->SendEvent<GameEngine::EventArg>("IdleWaitExit");
 }
 
 Game::IdleWaitState::IdleWaitState(GameEngine::GameObject* gameObject, LookDirection direction)
@@ -133,9 +139,10 @@ void HopState::OnEnter()
 
 void HopState::OnExit()
 {
-    assert(m_pGraph != nullptr);
+    auto graphObj{ GameEngine::SceneManager::Get().GetObjectByName("Graph") };
+    graphObj->GetComponent<Graph>()->SendGraphEvent(GraphEvent::EntityMoved, m_pTransformComponent->GetOwner()->GetId());
 
-    m_pGraph->SendEvent(GraphEvent::EntityMoved, m_pTransformComponent->GetOwner()->GetId());
+    m_pTransformComponent->GetOwner()->SendEvent<GameEngine::EventArg>("HopExit");
 }
 
 HopState::HopState(GameEngine::GameObject* gameObject, LookDirection direction)

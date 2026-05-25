@@ -10,9 +10,7 @@ namespace Game
 {
     namespace Spawner
     {
-        std::unique_ptr<GameEngine::GameObject> ConstructCoily();
-        //inline std::unique_ptr<GameEngine::GameObject> ConstructUgg();
-        //inline std::unique_ptr<GameEngine::GameObject> ConstructWrongWay();
+        GameEngine::GameObject& ConstructCoily();
     }
 
     class EnemySpawner final : public GameEngine::BaseComponent

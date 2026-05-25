@@ -13,6 +13,7 @@ namespace Game
 	public:
         virtual void OnNewBlock(Block* block) = 0;
         virtual void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) = 0;
+
         virtual ~Breed() = default;
 	};
 
@@ -22,34 +23,17 @@ namespace Game
 		void OnNewBlock(Block* block) override;
 		void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) override;
 
+        QBertBreed(GameEngine::GameObject* owner);
         ~QBertBreed() override = default;
 	};
 
-	class SlimeBreed : public Breed
+	class EnemyBreed : public Breed
 	{
 	public:
 		void OnNewBlock(Block*) override {};
 		void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) override;
 		
-		virtual void OnPathEnd() = 0;
-
-        virtual ~SlimeBreed() override = default;
-	};
-
-	class RedSlimeBreed final : public SlimeBreed
-	{
-	public:
-		void OnPathEnd() override {};
-
-        ~RedSlimeBreed() override = default;
-	};
-
-	class PurpleSlimeBreed final : public SlimeBreed
-	{
-	public:
-        void OnPathEnd() override {};
-
-        ~PurpleSlimeBreed() override = default;
+        virtual ~EnemyBreed() override = default;
 	};
 }
 

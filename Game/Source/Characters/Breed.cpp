@@ -4,6 +4,7 @@
 #include <Map/Graph.h>
 
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/SceneManager.h>
 
 void Game::QBertBreed::OnNewBlock(Block* block)
 {
@@ -15,8 +16,12 @@ void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object, Graph const&
     object.GetTransform()->SetLocalPosition(graph.GetBlockSurfaceCenter(0));
 }
 
-void Game::SlimeBreed::OnEmptyBlock(GameEngine::GameObject& object, Graph const& )
+Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
 {
-    void();
+    GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Qbert", owner->GetId());
+}
+
+void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object, Graph const& )
+{
     object.SetForDeletion();
 }

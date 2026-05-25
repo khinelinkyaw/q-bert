@@ -7,7 +7,6 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Event.h>
-#include <Engine/Core/SceneManager.h>
 
 #include <utility>
 
@@ -16,9 +15,8 @@ void Game::SlimeController::OnEvent(GameEngine::EventArg* eventArg)
     if (eventArg->EventId == "EndOfPath")
     {
         // Spawn Coily
-        auto coily{ Spawner::ConstructCoily() };
-        coily->GetTransform()->SetLocalPosition(GetOwner()->GetTransform()->GetLocalPosition());
-        GameEngine::SceneManager::Get().GetActiveScene()->Add(std::move(coily));
+        auto& coily{ Spawner::ConstructCoily() };
+        coily.GetTransform()->SetLocalPosition(GetOwner()->GetTransform()->GetLocalPosition());
         GetOwner()->SetForDeletion();
     }
 }

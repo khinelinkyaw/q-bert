@@ -63,30 +63,32 @@ void Game::BaseCreature::Init(Creature creatureType)
         GetOwner()->AddComponent<SlimeController>()->Init(creatureType);
     }
 
+    if (creatureType != Creature::QBert)
+    {
+        m_pBreed = std::make_unique<EnemyBreed>();
+    }
+
     switch (creatureType)
     {
     case Creature::QBert:
         m_pSpriteMap = &Consts::QBERT_SPRITE_MAP;
         GetOwner()->AddComponent<GameEngine::SpriteComponent>()->Init("Qbert.png", 1, 8);
         m_pMovementState = std::make_unique<IdleState>(GetOwner(), LookDirection::DownRight);
-        m_pBreed = std::make_unique<QBertBreed>();
+        m_pBreed = std::make_unique<QBertBreed>(GetOwner());
         break;
     case Creature::RedSlime:
         m_pSpriteMap = &Consts::RED_SLIME_SPRITE_MAP;
-        m_pBreed = std::make_unique<RedSlimeBreed>();
         break;
     case Creature::GreenSlime:
         m_pSpriteMap = &Consts::GREEN_SLIME_SPRITE_MAP;
-        m_pBreed = std::make_unique<RedSlimeBreed>();
         break;
     case Creature::PurpleSlime:
         m_pSpriteMap = &Consts::PURPLE_SLIME_SPRITE_MAP;
-        m_pBreed = std::make_unique<PurpleSlimeBreed>();
         break;
     case Creature::Coily:
         m_pSpriteMap = &Consts::COILY_SPRITE_MAP;
         GetOwner()->AddComponent<GameEngine::SpriteComponent>()->Init("Coily.png", 1, 8);
-        m_pMovementState = std::make_unique<IdleState>(GetOwner(), LookDirection::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), LookDirection::DownRight);
         break;
     }
 

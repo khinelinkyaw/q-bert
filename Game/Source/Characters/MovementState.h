@@ -3,9 +3,9 @@
 
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 
 #include <Map/Block.h>
-#include <Map/Graph.h>
 
 #include <memory>
 #include <queue>
@@ -20,7 +20,7 @@ namespace Game
         UpRight = 0,
         UpLeft = 1,
         DownRight = 2,
-        DownLeft = 3
+        DownLeft = 3,
     };
 
     enum class MovementEvent
@@ -51,12 +51,9 @@ namespace Game
     class MovementState
     {
     protected:
-        static Graph* m_pGraph;
-
         GameEngine::TransformComponent* m_pTransformComponent{};
         LookDirection m_Direction{};
         MovementEvent m_Event{};
-
 
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) = 0;
@@ -66,19 +63,16 @@ namespace Game
         void RefreshSprite() { RefreshSprite(m_Event, m_Direction); }
         void RefreshSprite(MovementEvent event, LookDirection direction);
 
-        static void SetGraph(Graph* graph) { m_pGraph = graph; }
-
         MovementState(GameEngine::GameObject* gameObject, LookDirection direction, MovementEvent event);
         virtual ~MovementState() = default;
     };
-    inline Graph* MovementState::m_pGraph = nullptr;
 
     class IdleState : public MovementState
     {
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         void OnEnter() override;
-        void OnExit() override {};
+        virtual void OnExit() override {};
 
         IdleState(GameEngine::GameObject* gameObject, LookDirection direction);
         ~IdleState() override = default;
@@ -92,6 +86,7 @@ namespace Game
 
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
+        void OnExit() override;
 
         IdleWaitState(GameEngine::GameObject* gameObject, LookDirection direction);
         ~IdleWaitState() override = default;
