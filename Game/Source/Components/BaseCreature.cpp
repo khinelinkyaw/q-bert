@@ -3,7 +3,7 @@
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
 #include <Commands/PlayerCommands.h>
-#include <Components/SlimeController.h>
+#include <Components/Controllers/SlimeController.h>
 #include <Misc/Constants.h>
 
 #include <Engine/Animation/Animation.h>
