@@ -19,6 +19,8 @@ namespace GameEngine
         void Render() const;
         void CheckForDeletion();
 
+        GameObject* GetObjectById(int id) const;
+
         ~Scene() = default;
         Scene(const Scene& other) = delete;
         Scene(Scene&& other) = delete;

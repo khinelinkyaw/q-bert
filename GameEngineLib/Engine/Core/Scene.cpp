@@ -69,3 +69,16 @@ void Scene::CheckForDeletion()
 
     m_Objects = std::move(remaining_objects);
 }
+
+GameObject* GameEngine::Scene::GetObjectById(int id) const
+{
+    for (auto const& object : m_Objects)
+    {
+        if (object->GetId() == id)
+        {
+            return object.get();
+        }
+    }
+
+    return nullptr;
+}

@@ -4,6 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Decoupling/Event.h>
+#include <Engine/Misc/Types.h>
 
 #include <algorithm>
 #include <memory>
@@ -16,11 +17,16 @@ namespace GameEngine
     class GameObject final
     {
     private:
+        static inline ObjectID NEXT_ID{ 0 };
+
+        ObjectID m_Id{ NEXT_ID++ };
         bool m_MarkedForDeletion{ false };
         TransformComponent m_Transform{this};
         std::vector<std::unique_ptr<BaseComponent>> m_Components{};
 
     public:
+        int GetId() const { return m_Id; }
+
         void FixedUpdate();
         void Update();
         void Render() const;
