@@ -4,7 +4,6 @@
 #include <Engine/Misc/Singleton.h>
 #include <Engine/Misc/Types.h>
 
-#include <SDL3/SDL.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
@@ -30,9 +29,9 @@ namespace GameEngine
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
-        void RenderTexture(const Texture2D& texture, SDL_FRect const& srcRect, SDL_FRect const& dstRect) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, double angle = 0.0) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, double angle = 0.0) const;
+        void RenderTexture(const Texture2D& texture, SDL_FRect const* srcRect, SDL_FRect const* dstRect, double angle = 0.0) const;
 
         void DrawLine(float x1, float y1, float x2, float y2, const SDL_Color& color) const;
         void DrawLine(glm::vec2 const& start, glm::vec2 const& end, const SDL_Color& color) const;

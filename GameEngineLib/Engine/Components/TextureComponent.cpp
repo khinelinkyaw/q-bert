@@ -27,7 +27,7 @@ void TextureComponent::Render(vec3 const& pos) const
             m_SrcRect.height
         };
 
-        Renderer::Get().RenderTexture(*m_Texture, srcRect, dstRect);
+        Renderer::Get().RenderTexture(*m_Texture, &srcRect, &dstRect, m_Rotation);
     }
 }
 

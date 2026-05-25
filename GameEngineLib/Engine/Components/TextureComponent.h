@@ -15,6 +15,7 @@ namespace GameEngine
     class TextureComponent final : public BaseComponent
     {
     private:
+        double m_Rotation{ 0.0 };
         glm::vec2 m_Origin{ 0.f, 0.f };
         Rect<float> m_SrcRect{};
         std::shared_ptr<Texture2D> m_Texture{};
