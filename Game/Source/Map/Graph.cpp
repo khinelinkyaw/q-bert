@@ -8,6 +8,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/ResourceManager.h>
+#include <Engine/Core/SceneManager.h>
 #include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
@@ -115,11 +116,14 @@ void Graph::HandleEvents()
         switch (event.first)
         {
         case GraphEvent::EntityMoved:
-            auto obj{ event.second };
+            auto objId{ event.second };
+
+            auto obj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectById(objId) };
+
+            if (obj == nullptr) break;
+
             auto objPos{ obj->GetTransform()->GetWorldPosition() };
             auto creatureComp{ obj->GetComponent<BaseCreature>() };
-
-            if (!creatureComp) return;
 
             auto blockUnderQbert{ GetBlock(objPos.x, objPos.y) };
 
@@ -210,9 +214,9 @@ std::vector<Connection const*> Game::Graph::GetConnectionsFromCell(int blockId) 
     return result;
 }
 
-void Graph::SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject)
+void Graph::SendEvent(GraphEvent graphEvent, ObjectID gameObjectId)
 {
-    m_EventQueue.push({ graphEvent, pObject });
+    m_EventQueue.push({ graphEvent, gameObjectId });
 }
 
 Block* Graph::GetBlock(int row, int indexInRow)

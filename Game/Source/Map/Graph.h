@@ -6,6 +6,7 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 #include <Engine/Rendering/Texture2D.h>
 
 #include <glm/fwd.hpp>
@@ -33,7 +34,7 @@ namespace Game
         std::vector<Block> m_Blocks{};
         std::vector<Connection> m_Connections{};
         std::unordered_map<BlockType, std::shared_ptr<GameEngine::Texture2D>> m_Textures{};
-        std::queue<std::pair<GraphEvent, GameEngine::GameObject*>> m_EventQueue{};
+        std::queue<std::pair<GraphEvent, ObjectID>> m_EventQueue{};
 
         void CreateNewConnection(int fromBlockId, int toBlockId);
         void GenerateConnections();
@@ -59,7 +60,7 @@ namespace Game
 
         std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
 
-        void SendEvent(GraphEvent graphEvent, GameEngine::GameObject* pObject);
+        void SendEvent(GraphEvent graphEvent, ObjectID gameObjectId);
 
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;
