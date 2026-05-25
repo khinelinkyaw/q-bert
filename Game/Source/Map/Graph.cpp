@@ -4,6 +4,8 @@
 #include <Map/Graph.h>
 #include <Characters/Breed.h>
 #include <Components/BaseCreature.h>
+#include <Pathfinding/AStar.h>
+#include <Components/Controllers/CoilyController.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -112,33 +114,43 @@ void Graph::HandleEvents()
     while (m_EventQueue.empty() == false)
     {
         auto& event{ m_EventQueue.front() };
+        auto objId{ event.second };
+        auto obj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectById(objId) };
+        if (obj == nullptr)
+        {
+            m_EventQueue.pop();
+            continue;
+        }
 
         switch (event.first)
         {
         case GraphEvent::EntityMoved:
-            auto objId{ event.second };
-
-            auto obj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectById(objId) };
-
-            if (obj == nullptr) break;
-
+        {
             auto objPos{ obj->GetTransform()->GetWorldPosition() };
             auto creatureComp{ obj->GetComponent<BaseCreature>() };
+            auto blockUnderObj{ GetBlock(objPos.x, objPos.y) };
 
-            auto blockUnderQbert{ GetBlock(objPos.x, objPos.y) };
+            if (blockUnderObj == nullptr) creatureComp->GetBreed()->OnEmptyBlock(*obj, *this);
+            else creatureComp->GetBreed()->OnNewBlock(blockUnderObj);
+            break;
+        }
+        case GraphEvent::FindPathToQbert:
+        {
+            //auto qbertObj{ GameEngine::SceneManager::Get().GetObjectByName("Qbert") };
+            //auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
+            //auto qbertBlock{ GetBlock(qbertPos.x, qbertPos.y) };
 
-            if (blockUnderQbert == nullptr)
-            {
-                // Player loses a health or dies
-                //obj->GetTransform()->SetLocalPosition(GetBlockSurfaceCenter(0));
-                creatureComp->GetBreed()->OnEmptyBlock(*obj, *this);
-            }
-            else
-            {
-                creatureComp->GetBreed()->OnNewBlock(blockUnderQbert);
-            }
+            //auto objPos{ obj->GetTransform()->GetWorldPosition() };
+            //auto objBlock{ GetBlock(objPos.x, objPos.y) };
+
+            //std::vector<Block const*> finalPath{};
+
+            //AStar::FindPath(objBlock, qbertBlock, this, &finalPath);
+
+            //obj->GetComponent<CoilyController>()->SetPath(finalPath);
 
             break;
+        }
         }
 
         m_EventQueue.pop();
@@ -214,7 +226,7 @@ std::vector<Connection const*> Game::Graph::GetConnectionsFromCell(int blockId) 
     return result;
 }
 
-void Graph::SendEvent(GraphEvent graphEvent, ObjectID gameObjectId)
+void Graph::SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId)
 {
     m_EventQueue.push({ graphEvent, gameObjectId });
 }
@@ -243,6 +255,8 @@ Block* Graph::GetBlock(float worldX, float worldY)
 Graph::Graph(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
+    GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Graph", owner->GetId());
+
     m_Blocks.reserve(TOTAL_BLOCKS);
 
     int row{ 0 };

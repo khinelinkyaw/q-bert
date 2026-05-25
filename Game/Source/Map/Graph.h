@@ -9,8 +9,6 @@
 #include <Engine/Misc/Types.h>
 #include <Engine/Rendering/Texture2D.h>
 
-#include <glm/fwd.hpp>
-
 #include <memory>
 #include <unordered_map>
 #include <utility>
@@ -21,7 +19,8 @@ namespace Game
 {
     enum class GraphEvent
     {
-        EntityMoved
+        EntityMoved,
+        FindPathToQbert,
     };
 
     class Graph final : public GameEngine::BaseComponent
@@ -60,7 +59,7 @@ namespace Game
 
         std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
 
-        void SendEvent(GraphEvent graphEvent, ObjectID gameObjectId);
+        void SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId);
 
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;
