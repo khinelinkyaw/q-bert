@@ -2,9 +2,10 @@
 #define ANIMATION_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/Structs.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Misc/Structs.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/Core/GameObject.h>
 
 #include <string>
 #include <vector>
