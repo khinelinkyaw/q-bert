@@ -37,6 +37,8 @@ namespace GameEngine
 
         Rect<float> GetTextureSize() const;
 
+        void SetRotation(double rotation);
+
         TextureComponent(GameObject* owner);
         ~TextureComponent() = default;
         TextureComponent(TextureComponent const& other) = delete;

@@ -1,16 +1,18 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Misc/Enums.h>
 #include <Engine/Misc/Structs.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/UI/Utils.h>
-#include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 
 #include <glm/fwd.hpp>
 
 #include <SDL3/SDL_rect.h>
 
+#include <cmath>
 #include <string>
 
 using namespace GameEngine;
@@ -79,6 +81,11 @@ Rect<float> GameEngine::TextureComponent::GetTextureSize() const
         textureSize.x,
         textureSize.y
     };
+}
+
+void GameEngine::TextureComponent::SetRotation(double rotation)
+{
+    m_Rotation = std::fmod(rotation, 360.0);
 }
 
 TextureComponent::TextureComponent(GameObject* owner)
