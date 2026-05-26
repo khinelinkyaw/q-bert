@@ -19,19 +19,19 @@ void ControllerComponent::ProcessInput()
 
     if (m_pInputMapping->GetActionState("MoveUp", *m_pInputDevice))
     {
-        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, LookDirection::UpLeft);
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, Direction::UpLeft);
     }
     if (m_pInputMapping->GetActionState("MoveRight", *m_pInputDevice))
     {
-        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, LookDirection::UpRight);
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, Direction::UpRight);
     }
     if (m_pInputMapping->GetActionState("MoveDown", *m_pInputDevice))
     {
-        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, LookDirection::DownRight);
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, Direction::DownRight);
     }
     if (m_pInputMapping->GetActionState("MoveLeft", *m_pInputDevice))
     {
-        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, LookDirection::DownLeft);
+        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, Direction::DownLeft);
     }
 }
 

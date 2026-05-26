@@ -24,7 +24,7 @@ void Game::CoilyController::MoveTowardsQBert()
     auto objPos{ GetOwner()->GetTransform()->GetWorldPosition() };
     auto qbertPos{ m_pQBertObject->GetTransform()->GetWorldPosition() };
 
-    LookDirection direction{};
+    Direction direction{};
 
     // If the qBert is vertical to Coily, Coily will go left
     // If the qBert is horizontal to Coily, Coily will go up
@@ -32,22 +32,22 @@ void Game::CoilyController::MoveTowardsQBert()
     // DownRight
     if (qbertPos.x > objPos.x and qbertPos.y > objPos.y)
     {
-        direction = LookDirection::DownRight;
+        direction = Direction::DownRight;
     }
     // DownLeft
     else if (qbertPos.x <= objPos.x and qbertPos.y > objPos.y)
     {
-        direction = LookDirection::DownLeft;
+        direction = Direction::DownLeft;
     }
     // UpRight
     else if (qbertPos.x > objPos.x and qbertPos.y <= objPos.y)
     {
-        direction = LookDirection::UpRight;
+        direction = Direction::UpRight;
     }
     // UpLeft
     else if (qbertPos.x <= objPos.x and qbertPos.y <= objPos.y)
     {
-        direction = LookDirection::UpLeft;
+        direction = Direction::UpLeft;
     }
 
     GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnHop, direction);
@@ -61,27 +61,27 @@ void Game::CoilyController::MoveTowardsQBert()
 //        auto fromBlockPos{ path[index]->GetPosition() };
 //        auto toBlockPos{ path[index + 1]->GetPosition()};
 //
-//        LookDirection direction{};
+//        Direction direction{};
 //
 //        // DownRight
 //        if (toBlockPos.x > fromBlockPos.x and toBlockPos.y > fromBlockPos.y)
 //        {
-//            direction = LookDirection::DownRight;
+//            direction = Direction::DownRight;
 //        }
 //        // DownLeft
 //        else if (toBlockPos.x < fromBlockPos.x and toBlockPos.y > fromBlockPos.y)
 //        {
-//            direction = LookDirection::DownLeft;
+//            direction = Direction::DownLeft;
 //        }
 //        // UpRight
 //        else if (toBlockPos.x > fromBlockPos.x and toBlockPos.y < fromBlockPos.y)
 //        {
-//            direction = LookDirection::UpRight;
+//            direction = Direction::UpRight;
 //        }
 //        // UpLeft
 //        else if (toBlockPos.x < fromBlockPos.x and toBlockPos.y < fromBlockPos.y)
 //        {
-//            direction = LookDirection::UpLeft;
+//            direction = Direction::UpLeft;
 //        }
 //
 //        GetOwner()->SendEvent<EventArgMove>("OnMove", MovementEvent::OnIdleWait, direction);

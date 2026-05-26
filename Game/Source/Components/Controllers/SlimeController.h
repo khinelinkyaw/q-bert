@@ -26,7 +26,7 @@ namespace Game
 
             for (int i = 0; i < pathSize; ++i)
             {
-                auto direction{ static_cast<LookDirection>((rng() % 2) + 2) };
+                auto direction{ static_cast<Direction>((rng() % 2) + 2) };
                 path.push(std::make_unique<EventArgMove>(EventArgMove{ "OnMove", MovementEvent::OnIdleWait, direction }));
                 path.push(std::make_unique<EventArgMove>(EventArgMove{ "OnMove", MovementEvent::OnHop, direction }));
             }
