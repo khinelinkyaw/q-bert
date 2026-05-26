@@ -3,6 +3,7 @@
 
 #include <Map/Block.h>
 #include <Map/Connection.h>
+#include <Misc/Enums.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -40,8 +41,8 @@ namespace Game
 
         std::vector<int> GetBlockIdsInARow(int row) const;
         int GetBlockIdInRow(int row, int indexInRow) const;
-        std::vector<Block*> GetConnectedToBlocks(int blockId);
-        std::vector<Block*> GetConnectedToBlocks(Block const& block);
+        std::vector<Block const*> GetConnectedToBlocks(int blockId) const;
+        std::vector<Block const*> GetConnectedToBlocks(Block const& block) const;
 
         void HandleEvents();
 
@@ -51,11 +52,15 @@ namespace Game
         void Render(vec3 const& pos) const override;
 
         Block* GetBlock(int blockId);
-        Block GetBlock(int blockId) const;
+        Block const* GetBlock(int blockId) const;
         Block* GetBlock(int row, int indexInRow);
-        Block* GetBlock(float worldX, float worldY);
+        Block* GetBlock(float worldX, float worldY, BlockSurface surface = BlockSurface::Top);
+        Block const* GetBlock(float worldX, float worldY, BlockSurface surface = BlockSurface::Top) const;
 
-        vec3 GetBlockSurfaceCenter(int blockId) const;
+        vec3 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface = BlockSurface::Top) const;
+        vec3 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface = BlockSurface::Top) const;
+
+        Block const* GetBlockInDirection(Block const& block, Direction direction) const;
 
         std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
 

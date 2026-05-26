@@ -7,6 +7,7 @@
 
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
+#include <Misc/Enums.h>
 
 #include <memory>
 #include <unordered_map>
@@ -30,6 +31,7 @@ namespace Game
         std::unordered_map<int, int> const* m_pSpriteMap{};
         std::unique_ptr<MovementState> m_pMovementState{};
         std::unique_ptr<Breed> m_pBreed{};
+        BlockSurface m_Surface{ BlockSurface::Top };
         MoveQueue m_MoveQueue{};
 
     public:

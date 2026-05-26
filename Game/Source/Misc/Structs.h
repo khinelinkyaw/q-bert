@@ -1,16 +1,15 @@
-#ifndef PLAYER_COMMANDS_H
-#define PLAYER_COMMANDS_H
+#ifndef GAME_STRUCTS_H
+#define GAME_STRUCTS_H
 
 #include <Misc/Enums.h>
 
-#include <Engine/Decoupling/Event.h>
-
 namespace Game
 {
-    struct EventArgMove final : public GameEngine::EventArg
+    struct MoveInstruction final
     {
         MovementEvent MovementEvent{ MovementEvent::OnIdle };
         Direction Direction{ Direction::UpRight };
+        BlockSurface Surface{ BlockSurface::Top };
     };
 }
 

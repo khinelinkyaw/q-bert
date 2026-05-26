@@ -1,19 +1,14 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include <Misc/Enums.h>
+
 #include <Engine/Misc/Types.h>
 
 #include <glm/glm.hpp>
 
 namespace Game
 {
-    enum class BlockType
-    {
-        Green,
-        Blue,
-        Magenta
-    };
-
     class Block final
     {
     public:
@@ -31,17 +26,13 @@ namespace Game
         void SetType(BlockType cellType);
         void CycleType();
 
-        vec3 GetSurfaceCenter() const { return vec3{ m_Position.x + BLOCK_SIZE / 2.f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z }; }
+        vec3 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
 
         void SetPosition(vec3 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
         vec3 GetPosition() const { return m_Position; }
 
-        bool IsCollidingOnSurface(float worldX, float worldY) const
-        {
-            return worldX >= m_Position.x && worldX <= m_Position.x + BLOCK_SIZE
-                && worldY >= m_Position.y && worldY <= m_Position.y + BLOCK_SIZE/2.f;
-        }
+        bool IsCollidingOnSurface(float worldX, float worldY, BlockSurface blockSurface = BlockSurface::Top) const;
 
         Block(int id, BlockType blockType);
 

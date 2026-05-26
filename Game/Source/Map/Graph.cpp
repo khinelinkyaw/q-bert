@@ -1,11 +1,9 @@
-#include <Components/Qbert.h>
+#include <Characters/Breed.h>
+#include <Components/BaseCreature.h>
 #include <Map/Block.h>
 #include <Map/Connection.h>
 #include <Map/Graph.h>
-#include <Characters/Breed.h>
-#include <Components/BaseCreature.h>
-#include <Pathfinding/AStar.h>
-#include <Components/Controllers/CoilyController.h>
+#include <Misc/Enums.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -83,16 +81,16 @@ int Graph::GetBlockIdInRow(int row, int indexInRow) const
     return blockIdInRow;
 }
 
-std::vector<Block*> Graph::GetConnectedToBlocks(int blockId)
+std::vector<Block const*> Graph::GetConnectedToBlocks(int blockId) const
 {
-    std::vector<Block*> result{};
+    std::vector<Block const*> result{};
 
     if (blockId == Block::INVALID_ID)
     {
         return result;
     }
 
-    for (auto& connection : m_Connections)
+    for (auto const& connection : m_Connections)
     {
         if (connection.GetFromBlock() == blockId)
         {
@@ -104,9 +102,47 @@ std::vector<Block*> Graph::GetConnectedToBlocks(int blockId)
     return result;
 }
 
-std::vector<Block*> Graph::GetConnectedToBlocks(Block const& block)
+std::vector<Block const*> Graph::GetConnectedToBlocks(Block const& block) const
 {
     return GetConnectedToBlocks(block.GetId());
+}
+
+Block const* Game::Graph::GetBlockInDirection(Block const& block, Direction direction) const
+{
+    auto nearBlocks{ GetConnectedToBlocks(block) };
+
+    for (auto const& nearBlock : nearBlocks)
+    {
+        switch (direction)
+        {
+        case Direction::UpRight:
+            if (nearBlock->GetPosition().x > block.GetPosition().x and nearBlock->GetPosition().y < block.GetPosition().y)
+            {
+                return nearBlock;
+            }
+            break;
+        case Direction::UpLeft:
+            if (nearBlock->GetPosition().x < block.GetPosition().x and nearBlock->GetPosition().y < block.GetPosition().y)
+            {
+                return nearBlock;
+            }
+            break;
+        case Direction::DownRight:
+            if (nearBlock->GetPosition().x > block.GetPosition().x and nearBlock->GetPosition().y > block.GetPosition().y)
+            {
+                return nearBlock;
+            }
+            break;
+        case Direction::DownLeft:
+            if (nearBlock->GetPosition().x < block.GetPosition().x and nearBlock->GetPosition().y > block.GetPosition().y)
+            {
+                return nearBlock;
+            }
+            break;
+        }
+    }
+
+    return nullptr;
 }
 
 void Graph::HandleEvents()
@@ -191,7 +227,7 @@ Block* Graph::GetBlock(int blockId)
     return nullptr;
 }
 
-Block Graph::GetBlock(int blockId) const
+Block const* Graph::GetBlock(int blockId) const
 {
     auto iter{ std::ranges::find_if(m_Blocks, [blockId](Block const& block)
     {
@@ -200,15 +236,20 @@ Block Graph::GetBlock(int blockId) const
 
     if (iter != m_Blocks.end())
     {
-        return *iter;
+        return &*iter;
     }
 
-    return Block{Block::INVALID_ID, BlockType::Green};
+    return nullptr;
 }
 
-vec3 Graph::GetBlockSurfaceCenter(int blockId) const
+vec3 Game::Graph::GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const
 {
-    return GetOwner()->GetTransform()->GetLocalPosition() + GetBlock(blockId).GetSurfaceCenter();
+    return GetBlockSurfaceCenter(*GetBlock(blockId), blockSurface);
+}
+
+vec3 Graph::GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const
+{
+    return GetOwner()->GetTransform()->GetWorldPosition() + block.GetSurfaceCenter(blockSurface);
 }
 
 std::vector<Connection const*> Game::Graph::GetConnectionsFromCell(int blockId) const
@@ -236,7 +277,7 @@ Block* Graph::GetBlock(int row, int indexInRow)
     return GetBlock(GetBlockIdInRow(row, indexInRow));
 }
 
-Block* Graph::GetBlock(float worldX, float worldY)
+Block* Graph::GetBlock(float worldX, float worldY, BlockSurface surface)
 {
     auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
     float localX{ worldX - localPos.x };
@@ -244,7 +285,23 @@ Block* Graph::GetBlock(float worldX, float worldY)
 
     for (auto& block : m_Blocks)
     {
-        if (block.IsCollidingOnSurface(localX, localY))
+        if (block.IsCollidingOnSurface(localX, localY, surface))
+        {
+            return &block;
+        }
+    }
+    return nullptr;
+}
+
+Block const* Game::Graph::GetBlock(float worldX, float worldY, BlockSurface surface) const
+{
+    auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
+    float localX{ worldX - localPos.x };
+    float localY{ worldY - localPos.y };
+
+    for (auto const& block : m_Blocks)
+    {
+        if (block.IsCollidingOnSurface(localX, localY, surface))
         {
             return &block;
         }

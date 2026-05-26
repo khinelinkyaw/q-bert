@@ -6,6 +6,8 @@
 #include <Engine/Misc/Types.h>
 
 #include <Map/Block.h>
+#include <Misc/Structs.h>
+#include <Misc/Enums.h>
 
 #include <memory>
 #include <queue>
@@ -15,26 +17,9 @@
 
 namespace Game
 {
-    enum class LookDirection
-    {
-        UpRight = 0,
-        UpLeft = 1,
-        DownRight = 2,
-        DownLeft = 3,
-    };
+    using MoveQueue = std::queue<MoveInstruction>;
 
-    enum class MovementEvent
-    {
-        OnIdle = 00,
-        OnIdleWait = 00,
-        OnHop = 10,
-        OnDeath = 20,
-        OnVictory = 30,
-    };
-
-    using MoveQueue = std::queue<std::pair<MovementEvent, LookDirection>>;
-
-    inline int GetSpriteIndexFromMap(std::unordered_map<int, int> const& spriteIndexMap, LookDirection direction, MovementEvent movementEvent)
+    inline int GetSpriteIndexFromMap(std::unordered_map<int, int> const& spriteIndexMap, Direction direction, MovementEvent movementEvent)
     {
         auto iter{ spriteIndexMap.find(static_cast<int>(direction) + static_cast<int>(movementEvent)) };
 
@@ -52,7 +37,8 @@ namespace Game
     {
     protected:
         GameEngine::TransformComponent* m_pTransformComponent{};
-        LookDirection m_Direction{};
+        Direction m_Direction{};
+        BlockSurface m_Surface{};
         MovementEvent m_Event{};
 
     public:
@@ -61,9 +47,9 @@ namespace Game
         virtual void OnExit() = 0;
 
         void RefreshSprite() { RefreshSprite(m_Event, m_Direction); }
-        void RefreshSprite(MovementEvent event, LookDirection direction);
+        void RefreshSprite(MovementEvent event, Direction direction);
 
-        MovementState(GameEngine::GameObject* gameObject, LookDirection direction, MovementEvent event);
+        MovementState(GameEngine::GameObject* gameObject, Direction direction, MovementEvent event, BlockSurface surface);
         virtual ~MovementState() = default;
     };
 
@@ -74,7 +60,7 @@ namespace Game
         void OnEnter() override;
         virtual void OnExit() override {};
 
-        IdleState(GameEngine::GameObject* gameObject, LookDirection direction);
+        IdleState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
         ~IdleState() override = default;
     };
 
@@ -88,7 +74,7 @@ namespace Game
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         void OnExit() override;
 
-        IdleWaitState(GameEngine::GameObject* gameObject, LookDirection direction);
+        IdleWaitState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
         ~IdleWaitState() override = default;
     };
 
@@ -110,7 +96,7 @@ namespace Game
         void OnEnter() override;
         void OnExit() override;
 
-        HopState(GameEngine::GameObject* gameObject, LookDirection direction);
+        HopState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
         ~HopState() override = default;
     };
 
@@ -128,7 +114,7 @@ namespace Game
         //void OnEnter() override;
         void OnExit() override {};
 
-        FallingState(GameEngine::GameObject* gameObject, LookDirection direction);
+        FallingState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
         ~FallingState() override = default;
     };
 }
