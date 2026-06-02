@@ -14,7 +14,8 @@ namespace Game
     {
         Green,
         Blue,
-        Magenta
+        Magenta,
+        Empty
     };
 
     enum class Direction

@@ -6,15 +6,12 @@
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Components/CollisionComponent.h>
+#include <Engine/Components/TextureComponent.h>
 
-#include <Components/ControllerComponent.h>
-#include <Components/Slime.h>
-#include <Components/Qbert.h>
+#include <Components/BaseCreature.h>
+#include <Components/Controllers/ControllerComponent.h>
 #include <Map/Graph.h>
 
-#include "Characters/MovementState.h"
-#include <Engine/Components/TextureComponent.h>
 #include <memory>
 #include <utility>
 
@@ -25,7 +22,7 @@ namespace Game
         int constexpr screenWidth{ 400 };
         int constexpr screenHeight{ 400 };
 
-        auto& scene = GameEngine::SceneManager::Get().CreateScene();
+        auto& scene = GameEngine::SceneManager::Get().CreateScene("Gameplay");
 
         std::unique_ptr<GameEngine::InputMapping> playerInputMapping{ std::make_unique<GameEngine::InputMapping>() };
         playerInputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
@@ -35,28 +32,20 @@ namespace Game
 
         auto inputMapping{ GameEngine::InputManager::Get().AddInputMapping("Player", std::move(playerInputMapping)) };
 
-        auto obj = std::make_unique<GameEngine::GameObject>();
-        auto graphComp{ obj->AddComponent<Graph>() };
-        obj->GetTransform()->SetLocalPosition(screenWidth / 2.f, 100.f);
-        scene.Add(std::move(obj));
+        auto& graphObj{ scene.CreateGameObject() };
+        auto graphComp{ graphObj.AddComponent<Graph>() };
+        graphObj.GetTransform()->SetLocalPosition(screenWidth / 2.f, 100.f);
 
-        MovementState::SetGraph(graphComp);
-
-        auto player1{ std::make_unique<GameEngine::GameObject>() };
-        auto creatureComp{ player1->AddComponent<BaseCreature>() };
+        auto& player1{ scene.CreateGameObject() };
+        auto creatureComp{ player1.AddComponent<BaseCreature>() };
         creatureComp->Init(Creature::QBert);
-        player1->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(1));
-        auto playerController{ player1->AddComponent<ControllerComponent>() };
+        player1.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(4));
+        auto playerController{ player1.AddComponent<ControllerComponent>() };
         playerController->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
-        scene.Add(std::move(player1));
 
-        auto slime{ std::make_unique<GameEngine::GameObject>() };
-        auto slimeComponent{ slime->AddComponent<BaseCreature>() };
-        slimeComponent->Init(Creature::RedSlime);
-        slime->GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(3));
-        auto slimeController{ slime->AddComponent<ControllerComponent>() };
-        slimeController->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
-        scene.Add(std::move(slime));
+        auto& slime{ scene.CreateGameObject() };
+        slime.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(7));
+        slime.AddComponent<BaseCreature>()->Init(Creature::PurpleSlime);
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
         GameEngine::Minigin::MaximizeWindow();

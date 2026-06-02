@@ -27,8 +27,8 @@ namespace Game
     class Graph final : public GameEngine::BaseComponent
     {
     public:
-        static int constexpr TOTAL_BLOCKS{ 28 };
-        static int constexpr TOTAL_ROWS{ 7 };
+        static int constexpr TOTAL_ROWS{ 8 };
+        static int constexpr TOTAL_BLOCKS{ (TOTAL_ROWS * (TOTAL_ROWS + 1)) / 2 };
 
     private:
         std::vector<Block> m_Blocks{};

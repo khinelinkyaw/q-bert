@@ -202,12 +202,15 @@ void Graph::Render(vec3 const& pos) const
 {
     for (auto& block : m_Blocks)
     {
-        auto texturePtr{ m_Textures.find(block.GetType())->second };
-        auto blockPos{ block.GetPosition() };
-
-        if (texturePtr != nullptr)
+        if (auto textureIter{ m_Textures.find(block.GetType()) }; textureIter != m_Textures.end())
         {
-            GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
+            auto texturePtr{ textureIter->second };
+            auto blockPos{ block.GetPosition() };
+
+            if (texturePtr != nullptr)
+            {
+                GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
+            }
         }
     }
 }
@@ -320,7 +323,15 @@ Graph::Graph(GameEngine::GameObject* owner)
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
-        m_Blocks.emplace_back(index, BlockType::Green);
+        // The first and last block in each row are magenta, the rest are green
+        if (index == (row*(row + 1)/ 2) or index == nextRowIncrement)
+        {
+            m_Blocks.emplace_back(index, BlockType::Empty);
+        }
+        else
+        {
+            m_Blocks.emplace_back(index, BlockType::Green);
+        }
 
         m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
