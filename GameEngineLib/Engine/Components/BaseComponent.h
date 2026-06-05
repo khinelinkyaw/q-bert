@@ -18,7 +18,7 @@ namespace GameEngine
     public:
         virtual void FixedUpdate() = 0;
         virtual void Update() = 0;
-        virtual void Render(vec3 const& pos) const = 0;
+        virtual void Render(vec2 const& pos) const = 0;
         virtual void OnCollisionEnter(GameObject* collidingObject) const;
         virtual void OnCollisionStay(GameObject* collidingObject) const;
         virtual void OnCollisionExit(GameObject* collidingObject) const;

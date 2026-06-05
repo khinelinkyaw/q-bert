@@ -17,7 +17,7 @@
 
 using namespace GameEngine;
 
-void TextureComponent::Render(vec3 const& pos) const
+void TextureComponent::Render(vec2 const& pos) const
 {
     if (m_Texture != nullptr)
     {

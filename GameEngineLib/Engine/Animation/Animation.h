@@ -30,7 +30,7 @@ namespace GameEngine
 
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vec3 const&) const override {};
+        void Render(vec2 const&) const override {};
 
         void Init(std::string const& filePath, int rows, int cols, int totalSprites = 0);
         SpriteComponent(GameObject* owner);

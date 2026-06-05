@@ -14,8 +14,9 @@ namespace GameEngine
     {
     private:
         std::vector<GameObject*> m_ChildObjs;
-        vec3 m_LocalPosition;
-        mutable vec3 m_WorldPosition;
+        vec2 m_LocalPosition;
+        mutable vec2 m_WorldPosition;
+        float m_ZIndex{ 0.f };
         GameObject* m_ParentObj;
         mutable bool m_DirtyFlag;
         
@@ -28,7 +29,7 @@ namespace GameEngine
 #pragma region BaseComponentFunctions
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vec3 const&) const override {};
+        void Render(vec2 const&) const override {};
 #pragma endregion
 
         vec2 GetLocalPosition() const;
@@ -39,7 +40,7 @@ namespace GameEngine
         //void SetY(float y);
         void SetZIndex(float z);
 
-        vec3 GetWorldPosition() const;
+        vec2 GetWorldPosition() const;
         float GetZIndex() const;
 
         void SetParent(GameObject* newParentObjarentObj);

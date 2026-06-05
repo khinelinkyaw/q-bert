@@ -56,7 +56,7 @@ void TextComponent::Update()
 {
 }
 
-void TextComponent::Render(vec3 const& pos) const
+void TextComponent::Render(vec2 const& pos) const
 {
     if (m_textTexture != nullptr)
     {

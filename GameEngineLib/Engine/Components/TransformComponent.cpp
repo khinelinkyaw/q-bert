@@ -47,11 +47,10 @@ namespace GameEngine
 
     void TransformComponent::SetZIndex(float z)
     {
-        m_LocalPosition.z = z;
-        SetDirtyFlagRecursively();
+        m_ZIndex = z;
     }
 
-    vec3 TransformComponent::GetWorldPosition() const
+    vec2 TransformComponent::GetWorldPosition() const
     {
         UpdateWorldPosition();
         return m_WorldPosition;
@@ -59,8 +58,7 @@ namespace GameEngine
 
     float TransformComponent::GetZIndex() const
     {
-        UpdateWorldPosition();
-        return m_WorldPosition.z;
+        return m_ZIndex;
     }
 
     void TransformComponent::SetParent(GameObject* newParentObj)
