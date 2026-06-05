@@ -28,6 +28,8 @@ namespace GameEngine
 
         bool SetObjectName(std::string const& name, ObjectID id);
 
+        void SortObjectsForRendering() const;
+
         GameObject& CreateGameObject();
 
         ~Scene() = default;
@@ -42,6 +44,7 @@ namespace GameEngine
 
         std::unordered_map<std::string, ObjectID> m_NameToIdMap{}; 
         std::vector<std::unique_ptr<GameObject>> m_Objects{};
+        mutable std::vector<GameObject const*> m_SortedRenderObjects{};
     };
 
 }  // namespace dae

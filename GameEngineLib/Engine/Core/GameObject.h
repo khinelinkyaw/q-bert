@@ -32,6 +32,7 @@ namespace GameEngine
         void Render() const;
 
         TransformComponent* GetTransform() { return &m_Transform; }
+        float GetZIndex() const { return m_Transform.GetZIndex(); }
 
         template<typename EventArgType, typename... Args> requires DerivedEventArg<EventArgType>
         void SendEvent(Args&& ... args);

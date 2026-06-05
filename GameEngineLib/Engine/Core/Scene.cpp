@@ -5,10 +5,12 @@
 
 #include <algorithm>
 #include <cassert>
+#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
+#include <iterator>
 
 using namespace GameEngine;
 
@@ -50,7 +52,9 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-    for (const auto& object : m_Objects)
+    SortObjectsForRendering();
+
+    for (const auto& object : m_SortedRenderObjects)
     {
         object->Render();
     }
@@ -102,6 +106,23 @@ bool GameEngine::Scene::SetObjectName(std::string const& name, ObjectID id)
 
     m_NameToIdMap[name] = id;
     return true;
+}
+
+void GameEngine::Scene::SortObjectsForRendering() const
+{
+    m_SortedRenderObjects.clear();
+    m_SortedRenderObjects.reserve(m_Objects.size());
+
+    std::transform(m_Objects.begin(), m_Objects.end(), std::back_inserter(m_SortedRenderObjects),
+        [](auto const& objectPtr)
+        {
+            return objectPtr.get();
+        });
+
+    std::ranges::sort(m_SortedRenderObjects, std::ranges::less{}, [](GameObject const* pGameObject)
+        {
+            return pGameObject->GetZIndex();
+        });
 }
 
 GameObject& GameEngine::Scene::CreateGameObject()

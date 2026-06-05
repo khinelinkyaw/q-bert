@@ -1,5 +1,6 @@
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 
 #include <algorithm>
 
@@ -15,31 +16,38 @@ namespace GameEngine
         }
     }
 
-    vec3 TransformComponent::GetLocalPosition() const
+    vec2 TransformComponent::GetLocalPosition() const
     {
         return m_LocalPosition;
     }
 
-    void TransformComponent::SetLocalPosition(vec3 newPos)
+    void TransformComponent::SetLocalPosition(vec2 newPos)
     {
-        m_LocalPosition = newPos;
-        SetDirtyFlagRecursively();
+        SetLocalPosition(newPos.x, newPos.y);
     }
 
     void TransformComponent::SetLocalPosition(float x, float y)
     {
-        SetLocalPosition(vec3{ x, y, 0.f });
-    }
-
-    void TransformComponent::SetX(float x)
-    {
         m_LocalPosition.x = x;
+        m_LocalPosition.y = y;
         SetDirtyFlagRecursively();
     }
 
-    void TransformComponent::SetY(float y)
+    //void TransformComponent::SetX(float x)
+    //{
+    //    m_LocalPosition.x = x;
+    //    SetDirtyFlagRecursively();
+    //}
+
+    //void TransformComponent::SetY(float y)
+    //{
+    //    m_LocalPosition.y = y;
+    //    SetDirtyFlagRecursively();
+    //}
+
+    void TransformComponent::SetZIndex(float z)
     {
-        m_LocalPosition.y = y;
+        m_LocalPosition.z = z;
         SetDirtyFlagRecursively();
     }
 
@@ -47,6 +55,12 @@ namespace GameEngine
     {
         UpdateWorldPosition();
         return m_WorldPosition;
+    }
+
+    float TransformComponent::GetZIndex() const
+    {
+        UpdateWorldPosition();
+        return m_WorldPosition.z;
     }
 
     void TransformComponent::SetParent(GameObject* newParentObj)
@@ -97,11 +111,11 @@ namespace GameEngine
         {
             if (m_ParentObj == nullptr)
             {
-                m_WorldPosition = GetLocalPosition();
+                m_WorldPosition = m_LocalPosition;
             }
             else
             {
-                m_WorldPosition = m_ParentObj->GetTransform()->GetWorldPosition() + GetLocalPosition();
+                m_WorldPosition = m_ParentObj->GetTransform()->GetWorldPosition() + m_LocalPosition;
             }
             m_DirtyFlag = false;
         }

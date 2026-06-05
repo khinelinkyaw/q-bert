@@ -13,10 +13,10 @@ namespace GameEngine
     class TransformComponent final : public BaseComponent
     {
     private:
+        std::vector<GameObject*> m_ChildObjs;
         vec3 m_LocalPosition;
         mutable vec3 m_WorldPosition;
         GameObject* m_ParentObj;
-        std::vector<GameObject*> m_ChildObjs;
         mutable bool m_DirtyFlag;
         
         void SetDirtyFlagRecursively();
@@ -31,13 +31,16 @@ namespace GameEngine
         void Render(vec3 const&) const override {};
 #pragma endregion
 
-        vec3 GetLocalPosition() const;
-        void SetLocalPosition(vec3 newPos);
+        vec2 GetLocalPosition() const;
+        void SetLocalPosition(vec2 newPos);
+        //void SetLocalPosition(vec3 newPos) = delete;
         void SetLocalPosition(float x, float y);
-        void SetX(float x);
-        void SetY(float y);
+        //void SetX(float x);
+        //void SetY(float y);
+        void SetZIndex(float z);
 
         vec3 GetWorldPosition() const;
+        float GetZIndex() const;
 
         void SetParent(GameObject* newParentObjarentObj);
 
