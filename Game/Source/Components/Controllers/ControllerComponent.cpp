@@ -5,7 +5,7 @@
 
 #include <Characters/MovementState.h>
 #include <Commands/PlayerCommands.h>
-#include <Components/ControllerComponent.h>
+#include <Components/Controllers/ControllerComponent.h>
 
 #include <cassert>
 
