@@ -12,7 +12,7 @@ namespace Game
 	{
 	public:
         virtual void OnNewBlock(Block* block) = 0;
-        virtual void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) = 0;
+        virtual void OnEmptyBlock(GameEngine::GameObject& object) = 0;
 
         virtual ~Breed() = default;
 	};
@@ -21,7 +21,7 @@ namespace Game
 	{
 	public:
 		void OnNewBlock(Block* block) override;
-		void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) override;
+		void OnEmptyBlock(GameEngine::GameObject& object) override;
 
         QBertBreed(GameEngine::GameObject* owner);
         ~QBertBreed() override = default;
@@ -31,7 +31,7 @@ namespace Game
 	{
 	public:
 		void OnNewBlock(Block*) override {};
-		void OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph) override;
+		void OnEmptyBlock(GameEngine::GameObject& object) override;
 		
         virtual ~EnemyBreed() override = default;
 	};

@@ -11,9 +11,10 @@ void Game::QBertBreed::OnNewBlock(Block* block)
     block->CycleType();
 }
 
-void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object, Graph const& graph)
+void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object)
 {
-    object.GetTransform()->SetLocalPosition(graph.GetBlockSurfaceCenter(0));
+    auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
+    object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
 }
 
 Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
@@ -21,7 +22,7 @@ Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
     GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Qbert", owner->GetId());
 }
 
-void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object, Graph const& )
+void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object)
 {
     object.SetForDeletion();
 }
