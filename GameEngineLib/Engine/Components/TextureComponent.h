@@ -17,8 +17,12 @@ namespace GameEngine
     private:
         double m_Rotation{ 0.0 };
         glm::vec2 m_Origin{ 0.f, 0.f };
+        glm::vec2 m_Offset{ 0.f, 0.f };
+        Pivot m_Pivot{ Pivot::LeftUp };
         Rect<float> m_SrcRect{};
         std::shared_ptr<Texture2D> m_Texture{};
+
+        void CalculateOrigin();
 
     public:
         void FixedUpdate() override {};
@@ -28,10 +32,10 @@ namespace GameEngine
         void SetTexture(const std::string& filename);
         
         glm::vec2 GetOrigin() const { return m_Origin; }
-        void SetOrigin(float x, float y, Pivot pivot = Pivot::LeftUp);
-        void SetOrigin(glm::vec2 origin, Pivot pivot = Pivot::LeftUp);
+        void SetOriginOffset(glm::vec2 offset);
+        void SetPivot(Pivot pivot);
 
-        void SetSrcRect(float x, float y, float width, float height);
+        //void SetSrcRect(float x, float y, float width, float height);
         void SetSrcRect(Rect<float> const& srcRect);
         Rect<float> GetSrcRect() const;
 

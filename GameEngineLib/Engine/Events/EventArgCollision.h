@@ -2,7 +2,7 @@
 #define EVENT_ARG_COLLISION_H
 
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 namespace GameEngine
 {

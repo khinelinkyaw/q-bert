@@ -17,6 +17,13 @@
 
 using namespace GameEngine;
 
+void GameEngine::TextureComponent::CalculateOrigin()
+{
+    Rect<float> rect{ 0.f, 0.f, m_SrcRect.width, m_SrcRect.height };
+
+    m_Origin = GameEngine::UI::AlignToRect(m_Offset.x, m_Offset.y, rect, m_Pivot);
+}
+
 void TextureComponent::Render(vec2 const& pos) const
 {
     if (m_Texture != nullptr)
@@ -41,29 +48,33 @@ void TextureComponent::SetTexture(std::string const& filename)
     {
         auto textureSize{ m_Texture->GetSize() };
         m_SrcRect = Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
+        CalculateOrigin();
+
+        GetOwner()->SendEvent<EventArg>("TextureChanged");
     }
 }
 
-void TextureComponent::SetOrigin(float x, float y, Pivot pivot)
+void GameEngine::TextureComponent::SetOriginOffset(glm::vec2 offset)
 {
-    Rect<float> rect{0.f, 0.f, m_SrcRect.width, m_SrcRect.height};
-
-    m_Origin = GameEngine::UI::AlignToRect(x, y, rect, pivot);
+    m_Offset = offset;
+    CalculateOrigin();
 }
 
-void TextureComponent::SetOrigin(glm::vec2 origin, Pivot pivot)
+void GameEngine::TextureComponent::SetPivot(Pivot pivot)
 {
-    SetOrigin(origin.x, origin.y, pivot);
+    m_Pivot = pivot;
+    CalculateOrigin();
 }
-
-void GameEngine::TextureComponent::SetSrcRect(float x, float y, float width, float height)
-{
-    m_SrcRect = Rect<float>{ x, y, width, height };
-}
+//
+//void GameEngine::TextureComponent::SetSrcRect(float x, float y, float width, float height)
+//{
+//    m_SrcRect = Rect<float>{ x, y, width, height };
+//}
 
 void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& srcRect)
 {
     m_SrcRect = srcRect;
+    CalculateOrigin();
 }
 
 Rect<float> TextureComponent::GetSrcRect() const

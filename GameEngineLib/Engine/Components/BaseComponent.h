@@ -1,7 +1,7 @@
 #ifndef BASE_COMPONENT_H
 #define BASE_COMPONENT_H
 
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
 #include <type_traits>

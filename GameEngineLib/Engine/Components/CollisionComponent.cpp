@@ -5,7 +5,8 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Misc/Structs.h>
-#include <Engine/Physics/EventArgCollision.h>
+#include <Engine/Events/EventArgCollision.h>
+#include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
 #include <utility>
@@ -64,10 +65,10 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
     m_CollidingComponents = std::move(newCollisions);
 }
 
-void GameEngine::CollisionComponent::Render(vec2 const&) const
+void GameEngine::CollisionComponent::Render(vec2 const& pos) const
 {
-    //SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
-    //Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
+    SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
+    Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
 }
 
 CollisionComponent::CollisionComponent(GameObject* owner)

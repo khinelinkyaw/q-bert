@@ -3,7 +3,7 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TransformComponent.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
 #include <algorithm>

@@ -1,7 +1,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
-#include <Engine/Physics/EventArgCollision.h>
+#include <Engine/Events/EventArg.h>
+#include <Engine/Events/EventArgCollision.h>
 
 #include <memory>
 #include <vector>
