@@ -35,41 +35,39 @@ void Game::Block::CycleType()
     }
 }
 
-vec3 Game::Block::GetSurfaceCenter(BlockSurface blockSurface) const
+vec2 Game::Block::GetSurfaceCenter(BlockSurface blockSurface) const
 {
-    vec3 result{};
     switch (blockSurface)
     {
         case BlockSurface::Top:
-            result = { m_Position.x + BLOCK_SIZE * 0.5f, m_Position.y + BLOCK_SIZE * 0.25f, m_Position.z };
-            break;
+            return { m_Position.x + BLOCK_SIZE * 0.5f, m_Position.y + BLOCK_SIZE * 0.25f };
         case BlockSurface::Left:
-            result = { m_Position.x + BLOCK_SIZE * 0.25f, m_Position.y + BLOCK_SIZE * 0.625f, m_Position.z };
-            break;
+            return { m_Position.x + BLOCK_SIZE * 0.25f, m_Position.y + BLOCK_SIZE * 0.625f };
         case BlockSurface::Right:
-            result = { m_Position.x + BLOCK_SIZE * 0.75f, m_Position.y + BLOCK_SIZE * 0.625f, m_Position.z };
-            break;
+            return { m_Position.x + BLOCK_SIZE * 0.75f, m_Position.y + BLOCK_SIZE * 0.625f };
     }
 
-    return result;
+    return vec2{};
 }
 
-bool Game::Block::IsCollidingOnSurface(float worldX, float worldY, BlockSurface blockSurface) const
+constexpr vec2 Game::Block::GetSurfaceOffset(BlockSurface blockSurface)
 {
     switch (blockSurface)
     {
-        case BlockSurface::Top:
-            return (worldX > m_Position.x and worldX < m_Position.x + BLOCK_SIZE
-                and worldY > m_Position.y and worldY < m_Position.y + BLOCK_SIZE * 0.5f);
-        case BlockSurface::Left:
-            return (worldX > m_Position.x and worldX < m_Position.x + BLOCK_SIZE * 0.5f
-                and worldY > m_Position.y + BLOCK_SIZE * 0.5f and worldY < m_Position.y + BLOCK_SIZE);
-        case BlockSurface::Right:
-            return (worldX > m_Position.x + BLOCK_SIZE * 0.5f and worldX < m_Position.x + BLOCK_SIZE
-                and worldY > m_Position.y + BLOCK_SIZE * 0.5f and worldY < m_Position.y + BLOCK_SIZE);
+    case BlockSurface::Top:
+        return { BLOCK_SIZE * 0.5f, BLOCK_SIZE * 0.25f };
+    case BlockSurface::Left:
+        return { BLOCK_SIZE * 0.25f, BLOCK_SIZE * 0.625f };
+    case BlockSurface::Right:
+        return { BLOCK_SIZE * 0.75f, BLOCK_SIZE * 0.625f };
     }
 
-    return false;
+    return vec2{};
+}
+
+bool Game::Block::IsColliding(float x, float y) const
+{
+    return (x > m_Position.x and x < m_Position.x + BLOCK_SIZE) and (y > m_Position.y and y < m_Position.y + BLOCK_SIZE);
 }
 
 Block::Block(int id, BlockType blockType)

@@ -21,13 +21,12 @@ namespace Game
     enum class GraphEvent
     {
         EntityMoved,
-        FindPathToQbert,
     };
 
     class Graph final : public GameEngine::BaseComponent
     {
     public:
-        static int constexpr TOTAL_ROWS{ 8 };
+        static int constexpr TOTAL_ROWS{ 7 };
         static int constexpr TOTAL_BLOCKS{ (TOTAL_ROWS * (TOTAL_ROWS + 1)) / 2 };
 
     private:
@@ -49,16 +48,16 @@ namespace Game
     public:
         void FixedUpdate() override {};
         void Update() override;
-        void Render(vec3 const& pos) const override;
+        void Render(vec2 const& pos) const override;
 
         Block* GetBlock(int blockId);
         Block const* GetBlock(int blockId) const;
         Block* GetBlock(int row, int indexInRow);
-        Block* GetBlock(float worldX, float worldY, BlockSurface surface = BlockSurface::Top);
-        Block const* GetBlock(float worldX, float worldY, BlockSurface surface = BlockSurface::Top) const;
+        Block const* GetBlock(float worldX, float worldY) const;
+        Block* GetBlock(float worldX, float worldY);
 
-        vec3 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface = BlockSurface::Top) const;
-        vec3 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface = BlockSurface::Top) const;
+        vec2 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const;
+        vec2 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const;
 
         Block const* GetBlockInDirection(Block const& block, Direction direction) const;
 

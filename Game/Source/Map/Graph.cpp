@@ -12,6 +12,7 @@
 #include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 using namespace Game;
@@ -160,33 +161,16 @@ void Graph::HandleEvents()
 
         switch (event.first)
         {
-        case GraphEvent::EntityMoved:
-        {
-            auto objPos{ obj->GetTransform()->GetWorldPosition() };
-            auto creatureComp{ obj->GetComponent<BaseCreature>() };
-            auto blockUnderObj{ GetBlock(objPos.x, objPos.y) };
+            case GraphEvent::EntityMoved:
+            {
+                auto objPos{ obj->GetTransform()->GetWorldPosition() };
+                auto creatureComp{ obj->GetComponent<BaseCreature>() };
+                auto blockUnderObj{ GetBlock(objPos.x, objPos.y) };
 
-            if (blockUnderObj == nullptr) creatureComp->GetBreed()->OnEmptyBlock(*obj, *this);
-            else creatureComp->GetBreed()->OnNewBlock(blockUnderObj);
-            break;
-        }
-        case GraphEvent::FindPathToQbert:
-        {
-            //auto qbertObj{ GameEngine::SceneManager::Get().GetObjectByName("Qbert") };
-            //auto qbertPos{ qbertObj->GetTransform()->GetWorldPosition() };
-            //auto qbertBlock{ GetBlock(qbertPos.x, qbertPos.y) };
-
-            //auto objPos{ obj->GetTransform()->GetWorldPosition() };
-            //auto objBlock{ GetBlock(objPos.x, objPos.y) };
-
-            //std::vector<Block const*> finalPath{};
-
-            //AStar::FindPath(objBlock, qbertBlock, this, &finalPath);
-
-            //obj->GetComponent<CoilyController>()->SetPath(finalPath);
-
-            break;
-        }
+                if (blockUnderObj == nullptr) creatureComp->GetBreed()->OnEmptyBlock(*obj);
+                else creatureComp->GetBreed()->OnNewBlock(blockUnderObj);
+                break;
+            }
         }
 
         m_EventQueue.pop();
@@ -198,7 +182,7 @@ void Graph::Update()
     HandleEvents();
 }
 
-void Graph::Render(vec3 const& pos) const
+void Graph::Render(vec2 const& pos) const
 {
     for (auto& block : m_Blocks)
     {
@@ -245,12 +229,12 @@ Block const* Graph::GetBlock(int blockId) const
     return nullptr;
 }
 
-vec3 Game::Graph::GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const
+vec2 Game::Graph::GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const
 {
     return GetBlockSurfaceCenter(*GetBlock(blockId), blockSurface);
 }
 
-vec3 Graph::GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const
+vec2 Graph::GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const
 {
     return GetOwner()->GetTransform()->GetWorldPosition() + block.GetSurfaceCenter(blockSurface);
 }
@@ -280,36 +264,34 @@ Block* Graph::GetBlock(int row, int indexInRow)
     return GetBlock(GetBlockIdInRow(row, indexInRow));
 }
 
-Block* Graph::GetBlock(float worldX, float worldY, BlockSurface surface)
+Block const* Game::Graph::GetBlock(float worldX, float worldY) const
 {
     auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
     float localX{ worldX - localPos.x };
     float localY{ worldY - localPos.y };
 
+    std::vector<Block const*> collidingBlocks{};
     for (auto& block : m_Blocks)
     {
-        if (block.IsCollidingOnSurface(localX, localY, surface))
+        if (block.IsColliding(localX, localY))
         {
-            return &block;
+            collidingBlocks.push_back(&block);
         }
     }
-    return nullptr;
+
+    if (collidingBlocks.empty()) return nullptr;
+
+    auto topBlockIter{ std::ranges::max_element(collidingBlocks, std::ranges::greater{}, [](Block const* block)
+        {
+            return block->GetPosition().z;
+        }) };
+
+    return *topBlockIter;
 }
 
-Block const* Game::Graph::GetBlock(float worldX, float worldY, BlockSurface surface) const
+Block* Graph::GetBlock(float worldX, float worldY)
 {
-    auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
-    float localX{ worldX - localPos.x };
-    float localY{ worldY - localPos.y };
-
-    for (auto const& block : m_Blocks)
-    {
-        if (block.IsCollidingOnSurface(localX, localY, surface))
-        {
-            return &block;
-        }
-    }
-    return nullptr;
+    return const_cast<Block*>(std::as_const(*this).GetBlock(worldX, worldY));
 }
 
 Graph::Graph(GameEngine::GameObject* owner)
@@ -323,15 +305,7 @@ Graph::Graph(GameEngine::GameObject* owner)
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
-        // The first and last block in each row are magenta, the rest are green
-        if (index == (row*(row + 1)/ 2) or index == nextRowIncrement)
-        {
-            m_Blocks.emplace_back(index, BlockType::Empty);
-        }
-        else
-        {
-            m_Blocks.emplace_back(index, BlockType::Green);
-        }
+        m_Blocks.emplace_back(index, BlockType::Green);
 
         m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),

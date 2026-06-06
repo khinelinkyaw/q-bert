@@ -26,13 +26,14 @@ namespace Game
         void SetType(BlockType cellType);
         void CycleType();
 
-        vec3 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
+        vec2 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
+        static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface = BlockSurface::Top);
 
         void SetPosition(vec3 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
         vec3 GetPosition() const { return m_Position; }
 
-        bool IsCollidingOnSurface(float worldX, float worldY, BlockSurface blockSurface = BlockSurface::Top) const;
+        bool IsColliding(float x, float y) const;
 
         Block(int id, BlockType blockType);
 
