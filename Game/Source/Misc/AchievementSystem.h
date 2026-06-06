@@ -27,7 +27,7 @@ namespace Game
     public:
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vec3 const&) const override {};
+        void Render(vec2 const&) const override {};
 
         AchievementSystem* GetAchievementSystem() { return &m_AchievementSystem; };
 
