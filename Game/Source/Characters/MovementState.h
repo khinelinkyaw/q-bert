@@ -1,17 +1,18 @@
-#ifndef ANIMATION_STATE_H
-#define ANIMATION_STATE_H
+#ifndef MOVEMENT_STATE_H
+#define MOVEMENT_STATE_H
 
 #include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Misc/Types.h>
 
 #include <Map/Block.h>
-#include <Misc/Structs.h>
 #include <Misc/Enums.h>
+#include <Misc/Structs.h>
+#include <Characters/Breed.h>
 
 #include <memory>
 #include <queue>
-#include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -36,22 +37,27 @@ namespace Game
     class MovementState
     {
     protected:
+        GameEngine::GameObject* m_pOwner{};
         GameEngine::TransformComponent* m_pTransformComponent{};
         Direction m_Direction{};
-        BlockSurface m_Surface{};
         MovementEvent m_Event{};
 
     public:
         virtual std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) = 0;
-        virtual void OnEnter();
+        virtual void OnEnter() = 0;
         virtual void OnExit() = 0;
 
-        void RefreshSprite() { RefreshSprite(m_Event, m_Direction); }
-        void RefreshSprite(MovementEvent event, Direction direction);
+        // void RefreshSprite() { RefreshSprite(m_Event, m_Direction); }
+        // void RefreshSprite(MovementEvent event, Direction direction);
 
-        MovementState(GameEngine::GameObject* gameObject, Direction direction, MovementEvent event, BlockSurface surface);
+        Direction GetDirection() const { return m_Direction; }
+        MovementEvent GetMovementEvent() const { return m_Event; }
+
+        MovementState(GameEngine::GameObject* gameObject, Direction direction, MovementEvent event);
         virtual ~MovementState() = default;
     };
+
+    template<typename T> concept DerivedMovementState = std::is_base_of<MovementState, T>::value;
 
     class IdleState : public MovementState
     {
@@ -60,7 +66,7 @@ namespace Game
         void OnEnter() override;
         virtual void OnExit() override {};
 
-        IdleState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
+        IdleState(GameEngine::GameObject* gameObject, Direction direction);
         ~IdleState() override = default;
     };
 
@@ -74,7 +80,7 @@ namespace Game
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         void OnExit() override;
 
-        IdleWaitState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
+        IdleWaitState(GameEngine::GameObject* gameObject, Direction direction);
         ~IdleWaitState() override = default;
     };
 
@@ -87,16 +93,15 @@ namespace Game
         static float constexpr HOP_RANGE_Y{ Block::BLOCK_SIZE * 0.75f };
 
         float m_ElapsedTime{};
-        std::string m_HopTexturePath{};
-        vec3 m_StartPos{};
-        vec3 m_DestPos{};
+        vec2 m_StartPos{};
+        vec2 m_DestPos{};
 
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
         void OnEnter() override;
         void OnExit() override;
 
-        HopState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
+        HopState(GameEngine::GameObject* gameObject, Direction direction);
         ~HopState() override = default;
     };
 
@@ -107,15 +112,28 @@ namespace Game
         static float constexpr DURATION{ 1.f };
 
         float m_ElapsedTime{};
-        vec3 m_StartPos{};
-        vec3 m_DestPos{};
+        vec2 m_StartPos{};
+        vec2 m_DestPos{};
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
-        //void OnEnter() override;
+        void OnEnter() override {};
         void OnExit() override {};
 
-        FallingState(GameEngine::GameObject* gameObject, Direction direction, BlockSurface surface);
+        FallingState(GameEngine::GameObject* gameObject, Direction direction);
         ~FallingState() override = default;
+    };
+
+    class DyingState final : public MovementState
+    {
+    private:
+        Breed* m_pBreed{};
+    public:
+        std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
+        void OnEnter() override {};
+        void OnExit() override;
+
+        DyingState(GameEngine::GameObject* gameObject, Direction direction);
+        ~DyingState() override = default;
     };
 }
 
