@@ -4,6 +4,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Decoupling/Event.h>
+#include <Engine/Misc/Types.h>
 
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
@@ -37,11 +38,12 @@ namespace Game
     public:
         void FixedUpdate() override {};
         void Update() override;
-        void Render(vec3 const&) const override {};
+        void Render(vec2 const&) const override {};
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
         Breed* GetBreed() const { return m_pBreed.get(); }
-
+        void ChangeSprite(MovementState const& movementState);
+        
         void Init(Creature creatureType);
         BaseCreature(GameEngine::GameObject* owner);
         ~BaseCreature() override = default;
