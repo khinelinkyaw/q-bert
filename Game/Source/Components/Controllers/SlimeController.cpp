@@ -3,6 +3,7 @@
 #include <Components/BaseCreature.h>
 #include <Components/EnemySpawner.h>
 #include <Misc/Constants.h>
+#include <Misc/Enums.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -10,26 +11,33 @@
 
 #include <utility>
 
-void Game::SlimeController::OnEvent(GameEngine::EventArg* eventArg)
+void Game::GenericEnemyController::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "EndOfPath")
     {
         // Spawn Coily
-        auto& coily{ Spawner::ConstructCoily() };
-        coily.GetTransform()->SetLocalPosition(GetOwner()->GetTransform()->GetLocalPosition());
+        //auto& coily{ Spawner::ConstructCoily() };
+        //coily.GetTransform()->SetLocalPosition(GetOwner()->GetTransform()->GetLocalPosition());
         GetOwner()->SetForDeletion();
     }
 }
 
-void Game::SlimeController::Init(Creature creatureType)
+void Game::GenericEnemyController::Init(Creature creatureType)
 {
     switch (creatureType)
     {
     case Creature::PurpleSlime:
-        SlimeFunctions::GenerateRandomPath(Consts::Enemy::MAX_PURPLE_SLIME_PATH_SIZE, m_Path);
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_PURPLE_SLIME_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
         break;
-    default:
-        SlimeFunctions::GenerateRandomPath(Consts::Enemy::MAX_RED_GREEN_SLIME_PATH_SIZE, m_Path);
+    case Creature::GreenSlime:
+    case Creature::RedSlime:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
+        break;
+    case Creature::WrongWay:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpLeft, Direction::DownLeft });
+        break;
+    case Creature::Ugg:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpRight, Direction::DownRight });
         break;
     }
 
@@ -40,7 +48,7 @@ void Game::SlimeController::Init(Creature creatureType)
     }
 }
 
-Game::SlimeController::SlimeController(GameEngine::GameObject* owner)
+Game::GenericEnemyController::GenericEnemyController(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
 }
