@@ -11,7 +11,7 @@
 #include <Components/BaseCreature.h>
 #include <Components/Controllers/ControllerComponent.h>
 #include <Components/Controllers/CoilyController.h>
-#include <Components/Controllers/SlimeController.h>
+#include <Components/Controllers/GenericEnemyController.h>
 #include <Map/Graph.h>
 
 GameEngine::GameObject& Game::CreatureSpawner::ConstructCoily(int graphBlockId)
