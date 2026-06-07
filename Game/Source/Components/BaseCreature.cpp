@@ -9,7 +9,7 @@
 #include <Engine/Animation/Animation.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 #include <memory>
 #include <utility>
@@ -33,23 +33,15 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
     {
         auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };
 
-        m_MoveQueue.emplace(movementEventArg->MovementEvent, movementEventArg->Direction, m_Surface);
+        m_MoveQueue.emplace(movementEventArg->MovementEvent, movementEventArg->Direction);
     }
     else if (eventArg->EventId == "IdleEnter")
     {
         if (m_MoveQueue.empty())
         {
-            GetOwner()->SendEvent<GameEngine::EventArg>("EndOfPath");
+            m_pBreed->OnEndOfPath(*GetOwner());
         }
     }
-    //else if (eventArg->EventId == "ChangeSprite")
-    //{
-    //    auto movementEventArg{ static_cast<EventArgMove*>(eventArg) };
-
-    //    GetOwner()->GetComponent<GameEngine::SpriteComponent>()->SetSpriteIndex(
-    //        GetSpriteIndexFromMap(*m_pSpriteMap, movementEventArg->Direction, movementEventArg->MovementEvent)
-    //    );
-    //}
 }
 
 void Game::BaseCreature::ChangeSprite(MovementState const& movementState)
@@ -67,21 +59,21 @@ void Game::BaseCreature::Init(Creature creatureType)
     {
     case Creature::QBert:
         m_pSpriteMap = &Consts::QBERT_SPRITE_MAP;
-        GetOwner()->AddComponent<GameEngine::SpriteComponent>()->Init("Qbert.png", 1, 8);
         m_pMovementState = std::make_unique<IdleState>(GetOwner(), Direction::DownRight);
         m_pBreed = std::make_unique<QBertBreed>(GetOwner());
         break;
     case Creature::RedSlime:
         m_pSpriteMap = &Consts::RED_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<FallingState>(GetOwner(), Direction::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::GreenSlime:
         m_pSpriteMap = &Consts::GREEN_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<FallingState>(GetOwner(), Direction::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::PurpleSlime:
         m_pSpriteMap = &Consts::PURPLE_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<FallingState>(GetOwner(), Direction::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
+        m_pBreed = std::make_unique<PurpleSlimeBreed>();
         break;
     case Creature::Coily:
         m_pSpriteMap = &Consts::COILY_SPRITE_MAP;
@@ -89,9 +81,11 @@ void Game::BaseCreature::Init(Creature creatureType)
         break;
     case Creature::Ugg:
         m_pSpriteMap = &Consts::UGG_SPRITE_MAP;
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::WrongWay:
         m_pSpriteMap = &Consts::WRONGWAY_SPRITE_MAP;
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     }
 

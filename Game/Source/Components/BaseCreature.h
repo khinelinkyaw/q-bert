@@ -3,7 +3,7 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
 #include <Characters/Breed.h>
@@ -32,7 +32,6 @@ namespace Game
         std::unordered_map<int, int> const* m_pSpriteMap{};
         std::unique_ptr<MovementState> m_pMovementState{};
         std::unique_ptr<Breed> m_pBreed{};
-        BlockSurface m_Surface{ BlockSurface::Top };
         MoveQueue m_MoveQueue{};
 
     public:
