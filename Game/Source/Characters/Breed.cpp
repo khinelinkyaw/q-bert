@@ -1,6 +1,7 @@
 #include "Breed.h"
 
 #include <Map/Block.h>
+#include <Components/EnemySpawner.h>
 #include <Map/Graph.h>
 
 #include <Engine/Core/GameObject.h>
@@ -13,6 +14,7 @@ void Game::QBertBreed::OnNewBlock(Block* block)
 
 void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object)
 {
+    // This won't be used later, the QBert will die ofc
     auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
     object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
 }
@@ -24,5 +26,13 @@ Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
 
 void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object)
 {
+    object.SetForDeletion();
+}
+
+void Game::PurpleSlimeBreed::OnEndOfPath(GameEngine::GameObject& object)
+{
+    // Spawn Coily
+    auto& coily{ Builder::BuildCoily() };
+    coily.GetTransform()->SetLocalPosition(object.GetTransform()->GetLocalPosition());
     object.SetForDeletion();
 }
