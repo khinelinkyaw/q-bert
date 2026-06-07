@@ -27,11 +27,12 @@ namespace Game
         void CycleType();
 
         vec2 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
-        static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface = BlockSurface::Top);
+        static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface);
 
         void SetPosition(vec3 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
         vec3 GetPosition() const { return m_Position; }
+        vec2 GetPosition2D() const { return vec2{ m_Position.x, m_Position.y }; }
 
         bool IsColliding(float x, float y) const;
 
