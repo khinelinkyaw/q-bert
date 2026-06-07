@@ -24,6 +24,8 @@ namespace Game
         UpLeft = 1,
         DownRight = 2,
         DownLeft = 3,
+        LevelRight = 4,
+        LevelLeft = 5,
     };
 
     enum class MovementEvent
