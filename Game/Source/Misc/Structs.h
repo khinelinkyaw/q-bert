@@ -9,7 +9,6 @@ namespace Game
     {
         MovementEvent MovementEvent{ MovementEvent::OnIdle };
         Direction Direction{ Direction::UpRight };
-        BlockSurface Surface{ BlockSurface::Top };
     };
 }
 
