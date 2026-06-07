@@ -34,9 +34,9 @@ void Scene::RemoveAll() { m_Objects.clear(); }
 
 void Scene::FixedUpdate()
 {
-    for (auto& object : m_Objects)
+    for (int index{ 0 }; index < m_Objects.size(); ++index)
     {
-        object->FixedUpdate();
+        m_Objects[index]->FixedUpdate();
     }
 
     ServiceLocator::Get().GetCollisionSystem().CheckCollisions();
@@ -44,9 +44,9 @@ void Scene::FixedUpdate()
 
 void Scene::Update()
 {
-    for (auto& object : m_Objects)
+    for (int index{ 0 }; index < m_Objects.size(); ++index)
     {
-        object->Update();
+        m_Objects[index]->Update();
     }
 }
 
