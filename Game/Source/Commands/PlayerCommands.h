@@ -3,7 +3,7 @@
 
 #include <Misc/Enums.h>
 
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 namespace Game
 {
