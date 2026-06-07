@@ -7,19 +7,12 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 #include <utility>
 
-void Game::GenericEnemyController::OnEvent(GameEngine::EventArg* eventArg)
+void Game::GenericEnemyController::OnEvent(GameEngine::EventArg* )
 {
-    if (eventArg->EventId == "EndOfPath")
-    {
-        // Spawn Coily
-        //auto& coily{ Spawner::ConstructCoily() };
-        //coily.GetTransform()->SetLocalPosition(GetOwner()->GetTransform()->GetLocalPosition());
-        GetOwner()->SetForDeletion();
-    }
 }
 
 void Game::GenericEnemyController::Init(Creature creatureType)
@@ -34,10 +27,10 @@ void Game::GenericEnemyController::Init(Creature creatureType)
         EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
         break;
     case Creature::WrongWay:
-        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpLeft, Direction::DownLeft });
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpRight, Direction::LevelRight } );
         break;
     case Creature::Ugg:
-        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpRight, Direction::DownRight });
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpLeft, Direction::LevelLeft });
         break;
     }
 
