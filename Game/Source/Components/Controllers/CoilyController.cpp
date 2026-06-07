@@ -7,7 +7,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 //#include <vector>
 
