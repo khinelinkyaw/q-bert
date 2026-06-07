@@ -6,11 +6,11 @@
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Components/TextureComponent.h>
 
+#include <Components/CreatureSpawner.h>
 #include <Components/BaseCreature.h>
-#include <Components/Controllers/ControllerComponent.h>
 #include <Map/Graph.h>
+#include <Components/Controllers/ControllerComponent.h>
 
 #include <memory>
 #include <utility>
@@ -35,17 +35,24 @@ namespace Game
         auto& graphObj{ scene.CreateGameObject() };
         auto graphComp{ graphObj.AddComponent<Graph>() };
         graphObj.GetTransform()->SetLocalPosition(screenWidth / 2.f, 100.f);
+        graphObj.GetTransform()->SetZIndex(-1);
 
-        auto& player1{ scene.CreateGameObject() };
-        auto creatureComp{ player1.AddComponent<BaseCreature>() };
-        creatureComp->Init(Creature::QBert);
-        player1.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(4));
-        auto playerController{ player1.AddComponent<ControllerComponent>() };
-        playerController->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
+        auto& player{ Builder::BuildQBert() };
+        player.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        //auto playerTexture{ player.GetComponent<GameEngine::TextureComponent>() };
+        //playerTexture->SetRotation(135.0);
+        //playerTexture->SetOriginOffset({ 2.f, 2.f });
+        player.GetComponent<ControllerComponent>()->Init(inputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
 
-        auto& slime{ scene.CreateGameObject() };
-        slime.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(7));
-        slime.AddComponent<BaseCreature>()->Init(Creature::PurpleSlime);
+        auto& slime{ Builder::BuildPurpleSlime() };
+        slime.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(1, BlockSurface::Top));
+
+        auto& ugg{ Builder::BuildUgg() };
+        ugg.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(27, BlockSurface::Right));
+
+        auto& wrongway{ Builder::BuildWrongWay() };
+        wrongway.GetTransform()->SetLocalPosition(graphComp->GetBlockSurfaceCenter(21, BlockSurface::Left));
+
 
         GameEngine::Minigin::SetGameScreenSize(screenWidth, screenHeight);
         GameEngine::Minigin::MaximizeWindow();

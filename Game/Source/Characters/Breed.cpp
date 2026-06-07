@@ -1,7 +1,7 @@
 #include "Breed.h"
 
 #include <Map/Block.h>
-#include <Components/EnemySpawner.h>
+#include <Components/CreatureSpawner.h>
 #include <Map/Graph.h>
 
 #include <Engine/Core/GameObject.h>

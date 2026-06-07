@@ -1,4 +1,4 @@
-#include "EnemySpawner.h"
+#include "CreatureSpawner.h"
 
 #include <Engine/Animation/Animation.h>
 #include <Engine/Components/CollisionComponent.h>

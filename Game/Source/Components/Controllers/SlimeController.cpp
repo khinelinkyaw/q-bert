@@ -1,7 +1,7 @@
 #include "SlimeController.h"
 
 #include <Components/BaseCreature.h>
-#include <Components/EnemySpawner.h>
+#include <Components/CreatureSpawner.h>
 #include <Misc/Constants.h>
 #include <Misc/Enums.h>
 
