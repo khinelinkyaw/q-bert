@@ -34,6 +34,11 @@ namespace GameEngine
             return *this;
         }
 
+        bool operator==(Rect<T> const& other)
+        {
+            return (x == other.x and y == other.y and width == other.width and height == other.height);
+        }
+
         SDL_FRect ToSDLRect() const
         {
             return SDL_FRect{ x, y, width, height };
