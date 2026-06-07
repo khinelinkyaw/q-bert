@@ -1,14 +1,14 @@
-#include <Components/BaseCreature.h>
 #include <Characters/MovementState.h>
-#include <Commands/PlayerCommands.h>
+#include <Components/BaseCreature.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
+#include <Map/Block.h>
 
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Minigin.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/ServiceLocator.h>
-#include <Engine/Decoupling/Event.h>
+#include <Engine/Events/EventArg.h>
 
 #include <cmath>
 #include <memory>
@@ -141,6 +141,12 @@ void HopState::OnEnter()
         break;
     case Direction::UpRight:
         m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y - HOP_RANGE_Y };
+        break;
+    case Direction::LevelLeft: 
+        m_DestPos = { m_StartPos.x - Block::BLOCK_SIZE, m_StartPos.y };
+        break;
+    case Direction::LevelRight:
+        m_DestPos = { m_StartPos.x + Block::BLOCK_SIZE, m_StartPos.y };
         break;
     }
 
