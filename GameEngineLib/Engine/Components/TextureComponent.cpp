@@ -6,6 +6,7 @@
 #include <Engine/Misc/Structs.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/UI/Utils.h>
+#include <Engine/Events/EventArgTexture.h>
 #include <Engine/Misc/Types.h>
 
 #include <glm/fwd.hpp>
@@ -50,7 +51,7 @@ void TextureComponent::SetTexture(std::string const& filename)
         m_SrcRect = Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
         CalculateOrigin();
 
-        GetOwner()->SendEvent<EventArg>("TextureChanged");
+        GetOwner()->SendEvent<EventArgTexture>("TextureChanged", this);
     }
 }
 
@@ -71,10 +72,14 @@ void GameEngine::TextureComponent::SetPivot(Pivot pivot)
 //    m_SrcRect = Rect<float>{ x, y, width, height };
 //}
 
-void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& srcRect)
+void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& newSrcRect)
 {
-    m_SrcRect = srcRect;
-    CalculateOrigin();
+    if (m_SrcRect != newSrcRect)
+    {
+        m_SrcRect = newSrcRect;
+        GetOwner()->SendEvent<EventArgTexture>("SourceRectChanged", this);
+        CalculateOrigin();
+    }
 }
 
 Rect<float> TextureComponent::GetSrcRect() const

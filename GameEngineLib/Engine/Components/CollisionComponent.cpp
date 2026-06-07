@@ -7,6 +7,7 @@
 #include <Engine/Misc/Structs.h>
 #include <Engine/Events/EventArgCollision.h>
 #include <Engine/Rendering/Renderer.h>
+#include <Engine/Events/EventArgTexture.h>
 
 #include <algorithm>
 #include <utility>
@@ -65,18 +66,34 @@ void GameEngine::CollisionComponent::CheckCollisions(std::vector<CollisionCompon
     m_CollidingComponents = std::move(newCollisions);
 }
 
-void GameEngine::CollisionComponent::Render(vec2 const& pos) const
+void GameEngine::CollisionComponent::Render(vec2 const& ) const
 {
-    SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
-    Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
+    //SDL_FRect collisionRect{ pos.x + m_CollisionRect.x, pos.y + m_CollisionRect.y, m_CollisionRect.width, m_CollisionRect.height };
+    //Renderer::Get().DrawRect(collisionRect, SDL_Color{ 255, 0, 0, 255 });
+}
+
+void GameEngine::CollisionComponent::OnEvent(EventArg* eventArg)
+{
+    if ((eventArg->EventId == "TextureChanged" or eventArg->EventId == "SourceRectChanged") and m_FollowTexture)
+    {
+        auto eventArgTexture{ static_cast<EventArgTexture*>(eventArg) };
+        auto textureComponent{ eventArgTexture->TextureComponent };
+        ExtractTextureRect(textureComponent);
+    }
 }
 
 CollisionComponent::CollisionComponent(GameObject* owner)
     : BaseComponent{ owner }
 {
     auto textureComp{ owner->GetComponent<TextureComponent>() };
+    ExtractTextureRect(textureComp);
 
-    if (textureComp != nullptr)
+    ServiceLocator::Get().GetCollisionSystem().AddCollisionComponent(this);
+}
+
+void GameEngine::CollisionComponent::ExtractTextureRect(GameEngine::TextureComponent* textureComp)
+{
+    if (textureComp != nullptr and m_FollowTexture)
     {
         auto textureRect{ textureComp->GetSrcRect() };
         auto origin{ textureComp->GetOrigin() };
@@ -88,8 +105,6 @@ CollisionComponent::CollisionComponent(GameObject* owner)
             textureRect.height
         };
     }
-
-    ServiceLocator::Get().GetCollisionSystem().AddCollisionComponent(this);
 }
 
 GameEngine::CollisionComponent::~CollisionComponent()
