@@ -70,6 +70,27 @@ bool Game::Block::IsColliding(float x, float y) const
     return (x > m_Position.x and x < m_Position.x + BLOCK_SIZE) and (y > m_Position.y and y < m_Position.y + BLOCK_SIZE);
 }
 
+BlockSurface Game::Block::GetCollidingSurface(float x, float y) const
+{
+    if (x > m_Position.x and x < m_Position.x + BLOCK_SIZE
+        and y > m_Position.y and y < m_Position.y + BLOCK_SIZE * 0.5f)
+    {
+        return BlockSurface::Top;
+    }
+    else if (x > m_Position.x and x < m_Position.x + BLOCK_SIZE * 0.5f
+            and y > m_Position.y + BLOCK_SIZE * 0.5f and y < m_Position.y + BLOCK_SIZE)
+    {
+        return BlockSurface::Left;
+    }
+    else if (x > m_Position.x + BLOCK_SIZE * 0.5f and x < m_Position.x + BLOCK_SIZE
+        and y > m_Position.y + BLOCK_SIZE * 0.5f and y < m_Position.y + BLOCK_SIZE)
+    {
+        return BlockSurface::Right;
+    }
+
+    return BlockSurface::Top;
+}
+
 Block::Block(int id, BlockType blockType)
     : m_Id{ id }
     , m_BlockType{ blockType }

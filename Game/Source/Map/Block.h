@@ -35,6 +35,7 @@ namespace Game
         vec2 GetPosition2D() const { return vec2{ m_Position.x, m_Position.y }; }
 
         bool IsColliding(float x, float y) const;
+        BlockSurface GetCollidingSurface(float x, float y) const;
 
         Block(int id, BlockType blockType);
 

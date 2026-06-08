@@ -56,6 +56,8 @@ namespace Game
         Block const* GetBlock(float worldX, float worldY) const;
         Block* GetBlock(float worldX, float worldY);
 
+        std::pair<Block*, BlockSurface> GetBlockAndSurface(float worldX, float worldY);
+
         vec2 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const;
         vec2 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const;
 

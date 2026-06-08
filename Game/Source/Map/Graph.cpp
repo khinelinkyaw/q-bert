@@ -294,6 +294,24 @@ Block* Graph::GetBlock(float worldX, float worldY)
     return const_cast<Block*>(std::as_const(*this).GetBlock(worldX, worldY));
 }
 
+std::pair<Block*, BlockSurface> Game::Graph::GetBlockAndSurface(float worldX, float worldY)
+{
+    Block* block{ GetBlock(worldX, worldY) };
+
+    if (block)
+    {
+        auto localPos{ GetOwner()->GetTransform()->GetLocalPosition() };
+        float localX{ worldX - localPos.x };
+        float localY{ worldY - localPos.y };
+
+        BlockSurface surface{ block->GetCollidingSurface(localX, localY)};
+
+        return { block, surface };
+    }
+
+    return { nullptr, BlockSurface::Top };
+}
+
 Graph::Graph(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
