@@ -1,29 +1,20 @@
 #include <Characters/MovementState.h>
 #include <Components/BaseCreature.h>
+#include <Map/Block.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
-#include <Map/Block.h>
 
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/Time.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/ServiceLocator.h>
+#include <Engine/Core/Time.h>
 #include <Engine/Events/EventArg.h>
+#include <Engine/Misc/Types.h>
 
 #include <cmath>
 #include <memory>
 
 using namespace Game;
-
-//void Game::MovementState::OnEnter()
-//{   
-//    RefreshSprite();
-//}
-
-//void Game::MovementState::RefreshSprite(MovementEvent event, Direction direction)
-//{
-//    m_pOwner->SendEvent<EventArgMove>("ChangeSprite", event, direction);
-//}
 
 MovementState::MovementState(GameEngine::GameObject* gameObject, Direction direction, MovementEvent event)
     : m_pOwner{ gameObject }
@@ -93,35 +84,45 @@ std::unique_ptr<MovementState> HopState::Update(GameEngine::GameObject* gameObje
 {
     float time{ m_ElapsedTime / DURATION };
 
-    if (time > 1.0f)
+    if (time > m_MaxTime)
     {
-        m_pTransformComponent->SetLocalPosition(m_DestPos);
+        m_pGraph->SendGraphEvent(GraphEvent::EntityMoved, gameObject->GetId());
 
-        auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
-        graph->SendGraphEvent(GraphEvent::EntityMoved, gameObject->GetId());
-        auto destinationBlock{ graph->GetBlock(m_DestPos.x, m_DestPos.y) };
-
-        if (destinationBlock == nullptr)
+        if (m_pDestBlock == nullptr)
         {
-            return std::make_unique<DyingState>(gameObject, m_Direction);
+            return std::make_unique<HopState>(gameObject, m_Direction);
         }
         else
         {
+            m_pTransformComponent->SetLocalPosition(m_DestPos);
             return std::make_unique<IdleState>(gameObject, m_Direction);
         }
     }
     else
     {
-        float arcHeight{ HOP_HEIGHT * (4.0f * time * (1.f - time)) };
-        float x{ std::lerp(m_StartPos.x, m_DestPos.x, time) };
-        float y{ std::lerp(m_StartPos.y, m_DestPos.y, time) - arcHeight};
-
-        m_pTransformComponent->SetLocalPosition({ x, y });
-
+        m_pTransformComponent->SetLocalPosition(GetLerpPositionInTime(time));
         m_ElapsedTime += GameEngine::GetDeltaTime();
     }
 
     return nullptr;
+}
+
+vec2 Game::HopState::GetLerpPositionInTime(float time)
+{
+    float arcHeight{ HOP_HEIGHT * (4.0f * time * (1.f - time)) };
+
+    switch (m_Surface)
+    {
+    case BlockSurface::Right:
+        return { std::lerp(m_StartPos.x, m_DestPos.x, time) + arcHeight,
+                 std::lerp(m_StartPos.y, m_DestPos.y, time) };
+    case BlockSurface::Left:
+        return { std::lerp(m_StartPos.x, m_DestPos.x, time) - arcHeight,
+                 std::lerp(m_StartPos.y, m_DestPos.y, time) };
+    default:
+        return { std::lerp(m_StartPos.x, m_DestPos.x, time),
+                 std::lerp(m_StartPos.y, m_DestPos.y, time) - arcHeight };
+    }
 }
 
 void HopState::OnEnter()
@@ -150,9 +151,20 @@ void HopState::OnEnter()
         break;
     }
 
+    m_pGraph = GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>();
+    auto [blockPtr, surface] = m_pGraph->GetBlockAndSurface(m_StartPos.x, m_StartPos.y);
+    m_pStartBlock = blockPtr;
+    m_Surface = surface;
+    m_pDestBlock = m_pGraph->GetBlock(m_DestPos.x, m_DestPos.y);
+
+    if (!m_pDestBlock)
+    {
+        m_pOwner->GetTransform()->SetZIndex(-2);
+        m_MaxTime = 4.f;
+    }
+
     m_ElapsedTime = 0.f;
     GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
-    // MovementState::OnEnter();
 }
 
 void HopState::OnExit()
@@ -167,14 +179,12 @@ HopState::HopState(GameEngine::GameObject* gameObject, Direction direction)
 
 std::unique_ptr<MovementState> Game::FallingState::Update(GameEngine::GameObject* gameObject, MoveQueue&)
 {
-    std::unique_ptr<MovementState> result{ nullptr };
-
     float time{ m_ElapsedTime / DURATION };
 
     if (time > 1.0f)
     {
         m_pTransformComponent->SetLocalPosition(m_DestPos);
-        result = std::make_unique<IdleState>(gameObject, m_Direction);
+        return std::make_unique<IdleState>(gameObject, m_Direction);
     }
     else
     {
@@ -183,7 +193,7 @@ std::unique_ptr<MovementState> Game::FallingState::Update(GameEngine::GameObject
         m_ElapsedTime += GameEngine::GetDeltaTime();
     }
 
-    return result;
+    return nullptr;
 }
 
 Game::FallingState::FallingState(GameEngine::GameObject* gameObject, Direction direction)

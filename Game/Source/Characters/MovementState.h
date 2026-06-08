@@ -92,9 +92,16 @@ namespace Game
         static float constexpr HOP_RANGE_X{ Block::BLOCK_SIZE / 2.f };
         static float constexpr HOP_RANGE_Y{ Block::BLOCK_SIZE * 0.75f };
 
-        float m_ElapsedTime{};
+        Graph* m_pGraph{};
+        Block* m_pStartBlock{};
+        Block* m_pDestBlock{};
         vec2 m_StartPos{};
         vec2 m_DestPos{};
+        float m_ElapsedTime{};
+        float m_MaxTime{ 1.0f };
+        BlockSurface m_Surface{};
+
+        vec2 GetLerpPositionInTime(float time);
 
     public:
         std::unique_ptr<MovementState> Update(GameEngine::GameObject* gameObject, MoveQueue& moveQueue) override;
