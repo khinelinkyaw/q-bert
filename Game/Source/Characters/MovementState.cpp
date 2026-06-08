@@ -88,15 +88,12 @@ std::unique_ptr<MovementState> HopState::Update(GameEngine::GameObject* gameObje
     {
         m_pGraph->SendGraphEvent(GraphEvent::EntityMoved, gameObject->GetId());
 
-        if (m_pDestBlock == nullptr)
-        {
-            return std::make_unique<HopState>(gameObject, m_Direction);
-        }
-        else
+        if (m_pDestBlock != nullptr)
         {
             m_pTransformComponent->SetLocalPosition(m_DestPos);
-            return std::make_unique<IdleState>(gameObject, m_Direction);
         }
+
+        return std::make_unique<IdleState>(gameObject, m_Direction);
     }
     else
     {
@@ -137,6 +134,9 @@ void HopState::OnEnter()
     case Direction::DownRight:
         m_DestPos = { m_StartPos.x + HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y};
         break;
+    case Direction::DownMiddle:
+        m_DestPos = { m_StartPos.x, m_StartPos.y + Block::BLOCK_SIZE };
+        break;
     case Direction::DownLeft:
         m_DestPos = { m_StartPos.x - HOP_RANGE_X, m_StartPos.y + HOP_RANGE_Y};
         break;
@@ -159,7 +159,7 @@ void HopState::OnEnter()
 
     if (!m_pDestBlock)
     {
-        m_pOwner->GetTransform()->SetZIndex(-2);
+        //m_pOwner->GetTransform()->SetZIndex(-2);
         m_MaxTime = 4.f;
     }
 

@@ -54,30 +54,28 @@ void Game::BaseCreature::ChangeSprite(MovementState const& movementState)
 void Game::BaseCreature::Init(Creature creatureType)
 {
     m_pBreed = std::make_unique<EnemyBreed>();
+    //m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownMiddle);
+    m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
 
     switch (creatureType)
     {
     case Creature::QBert:
         m_pSpriteMap = &Consts::QBERT_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleState>(GetOwner(), Direction::DownRight);
         m_pBreed = std::make_unique<QBertBreed>(GetOwner());
+        m_pMovementState = std::make_unique<IdleState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::RedSlime:
         m_pSpriteMap = &Consts::RED_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::GreenSlime:
         m_pSpriteMap = &Consts::GREEN_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::PurpleSlime:
         m_pSpriteMap = &Consts::PURPLE_SLIME_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         m_pBreed = std::make_unique<PurpleSlimeBreed>();
         break;
     case Creature::Coily:
         m_pSpriteMap = &Consts::COILY_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::Ugg:
         m_pSpriteMap = &Consts::UGG_SPRITE_MAP;
@@ -85,7 +83,7 @@ void Game::BaseCreature::Init(Creature creatureType)
         break;
     case Creature::WrongWay:
         m_pSpriteMap = &Consts::WRONGWAY_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::LevelRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpRight);
         break;
     }
 
