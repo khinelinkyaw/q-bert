@@ -3,8 +3,8 @@
 #include <windows.h>
 #endif
 
-#include <Engine/Input/InputManager.h>
 #include <Engine/Core/Minigin.h>
+#include <Engine/Input/InputManager.h>
 #include <Engine/Core/Time.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Core/ResourceManager.h>
