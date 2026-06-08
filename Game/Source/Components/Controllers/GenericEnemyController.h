@@ -5,16 +5,15 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/Core/Random.h>
 
 #include <Commands/PlayerCommands.h>
 #include <Components/BaseCreature.h>
 #include <Misc/Enums.h>
 #include <Misc/Types.h>
 
-#include <chrono>
 #include <memory>
 #include <queue>
-#include <random>
 #include <vector>
 
 namespace Game
@@ -23,7 +22,7 @@ namespace Game
     {
         inline void GenerateRandomPath(int pathSize, MovePath& path, std::vector<Direction> const& allowDirections)
         {
-            std::mt19937 rng{ static_cast<unsigned int>(std::chrono::steady_clock::now().time_since_epoch().count()) };
+            auto& rng{ GameEngine::Random::GetRNG() };
 
             for (int i = 0; i < pathSize; ++i)
             {
