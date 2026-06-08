@@ -19,14 +19,14 @@ namespace GameEngine
         std::chrono::high_resolution_clock::time_point m_LastTime;
         float m_Lag;
         bool m_Quit;
-        inline static float const m_TimeStep{ 1.f / 60.f };
-        inline static float m_DeltaTime{};
+        //inline static float const m_TimeStep{ 1.f / 60.f };
+        //inline static float m_DeltaTime{};
 
     public:
         void Run(const std::function<void()>& load);
         void RunOneFrame();
-        static float GetDeltaTime() { return m_DeltaTime; }
-        static float GetFixedTimeStep() { return m_TimeStep; }
+        //static float GetDeltaTime() { return m_DeltaTime; }
+        //static float GetFixedTimeStep() { return m_TimeStep; }
 
         static void SetGameScreenSize(int width, int height);
         static void MaximizeWindow();

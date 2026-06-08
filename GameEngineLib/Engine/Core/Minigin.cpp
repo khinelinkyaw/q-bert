@@ -5,6 +5,7 @@
 
 #include <Engine/Input/InputManager.h>
 #include <Engine/Core/Minigin.h>
+#include <Engine/Core/Time.h>
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Core/SceneManager.h>
@@ -26,6 +27,7 @@
 #include <string>
 #include <chrono>
 #include <filesystem>
+#include <ctime>
 #include <functional>
 
 #if USE_STEAMWORKS
@@ -154,17 +156,18 @@ void GameEngine::Minigin::Run(const std::function<void()>& load)
 void GameEngine::Minigin::RunOneFrame()
 {
     auto const currentTime{ std::chrono::high_resolution_clock::now() };
-    m_DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
+    //Time::DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
+    EngineUse::SetDeltaTime(std::chrono::duration<float>(currentTime - m_LastTime).count());
     m_LastTime = currentTime;
 
-    m_Lag += m_DeltaTime;
+    m_Lag += GetDeltaTime();
 
     m_Quit = !InputManager::Get().ProcessInput();
 
-    while (m_Lag >= m_TimeStep)
+    while (m_Lag >= GetFixedTime())
     {
         SceneManager::Get().FixedUpdate();
-        m_Lag -= m_TimeStep;
+        m_Lag -= GetFixedTime();
     }
     SceneManager::Get().Update();
     SceneManager::Get().CheckForDeletion();

@@ -5,7 +5,7 @@
 #include <Map/Block.h>
 
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/Minigin.h>
+#include <Engine/Core/Time.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Events/EventArg.h>
@@ -69,7 +69,7 @@ IdleState::IdleState(GameEngine::GameObject* gameObject, Direction direction)
 
 std::unique_ptr<MovementState> Game::IdleWaitState::Update(GameEngine::GameObject* gameObject, MoveQueue&)
 {
-    m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
+    m_ElapsedTime += GameEngine::GetDeltaTime();
 
     if (m_ElapsedTime > m_Duration)
     {
@@ -118,7 +118,7 @@ std::unique_ptr<MovementState> HopState::Update(GameEngine::GameObject* gameObje
 
         m_pTransformComponent->SetLocalPosition({ x, y });
 
-        m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
+        m_ElapsedTime += GameEngine::GetDeltaTime();
     }
 
     return nullptr;
@@ -180,7 +180,7 @@ std::unique_ptr<MovementState> Game::FallingState::Update(GameEngine::GameObject
     {
         float y{ std::lerp(m_StartPos.y, m_DestPos.y, time) };
         m_pTransformComponent->SetLocalPosition({ m_StartPos.x, y});
-        m_ElapsedTime += GameEngine::Minigin::GetDeltaTime();
+        m_ElapsedTime += GameEngine::GetDeltaTime();
     }
 
     return result;

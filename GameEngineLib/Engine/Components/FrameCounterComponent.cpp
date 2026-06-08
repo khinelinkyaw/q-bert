@@ -1,6 +1,6 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/FrameCounterComponent.h>
-#include <Engine/Core/Minigin.h>
+#include <Engine/Core/Time.h>
 #include <Engine/Core/GameObject.h>
 
 #include <glm/fwd.hpp>
@@ -25,7 +25,7 @@ void FrameCounterComponent::FixedUpdate()
 
 void FrameCounterComponent::Update()
 {
-    m_AccumulatedTime += Minigin::GetDeltaTime();
+    m_AccumulatedTime += GetDeltaTime();
     ++m_FramesPerSecond;
 
     if (m_AccumulatedTime >= 1.f)
