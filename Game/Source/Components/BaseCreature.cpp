@@ -81,11 +81,11 @@ void Game::BaseCreature::Init(Creature creatureType)
         break;
     case Creature::Ugg:
         m_pSpriteMap = &Consts::UGG_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpLeft);
         break;
     case Creature::WrongWay:
         m_pSpriteMap = &Consts::WRONGWAY_SPRITE_MAP;
-        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
+        m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::LevelRight);
         break;
     }
 

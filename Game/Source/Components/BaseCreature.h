@@ -8,7 +8,6 @@
 
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
-#include <Misc/Enums.h>
 
 #include <memory>
 #include <unordered_map>
