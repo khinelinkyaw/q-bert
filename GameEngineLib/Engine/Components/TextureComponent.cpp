@@ -66,11 +66,6 @@ void GameEngine::TextureComponent::SetPivot(Pivot pivot)
     m_Pivot = pivot;
     CalculateOrigin();
 }
-//
-//void GameEngine::TextureComponent::SetSrcRect(float x, float y, float width, float height)
-//{
-//    m_SrcRect = Rect<float>{ x, y, width, height };
-//}
 
 void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& newSrcRect)
 {
