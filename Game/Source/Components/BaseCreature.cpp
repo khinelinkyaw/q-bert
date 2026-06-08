@@ -6,7 +6,7 @@
 #include <Misc/Constants.h>
 #include <Misc/Enums.h>
 
-#include <Engine/Animation/Animation.h>
+#include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>

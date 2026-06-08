@@ -1,4 +1,4 @@
-#include <Engine/Animation/Animation.h>
+#include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Misc/Structs.h>

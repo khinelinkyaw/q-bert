@@ -1,6 +1,6 @@
 #include "CreatureFactory.h"
 
-#include <Engine/Animation/Animation.h>
+#include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/CollisionComponent.h>
 #include <Engine/Components/TextureComponent.h>
