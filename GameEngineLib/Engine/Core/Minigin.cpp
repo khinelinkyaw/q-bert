@@ -157,7 +157,7 @@ void GameEngine::Minigin::RunOneFrame()
 {
     auto const currentTime{ std::chrono::high_resolution_clock::now() };
     //Time::DeltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
-    EngineUse::SetDeltaTime(std::chrono::duration<float>(currentTime - m_LastTime).count());
+    EngineUseOnly::SetDeltaTime(std::chrono::duration<float>(currentTime - m_LastTime).count());
     m_LastTime = currentTime;
 
     m_Lag += GetDeltaTime();

@@ -8,7 +8,7 @@ namespace GameEngine
         static float constexpr FixedTime{ 1.f / 60.f };
     }
 
-    namespace EngineUse
+    namespace EngineUseOnly
     {
         void SetDeltaTime(float deltaTime)
         {

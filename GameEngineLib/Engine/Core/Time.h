@@ -3,7 +3,7 @@
 
 namespace GameEngine
 {
-    namespace EngineUse
+    namespace EngineUseOnly
     {
         void SetDeltaTime(float deltaTime);
     }
