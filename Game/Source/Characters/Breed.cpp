@@ -1,7 +1,8 @@
 #include "Breed.h"
 
+#include <Creatures/CreatureFactory.h>
+#include <Components/BaseCreature.h>
 #include <Map/Block.h>
-#include <Components/CreatureSpawner.h>
 #include <Map/Graph.h>
 
 #include <Engine/Core/GameObject.h>
@@ -32,7 +33,8 @@ void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object)
 void Game::PurpleSlimeBreed::OnEndOfPath(GameEngine::GameObject& object)
 {
     // Spawn Coily
-    auto& coily{ Builder::BuildCoily() };
+    auto& coily{ GameEngine::SceneManager::Get().GetActiveScene()->CreateGameObject() };
+    CreatureFactory::BuildCreatureComponents(coily, Creature::Coily);
     coily.GetTransform()->SetLocalPosition(object.GetTransform()->GetLocalPosition());
     object.SetForDeletion();
 }
