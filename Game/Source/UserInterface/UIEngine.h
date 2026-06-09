@@ -83,13 +83,8 @@ namespace Game
         using ComponentCreationFunction = void(UIFactory::*)(GameEngine::GameObject&, UIComponentInfo const&);
 
         std::unordered_map<std::string, vec2>                       m_ElementsSizes{};
-        //std::unordered_map<std::string, GameEngine::GameObject*>    m_CreatedUIElements{};
         GameEngine::Scene*                                          m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
 
-        //void SaveElementSize(GameEngine::Rect<float> const& rect, std::string const& name);
-        //void SaveElementSize(std::string const& name, GameEngine::GameObject& gameObject);
-
-        //void CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
@@ -103,15 +98,9 @@ namespace Game
             { UIType::SpriteFont,       &UIFactory::CreateSpriteFontComponent}
         };
 
-        GameEngine::GameObject& CreateRootUIElement();
-
+        void SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement);
     public:
         GameEngine::GameObject& CreateUIElement(UIElementInfo const& elementInfo);
-
-        void SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement);
-
-        //void CreatePlayer1UIElements(GameEngine::GameObject& parent);
-        //void CreateChangeToBlockUIElements();
 
         UIFactory();
     };

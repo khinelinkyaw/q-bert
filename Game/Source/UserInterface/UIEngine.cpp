@@ -51,42 +51,6 @@ void Game::UIFactory::CreateSpriteFontComponent(GameEngine::GameObject& gameObje
     gameObject.AddComponent<SpriteFontComponent>()->UpdateNumber(0);
 }
 
-//void Game::UIFactory::CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
-//{
-//    auto containerComp{ gameObject.AddComponent<ContainerComponent>() };
-//
-//    auto textureComp{ gameObject.GetComponent<GameEngine::TextureComponent>() };
-//
-//    Padding padding{};
-//    if (componentInfo.FixedPadding)
-//    {
-//        padding = componentInfo.PaddingSize;
-//    }
-//    else
-//    {
-//        padding = componentInfo.PaddingSize * GameplayUI::ELEMENT_PADDING;
-//    }
-//
-//    if (textureComp)
-//    {
-//        containerComp->Init(*textureComp, componentInfo.PaddingSize);
-//    }
-//    else
-//    {
-//        containerComp->Init(
-//            { 0.f, 0.f, componentInfo.ContainerSize.x, componentInfo.ContainerSize.y},
-//            componentInfo.PaddingSize
-//        );
-//    }
-//}
-
-GameEngine::GameObject& Game::UIFactory::CreateRootUIElement()
-{
-    auto& object{ m_pScene->CreateGameObject(GameplayUI::ROOT_ELEMENT) };
-    object.GetTransform()->SetLocalPosition(GameplayUI::ROOT_MARGIN, GameplayUI::ROOT_MARGIN);
-    return object;
-}
-
 GameEngine::GameObject& Game::UIFactory::CreateUIElement(UIElementInfo const& elementInfo)
 {
     auto& uiElement{ m_pScene->CreateGameObject(elementInfo.Name) };
@@ -132,63 +96,6 @@ void Game::UIFactory::SetElementPosition(const Game::UIElementInfo& elementInfo,
 
     uiElement.GetTransform()->SetLocalPosition(originPosition);
 }
-
-//void Game::UIFactory::CreatePlayer1UIElements(GameEngine::GameObject& parent)
-//{
-//    auto& player1TextObj{ m_pScene->CreateGameObject(UI::Names::PLAYER_1_NAME_ELEMENT) };
-//    player1TextObj.GetTransform()->SetParent(&parent);
-//    player1TextObj.AddComponent<GameEngine::SpriteComponent>()->Init("Player1Text.png", 6, 1);
-//    player1TextObj.AddComponent<GameEngine::SpriteAnimationComponent>()->Init(GameEngine::AnimationType::Loop, 0.2f, { 0, 1, 2, 3, 4, 5 });
-//    SaveElementSize(player1TextObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::PLAYER_1_NAME_ELEMENT);
-//
-//    auto& player1ScoreObj{ m_pScene->CreateGameObject(UI::Names::PLAYER_1_SCORE_ELEMENT) };
-//    player1ScoreObj.GetTransform()->SetParent(&parent);
-//    player1ScoreObj.AddComponent<GameEngine::SpriteComponent>()->Init("OrangeNumbers.png", 1, 10);
-//    player1ScoreObj.AddComponent<SpriteFontComponent>()->UpdateNumber(12345);
-//    SaveElementSize(player1ScoreObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::PLAYER_1_SCORE_ELEMENT);
-//
-//    float player1ScoreOffsetY{ m_ElementsSizes[UI::Names::PLAYER_1_NAME_ELEMENT].y + UI::Sizes::ELEMENT_PADDING };
-//    player1ScoreObj.GetTransform()->SetLocalPosition(0.f, player1ScoreOffsetY);
-//}
-
-//void Game::UIFactory::CreateChangeToBlockUIElements()
-//{
-//    auto parent{ m_pScene->GetObjectByName(UI::Names::PLAYER_1_SCORE_ELEMENT) };
-//
-//    auto& changeToTextObj{ m_pScene->CreateGameObject(UI::Names::CHANGE_TO_TEXT_ELEMENT) };
-//    changeToTextObj.GetTransform()->SetParent(parent);
-//    changeToTextObj.AddComponent<GameEngine::TextureComponent>()->SetTexture("ChangeToText.png");
-//    SaveElementSize(changeToTextObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::CHANGE_TO_TEXT_ELEMENT);
-//
-//    float changeToTextOffsetY{ m_ElementsSizes[UI::Names::PLAYER_1_SCORE_ELEMENT].y + (UI::Sizes::ELEMENT_PADDING * 3) };
-//    changeToTextObj.GetTransform()->SetLocalPosition(0.f, changeToTextOffsetY);
-//
-//    auto& rightArrowsObj{ m_pScene->CreateGameObject(UI::Names::RIGHT_ARROWS_ELEMENT) };
-//    rightArrowsObj.GetTransform()->SetParent(&changeToTextObj);
-//    rightArrowsObj.AddComponent<GameEngine::SpriteComponent>()->Init("RightArrows.png", 1, 3);
-//    rightArrowsObj.AddComponent<GameEngine::SpriteAnimationComponent>()->Init(GameEngine::AnimationType::Loop, 0.5f, { 0, 1, 2 });
-//    SaveElementSize(rightArrowsObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::RIGHT_ARROWS_ELEMENT);
-//
-//    float rightArrowsOffsetY{ m_ElementsSizes[UI::Names::CHANGE_TO_TEXT_ELEMENT].y + UI::Sizes::ELEMENT_PADDING };
-//    rightArrowsObj.GetTransform()->SetLocalPosition(0.f, rightArrowsOffsetY);
-//
-//    auto& changeToBlockObj{ m_pScene->CreateGameObject(UI::Names::CHANGE_TO_BLOCK_ELEMENT) };
-//    changeToBlockObj.GetTransform()->SetParent(&rightArrowsObj);
-//    auto spriteComp{ changeToBlockObj.AddComponent<GameEngine::SpriteComponent>() };
-//    spriteComp->Init("MiniBlocks.png", 3, 3);
-//    spriteComp->SetSpriteIndex(0);
-//    SaveElementSize(changeToBlockObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::CHANGE_TO_BLOCK_ELEMENT);
-//
-//    changeToBlockObj.GetTransform()->SetLocalPosition(m_ElementsSizes[UI::Names::RIGHT_ARROWS_ELEMENT].x + UI::Sizes::ELEMENT_PADDING,0.f);
-//
-//    auto& leftArrowsObj{ m_pScene->CreateGameObject(UI::Names::LEFT_ARROWS_ELEMENT) };
-//    leftArrowsObj.GetTransform()->SetParent(&changeToBlockObj);
-//    leftArrowsObj.AddComponent<GameEngine::SpriteComponent>()->Init("LeftArrows.png", 1, 3);
-//    leftArrowsObj.AddComponent<GameEngine::SpriteAnimationComponent>()->Init(GameEngine::AnimationType::Loop, 0.5f, { 0, 1, 2 });
-//    SaveElementSize(leftArrowsObj.GetComponent<GameEngine::TextureComponent>()->GetSourceRect(), UI::Names::LEFT_ARROWS_ELEMENT);
-//
-//    leftArrowsObj.GetTransform()->SetLocalPosition(m_ElementsSizes[UI::Names::CHANGE_TO_BLOCK_ELEMENT].x + UI::Sizes::ELEMENT_PADDING, 0.f);
-//}
 
 Game::UIFactory::UIFactory()
 {
