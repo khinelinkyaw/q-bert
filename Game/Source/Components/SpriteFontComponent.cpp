@@ -4,6 +4,7 @@
 #include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 
 #include <cassert>
 
@@ -15,9 +16,9 @@ void Game::SpriteFontComponent::Render(vec2 const& pos) const
     for (auto iter{ m_Digits.rbegin() }; iter != m_Digits.rend(); ++iter)
     {
         m_pSpriteComponent->SetSpriteIndex(*iter);
-        offsetX -= m_pTextureComponent->GetSrcRect().width;
         m_pTextureComponent->SetOriginOffset({ offsetX, 0.f });
         m_pTextureComponent->Render(pos);
+        offsetX -= m_pTextureComponent->GetSourceRect().width;
     }
 
     m_pTextureComponent->Visible = false;
