@@ -77,13 +77,13 @@ namespace Game
         std::string                 Name{};
     };
 
-    class UIFactory final
+    class UIEngine final
     {
     private:
-        using ComponentCreationFunction = void(UIFactory::*)(GameEngine::GameObject&, UIComponentInfo const&);
+        using ComponentCreationFunction = void(UIEngine::*)(GameEngine::GameObject&, UIComponentInfo const&);
 
-        std::unordered_map<std::string, vec2>                       m_ElementsSizes{};
-        GameEngine::Scene*                                          m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
+        std::unordered_map<std::string, vec2>   m_ElementsSizes{};
+        GameEngine::Scene*                      m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
 
         void CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
@@ -91,18 +91,18 @@ namespace Game
         void CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
 
         std::unordered_map<UIType, ComponentCreationFunction>       m_ComponentCreationFunctions{
-            { UIType::Empty,            &UIFactory::CreateTextureComponent },
-            { UIType::Texture,          &UIFactory::CreateTextureComponent },
-            { UIType::Sprite,           &UIFactory::CreateSpriteComponent },
-            { UIType::AnimatedSprite,   &UIFactory::CreateAnimatedSpriteComponent },
-            { UIType::SpriteFont,       &UIFactory::CreateSpriteFontComponent}
+            { UIType::Empty,            &UIEngine::CreateTextureComponent },
+            { UIType::Texture,          &UIEngine::CreateTextureComponent },
+            { UIType::Sprite,           &UIEngine::CreateSpriteComponent },
+            { UIType::AnimatedSprite,   &UIEngine::CreateAnimatedSpriteComponent },
+            { UIType::SpriteFont,       &UIEngine::CreateSpriteFontComponent}
         };
 
         void SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement);
     public:
         GameEngine::GameObject& CreateUIElement(UIElementInfo const& elementInfo);
 
-        UIFactory();
+        UIEngine();
     };
 }
 

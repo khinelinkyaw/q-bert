@@ -47,7 +47,7 @@ namespace Game
         auto& slimeSpawner{ scene.CreateGameObject() };
         slimeSpawner.AddComponent<CreatureSpawner>()->Init(Creature::PurpleSlime, 5.f);
 
-        UIFactory uiFactory{};
+        UIEngine uiEngine{};
         //auto& rootUI{ uiFactory.CreateUIElement() };
         //uiFactory.CreatePlayer1UIElements(rootUI);
         //uiFactory.CreateChangeToBlockUIElements();

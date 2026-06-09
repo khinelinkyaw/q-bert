@@ -13,7 +13,7 @@
 
 #include <string>
 
-void Game::UIFactory::CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void Game::UIEngine::CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     auto textureComp{ gameObject.AddComponent<GameEngine::TextureComponent>() };
     switch (componentInfo.Type)
@@ -31,27 +31,27 @@ void Game::UIFactory::CreateTextureComponent(GameEngine::GameObject& gameObject,
     }
 }
 
-void Game::UIFactory::CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void Game::UIEngine::CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
 }
 
-void Game::UIFactory::CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void Game::UIEngine::CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     gameObject.AddComponent<GameEngine::SpriteAnimationComponent>()->Init(componentInfo.AnimationType, componentInfo.AnimationDuration, componentInfo.AnimationFrameIndices);
 }
 
-void Game::UIFactory::CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     gameObject.AddComponent<SpriteFontComponent>()->UpdateNumber(0);
 }
 
-GameEngine::GameObject& Game::UIFactory::CreateUIElement(UIElementInfo const& elementInfo)
+GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
 {
     auto& uiElement{ m_pScene->CreateGameObject(elementInfo.Name) };
 
@@ -64,7 +64,7 @@ GameEngine::GameObject& Game::UIFactory::CreateUIElement(UIElementInfo const& el
     return uiElement;
 }
 
-void Game::UIFactory::SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement)
+void Game::UIEngine::SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement)
 {
     auto parent{ m_pScene->GetObjectByName(elementInfo.PositioningInfo.ParentName) };
 
@@ -97,7 +97,7 @@ void Game::UIFactory::SetElementPosition(const Game::UIElementInfo& elementInfo,
     uiElement.GetTransform()->SetLocalPosition(originPosition);
 }
 
-Game::UIFactory::UIFactory()
+Game::UIEngine::UIEngine()
 {
     UIElementInfo rootElementInfo{};
     rootElementInfo.Name = GameplayUI::ROOT_ELEMENT;
