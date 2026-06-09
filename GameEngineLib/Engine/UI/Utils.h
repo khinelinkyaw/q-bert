@@ -12,6 +12,14 @@ namespace GameEngine
 {
     namespace UI
     {
+        inline vec2 GetAxisMultipliers(Pivot pivot)
+        {
+            auto [hDir, vDir] { Constants::UI_PIVOT_MAP.at(pivot) };
+            float hAlighment{ Constants::UI_DIRECTION_MULTI_MAP.at(hDir) };
+            float vAlighment{ Constants::UI_DIRECTION_MULTI_MAP.at(vDir) };
+            return { hAlighment, vAlighment };
+        }
+
         inline vec2 AlignToWindow(Pivot pivot, float hMargin, float vMargin)
         {
             auto [hDir, vDir] { Constants::UI_PIVOT_MAP.at(pivot) };
