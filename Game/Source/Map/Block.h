@@ -18,7 +18,7 @@ namespace Game
     private:
         vec3 m_Position{};
         int m_Id{ INVALID_ID };
-        BlockType m_BlockType{ BlockType::Green };
+        BlockType m_BlockType{ BlockType::Yellow };
 
     public:
         int GetId() const;

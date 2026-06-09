@@ -23,14 +23,14 @@ void Game::Block::CycleType()
 {
     switch (m_BlockType)
     {
-        case BlockType::Green:
-            m_BlockType = BlockType::Blue;
-            break;
-        case BlockType::Blue:
+        case BlockType::Yellow:
             m_BlockType = BlockType::Magenta;
             break;
         case BlockType::Magenta:
-            m_BlockType = BlockType::Green;
+            m_BlockType = BlockType::Red;
+            break;
+        case BlockType::Red:
+            m_BlockType = BlockType::Yellow;
             break;
     }
 }
