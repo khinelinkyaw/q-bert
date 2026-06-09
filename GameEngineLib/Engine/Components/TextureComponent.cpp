@@ -27,7 +27,7 @@ void GameEngine::TextureComponent::CalculateOrigin()
 
 void TextureComponent::Render(vec2 const& pos) const
 {
-    if (m_Texture != nullptr)
+    if (m_Texture != nullptr and Visible == true)
     {
         SDL_FRect srcRect = m_SrcRect.ToSDLRect();
         SDL_FRect dstRect{

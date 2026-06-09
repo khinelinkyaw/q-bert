@@ -25,6 +25,8 @@ namespace GameEngine
         void CalculateOrigin();
 
     public:
+        bool Visible{ true };
+
         void FixedUpdate() override {};
         void Update() override {};
         void Render(vec2 const& pos) const override;

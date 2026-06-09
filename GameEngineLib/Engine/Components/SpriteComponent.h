@@ -12,12 +12,6 @@
 
 namespace GameEngine
 {
-    enum class AnimationType
-    {
-        OneOff,
-        Loop
-    };
-
     class SpriteComponent final : public BaseComponent
     {
     private:
