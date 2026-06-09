@@ -12,10 +12,15 @@ namespace Game
 
     enum class BlockType
     {
-        Green,
-        Blue,
-        Magenta,
-        Empty
+        Yellow      = 0,
+        Magenta     = 1,
+        Red         = 2,
+        Sand        = 3,
+        BrightBlue  = 4,
+        Green       = 5,
+        LightGray   = 6,
+        DarkGray    = 7,
+        Blue        = 8
     };
 
     enum class Direction
