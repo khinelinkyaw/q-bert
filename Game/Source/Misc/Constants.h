@@ -7,6 +7,12 @@
 
 namespace Game
 {
+    namespace Screen
+    {
+        int constexpr GAME_WIDTH{ 300 };
+        int constexpr GAME_HEIGHT{ 300 };
+    }
+
     namespace Consts
     {
         std::unordered_map<int, int> const QBERT_SPRITE_MAP{
