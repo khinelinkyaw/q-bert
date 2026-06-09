@@ -2,6 +2,7 @@
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
 #include <cassert>
@@ -51,7 +52,7 @@ void Scene::Update()
 }
 
 void Scene::Render() const
-{
+{   
     SortObjectsForRendering();
 
     for (const auto& object : m_SortedRenderObjects)
@@ -129,4 +130,12 @@ GameObject& GameEngine::Scene::CreateGameObject()
 {
     m_Objects.push_back(std::make_unique<GameObject>());
     return *m_Objects.back().get();
+}
+
+GameObject& GameEngine::Scene::CreateGameObject(std::string const& name)
+{
+    m_Objects.push_back(std::make_unique<GameObject>());
+    auto createdObject{ m_Objects.back().get() };
+    SetObjectName(name, createdObject->GetId());
+    return *createdObject;
 }

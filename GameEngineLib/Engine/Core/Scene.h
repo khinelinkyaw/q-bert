@@ -31,6 +31,7 @@ namespace GameEngine
         void SortObjectsForRendering() const;
 
         GameObject& CreateGameObject();
+        GameObject& CreateGameObject(std::string const& name);
 
         ~Scene() = default;
         Scene(const Scene& other) = delete;
