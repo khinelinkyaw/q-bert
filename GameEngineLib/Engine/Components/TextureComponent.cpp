@@ -20,7 +20,7 @@ using namespace GameEngine;
 
 void GameEngine::TextureComponent::CalculateOrigin()
 {
-    Rect<float> rect{ 0.f, 0.f, m_SrcRect.width, m_SrcRect.height };
+    Rect<float> rect{ 0.f, 0.f, m_SourceRect.width, m_SourceRect.height };
 
     m_Origin = GameEngine::UI::AlignToRect(m_Offset.x, m_Offset.y, rect, m_Pivot);
 }
@@ -29,16 +29,26 @@ void TextureComponent::Render(vec2 const& pos) const
 {
     if (m_Texture != nullptr and Visible == true)
     {
-        SDL_FRect srcRect = m_SrcRect.ToSDLRect();
+        SDL_FRect srcRect = m_SourceRect.ToSDLRect();
         SDL_FRect dstRect{
             pos.x - m_Origin.x,
             pos.y - m_Origin.y,
-            m_SrcRect.width,
-            m_SrcRect.height
+            m_SourceRect.width,
+            m_SourceRect.height
         };
 
         Renderer::Get().RenderTexture(*m_Texture, &srcRect, &dstRect, m_Rotation);
     }
+
+    //SDL_FRect srcRect = m_SourceRect.ToSDLRect();
+    //SDL_FRect dstRect{
+    //    pos.x - m_Origin.x,
+    //    pos.y - m_Origin.y,
+    //    m_SourceRect.width,
+    //    m_SourceRect.height
+    //};
+
+    //Renderer::Get().DrawRect(dstRect, SDL_Color{ 255, 0, 0, 255 });
 }
 
 void TextureComponent::SetTexture(std::string const& filename)
@@ -48,7 +58,7 @@ void TextureComponent::SetTexture(std::string const& filename)
     if (m_Texture != nullptr)
     {
         auto textureSize{ m_Texture->GetSize() };
-        m_SrcRect = Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
+        m_SourceRect = Rect<float>{ 0.f, 0.f, textureSize.x, textureSize.y };
         CalculateOrigin();
 
         GetOwner()->SendEvent<EventArgTexture>("TextureChanged", this);
@@ -67,19 +77,19 @@ void GameEngine::TextureComponent::SetPivot(Pivot pivot)
     CalculateOrigin();
 }
 
-void GameEngine::TextureComponent::SetSrcRect(Rect<float> const& newSrcRect)
+void GameEngine::TextureComponent::SetSourceRect(Rect<float> const& newSrcRect)
 {
-    if (m_SrcRect != newSrcRect)
+    if (m_SourceRect != newSrcRect)
     {
-        m_SrcRect = newSrcRect;
+        m_SourceRect = newSrcRect;
         GetOwner()->SendEvent<EventArgTexture>("SourceRectChanged", this);
         CalculateOrigin();
     }
 }
 
-Rect<float> TextureComponent::GetSrcRect() const
+Rect<float> TextureComponent::GetSourceRect() const
 {
-    return m_SrcRect;
+    return m_SourceRect;
 }
 
 Rect<float> GameEngine::TextureComponent::GetTextureSize() const

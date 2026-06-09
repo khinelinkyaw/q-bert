@@ -95,7 +95,7 @@ void GameEngine::CollisionComponent::ExtractTextureRect(GameEngine::TextureCompo
 {
     if (textureComp != nullptr and m_FollowTexture)
     {
-        auto textureRect{ textureComp->GetSrcRect() };
+        auto textureRect{ textureComp->GetSourceRect() };
         auto origin{ textureComp->GetOrigin() };
 
         m_CollisionRect = Rect<float>{

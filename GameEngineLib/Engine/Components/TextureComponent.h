@@ -19,7 +19,7 @@ namespace GameEngine
         glm::vec2 m_Origin{ 0.f, 0.f };
         glm::vec2 m_Offset{ 0.f, 0.f };
         Pivot m_Pivot{ Pivot::LeftUp };
-        Rect<float> m_SrcRect{};
+        Rect<float> m_SourceRect{};
         std::shared_ptr<Texture2D> m_Texture{};
 
         void CalculateOrigin();
@@ -38,8 +38,8 @@ namespace GameEngine
         void SetPivot(Pivot pivot);
 
         //void SetSrcRect(float x, float y, float width, float height);
-        void SetSrcRect(Rect<float> const& srcRect);
-        Rect<float> GetSrcRect() const;
+        void SetSourceRect(Rect<float> const& srcRect);
+        Rect<float> GetSourceRect() const;
 
         Rect<float> GetTextureSize() const;
 

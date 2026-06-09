@@ -34,8 +34,9 @@ namespace GameEngine
         void Render(vec2 const& pos) const override;
         void OnEvent(EventArg* eventArg);
 
-        CollisionComponent(GameObject* owner);
         void ExtractTextureRect(TextureComponent* textureComp);
+
+        CollisionComponent(GameObject* owner);
         ~CollisionComponent() override;
     };
 }

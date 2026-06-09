@@ -1,7 +1,11 @@
 #include "SpriteAnimationComponent.h"
 
-#include <Engine/Core/Time.h>
+#include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/SpriteComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Core/Time.h>
+
+#include <vector>
 
 void GameEngine::SpriteAnimationComponent::Update()
 {

@@ -9,7 +9,7 @@ void GameEngine::SpriteComponent::SetSpriteIndex(int index)
 {
     if (index >= 0 and index < m_SpriteRects.size())
     {
-        m_TextureComponent->SetSrcRect(m_SpriteRects[index]);
+        m_TextureComponent->SetSourceRect(m_SpriteRects[index]);
     }
 }
 
