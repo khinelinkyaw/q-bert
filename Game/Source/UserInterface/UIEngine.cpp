@@ -48,7 +48,9 @@ void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObjec
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
-    gameObject.AddComponent<SpriteFontComponent>()->UpdateNumber(0);
+    auto spriteFontComp{ gameObject.AddComponent<SpriteFontComponent>() };
+    spriteFontComp->UpdateMaxDigit(componentInfo.DigitNum);
+    spriteFontComp->UpdateNumber(0);
 }
 
 GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
@@ -131,27 +133,195 @@ Game::UIEngine::UIEngine()
 
     CreateUIElement(player1TextElementInfo);
 
-    UIElementInfo player1ScoreElementInfo{
-    UIComponentInfo {
-        { 0, 1, 2, 3, 4, 5 },
-        "OrangeNumbers.png",
-        {0.f,0.f},
-        UIType::SpriteFont,
-        GameEngine::AnimationType::Loop,
-        0.2f,
-        0,
-        1,
-        10
-    },
-    PositioningInfo {
-        GameplayUI::PLAYER_1_NAME_ELEMENT,
-        { 0.f, 1.f},
-        GameEngine::Pivot::LeftDown,
-        GameEngine::Pivot::LeftUp,
-        false,
+    UIElementInfo const player1ScoreElementInfo{
+        UIComponentInfo {
+            { 0, 1, 2, 3, 4, 5 },
+            "OrangeNumbers.png",
+            {0.f,0.f},
+            UIType::SpriteFont,
+            GameEngine::AnimationType::Loop,
+            0.2f,
+            0,
+            1,
+            10
+        },
+        PositioningInfo {
+            GameplayUI::PLAYER_1_NAME_ELEMENT,
+            { 0.f, 1.f},
+            GameEngine::Pivot::LeftDown,
+            GameEngine::Pivot::LeftUp,
+            false,
     },
     GameplayUI::PLAYER_1_SCORE_ELEMENT
     };
 
     CreateUIElement(player1ScoreElementInfo);
+
+    UIElementInfo const changeToBlockTextElementInfo{
+        UIComponentInfo {
+            {},
+            "ChangeToText.png",
+            {0.f,0.f},
+            UIType::Texture,
+            GameEngine::AnimationType::Loop,
+            0.2f,
+            0,
+            1,
+            10
+        },
+        PositioningInfo {
+            GameplayUI::PLAYER_1_SCORE_ELEMENT,
+            { 0.f, 3.f},
+            GameEngine::Pivot::LeftDown,
+            GameEngine::Pivot::LeftUp,
+            false,
+        },
+        GameplayUI::CHANGE_TO_TEXT_ELEMENT
+    };
+
+    CreateUIElement(changeToBlockTextElementInfo);
+
+    UIElementInfo const rightArrowsElementInfo{
+        UIComponentInfo {
+            {0,1,2},
+            "RightArrows.png",
+            {0.f,0.f},
+            UIType::AnimatedSprite,
+            GameEngine::AnimationType::Loop,
+            0.5f,
+            0,
+            1,
+            3
+        },
+        PositioningInfo {
+            GameplayUI::CHANGE_TO_TEXT_ELEMENT,
+            { 0.f, 2.f},
+            GameEngine::Pivot::LeftDown,
+            GameEngine::Pivot::LeftUp,
+            false,
+        },
+        GameplayUI::RIGHT_ARROWS_ELEMENT
+    };
+
+    CreateUIElement(rightArrowsElementInfo);
+
+    UIElementInfo const changeToBlockSpriteElementInfo{
+    UIComponentInfo {
+        {0,1,2},
+        "MiniBlocks.png",
+        {0.f,0.f},
+        UIType::Sprite,
+        GameEngine::AnimationType::Loop,
+        0.5f,
+        0,
+        3,
+        3
+    },
+    PositioningInfo {
+        GameplayUI::RIGHT_ARROWS_ELEMENT,
+        { 1.f, 0.f},
+        GameEngine::Pivot::RightLevel,
+        GameEngine::Pivot::LeftLevel,
+        false,
+    },
+    GameplayUI::CHANGE_TO_BLOCK_ELEMENT
+    };
+
+    CreateUIElement(changeToBlockSpriteElementInfo);
+
+    UIElementInfo const leftArrowsElementInfo{
+        UIComponentInfo {
+            {0,1,2},
+            "LeftArrows.png",
+            {0.f,0.f},
+            UIType::AnimatedSprite,
+            GameEngine::AnimationType::Loop,
+            0.5f,
+            0,
+            1,
+            3
+        },
+        PositioningInfo {
+            GameplayUI::CHANGE_TO_BLOCK_ELEMENT,
+            { 1.f, 0.f},
+            GameEngine::Pivot::RightLevel,
+            GameEngine::Pivot::LeftLevel,
+            false,
+        },
+        GameplayUI::LEFT_ARROWS_ELEMENT
+    };
+
+    CreateUIElement(leftArrowsElementInfo);
+
+    UIElementInfo levelTextElementInfo{};
+    levelTextElementInfo.Name                          = GameplayUI::LEVEL_TEXT_ELEMENT;
+    levelTextElementInfo.ComponentInfo.Type            = UIType::Texture;
+    levelTextElementInfo.ComponentInfo.TextureFilePath = "LevelText.png";
+    levelTextElementInfo.PositioningInfo.ParentName    = GameplayUI::ROOT_ELEMENT;
+    levelTextElementInfo.PositioningInfo.PaddingSize   = { 5.f, 5.f };
+    levelTextElementInfo.PositioningInfo.PivotOnParent = GameEngine::Pivot::RightUp;
+    levelTextElementInfo.PositioningInfo.Pivot         = GameEngine::Pivot::RightUp;
+
+    CreateUIElement(levelTextElementInfo);
+
+    UIElementInfo levelNumberElementInfo{
+        UIComponentInfo {
+            {},
+            "OrangeNumbers.png",
+            {0.f,0.f},
+            UIType::SpriteFont,
+            GameEngine::AnimationType::Loop,
+            0.5f,
+            0,
+            1,
+            10,
+            1,
+        },
+        PositioningInfo {
+            GameplayUI::LEVEL_TEXT_ELEMENT,
+            { 1.f, 0.f},
+            GameEngine::Pivot::RightLevel,
+            GameEngine::Pivot::LeftLevel,
+            false,
+        },
+        GameplayUI::LEVEL_NUM_ELEMENT
+    };
+
+    CreateUIElement(levelNumberElementInfo);
+
+    UIElementInfo roundTextElementInfo{};
+    roundTextElementInfo.Name = GameplayUI::ROUND_TEXT_ELEMENT;
+    roundTextElementInfo.ComponentInfo.Type = UIType::Texture;
+    roundTextElementInfo.ComponentInfo.TextureFilePath = "RoundText.png";
+    roundTextElementInfo.PositioningInfo.ParentName = GameplayUI::LEVEL_TEXT_ELEMENT;
+    roundTextElementInfo.PositioningInfo.PaddingSize = { 0.f, 2.f };
+    roundTextElementInfo.PositioningInfo.PivotOnParent = GameEngine::Pivot::LeftDown;
+    roundTextElementInfo.PositioningInfo.Pivot = GameEngine::Pivot::LeftUp;
+
+    CreateUIElement(roundTextElementInfo);
+
+    UIElementInfo roundNumberElementInfo{
+        UIComponentInfo {
+            {},
+            "OrangeNumbers.png",
+            {0.f,0.f},
+            UIType::SpriteFont,
+            GameEngine::AnimationType::Loop,
+            0.5f,
+            0,
+            1,
+            10,
+            1
+        },
+        PositioningInfo {
+            GameplayUI::ROUND_TEXT_ELEMENT,
+            { 1.f, 0.f},
+            GameEngine::Pivot::RightLevel,
+            GameEngine::Pivot::LeftLevel,
+            false,
+        },
+        GameplayUI::ROUND_NUM_ELEMENT
+    };
+
+    CreateUIElement(roundNumberElementInfo);
 }

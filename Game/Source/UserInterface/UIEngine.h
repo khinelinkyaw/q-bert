@@ -59,6 +59,7 @@ namespace Game
         int                         SpriteIndex{};
         int                         SpriteRows{};
         int                         SpriteCols{};
+        int                         DigitNum{ 5 };
     };
 
     struct PositioningInfo
