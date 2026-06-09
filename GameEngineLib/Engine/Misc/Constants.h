@@ -25,14 +25,14 @@ namespace GameEngine
             { Direction::Right, 1.f }
         };
 
-        //std::unordered_map<Direction, float> const UI_DIRECTION_MULTI_MAP{
-        //    { Direction::Up, 1.0f },
-        //    { Direction::Level, 0.0f },
-        //    { Direction::Down, -1.f },
-        //    { Direction::Left, 1.f },
-        //    { Direction::Middle, 0.0f },
-        //    { Direction::Right, -1.f }
-        //};
+        std::unordered_map<Direction, float> const UI_DIRECTION_MULTI_MAP{
+            { Direction::Up, 1.0f },
+            { Direction::Level, 0.0f },
+            { Direction::Down, -1.f },
+            { Direction::Left, 1.f },
+            { Direction::Middle, 0.0f },
+            { Direction::Right, -1.f }
+        };
 
         // Where is the origin?
         // Top left is the origin (0,0)
