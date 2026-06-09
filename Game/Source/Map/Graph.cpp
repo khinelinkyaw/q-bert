@@ -11,6 +11,8 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Rendering/Renderer.h>
 
+#include <Engine/Components/SpriteComponent.h>
+#include <Engine/Components/TextureComponent.h>
 #include <algorithm>
 #include <utility>
 #include <vector>
@@ -184,19 +186,15 @@ void Graph::Update()
 
 void Graph::Render(vec2 const& pos) const
 {
+    m_pTextureComponent->Visible = true;
     for (auto& block : m_Blocks)
     {
-        if (auto textureIter{ m_Textures.find(block.GetType()) }; textureIter != m_Textures.end())
-        {
-            auto texturePtr{ textureIter->second };
-            auto blockPos{ block.GetPosition() };
-
-            if (texturePtr != nullptr)
-            {
-                GameEngine::Renderer::Get().RenderTexture(*texturePtr, pos.x + blockPos.x, pos.y + blockPos.y);
-            }
-        }
+        auto spriteIndex{ static_cast<int>(block.GetType()) };
+        m_pSpriteComponent->SetSpriteIndex(spriteIndex);
+        auto blockPos{ block.GetPosition() };
+        m_pTextureComponent->Render(pos + vec2{ blockPos.x, blockPos.y });
     }
+    m_pTextureComponent->Visible = false;
 }
 
 Block* Graph::GetBlock(int blockId)
@@ -314,7 +312,12 @@ std::pair<Block*, BlockSurface> Game::Graph::GetBlockAndSurface(float worldX, fl
 
 Graph::Graph(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
+    , m_pSpriteComponent{ owner->GetComponent<GameEngine::SpriteComponent>() }
+    , m_pTextureComponent{ owner->GetComponent<GameEngine::TextureComponent>() }
 {
+    if (m_pSpriteComponent == nullptr) m_pSpriteComponent = owner->AddComponent<GameEngine::SpriteComponent>();
+    if (m_pTextureComponent == nullptr) m_pTextureComponent = owner->AddComponent<GameEngine::TextureComponent>();
+
     GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Graph", owner->GetId());
 
     m_Blocks.reserve(TOTAL_BLOCKS);
@@ -323,7 +326,7 @@ Graph::Graph(GameEngine::GameObject* owner)
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
-        m_Blocks.emplace_back(index, BlockType::Green);
+        m_Blocks.emplace_back(index, BlockType::Yellow);
 
         m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
@@ -338,13 +341,6 @@ Graph::Graph(GameEngine::GameObject* owner)
         }
     }
 
-    auto greenTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("GreenBlock.png")};
-    auto blueTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("BlueBlock.png") };
-    auto magentaTextureComp{ GameEngine::ResourceManager::Get().LoadTexture("MagentaBlock.png") };
-
-    m_Textures.insert({ BlockType::Green, greenTextureComp });
-    m_Textures.insert({ BlockType::Blue, blueTextureComp });
-    m_Textures.insert({ BlockType::Magenta, magentaTextureComp });
-
+    m_pSpriteComponent->Init("Blocks.png", 3,3);
     GenerateConnections();
 }

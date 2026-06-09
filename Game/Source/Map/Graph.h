@@ -6,15 +6,14 @@
 #include <Misc/Enums.h>
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/SpriteComponent.h>
+#include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Misc/Types.h>
-#include <Engine/Rendering/Texture2D.h>
 
-#include <memory>
-#include <unordered_map>
+#include <queue>
 #include <utility>
 #include <vector>
-#include <queue>
 
 namespace Game
 {
@@ -30,9 +29,11 @@ namespace Game
         static int constexpr TOTAL_BLOCKS{ (TOTAL_ROWS * (TOTAL_ROWS + 1)) / 2 };
 
     private:
+        GameEngine::SpriteComponent* m_pSpriteComponent{};
+        GameEngine::TextureComponent* m_pTextureComponent{};
+
         std::vector<Block> m_Blocks{};
         std::vector<Connection> m_Connections{};
-        std::unordered_map<BlockType, std::shared_ptr<GameEngine::Texture2D>> m_Textures{};
         std::queue<std::pair<GraphEvent, ObjectID>> m_EventQueue{};
 
         void CreateNewConnection(int fromBlockId, int toBlockId);
