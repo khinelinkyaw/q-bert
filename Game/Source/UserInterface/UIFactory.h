@@ -41,7 +41,7 @@ namespace Game
 
     enum class UIType
     {
-        Container,
+        Empty,
         Texture,
         Sprite,
         AnimatedSprite,
@@ -53,9 +53,7 @@ namespace Game
         std::vector<int>            AnimationFrameIndices{};
         std::string                 TextureFilePath{};
         vec2                        ContainerSize{ 0.f, 0.f };
-        bool                        FixedPadding{ false };
-        Padding                     PaddingSize{ 0.f, 0.f, 0.f, 0.f };
-        UIType                      Type{ UIType::Container };
+        UIType                      Type{ UIType::Empty };
         GameEngine::AnimationType   AnimationType{ GameEngine::AnimationType::Loop };
         float                       AnimationDuration{};
         int                         SpriteIndex{};
@@ -66,8 +64,10 @@ namespace Game
     struct PositioningInfo
     {
         std::string                 ParentName{};
+        vec2                        PaddingSize{ 0.f, 0.f };
         GameEngine::Pivot           PivotOnParent{ GameEngine::Pivot::LeftUp };
         GameEngine::Pivot           Pivot{ GameEngine::Pivot::LeftUp };
+        bool                        FixedPadding{ false };
     };
 
     struct UIElementInfo
@@ -89,13 +89,14 @@ namespace Game
         //void SaveElementSize(GameEngine::Rect<float> const& rect, std::string const& name);
         //void SaveElementSize(std::string const& name, GameEngine::GameObject& gameObject);
 
-        void CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
+        //void CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
         void CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
 
         std::unordered_map<UIType, ComponentCreationFunction>       m_ComponentCreationFunctions{
+            { UIType::Empty,            &UIFactory::CreateTextureComponent },
             { UIType::Texture,          &UIFactory::CreateTextureComponent },
             { UIType::Sprite,           &UIFactory::CreateSpriteComponent },
             { UIType::AnimatedSprite,   &UIFactory::CreateAnimatedSpriteComponent },

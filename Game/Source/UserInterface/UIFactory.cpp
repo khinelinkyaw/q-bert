@@ -15,7 +15,20 @@
 
 void Game::UIFactory::CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
-    gameObject.AddComponent<GameEngine::TextureComponent>()->SetTexture(componentInfo.TextureFilePath);
+    auto textureComp{ gameObject.AddComponent<GameEngine::TextureComponent>() };
+    switch (componentInfo.Type)
+    {
+        case UIType::Texture:
+        {
+            textureComp->SetTexture(componentInfo.TextureFilePath);
+            break;
+        }
+        case UIType::Empty:
+        {
+            textureComp->SetSourceRect({0.f, 0.f, componentInfo.ContainerSize.x, componentInfo.ContainerSize.y});
+            break;
+        }
+    }
 }
 
 void Game::UIFactory::CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
@@ -38,34 +51,34 @@ void Game::UIFactory::CreateSpriteFontComponent(GameEngine::GameObject& gameObje
     gameObject.AddComponent<SpriteFontComponent>()->UpdateNumber(0);
 }
 
-void Game::UIFactory::CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
-{
-    auto containerComp{ gameObject.AddComponent<ContainerComponent>() };
-
-    auto textureComp{ gameObject.GetComponent<GameEngine::TextureComponent>() };
-
-    Padding padding{};
-    if (componentInfo.FixedPadding)
-    {
-        padding = componentInfo.PaddingSize;
-    }
-    else
-    {
-        padding = componentInfo.PaddingSize * GameplayUI::ELEMENT_PADDING;
-    }
-
-    if (textureComp)
-    {
-        containerComp->Init(*textureComp, componentInfo.PaddingSize);
-    }
-    else
-    {
-        containerComp->Init(
-            { 0.f, 0.f, componentInfo.ContainerSize.x, componentInfo.ContainerSize.y},
-            componentInfo.PaddingSize
-        );
-    }
-}
+//void Game::UIFactory::CreateContainerComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+//{
+//    auto containerComp{ gameObject.AddComponent<ContainerComponent>() };
+//
+//    auto textureComp{ gameObject.GetComponent<GameEngine::TextureComponent>() };
+//
+//    Padding padding{};
+//    if (componentInfo.FixedPadding)
+//    {
+//        padding = componentInfo.PaddingSize;
+//    }
+//    else
+//    {
+//        padding = componentInfo.PaddingSize * GameplayUI::ELEMENT_PADDING;
+//    }
+//
+//    if (textureComp)
+//    {
+//        containerComp->Init(*textureComp, componentInfo.PaddingSize);
+//    }
+//    else
+//    {
+//        containerComp->Init(
+//            { 0.f, 0.f, componentInfo.ContainerSize.x, componentInfo.ContainerSize.y},
+//            componentInfo.PaddingSize
+//        );
+//    }
+//}
 
 GameEngine::GameObject& Game::UIFactory::CreateRootUIElement()
 {
@@ -82,7 +95,6 @@ GameEngine::GameObject& Game::UIFactory::CreateUIElement(UIElementInfo const& el
     {
         (this->*iter->second)(uiElement, elementInfo.ComponentInfo);
     }
-    CreateContainerComponent(uiElement, elementInfo.ComponentInfo);
 
     SetElementPosition(elementInfo, uiElement);
     return uiElement;
@@ -95,18 +107,27 @@ void Game::UIFactory::SetElementPosition(const Game::UIElementInfo& elementInfo,
     vec2 originPosition{};
     vec2 padding{};
 
-    auto elementRect{ uiElement.GetComponent<ContainerComponent>()->GetPaddingRect() };
-    if (parent)
+    vec2 multiplers{ GameEngine::UI::GetAxisMultipliers(elementInfo.PositioningInfo.Pivot) };
+    if (elementInfo.PositioningInfo.FixedPadding)
     {
-        uiElement.GetTransform()->SetParent(parent);
-        Rectf parentRect{ parent->GetComponent<ContainerComponent>()->GetPaddingRect() };
-        auto parentPosition{ GameEngine::UI::AlignToRect(padding.x, padding.y, parentRect, elementInfo.PositioningInfo.PivotOnParent) };
-        originPosition = GameEngine::UI::AlignToRect(0, 0, elementRect, elementInfo.PositioningInfo.Pivot) + parentPosition;
+        padding = { elementInfo.PositioningInfo.PaddingSize.x * multiplers.x, elementInfo.PositioningInfo.PaddingSize.y * multiplers.y };
     }
     else
     {
-        auto padding{ uiElement.GetComponent<ContainerComponent>()->GetPadding() };
-        GameEngine::UI::AlignToWindow(elementInfo.PositioningInfo.Pivot)
+        padding = vec2{ elementInfo.PositioningInfo.PaddingSize.x * multiplers.x, elementInfo.PositioningInfo.PaddingSize.y * multiplers.y } * GameplayUI::ELEMENT_PADDING;
+    }
+
+    auto elementRect{ uiElement.GetComponent<GameEngine::TextureComponent>()->GetSourceRect() };
+    if (parent)
+    {
+        uiElement.GetTransform()->SetParent(parent);
+        Rectf parentRect{ parent->GetComponent<GameEngine::TextureComponent>()->GetSourceRect() };
+        auto parentPosition{ GameEngine::UI::AlignToRect(0.f, 0.f, parentRect, elementInfo.PositioningInfo.PivotOnParent) };
+        originPosition = parentPosition - GameEngine::UI::AlignToRect(-padding.x, -padding.y, elementRect, elementInfo.PositioningInfo.Pivot);
+    }
+    else
+    {
+        originPosition = GameEngine::UI::AlignToWindow(elementInfo.PositioningInfo.Pivot, padding.x, padding.y);
     };
 
     uiElement.GetTransform()->SetLocalPosition(originPosition);
@@ -174,8 +195,8 @@ Game::UIFactory::UIFactory()
     UIElementInfo rootElementInfo{};
     rootElementInfo.Name = GameplayUI::ROOT_ELEMENT;
     rootElementInfo.ComponentInfo.ContainerSize = { GameplayUI::ROOT_ELEMENT_WIDTH, GameplayUI::ROOT_ELEMENT_HEIGHT };
-    rootElementInfo.ComponentInfo.FixedPadding = true;
-    rootElementInfo.ComponentInfo.PaddingSize = { GameplayUI::ROOT_MARGIN, GameplayUI::ROOT_MARGIN, GameplayUI::ROOT_MARGIN, GameplayUI::ROOT_MARGIN };
+    rootElementInfo.PositioningInfo.FixedPadding = true;
+    rootElementInfo.PositioningInfo.PaddingSize = { GameplayUI::ROOT_MARGIN, GameplayUI::ROOT_MARGIN };
 
     CreateUIElement(rootElementInfo);
 
@@ -184,8 +205,6 @@ Game::UIFactory::UIFactory()
             { 0, 1, 2, 3, 4, 5 },
             "Player1Text.png",
             {0.f,0.f},
-            false,
-            { 0.f, 0.f, 0.f, 0.f },
             UIType::AnimatedSprite,
             GameEngine::AnimationType::Loop,
             0.2f,
@@ -195,8 +214,10 @@ Game::UIFactory::UIFactory()
         },
         PositioningInfo {
             GameplayUI::ROOT_ELEMENT,
+            { 1.f, 1.f },
             GameEngine::Pivot::LeftUp,
-            GameEngine::Pivot::LeftUp
+            GameEngine::Pivot::LeftUp,
+            false,
         },
         GameplayUI::PLAYER_1_NAME_ELEMENT
     };
@@ -208,8 +229,6 @@ Game::UIFactory::UIFactory()
         { 0, 1, 2, 3, 4, 5 },
         "OrangeNumbers.png",
         {0.f,0.f},
-        false,
-        { 0.f, 1.f, 0.f, 0.f },
         UIType::SpriteFont,
         GameEngine::AnimationType::Loop,
         0.2f,
@@ -219,8 +238,10 @@ Game::UIFactory::UIFactory()
     },
     PositioningInfo {
         GameplayUI::PLAYER_1_NAME_ELEMENT,
+        { 0.f, 1.f},
         GameEngine::Pivot::LeftDown,
-        GameEngine::Pivot::LeftUp
+        GameEngine::Pivot::LeftUp,
+        false,
     },
     GameplayUI::PLAYER_1_SCORE_ELEMENT
     };
