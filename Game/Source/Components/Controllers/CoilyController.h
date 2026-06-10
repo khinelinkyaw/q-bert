@@ -1,14 +1,10 @@
 #ifndef COILY_CONTROLLER_H
 #define COILY_CONTROLLER_H
 
-#include <Map/Block.h>
-
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Misc/Types.h>
 #include <Engine/Events/EventArg.h>
-
-#include <vector>
 
 namespace Game
 {
