@@ -1,7 +1,6 @@
 #include <Characters/Breed.h>
 #include <Components/BaseCreature.h>
 #include <Map/Block.h>
-#include <Map/Connection.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
 #include <Events/EventArgBlock.h>
@@ -67,6 +66,8 @@ void Graph::Render(vec2 const& pos) const
     m_pTextureComponent->Visible = true;
     for (auto& block : m_Blocks)
     {
+        if (block.GetType() == BlockType::Empty) continue;
+
         auto spriteIndex{ static_cast<int>(block.GetType()) };
         m_pSpriteComponent->SetSpriteIndex(spriteIndex);
         auto blockPos{ block.GetPosition() };
@@ -170,14 +171,11 @@ std::pair<Block*, BlockSurface> Game::Graph::GetBlockAndSurface(float worldX, fl
 
 void Game::Graph::Init(BlockType startingBlockType, BlockType finalBlockType)
 {
-    Block::StartingBlockType = startingBlockType;
-    Block::FinalBlockType = finalBlockType;
-
     int row{ 0 };
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
-        m_Blocks.emplace_back(index);
+        m_Blocks.emplace_back(index, startingBlockType);
 
         m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
@@ -208,7 +206,6 @@ Graph::Graph(GameEngine::GameObject* owner)
         owner->AddComponent<ChangeToBlockSetterComponent>();
     }
 
-    GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Graph", owner->GetId());
     m_pSpriteComponent->Init("Blocks.png", 3, 3);
     m_Blocks.reserve(TOTAL_BLOCKS);
 }

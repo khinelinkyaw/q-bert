@@ -19,6 +19,7 @@ namespace Game
 
     enum class BlockType
     {
+        Empty       = -1,
         Yellow      = 0,
         Magenta     = 1,
         Red         = 2,
