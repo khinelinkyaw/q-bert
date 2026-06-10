@@ -1,8 +1,6 @@
 #ifndef ENEMY_SPAWNER_H
 #define ENEMY_SPAWNER_H
 
-#include <Components/BaseCreature.h>
-
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Misc/Types.h>

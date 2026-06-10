@@ -49,6 +49,19 @@ namespace Game
         OnDeath = 20,
         OnVictory = 30,
     };
+
+    enum class Creature
+    {
+        QBert,
+        RedSlime,
+        GreenSlime,
+        PurpleSlime,
+        Coily,
+        Ugg,
+        WrongWay,
+        Slick,
+        Sam
+    };
 }
 
 #endif

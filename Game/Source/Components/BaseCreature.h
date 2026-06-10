@@ -15,17 +15,6 @@
 
 namespace Game
 {
-    enum class Creature
-    {
-        QBert,
-        RedSlime,
-        GreenSlime,
-        PurpleSlime,
-        Coily,
-        Ugg,
-        WrongWay
-    };
-
     class BaseCreature final : public GameEngine::BaseComponent
     {
     private:

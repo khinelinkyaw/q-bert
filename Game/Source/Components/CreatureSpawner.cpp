@@ -6,7 +6,7 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/Time.h>
 
-#include <Components/BaseCreature.h>
+#include <Misc/Enums.h>
 #include <Creatures/CreatureFactory.h>
 #include <Map/Graph.h>
 

@@ -3,7 +3,7 @@
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
 #include <Events/EventArgMove.h>
-#include <Misc/Constants.h>
+#include <Creatures/SpriteMaps.h>
 #include <Misc/Enums.h>
 
 #include <Engine/Components/SpriteComponent.h>
@@ -74,33 +74,28 @@ void Game::BaseCreature::Init(Creature creatureType, PlayerIndex playerIndex)
     m_pBreed = std::make_unique<EnemyBreed>();
     m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
 
+    m_pSpriteMap = Sprites::CREATURE_SPRITE_MAP.at(creatureType);
+
     switch (creatureType)
     {
     case Creature::QBert:
-        m_pSpriteMap = &Consts::QBERT_SPRITE_MAP;
         m_pBreed = std::make_unique<QBertBreed>(GetOwner());
         m_pMovementState = std::make_unique<IdleState>(GetOwner(), Direction::DownRight);
         break;
     case Creature::RedSlime:
-        m_pSpriteMap = &Consts::RED_SLIME_SPRITE_MAP;
         break;
     case Creature::GreenSlime:
-        m_pSpriteMap = &Consts::GREEN_SLIME_SPRITE_MAP;
         m_pBreed = std::make_unique<GreenSlimeBreed>();
         break;
     case Creature::PurpleSlime:
-        m_pSpriteMap = &Consts::PURPLE_SLIME_SPRITE_MAP;
         m_pBreed = std::make_unique<PurpleSlimeBreed>();
         break;
     case Creature::Coily:
-        m_pSpriteMap = &Consts::COILY_SPRITE_MAP;
         break;
     case Creature::Ugg:
-        m_pSpriteMap = &Consts::UGG_SPRITE_MAP;
         m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpLeft);
         break;
     case Creature::WrongWay:
-        m_pSpriteMap = &Consts::WRONGWAY_SPRITE_MAP;
         m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpRight);
         break;
     }

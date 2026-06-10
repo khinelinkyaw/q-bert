@@ -21,15 +21,14 @@ void Game::GenericEnemyController::Init(Creature creatureType)
     case Creature::PurpleSlime:
         EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_PURPLE_SLIME_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
         break;
-    case Creature::GreenSlime:
-    case Creature::RedSlime:
-        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
-        break;
     case Creature::WrongWay:
         EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpRight, Direction::LevelRight } );
         break;
     case Creature::Ugg:
         EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpLeft, Direction::LevelLeft });
+        break;
+    default:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
         break;
     }
 
