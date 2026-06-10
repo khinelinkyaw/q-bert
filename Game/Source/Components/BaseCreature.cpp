@@ -46,7 +46,7 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
     else if (eventArg->EventId == "OnNewBlock")
     {
         auto newBlockEventArg{ static_cast<EventArgBlock*>(eventArg) };
-        m_pBreed->OnNewBlock(newBlockEventArg->Block);
+        m_pBreed->OnNewBlock(*GetOwner(), newBlockEventArg->Block);
     }
      else if (eventArg->EventId == "OnEmptyBlock")
     {
