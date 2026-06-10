@@ -133,6 +133,30 @@ Game::UIEngine::UIEngine()
 
     CreateUIElement(player1TextElementInfo);
 
+    UIElementInfo player1NumberElementInfo{
+        UIComponentInfo {
+            {},
+            "PlayerNumbers.png",
+            {0.f,0.f},
+            UIType::Sprite,
+            GameEngine::AnimationType::Loop,
+            0.2f,
+            0,
+            1,
+            2
+        },
+        PositioningInfo {
+            GameplayUI::PLAYER_1_NAME_ELEMENT,
+            { 1.f, 0.f },
+            GameEngine::Pivot::RightLevel,
+            GameEngine::Pivot::LeftLevel,
+            false,
+        },
+        GameplayUI::PLAYER_1_NUMBER_ELEMENT
+    };
+
+    CreateUIElement(player1NumberElementInfo);
+
     UIElementInfo const player1ScoreElementInfo{
         UIComponentInfo {
             { 0, 1, 2, 3, 4, 5 },

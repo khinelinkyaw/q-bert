@@ -2,7 +2,6 @@
 #define USER_INTERFACE_FACTORY_H
 
 #include <Misc/Constants.h>
-#include <Components/ContainerComponent.h>
 
 #include <Engine/Components/SpriteAnimationComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -17,9 +16,9 @@
 
 namespace Game
 {
-    namespace GameplayUI
-    {
 
+    namespace GameplayUI
+    {;
         float constexpr ROOT_MARGIN{ 20.f };
         float constexpr ELEMENT_PADDING{ 5.f };
         float constexpr ROOT_ELEMENT_WIDTH{ Screen::GAME_WIDTH - (ROOT_MARGIN * 2) };
@@ -27,8 +26,11 @@ namespace Game
 
         std::string const ROOT_ELEMENT{ "RootUIElement" };
         std::string const PLAYER_1_NAME_ELEMENT{ "Player1NameUIElement" };
-        std::string const PLAYER_2_NAME_ELEMENT{ "Player2NameUIElement" };
+        std::string const PLAYER_1_NUMBER_ELEMENT{ "Player1NumberUIElement" };
         std::string const PLAYER_1_SCORE_ELEMENT{ "Player1ScoreUIElement" };
+        std::string const PLAYER_2_NAME_ELEMENT{ "Player2NameUIElement" };
+        std::string const PLAYER_2_NUMBER_ELEMENT{ "Player2NumberUIElement" };
+        std::string const PLAYER_2_SCORE_ELEMENT{ "Player2ScoreUIElement" };
         std::string const LEVEL_TEXT_ELEMENT{ "LevelTextUIElement" };
         std::string const LEVEL_NUM_ELEMENT{ "LevelNumUIElement" };
         std::string const ROUND_TEXT_ELEMENT{ "RoundTextUIElement" };
