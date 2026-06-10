@@ -1,5 +1,5 @@
-#ifndef PLAYER_COMMANDS_H
-#define PLAYER_COMMANDS_H
+#ifndef EVENT_ARG_MOVE_H
+#define EVENT_ARG_MOVE_H
 
 #include <Misc/Enums.h>
 

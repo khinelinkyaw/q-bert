@@ -1,7 +1,7 @@
 #include "CoilyController.h"
 
 #include <Characters/MovementState.h>
-#include <Commands/PlayerCommands.h>
+#include <Events/EventArgMove.h>
 #include <Map/Block.h>
 
 #include <Engine/Components/BaseComponent.h>

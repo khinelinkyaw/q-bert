@@ -4,7 +4,7 @@
 #include <Engine/Input/InputMapping.h>
 
 #include <Characters/MovementState.h>
-#include <Commands/PlayerCommands.h>
+#include <Events/EventArgMove.h>
 #include <Components/Controllers/ControllerComponent.h>
 
 #include <cassert>

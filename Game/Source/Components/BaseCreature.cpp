@@ -2,7 +2,7 @@
 
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
-#include <Commands/PlayerCommands.h>
+#include <Events/EventArgMove.h>
 #include <Misc/Constants.h>
 #include <Misc/Enums.h>
 

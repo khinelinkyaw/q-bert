@@ -1,21 +1,15 @@
 #include "CreatureFactory.h"
 
-#include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/CollisionComponent.h>
+#include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/Random.h>
-#include <Engine/Core/SceneManager.h>
-#include <Engine/Core/Time.h>
-#include <Engine/Misc/Enums.h>
 
 #include <Components/BaseCreature.h>
 #include <Components/Controllers/CoilyController.h>
 #include <Components/Controllers/ControllerComponent.h>
 #include <Components/Controllers/GenericEnemyController.h>
-#include <Map/Graph.h>
-#include <Misc/Enums.h>
 
 void Game::CreatureFactory::BuildCreatureController(Game::Creature creatureType, GameEngine::GameObject& gameObject)
 {
