@@ -11,7 +11,7 @@ namespace Game
 	class Breed
 	{
 	public:
-        virtual void OnNewBlock(Block* block) = 0;
+        virtual void OnNewBlock(GameEngine::GameObject& object, Block* block) = 0;
         virtual void OnEmptyBlock(GameEngine::GameObject& object) = 0;
         virtual void OnEndOfPath(GameEngine::GameObject& object) = 0;
 
@@ -20,8 +20,11 @@ namespace Game
 
 	class QBertBreed final : public Breed
 	{
+	private:
+		int m_Score{};
+
 	public:
-		void OnNewBlock(Block* block) override;
+		void OnNewBlock(GameEngine::GameObject& object, Block* block) override;
 		void OnEmptyBlock(GameEngine::GameObject& object) override;
 		void OnEndOfPath(GameEngine::GameObject&) override {};
 
@@ -32,7 +35,7 @@ namespace Game
 	class EnemyBreed : public Breed
 	{
 	public:
-		virtual void OnNewBlock(Block*) override {};
+		virtual void OnNewBlock(GameEngine::GameObject&, Block*) override {};
 		virtual void OnEmptyBlock(GameEngine::GameObject& object) override;
 		virtual void OnEndOfPath(GameEngine::GameObject&) override {};
 		

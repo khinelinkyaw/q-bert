@@ -7,10 +7,13 @@
 
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Events/EventArgInt.h>
 
-void Game::QBertBreed::OnNewBlock(Block* block)
+void Game::QBertBreed::OnNewBlock(GameEngine::GameObject& object, Block* block)
 {
     block->CycleType();
+    m_Score += 15;
+    object.SendEvent<GameEngine::EventArgInt>("PlayerScoreUpdated", m_Score);
 }
 
 void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object)
