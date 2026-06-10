@@ -15,18 +15,18 @@ namespace Game
 {
     struct CreatureData
     {
-        std::string         SpritePath;
-        int                 SpriteRows;
-        int                 SpriteCols;
-        GameEngine::Pivot   Pivot;
-        vec2                PivotOffset;
-        BlockSurface        SpawnSurface;
+        std::string         SpritePath{};
+        int                 SpriteRows{};
+        int                 SpriteCols{};
+        GameEngine::Pivot   Pivot{};
+        vec2                PivotOffset{};
+        BlockSurface        SpawnSurface{};
     };
 
     class CreatureFactory
     {
     private:
-        static void BuildCreatureController(Game::Creature creatureType, GameEngine::GameObject& gameObject);
+        static void BuildComputerController(Game::Creature creatureType, GameEngine::GameObject& gameObject);
 
     public:
         static inline std::unordered_map<Creature, CreatureData> const CREATURE_TABLE =
@@ -40,7 +40,7 @@ namespace Game
             { Creature::WrongWay,    { "Wrongway.png", 1, 8, GameEngine::Pivot::RightUp,    {-2,2},   BlockSurface::Left    }},
         };
 
-        static void BuildCreatureComponents(GameEngine::GameObject& gameObject, Creature creatureType);
+        static void BuildCreatureComponents(GameEngine::GameObject& gameObject, Creature creatureType, PlayerIndex playerIndex = PlayerIndex::None);
     };
 }
 

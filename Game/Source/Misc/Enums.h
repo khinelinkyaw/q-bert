@@ -3,6 +3,13 @@
 
 namespace Game
 {
+    enum class PlayerIndex
+    {
+        None,
+        Player1,
+        Player2
+    };
+
     enum class BlockSurface
     {
         Top,

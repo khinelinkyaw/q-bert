@@ -7,14 +7,15 @@ namespace Game
 {
     struct CreatureInfo final
     {
-        int Lives{ 3 };
-        int Score{};
+        PlayerIndex PlayerIndex     { PlayerIndex::None };
+        int Lives                   { 3 };
+        int Score                   { 0 };
     };
 
     struct MoveInstruction final
     {
-        MovementEvent MovementEvent{ MovementEvent::OnIdle };
-        Direction Direction{ Direction::UpRight };
+        MovementEvent MovementEvent { MovementEvent::OnIdle };
+        Direction Direction         { Direction::UpRight };
     };
 }
 

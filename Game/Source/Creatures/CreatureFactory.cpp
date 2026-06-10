@@ -6,18 +6,18 @@
 #include <Engine/Components/TextureComponent.h>
 #include <Engine/Core/GameObject.h>
 
+#include <Misc/Enums.h>
+
+#include <Components/ScoreCounterComponent.h>
 #include <Components/BaseCreature.h>
 #include <Components/Controllers/CoilyController.h>
 #include <Components/Controllers/ControllerComponent.h>
 #include <Components/Controllers/GenericEnemyController.h>
 
-void Game::CreatureFactory::BuildCreatureController(Game::Creature creatureType, GameEngine::GameObject& gameObject)
+void Game::CreatureFactory::BuildComputerController(Game::Creature creatureType, GameEngine::GameObject& gameObject)
 {
     switch (creatureType)
     {
-    case Creature::QBert:
-        gameObject.AddComponent<ControllerComponent>();
-        break;
     case Creature::Coily:
         gameObject.AddComponent<CoilyController>();
         break;
@@ -27,14 +27,23 @@ void Game::CreatureFactory::BuildCreatureController(Game::Creature creatureType,
     }
 }
 
-void Game::CreatureFactory::BuildCreatureComponents(GameEngine::GameObject& gameObject, Creature creatureType)
+void Game::CreatureFactory::BuildCreatureComponents(GameEngine::GameObject& gameObject, Creature creatureType, PlayerIndex playerIndex)
 {
     gameObject.AddComponent<GameEngine::CollisionComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>();
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<BaseCreature>();
 
-    BuildCreatureController(creatureType, gameObject);
+    switch (playerIndex)
+    {
+    case PlayerIndex::None:
+        BuildComputerController(creatureType, gameObject);
+        break;
+    default:
+        gameObject.AddComponent<ControllerComponent>();
+        gameObject.AddComponent<ScoreCounterComponent>()->Init(playerIndex);
+        break;
+    }
 
     if (auto iter{ CREATURE_TABLE.find(creatureType) }; iter != CREATURE_TABLE.end())
     {

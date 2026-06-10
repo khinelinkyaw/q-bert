@@ -69,10 +69,9 @@ void Game::BaseCreature::ChangeSprite(MovementState const& movementState)
     );
 }
 
-void Game::BaseCreature::Init(Creature creatureType)
+void Game::BaseCreature::Init(Creature creatureType, PlayerIndex playerIndex)
 {
     m_pBreed = std::make_unique<EnemyBreed>();
-    //m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownMiddle);
     m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::DownRight);
 
     switch (creatureType)
@@ -106,7 +105,7 @@ void Game::BaseCreature::Init(Creature creatureType)
         break;
     }
 
-    // m_pMovementState->RefreshSprite();
+    m_pBreed->SetPlayerIndex(playerIndex);
     ChangeSprite(*m_pMovementState);
 }
 

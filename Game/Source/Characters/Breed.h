@@ -3,6 +3,7 @@
 
 #include <Map/Block.h>
 #include <Misc/Structs.h>
+#include <Misc/Enums.h>
 
 #include <Engine/Core/GameObject.h>
 
@@ -32,7 +33,7 @@ namespace Game
         virtual void OnEndOfPath(GameEngine::GameObject& object) = 0;
 
         Weakness GetWeakness() const { return m_Weakness; }
-
+		void SetPlayerIndex(PlayerIndex playerIndex) { m_CreatureInfo.PlayerIndex = playerIndex; }
 		Breed(Weakness weakness) : m_Weakness{ weakness } {};
         virtual ~Breed() = default;
 	};

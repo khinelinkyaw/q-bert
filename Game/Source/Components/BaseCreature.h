@@ -8,6 +8,7 @@
 
 #include <Characters/Breed.h>
 #include <Characters/MovementState.h>
+#include <Misc/Enums.h>
 
 #include <memory>
 #include <unordered_map>
@@ -43,7 +44,7 @@ namespace Game
         Breed* GetBreed() const { return m_pBreed.get(); }
         void ChangeSprite(MovementState const& movementState);
         
-        void Init(Creature creatureType);
+        void Init(Creature creatureType, PlayerIndex playerIndex = PlayerIndex::None);
         BaseCreature(GameEngine::GameObject* owner);
         ~BaseCreature() override = default;
     };
