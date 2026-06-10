@@ -4,15 +4,16 @@
 #include <Map/Connection.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
+#include <Events/EventArgBlock.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/ResourceManager.h>
 #include <Engine/Core/SceneManager.h>
-#include <Engine/Rendering/Renderer.h>
-
 #include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Events/EventArg.h>
+
 #include <algorithm>
 #include <utility>
 #include <vector>
@@ -166,11 +167,16 @@ void Graph::HandleEvents()
             case GraphEvent::EntityMoved:
             {
                 auto objPos{ obj->GetTransform()->GetWorldPosition() };
-                auto creatureComp{ obj->GetComponent<BaseCreature>() };
                 auto blockUnderObj{ GetBlock(objPos.x, objPos.y) };
 
-                if (blockUnderObj == nullptr) creatureComp->GetBreed()->OnEmptyBlock(*obj);
-                else creatureComp->GetBreed()->OnNewBlock(blockUnderObj);
+                if (blockUnderObj)
+                {
+                    obj->SendEvent<EventArgBlock>("OnNewBlock", blockUnderObj);
+                }
+                else
+                {
+                    obj->SendEvent<GameEngine::EventArg>("OnEmptyBlock");
+                }
                 break;
             }
         }

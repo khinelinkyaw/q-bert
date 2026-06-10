@@ -10,6 +10,7 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>
+#include <Events/EventArgBlock.h>
 
 #include <memory>
 #include <utility>
@@ -41,6 +42,15 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
         {
             m_pBreed->OnEndOfPath(*GetOwner());
         }
+    }
+    else if (eventArg->EventId == "OnNewBlock")
+    {
+        auto newBlockEventArg{ static_cast<EventArgBlock*>(eventArg) };
+        m_pBreed->OnNewBlock(newBlockEventArg->Block);
+    }
+     else if (eventArg->EventId == "OnEmptyBlock")
+    {
+        m_pBreed->OnEmptyBlock(*GetOwner());
     }
 }
 
