@@ -5,10 +5,12 @@
 #include <Engine/Core/Random.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/Time.h>
+#include <Engine/Core/Macros.h>
 
-#include <Misc/Enums.h>
 #include <Creatures/CreatureFactory.h>
 #include <Map/Graph.h>
+#include <Misc/Enums.h>
+#include <random>
 
 void Game::CreatureSpawner::Update()
 {
@@ -19,6 +21,13 @@ void Game::CreatureSpawner::Update()
         m_ElapsedTime -= m_SpawnInterval;
 
         auto& rng{ GameEngine::Random::GetRNG() };
+        std::uniform_int_distribution<> distribution{ 0, 100 };
+        int probabilityCheck{ distribution(rng) };
+
+        DEBUG_CONSOLE("CreatureSpawner", std::to_string(probabilityCheck))
+
+        if (probabilityCheck > m_Probability) return;
+
         int spawnBlockId{ m_SpawnBlockIds[rng() % m_SpawnBlockIds.size()] };
         auto spawnPosition{ m_pGraph->GetBlockSurfaceCenter(spawnBlockId, m_SpawnSurface) };
 
@@ -28,10 +37,11 @@ void Game::CreatureSpawner::Update()
     }
 }
 
-void Game::CreatureSpawner::Init(Creature creatureType, float spawnInterval)
+void Game::CreatureSpawner::Init(Creature creatureType, float spawnInterval, int spawnProbability)
 {
     m_CreatureType = creatureType;
     m_SpawnInterval = spawnInterval;
+    m_Probability = spawnProbability;
 
     switch (creatureType)
     {
