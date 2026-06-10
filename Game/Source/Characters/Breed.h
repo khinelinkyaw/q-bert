@@ -69,13 +69,13 @@ namespace Game
 		~PurpleSlimeBreed() override = default;
 	};
 
-	class GreenSlimeBreed final : public EnemyBreed
+	class GreenEnemyBreed final : public EnemyBreed
 	{
 	public:
         virtual void OnCollision(GameEngine::GameObject& object, Weakness attacker) override;
 
-		GreenSlimeBreed() : EnemyBreed() { m_Weakness = Weakness::Qbert; }
-        ~GreenSlimeBreed() override = default;
+		GreenEnemyBreed() : EnemyBreed() { m_Weakness = Weakness::Qbert; }
+        ~GreenEnemyBreed() override = default;
 	};
 }
 

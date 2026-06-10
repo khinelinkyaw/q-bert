@@ -85,7 +85,9 @@ void Game::BaseCreature::Init(Creature creatureType, PlayerIndex playerIndex)
     case Creature::RedSlime:
         break;
     case Creature::GreenSlime:
-        m_pBreed = std::make_unique<GreenSlimeBreed>();
+    case Creature::Slick:
+    case Creature::Sam:
+        m_pBreed = std::make_unique<GreenEnemyBreed>();
         break;
     case Creature::PurpleSlime:
         m_pBreed = std::make_unique<PurpleSlimeBreed>();

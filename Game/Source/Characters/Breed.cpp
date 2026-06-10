@@ -74,7 +74,7 @@ void Game::PurpleSlimeBreed::OnEndOfPath(GameEngine::GameObject& object)
     object.SetForDeletion();
 }
 
-void Game::GreenSlimeBreed::OnCollision(GameEngine::GameObject& object, Weakness attacker)
+void Game::GreenEnemyBreed::OnCollision(GameEngine::GameObject& object, Weakness attacker)
 {
     switch (attacker)
     {

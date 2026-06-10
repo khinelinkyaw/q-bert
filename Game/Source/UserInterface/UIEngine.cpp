@@ -8,7 +8,6 @@
 #include <Engine/UI/Utils.h>
 #include <Engine/Components/TextureComponent.h>
 
-#include <Components/ContainerComponent.h>
 #include <Components/SpriteFontComponent.h>
 
 #include <string>
