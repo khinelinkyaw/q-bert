@@ -1,7 +1,7 @@
 #include "Breed.h"
 
 #include <Creatures/CreatureFactory.h>
-#include <Components/BaseCreature.h>
+#include <Misc/Enums.h>
 #include <Map/Block.h>
 #include <Map/Graph.h>
 
@@ -37,7 +37,7 @@ void Game::Breed::OnEmptyBlock(GameEngine::GameObject& object)
 
 void Game::QBertBreed::OnNewBlock(GameEngine::GameObject& object, Block* block)
 {
-    block->CycleType();
+    block->ForwardBlockType();
     IncreaseScore(25, object);
 }
 
@@ -82,4 +82,9 @@ void Game::GreenEnemyBreed::OnCollision(GameEngine::GameObject& object, Weakness
         DecreaseLive(object);
         break;
     }
+}
+
+void Game::GreenEnemyBreed::OnNewBlock(GameEngine::GameObject&, Block* block)
+{
+    block->ReverseBlockType();
 }

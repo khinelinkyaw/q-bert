@@ -73,6 +73,7 @@ namespace Game
 	{
 	public:
         virtual void OnCollision(GameEngine::GameObject& object, Weakness attacker) override;
+		virtual void OnNewBlock(GameEngine::GameObject&, Block* block) override;
 
 		GreenEnemyBreed() : EnemyBreed() { m_Weakness = Weakness::Qbert; }
         ~GreenEnemyBreed() override = default;

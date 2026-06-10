@@ -11,27 +11,33 @@ int Block::GetId() const
 
 BlockType Block::GetType() const
 {
-    return m_BlockType;
+    return m_CurrentBlockType;
 }
 
 void Block::SetType(BlockType blockType)
 {
-    m_BlockType = blockType;
+    m_CurrentBlockType = blockType;
 }
 
-void Game::Block::CycleType()
+void Game::Block::ReverseBlockType()
 {
-    switch (m_BlockType)
+    int changingBlockTypeInt{ static_cast<int>(m_CurrentBlockType) - 1 };
+    int startingBlockTypeInt{ static_cast<int>(m_StartingBlockType) };
+
+    if (changingBlockTypeInt >= startingBlockTypeInt)
     {
-        case BlockType::Yellow:
-            m_BlockType = BlockType::Magenta;
-            break;
-        case BlockType::Magenta:
-            m_BlockType = BlockType::Red;
-            break;
-        case BlockType::Red:
-            m_BlockType = BlockType::Yellow;
-            break;
+        m_CurrentBlockType = static_cast<BlockType>(changingBlockTypeInt);
+    }
+}
+
+void Game::Block::ForwardBlockType()
+{
+    int changingBlockTypeInt{ static_cast<int>(m_CurrentBlockType) + 1 };
+    int finalBlockTypeInt{ static_cast<int>(m_FinalBlockType) };
+
+    if (changingBlockTypeInt <= finalBlockTypeInt)
+    {
+        m_CurrentBlockType = static_cast<BlockType>(changingBlockTypeInt);
     }
 }
 
@@ -93,7 +99,8 @@ BlockSurface Game::Block::GetCollidingSurface(float x, float y) const
 
 Block::Block(int id, BlockType blockType)
     : m_Id{ id }
-    , m_BlockType{ blockType }
+    , m_CurrentBlockType{ blockType }
+    , m_StartingBlockType{ blockType }
 {
-
+    m_FinalBlockType = static_cast<BlockType>((static_cast<int>(blockType) + 2));
 }

@@ -18,13 +18,16 @@ namespace Game
     private:
         vec3 m_Position{};
         int m_Id{ INVALID_ID };
-        BlockType m_BlockType{ BlockType::Yellow };
+        BlockType m_StartingBlockType{};
+        BlockType m_FinalBlockType{};
+        BlockType m_CurrentBlockType{ BlockType::Yellow };
 
     public:
         int GetId() const;
         BlockType GetType() const;
         void SetType(BlockType cellType);
-        void CycleType();
+        void ReverseBlockType();
+        void ForwardBlockType();
 
         vec2 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
         static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface);
