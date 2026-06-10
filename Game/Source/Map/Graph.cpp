@@ -5,10 +5,10 @@
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
 #include <Events/EventArgBlock.h>
+#include <Components/ChangeToBlockSetterComponent.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
-#include <Engine/Core/ResourceManager.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/TextureComponent.h>
@@ -17,137 +17,9 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <Engine/Events/EventArgInt.h>
 
 using namespace Game;
-
-void Graph::CreateNewConnection(int fromBlockId, int toBlockId)
-{
-    auto fromBlock{ GetBlock(fromBlockId) };
-    auto toBlock{ GetBlock(toBlockId) };
-
-    if (fromBlock == nullptr or toBlock == nullptr)
-    {
-        return;
-    }
-
-    auto newConnection{ Connection{ fromBlockId, toBlockId } };
-    if (std::ranges::find(m_Connections, newConnection) != m_Connections.end())
-    {
-        return;
-    }
-
-    m_Connections.push_back(newConnection);
-}
-
-void Graph::GenerateConnections()
-{
-    for (int row{ 0 }; row < TOTAL_ROWS; ++row)
-    {
-        auto blockIds{ GetBlockIdsInARow(row) };
-
-        for (int index{ 0 }; index < blockIds.size(); ++index)
-        {
-            CreateNewConnection(blockIds[index], GetBlockIdInRow(row - 1, index));
-            CreateNewConnection(blockIds[index], GetBlockIdInRow(row - 1, index - 1));
-            CreateNewConnection(blockIds[index], GetBlockIdInRow(row + 1, index));
-            CreateNewConnection(blockIds[index], GetBlockIdInRow(row + 1, index + 1));
-        }
-    }
-}
-
-std::vector<int> Graph::GetBlockIdsInARow(int row) const
-{
-    std::vector<int> result{};
-
-    int firstBlockIdInRow{ ((row * (row + 1)) / 2) };
-
-    for (int index{ 0 }; index <= row; ++index)
-    {
-        result.push_back(firstBlockIdInRow + index);
-    }
-
-    return result;
-}
-
-int Graph::GetBlockIdInRow(int row, int indexInRow) const
-{
-    if (row < 0 or indexInRow > row or indexInRow < 0)
-    {
-        return Block::INVALID_ID;
-    }
-
-    int blockIdInRow{ ((row * (row + 1)) / 2) + indexInRow};
-
-    if (blockIdInRow >= TOTAL_BLOCKS)
-    {
-        return Block::INVALID_ID;
-    }
-    return blockIdInRow;
-}
-
-std::vector<Block const*> Graph::GetConnectedToBlocks(int blockId) const
-{
-    std::vector<Block const*> result{};
-
-    if (blockId == Block::INVALID_ID)
-    {
-        return result;
-    }
-
-    for (auto const& connection : m_Connections)
-    {
-        if (connection.GetFromBlock() == blockId)
-        {
-            auto toBlock{ GetBlock(connection.GetToBlock()) };
-            result.push_back(toBlock);
-        }
-    }
-
-    return result;
-}
-
-std::vector<Block const*> Graph::GetConnectedToBlocks(Block const& block) const
-{
-    return GetConnectedToBlocks(block.GetId());
-}
-
-Block const* Game::Graph::GetBlockInDirection(Block const& block, Direction direction) const
-{
-    auto nearBlocks{ GetConnectedToBlocks(block) };
-
-    for (auto const& nearBlock : nearBlocks)
-    {
-        switch (direction)
-        {
-        case Direction::UpRight:
-            if (nearBlock->GetPosition().x > block.GetPosition().x and nearBlock->GetPosition().y < block.GetPosition().y)
-            {
-                return nearBlock;
-            }
-            break;
-        case Direction::UpLeft:
-            if (nearBlock->GetPosition().x < block.GetPosition().x and nearBlock->GetPosition().y < block.GetPosition().y)
-            {
-                return nearBlock;
-            }
-            break;
-        case Direction::DownRight:
-            if (nearBlock->GetPosition().x > block.GetPosition().x and nearBlock->GetPosition().y > block.GetPosition().y)
-            {
-                return nearBlock;
-            }
-            break;
-        case Direction::DownLeft:
-            if (nearBlock->GetPosition().x < block.GetPosition().x and nearBlock->GetPosition().y > block.GetPosition().y)
-            {
-                return nearBlock;
-            }
-            break;
-        }
-    }
-
-    return nullptr;
-}
 
 void Graph::HandleEvents()
 {
@@ -243,29 +115,9 @@ vec2 Graph::GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface)
     return GetOwner()->GetTransform()->GetWorldPosition() + block.GetSurfaceCenter(blockSurface);
 }
 
-std::vector<Connection const*> Game::Graph::GetConnectionsFromCell(int blockId) const
-{
-    std::vector<Connection const*> result{};
-
-    for (auto const& connection : m_Connections)
-    {
-        if (connection.GetFromBlock() == blockId)
-        {
-            result.push_back(&connection);
-        }
-    }
-
-    return result;
-}
-
 void Graph::SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId)
 {
     m_EventQueue.push({ graphEvent, gameObjectId });
-}
-
-Block* Graph::GetBlock(int row, int indexInRow)
-{
-    return GetBlock(GetBlockIdInRow(row, indexInRow));
 }
 
 Block const* Game::Graph::GetBlock(float worldX, float worldY) const
@@ -316,29 +168,22 @@ std::pair<Block*, BlockSurface> Game::Graph::GetBlockAndSurface(float worldX, fl
     return { nullptr, BlockSurface::Top };
 }
 
-Graph::Graph(GameEngine::GameObject* owner)
-    : BaseComponent{ owner }
-    , m_pSpriteComponent{ owner->GetComponent<GameEngine::SpriteComponent>() }
-    , m_pTextureComponent{ owner->GetComponent<GameEngine::TextureComponent>() }
+void Game::Graph::Init(BlockType startingBlockType, BlockType finalBlockType)
 {
-    if (m_pSpriteComponent == nullptr) m_pSpriteComponent = owner->AddComponent<GameEngine::SpriteComponent>();
-    if (m_pTextureComponent == nullptr) m_pTextureComponent = owner->AddComponent<GameEngine::TextureComponent>();
-
-    GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Graph", owner->GetId());
-
-    m_Blocks.reserve(TOTAL_BLOCKS);
+    Block::StartingBlockType = startingBlockType;
+    Block::FinalBlockType = finalBlockType;
 
     int row{ 0 };
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
     {
-        m_Blocks.emplace_back(index, BlockType::Yellow);
+        m_Blocks.emplace_back(index);
 
         m_Blocks.back().SetPosition(vec3{
             (row * Block::BLOCK_SIZE / 2.f) + ((index - nextRowIncrement) * Block::BLOCK_SIZE) - (Block::BLOCK_SIZE / 2.f),
             row * Block::BLOCK_SIZE * 0.75f,
             static_cast<float>(row)
-        });
+            });
 
         if (index == nextRowIncrement)
         {
@@ -347,6 +192,23 @@ Graph::Graph(GameEngine::GameObject* owner)
         }
     }
 
-    m_pSpriteComponent->Init("Blocks.png", 3,3);
-    GenerateConnections();
+    GetOwner()->SendEvent<GameEngine::EventArgInt>("SetChangeToBlock", static_cast<int>(finalBlockType));
+}
+
+Graph::Graph(GameEngine::GameObject* owner)
+    : BaseComponent{ owner }
+    , m_pSpriteComponent{ owner->GetComponent<GameEngine::SpriteComponent>() }
+    , m_pTextureComponent{ owner->GetComponent<GameEngine::TextureComponent>() }
+{
+    if (m_pSpriteComponent == nullptr) m_pSpriteComponent = owner->AddComponent<GameEngine::SpriteComponent>();
+    if (m_pTextureComponent == nullptr) m_pTextureComponent = owner->AddComponent<GameEngine::TextureComponent>();
+
+    if (owner->GetComponent<ChangeToBlockSetterComponent>() == nullptr)
+    {
+        owner->AddComponent<ChangeToBlockSetterComponent>();
+    }
+
+    GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Graph", owner->GetId());
+    m_pSpriteComponent->Init("Blocks.png", 3, 3);
+    m_Blocks.reserve(TOTAL_BLOCKS);
 }

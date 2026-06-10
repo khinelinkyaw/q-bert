@@ -14,13 +14,13 @@ namespace Game
     public:
         static int constexpr INVALID_ID{ -1 };
         static float constexpr BLOCK_SIZE{ 32.f };
+        static inline BlockType StartingBlockType{};
+        static inline BlockType FinalBlockType{};
 
     private:
         vec3 m_Position{};
         int m_Id{ INVALID_ID };
-        BlockType m_StartingBlockType{};
-        BlockType m_FinalBlockType{};
-        BlockType m_CurrentBlockType{ BlockType::Yellow };
+        BlockType m_CurrentBlockType{ StartingBlockType };
 
     public:
         int GetId() const;
@@ -32,6 +32,8 @@ namespace Game
         vec2 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
         static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface);
 
+        static BlockType GetBlockTypeFromInt(BlockType startingType, int offset);
+
         void SetPosition(vec3 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
         vec3 GetPosition() const { return m_Position; }
@@ -40,7 +42,7 @@ namespace Game
         bool IsColliding(float x, float y) const;
         BlockSurface GetCollidingSurface(float x, float y) const;
 
-        Block(int id, BlockType blockType);
+        Block(int id, BlockType blockType = StartingBlockType);
 
         bool operator==(Block const& other) const
         {

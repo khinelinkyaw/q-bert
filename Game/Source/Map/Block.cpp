@@ -22,22 +22,22 @@ void Block::SetType(BlockType blockType)
 void Game::Block::ReverseBlockType()
 {
     int changingBlockTypeInt{ static_cast<int>(m_CurrentBlockType) - 1 };
-    int startingBlockTypeInt{ static_cast<int>(m_StartingBlockType) };
+    int startingBlockTypeInt{ static_cast<int>(StartingBlockType) };
 
     if (changingBlockTypeInt >= startingBlockTypeInt)
     {
-        m_CurrentBlockType = static_cast<BlockType>(changingBlockTypeInt);
+        m_CurrentBlockType = GetBlockTypeFromInt(m_CurrentBlockType, -1);
     }
 }
 
 void Game::Block::ForwardBlockType()
 {
     int changingBlockTypeInt{ static_cast<int>(m_CurrentBlockType) + 1 };
-    int finalBlockTypeInt{ static_cast<int>(m_FinalBlockType) };
+    int finalBlockTypeInt{ static_cast<int>(FinalBlockType) };
 
     if (changingBlockTypeInt <= finalBlockTypeInt)
     {
-        m_CurrentBlockType = static_cast<BlockType>(changingBlockTypeInt);
+        m_CurrentBlockType = GetBlockTypeFromInt(m_CurrentBlockType, 1);
     }
 }
 
@@ -71,6 +71,11 @@ constexpr vec2 Game::Block::GetSurfaceOffset(BlockSurface blockSurface)
     return vec2{};
 }
 
+BlockType Game::Block::GetBlockTypeFromInt(BlockType startingType, int offset)
+{
+    return static_cast<BlockType>(static_cast<int>(startingType) + offset);
+}
+
 bool Game::Block::IsColliding(float x, float y) const
 {
     return (x > m_Position.x and x < m_Position.x + BLOCK_SIZE) and (y > m_Position.y and y < m_Position.y + BLOCK_SIZE);
@@ -100,7 +105,5 @@ BlockSurface Game::Block::GetCollidingSurface(float x, float y) const
 Block::Block(int id, BlockType blockType)
     : m_Id{ id }
     , m_CurrentBlockType{ blockType }
-    , m_StartingBlockType{ blockType }
 {
-    m_FinalBlockType = static_cast<BlockType>((static_cast<int>(blockType) + 2));
 }

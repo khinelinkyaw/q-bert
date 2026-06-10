@@ -36,14 +36,6 @@ namespace Game
         std::vector<Connection> m_Connections{};
         std::queue<std::pair<GraphEvent, ObjectID>> m_EventQueue{};
 
-        void CreateNewConnection(int fromBlockId, int toBlockId);
-        void GenerateConnections();
-
-        std::vector<int> GetBlockIdsInARow(int row) const;
-        int GetBlockIdInRow(int row, int indexInRow) const;
-        std::vector<Block const*> GetConnectedToBlocks(int blockId) const;
-        std::vector<Block const*> GetConnectedToBlocks(Block const& block) const;
-
         void HandleEvents();
 
     public:
@@ -53,7 +45,6 @@ namespace Game
 
         Block* GetBlock(int blockId);
         Block const* GetBlock(int blockId) const;
-        Block* GetBlock(int row, int indexInRow);
         Block const* GetBlock(float worldX, float worldY) const;
         Block* GetBlock(float worldX, float worldY);
 
@@ -62,12 +53,9 @@ namespace Game
         vec2 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const;
         vec2 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const;
 
-        Block const* GetBlockInDirection(Block const& block, Direction direction) const;
-
-        std::vector<Connection const*> GetConnectionsFromCell(int blockId) const;
-
         void SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId);
 
+        void Init(BlockType startingBlockType, BlockType finalBlockType);
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;
     };
