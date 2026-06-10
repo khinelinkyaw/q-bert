@@ -5,6 +5,12 @@
 
 namespace Game
 {
+    struct CreatureInfo final
+    {
+        int Lives{ 3 };
+        int Score{};
+    };
+
     struct MoveInstruction final
     {
         MovementEvent MovementEvent{ MovementEvent::OnIdle };

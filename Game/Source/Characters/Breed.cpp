@@ -9,28 +9,60 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArgInt.h>
 
+void Game::Breed::DecreaseLive(GameEngine::GameObject& object)
+{
+    --m_CreatureInfo.Lives;
+
+    if (m_CreatureInfo.Lives <= 0)
+    {
+        object.SetForDeletion();
+    }
+    else
+    {
+        auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
+        object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+    }
+}
+
+void Game::Breed::IncreaseScore(int increment, GameEngine::GameObject& object)
+{
+    m_CreatureInfo.Score += increment;
+    object.SendEvent<GameEngine::EventArgInt>("PlayerScoreUpdated", m_CreatureInfo.Score);
+}
+
+void Game::Breed::OnEmptyBlock(GameEngine::GameObject& object)
+{
+    object.SetForDeletion();
+}
+
 void Game::QBertBreed::OnNewBlock(GameEngine::GameObject& object, Block* block)
 {
     block->CycleType();
-    m_Score += 15;
-    object.SendEvent<GameEngine::EventArgInt>("PlayerScoreUpdated", m_Score);
+    IncreaseScore(25, object);
 }
 
 void Game::QBertBreed::OnEmptyBlock(GameEngine::GameObject& object)
 {
-    // This won't be used later, the QBert will die ofc
-    auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
-    object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+    DecreaseLive(object);
+}
+
+void Game::QBertBreed::OnCollision(GameEngine::GameObject& object, Weakness attacker)
+{
+    switch (attacker)
+    {
+    case Weakness::None:
+        DecreaseLive(object);
+        break;
+    case Weakness::Qbert:
+        IncreaseScore(300, object);
+        break;
+    }
 }
 
 Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
+    : Breed{Weakness::NormalEnemy}
 {
     GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Qbert", owner->GetId());
-}
-
-void Game::EnemyBreed::OnEmptyBlock(GameEngine::GameObject& object)
-{
-    object.SetForDeletion();
 }
 
 void Game::PurpleSlimeBreed::OnEndOfPath(GameEngine::GameObject& object)
@@ -40,4 +72,14 @@ void Game::PurpleSlimeBreed::OnEndOfPath(GameEngine::GameObject& object)
     CreatureFactory::BuildCreatureComponents(coily, Creature::Coily);
     coily.GetTransform()->SetLocalPosition(object.GetTransform()->GetLocalPosition());
     object.SetForDeletion();
+}
+
+void Game::GreenSlimeBreed::OnCollision(GameEngine::GameObject& object, Weakness attacker)
+{
+    switch (attacker)
+    {
+    case Weakness::NormalEnemy:
+        DecreaseLive(object);
+        break;
+    }
 }

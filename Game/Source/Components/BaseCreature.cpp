@@ -54,6 +54,14 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
     }
 }
 
+void Game::BaseCreature::OnCollisionEnter(GameEngine::GameObject* collidingObject) const
+{
+    if (auto creatureComponent{ collidingObject->GetComponent<BaseCreature>() })
+    {
+        m_pBreed->OnCollision(*GetOwner(), creatureComponent->GetBreed()->GetWeakness());
+    }
+}
+
 void Game::BaseCreature::ChangeSprite(MovementState const& movementState)
 {
     GetOwner()->GetComponent<GameEngine::SpriteComponent>()->SetSpriteIndex(
@@ -79,6 +87,7 @@ void Game::BaseCreature::Init(Creature creatureType)
         break;
     case Creature::GreenSlime:
         m_pSpriteMap = &Consts::GREEN_SLIME_SPRITE_MAP;
+        m_pBreed = std::make_unique<GreenSlimeBreed>();
         break;
     case Creature::PurpleSlime:
         m_pSpriteMap = &Consts::PURPLE_SLIME_SPRITE_MAP;

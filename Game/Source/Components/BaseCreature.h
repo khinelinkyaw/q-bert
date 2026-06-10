@@ -38,6 +38,7 @@ namespace Game
         void Update() override;
         void Render(vec2 const&) const override {};
         void OnEvent(GameEngine::EventArg* eventArg) override;
+        void OnCollisionEnter(GameEngine::GameObject* collidingObject) const override;
 
         Breed* GetBreed() const { return m_pBreed.get(); }
         void ChangeSprite(MovementState const& movementState);
