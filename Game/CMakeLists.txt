@@ -6,6 +6,11 @@ file(GLOB_RECURSE GAME_HEADER_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR
 message("Game source files: ${GAME_SOURCE_FILES}")
 message("Game header files: ${GAME_HEADER_FILES}")
 
+include(FetchContent)
+
+FetchContent_Declare(nlohmann_json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(nlohmann_json)
+
 add_executable(${TARGET_NAME} ${TARGET_PARAM})
 
 target_sources(${TARGET_NAME} PUBLIC ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
@@ -24,6 +29,7 @@ target_link_libraries("${TARGET_NAME}" PRIVATE
   glm::glm
   ${LIBS}
   ${VLD_LIBRARIES}
+  nlohmann_json::nlohmann_json
 )
 
 if(MSVC)
