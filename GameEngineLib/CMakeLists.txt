@@ -34,6 +34,7 @@ target_link_libraries(GameEngineLib PRIVATE
     glm::glm
     miniaudio
     ${VLD_LIBRARIES}
+    nlohmann_json::nlohmann_json
 )
 
 if (WIN32 AND Steamworks_FOUND)

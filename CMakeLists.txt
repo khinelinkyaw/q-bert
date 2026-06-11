@@ -16,6 +16,12 @@ else()
 endif()
 
 include(FetchContent)
+
+# add nlohmann_json
+FetchContent_Declare(nlohmann_json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(nlohmann_json)
+
+
 # add glm
 find_package(glm CONFIG QUIET)
 if(NOT glm_FOUND)
