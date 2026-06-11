@@ -1,11 +1,16 @@
-﻿#include <Engine/Rendering/Font.h>
-#include <Engine/Rendering/Texture2D.h>
+﻿#include <Engine/Core/Macros.h>
 #include <Engine/Core/ResourceManager.h>
+#include <Engine/Rendering/Font.h>
+#include <Engine/Rendering/Texture2D.h>
+
 #include <SDL3/SDL_error.h>
 #include <SDL3_ttf/SDL_ttf.h>
+
 #include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -51,6 +56,24 @@ std::shared_ptr<Font> ResourceManager::LoadFont(const std::string& file, uint8_t
     if (m_loadedFonts.find(key) == m_loadedFonts.end())
         m_loadedFonts.insert(std::pair(key, std::make_shared<Font>(fullPath.string(), size)));
     return m_loadedFonts.at(key);
+}
+
+json GameEngine::ResourceManager::LoadJSON(const std::string& file)
+{
+    const auto fullPath = m_dataPath / file;
+    const auto filename = fs::path(fullPath).filename().string();
+
+    std::ifstream jsonFile{ fullPath };
+
+    try
+    {
+        return json::parse(jsonFile);
+    }
+    catch (json::parse_error const&)
+    {
+        DEBUG_CONSOLE("JSON", "Parse error of file: " << filename)
+            return json{};
+    }
 }
 
 void ResourceManager::UnloadUnusedResources()

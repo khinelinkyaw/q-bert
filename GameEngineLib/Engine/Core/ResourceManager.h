@@ -6,9 +6,12 @@
 #include <memory>
 #include <map>
 
+#include <nlohmann/json.hpp>
 
 namespace GameEngine
 {
+    using json = nlohmann::json;
+
 	class Texture2D;
 	class Font;
 	class ResourceManager final : public Singleton<ResourceManager>
@@ -17,6 +20,8 @@ namespace GameEngine
 		void Init(const std::filesystem::path& data);
 		std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
 		std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
+        json LoadJSON(std::string const& file);
+
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
