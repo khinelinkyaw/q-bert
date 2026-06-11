@@ -6,11 +6,17 @@
 #include <Engine/Misc/Types.h>
 
 #include <Misc/Enums.h>
-#include <Misc/Types.h>
 #include <vector>
 
 namespace Game
 {
+    struct CreatureSpawnerInfo final
+    {
+        Creature CreatureType{};
+        float SpawnInterval{ 5.f };
+        int SpawnProbability{ 100 };
+    };
+
     class Graph;
     class CreatureSpawner final : public GameEngine::BaseComponent
     {
@@ -32,6 +38,7 @@ namespace Game
         void Update() override;
         void Render(vec2 const&) const override {};
 
+        void Init(CreatureSpawnerInfo const& creatureSpawnerInfo);
         void Init(Creature creatureType, float spawnInterval = 5.f, int spawnProbability = 100);
         CreatureSpawner(GameEngine::GameObject* owner);
         ~CreatureSpawner() override = default;

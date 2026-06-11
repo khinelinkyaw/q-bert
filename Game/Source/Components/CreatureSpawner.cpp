@@ -37,6 +37,11 @@ void Game::CreatureSpawner::Update()
     }
 }
 
+void Game::CreatureSpawner::Init(CreatureSpawnerInfo const& creatureSpawnerInfo)
+{
+    Init(creatureSpawnerInfo.CreatureType, creatureSpawnerInfo.SpawnInterval, creatureSpawnerInfo.SpawnProbability);
+}
+
 void Game::CreatureSpawner::Init(Creature creatureType, float spawnInterval, int spawnProbability)
 {
     m_CreatureType = creatureType;
