@@ -9,12 +9,12 @@ int Block::GetId() const
     return m_Id;
 }
 
-BlockType Block::GetType() const
+BlockColor Block::GetType() const
 {
     return m_CurrentBlockType;
 }
 
-void Block::SetType(BlockType blockType)
+void Block::SetType(BlockColor blockType)
 {
     m_CurrentBlockType = blockType;
 }
@@ -38,6 +38,10 @@ void Game::Block::ForwardBlockType()
     if (changingBlockTypeInt <= finalBlockTypeInt)
     {
         m_CurrentBlockType = GetBlockTypeFromInt(m_CurrentBlockType, 1);
+    }
+    else if (CycleBackColor)
+    {
+        m_CurrentBlockType = StartingBlockType;
     }
 }
 
@@ -71,9 +75,9 @@ constexpr vec2 Game::Block::GetSurfaceOffset(BlockSurface blockSurface)
     return vec2{};
 }
 
-BlockType Game::Block::GetBlockTypeFromInt(BlockType startingType, int offset)
+BlockColor Game::Block::GetBlockTypeFromInt(BlockColor startingType, int offset)
 {
-    return static_cast<BlockType>(static_cast<int>(startingType) + offset);
+    return static_cast<BlockColor>(static_cast<int>(startingType) + offset);
 }
 
 bool Game::Block::IsColliding(float x, float y) const
@@ -102,7 +106,7 @@ BlockSurface Game::Block::GetCollidingSurface(float x, float y) const
     return BlockSurface::Top;
 }
 
-Block::Block(int id, BlockType blockType)
+Block::Block(int id, BlockColor blockType)
     : m_Id{ id }
     , m_CurrentBlockType{ blockType }
 {

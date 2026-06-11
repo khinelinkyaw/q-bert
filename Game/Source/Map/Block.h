@@ -14,25 +14,26 @@ namespace Game
     public:
         static int constexpr INVALID_ID{ -1 };
         static float constexpr BLOCK_SIZE{ 32.f };
-        static inline BlockType StartingBlockType{};
-        static inline BlockType FinalBlockType{};
+        static inline BlockColor StartingBlockType{};
+        static inline BlockColor FinalBlockType{};
+        static inline bool CycleBackColor{ false };
 
     private:
         vec3 m_Position{};
         int m_Id{ INVALID_ID };
-        BlockType m_CurrentBlockType{ StartingBlockType };
+        BlockColor m_CurrentBlockType{ StartingBlockType };
 
     public:
         int GetId() const;
-        BlockType GetType() const;
-        void SetType(BlockType cellType);
+        BlockColor GetType() const;
+        void SetType(BlockColor cellType);
         void ReverseBlockType();
         void ForwardBlockType();
 
         vec2 GetSurfaceCenter(BlockSurface blockSurface = BlockSurface::Top) const;
         static constexpr vec2 GetSurfaceOffset(BlockSurface blockSurface);
 
-        static BlockType GetBlockTypeFromInt(BlockType startingType, int offset);
+        static BlockColor GetBlockTypeFromInt(BlockColor startingType, int offset);
 
         void SetPosition(vec3 position) { m_Position = position; }
         void SetPosition(float x, float y) { m_Position = vec3{ x, y, m_Position.z }; }
@@ -42,7 +43,7 @@ namespace Game
         bool IsColliding(float x, float y) const;
         BlockSurface GetCollidingSurface(float x, float y) const;
 
-        Block(int id, BlockType blockType = StartingBlockType);
+        Block(int id, BlockColor blockType = StartingBlockType);
 
         bool operator==(Block const& other) const
         {
