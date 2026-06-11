@@ -82,6 +82,7 @@ void Game::GameplaySettingsComponent::SetupRound(RoundInfo const& roundInfo)
 
     for (auto const& spawnerObject : m_SpawnerObjects)
     {
+        spawnerObject->GetComponent<CreatureSpawner>()->WipeSpawnedCreatures();
         spawnerObject->SetForDeletion();
     }
 

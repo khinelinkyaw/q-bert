@@ -40,13 +40,16 @@ namespace Game
         float m_ElapsedTime{};
         float m_SpawnInterval{ 5.f };
         int m_Probability{ 100 };
+
         std::vector<int> m_SpawnBlockIds{ TOP_SPAWN_POINTS };
+        std::vector<GameEngine::GameObject*> m_SpawnedCreatures{};
 
     public:
         void FixedUpdate() override {};
         void Update() override;
         void Render(vec2 const&) const override {};
 
+        void WipeSpawnedCreatures();
         void Init(CreatureSpawnerInfo const& creatureSpawnerInfo);
         void Init(Creature creatureType, float spawnInterval = 5.f, int spawnProbability = 100);
         CreatureSpawner(GameEngine::GameObject* owner);

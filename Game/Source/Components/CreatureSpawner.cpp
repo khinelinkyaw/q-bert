@@ -34,6 +34,16 @@ void Game::CreatureSpawner::Update()
         auto& creature{ GameEngine::SceneManager::Get().GetActiveScene()->CreateGameObject()};
         CreatureFactory::BuildCreatureComponents(creature, m_CreatureType);
         creature.GetTransform()->SetLocalPosition(spawnPosition);
+
+        m_SpawnedCreatures.push_back(&creature);
+    }
+}
+
+void Game::CreatureSpawner::WipeSpawnedCreatures()
+{
+    for (auto creature : m_SpawnedCreatures)
+    {
+        creature->SetForDeletion();
     }
 }
 
