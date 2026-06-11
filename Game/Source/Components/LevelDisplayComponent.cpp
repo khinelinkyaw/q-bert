@@ -6,6 +6,8 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>
 
+#include <string>
+
 void Game::LevelDisplayComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "OnNewRound")
@@ -22,8 +24,8 @@ void Game::LevelDisplayComponent::OnEvent(GameEngine::EventArg* eventArg)
 void Game::LevelDisplayComponent::Init(int changeToBlockSpriteIndex, int levelNum, int roundNum)
 {
     m_pChangeToBlockSprite->SetSpriteIndex(changeToBlockSpriteIndex);
-    m_pLevelNumSpriteFont->UpdateNumber(levelNum);
-    m_pRoundNumSpriteFont->UpdateNumber(roundNum);
+    m_pLevelNumSpriteFont->UpdateText(std::to_string(levelNum));
+    m_pRoundNumSpriteFont->UpdateText(std::to_string(roundNum));
 }
 
 Game::LevelDisplayComponent::LevelDisplayComponent(GameEngine::GameObject* owner)

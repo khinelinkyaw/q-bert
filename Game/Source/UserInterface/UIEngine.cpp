@@ -53,8 +53,7 @@ void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObjec
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     auto spriteFontComp{ gameObject.AddComponent<SpriteFontComponent>() };
-    spriteFontComp->UpdateMaxDigit(componentInfo.DigitNum);
-    spriteFontComp->UpdateNumber(0);
+    spriteFontComp->UpdateText("0");
 }
 
 GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
