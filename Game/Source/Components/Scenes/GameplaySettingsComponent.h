@@ -13,11 +13,15 @@
 #include <Misc/Enums.h>
 
 #include <string>
-#include <unordered_map>
 #include <vector>
+
+#include <nlohmann/detail/macro_scope.hpp>
+#include <nlohmann/json.hpp>
 
 namespace Game
 {
+    using json = nlohmann::json;
+
     struct RoundInfo final
     {
         BlockColor                       StartingBlockColor{};
@@ -25,29 +29,39 @@ namespace Game
         std::vector<CreatureSpawnerInfo> CreatureSpawnersInfo{};
     };
 
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoundInfo,
+        StartingBlockColor,
+        FinalBlockColor,
+        CreatureSpawnersInfo
+    )
+
     struct LevelInfo final
     {
         bool CycleBackBlocks{ false };
         std::vector<RoundInfo> RoundsInfo{};
     };
 
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LevelInfo,
+        CycleBackBlocks,
+        RoundsInfo
+    )
+
     struct GameplayInfo final
     {
-        Gamemode               Gamemode{ Gamemode::Solo };
+        Gamemode               SelectedGameMode{ Gamemode::Solo };
+        std::string            UIJSONPath{ "" };
         std::vector<LevelInfo> LevelsInfo{};
     };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(GameplayInfo,
+        SelectedGameMode,
+        UIJSONPath,
+        LevelsInfo
+    )
 
     class GameplaySettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        static inline std::string const m_UIElementJSONPath{ "JSON/GameplayUI.json" };
-        static inline std::unordered_map<Gamemode, std::vector<int>> const m_PlayerSpawnPoints{
-            { Gamemode::Solo,   { 0 } },
-            { Gamemode::Coop,   { 1, 2 } },
-            //{ Gamemode::Versus, { 1, 2 }
-            { Gamemode::Versus, { 21 }}
-        };
-
         GameEngine::Scene *const m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
         Graph* m_pEntityGraph{};
         Graph* m_pDiscGraph{};
@@ -71,7 +85,7 @@ namespace Game
 
         void GoToNextRound();
 
-        void Init(GameplayInfo gameplayInfo);
+        void Init(std::string const& jsonPath);
         GameplaySettingsComponent(GameEngine::GameObject* owner);
         void SetupGraphs();
     };

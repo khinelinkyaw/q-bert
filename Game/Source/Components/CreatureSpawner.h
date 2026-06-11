@@ -8,6 +8,9 @@
 #include <Misc/Enums.h>
 #include <vector>
 
+#include <nlohmann/detail/macro_scope.hpp>
+#include <nlohmann/json.hpp>
+
 namespace Game
 {
     struct CreatureSpawnerInfo final
@@ -16,6 +19,12 @@ namespace Game
         float SpawnInterval{ 5.f };
         int SpawnProbability{ 100 };
     };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(CreatureSpawnerInfo,
+        CreatureType,
+        SpawnInterval,
+        SpawnProbability
+    )
 
     class Graph;
     class CreatureSpawner final : public GameEngine::BaseComponent

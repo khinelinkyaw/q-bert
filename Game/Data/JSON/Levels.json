@@ -1,0 +1,252 @@
+[
+    {
+        "LevelsInfo": [
+            {
+                "CycleBackBlocks": false,
+                "RoundsInfo": [
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 5.0,
+                                "SpawnProbability": 75
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            }
+                        ],
+                        "FinalBlockColor": 1,
+                        "StartingBlockColor": 0
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 7.0,
+                                "SpawnProbability": 75
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 10.0,
+                                "SpawnProbability": 50
+                            }
+                        ],
+                        "FinalBlockColor": 4,
+                        "StartingBlockColor": 3
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 7.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 8.0,
+                                "SpawnProbability": 80
+                            }
+                        ],
+                        "FinalBlockColor": 7,
+                        "StartingBlockColor": 6
+                    }
+                ]
+            },
+            {
+                "CycleBackBlocks": false,
+                "RoundsInfo": [
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 5.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            }
+                        ],
+                        "FinalBlockColor": 2,
+                        "StartingBlockColor": 0
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 5.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 55
+                            },
+                            {
+                                "CreatureType": 6,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            }
+                        ],
+                        "FinalBlockColor": 5,
+                        "StartingBlockColor": 3
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 10.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 7.0,
+                                "SpawnProbability": 75
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 75
+                            },
+                            {
+                                "CreatureType": 6,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 75
+                            }
+                        ],
+                        "FinalBlockColor": 8,
+                        "StartingBlockColor": 6
+                    }
+                ]
+            },
+            {
+                "CycleBackBlocks": true,
+                "RoundsInfo": [
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 10.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 6,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 2,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 75
+                            }
+                        ],
+                        "FinalBlockColor": 2,
+                        "StartingBlockColor": 0
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 10.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 6,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 2,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 55
+                            },
+                            {
+                                "CreatureType": 7,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 75
+                            }
+                        ],
+                        "FinalBlockColor": 5,
+                        "StartingBlockColor": 3
+                    },
+                    {
+                        "CreatureSpawnersInfo": [
+                            {
+                                "CreatureType": 1,
+                                "SpawnInterval": 10.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 3,
+                                "SpawnInterval": 20.0,
+                                "SpawnProbability": 50
+                            },
+                            {
+                                "CreatureType": 5,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 6,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 65
+                            },
+                            {
+                                "CreatureType": 2,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 55
+                            },
+                            {
+                                "CreatureType": 7,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 55
+                            },
+                            {
+                                "CreatureType": 8,
+                                "SpawnInterval": 15.0,
+                                "SpawnProbability": 55
+                            }
+                        ],
+                        "FinalBlockColor": 8,
+                        "StartingBlockColor": 6
+                    }
+                ]
+            }
+        ],
+        "UIJSONPath": "JSON/GameplayUI.json",
+        "SelectedGameMode": 0
+    }
+]

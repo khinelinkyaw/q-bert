@@ -4,6 +4,7 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Core/ResourceManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
@@ -31,7 +32,7 @@ void Game::GameplaySettingsComponent::SetupPlayers()
     CreatureFactory::BuildCreatureComponents(m_pPlayer1, Creature::QBert, PlayerIndex::Player1);
     m_pPlayer1.GetComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
 
-    switch (m_Gameplay_Info.Gamemode)
+    switch (m_Gameplay_Info.SelectedGameMode)
     {
         case Gamemode::Solo:
             m_pPlayer1.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
@@ -53,7 +54,7 @@ void Game::GameplaySettingsComponent::SetupPlayers()
 
 void Game::GameplaySettingsComponent::ResetPlayerPositions()
 {
-    switch (m_Gameplay_Info.Gamemode)
+    switch (m_Gameplay_Info.SelectedGameMode)
     {
     case Gamemode::Solo:
         m_pPlayer1.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
@@ -124,10 +125,12 @@ void Game::GameplaySettingsComponent::GoToNextRound()
     }
 }
 
-void Game::GameplaySettingsComponent::Init(GameplayInfo gameplayInfo)
+void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
 {
-    m_Gameplay_Info = gameplayInfo;
-    UIEngine uiEngine{ m_UIElementJSONPath };
+    json gameplayInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(jsonPath) };
+
+    m_Gameplay_Info = gameplayInfoJSON.at(0).get<GameplayInfo>();
+    UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath };
     GetOwner()->AddComponent<LevelDisplayComponent>();
 
     SetupInputMappings();
