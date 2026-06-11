@@ -56,6 +56,8 @@ void Game::QBertBreed::OnCollision(GameEngine::GameObject& object, Weakness atta
     case Weakness::Qbert:
         IncreaseScore(300, object);
         break;
+    default:
+        break;
     }
 }
 
@@ -81,6 +83,8 @@ void Game::GreenEnemyBreed::OnCollision(GameEngine::GameObject& object, Weakness
     {
     case Weakness::NormalEnemy:
         DecreaseLive(object);
+        break;
+    default:
         break;
     }
 }

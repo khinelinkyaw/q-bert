@@ -7,7 +7,7 @@
 
 void GameEngine::SpriteComponent::SetSpriteIndex(int index)
 {
-    if (index >= 0 and index < m_SpriteRects.size())
+    if (index >= 0 and index < static_cast<int>(m_SpriteRects.size()))
     {
         m_TextureComponent->SetSourceRect(m_SpriteRects[index]);
     }
@@ -39,9 +39,9 @@ void GameEngine::SpriteComponent::Init(std::string const& filePath, int rows, in
 
     m_SpriteRects.reserve(m_TotalSprites);
 
-    for (int rowIndex{ 0 }; rowIndex < rows and m_SpriteRects.size() < m_TotalSprites; ++rowIndex)
+    for (int rowIndex{ 0 }; rowIndex < rows and static_cast<int>(m_SpriteRects.size()) < m_TotalSprites; ++rowIndex)
     {
-        for (int colIndex{ 0 }; colIndex < cols and m_SpriteRects.size() < m_TotalSprites; ++colIndex)
+        for (int colIndex{ 0 }; colIndex < cols and static_cast<int>(m_SpriteRects.size()) < m_TotalSprites; ++colIndex)
         {
             m_SpriteRects.emplace_back(
                 static_cast<float>(spriteWidth * colIndex),

@@ -18,7 +18,7 @@ void GameEngine::SpriteAnimationComponent::Update()
         m_CurrentFrame = ++m_CurrentFrame % m_FrameIndices.size();
         m_pSpriteComponent->SetSpriteIndex(m_FrameIndices[m_CurrentFrame]);
 
-        if (not (m_AnimationType == AnimationType::Once and m_CurrentFrame == m_FrameIndices.size() - 1))
+        if (not (m_AnimationType == AnimationType::Once and m_CurrentFrame == static_cast<int>(m_FrameIndices.size() - 1)))
         {
             m_ElapsedTime -= m_FrameDuration;
         }

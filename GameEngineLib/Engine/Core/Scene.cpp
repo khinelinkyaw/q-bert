@@ -35,7 +35,7 @@ void Scene::RemoveAll() { m_Objects.clear(); }
 
 void Scene::FixedUpdate()
 {
-    for (int index{ 0 }; index < m_Objects.size(); ++index)
+    for (int index{ 0 }; index < static_cast<int>(m_Objects.size()); ++index)
     {
         m_Objects[index]->FixedUpdate();
     }
@@ -45,7 +45,7 @@ void Scene::FixedUpdate()
 
 void Scene::Update()
 {
-    for (int index{ 0 }; index < m_Objects.size(); ++index)
+    for (int index{ 0 }; index < static_cast<int>(m_Objects.size()); ++index)
     {
         m_Objects[index]->Update();
     }

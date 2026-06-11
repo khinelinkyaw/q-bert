@@ -28,8 +28,8 @@ namespace Game
             {
                 auto randomIndex{ rng() % allowDirections.size() };
                 auto direction{ static_cast<Direction>(allowDirections[randomIndex])};
-                path.push(std::make_unique<EventArgMove>(EventArgMove{ "OnMove", MovementEvent::OnIdleWait, direction }));
-                path.push(std::make_unique<EventArgMove>(EventArgMove{ "OnMove", MovementEvent::OnHop, direction }));
+                path.push(std::make_unique<EventArgMove>(EventArgMove{ {"OnMove"}, MovementEvent::OnIdleWait, direction }));
+                path.push(std::make_unique<EventArgMove>(EventArgMove{ {"OnMove"}, MovementEvent::OnHop, direction }));
             }
         }
     }

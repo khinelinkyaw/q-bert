@@ -9,7 +9,6 @@
 
 namespace Game
 {
-    class GameEngine::InputDevice;
     class ControllerComponent final : public GameEngine::BaseComponent
     {
     private:

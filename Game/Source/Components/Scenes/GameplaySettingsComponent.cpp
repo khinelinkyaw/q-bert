@@ -110,7 +110,7 @@ void Game::GameplaySettingsComponent::GoToNextRound()
 {
     ++m_CurrentRound;
 
-    if (m_CurrentRound < m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo.size())
+    if (m_CurrentRound < static_cast<int>(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo.size()))
     {
         SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
     }
@@ -119,7 +119,7 @@ void Game::GameplaySettingsComponent::GoToNextRound()
         m_CurrentRound = 0;
         ++m_CurrentLevel;
         
-        if (m_CurrentLevel < m_Gameplay_Info.LevelsInfo.size())
+        if (m_CurrentLevel < static_cast<int>(m_Gameplay_Info.LevelsInfo.size()))
         {
             SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
         }

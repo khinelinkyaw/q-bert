@@ -39,6 +39,8 @@ std::unique_ptr<MovementState> IdleState::Update(GameEngine::GameObject* gameObj
             break;
         case MovementEvent::OnIdleWait:
             result = std::make_unique<IdleWaitState>(gameObject, instruction.Direction);
+        default:
+            break;
         }
 
         moveQueue.pop();

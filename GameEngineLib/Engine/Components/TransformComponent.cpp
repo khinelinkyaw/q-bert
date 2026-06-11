@@ -33,18 +33,6 @@ namespace GameEngine
         SetDirtyFlagRecursively();
     }
 
-    //void TransformComponent::SetX(float x)
-    //{
-    //    m_LocalPosition.x = x;
-    //    SetDirtyFlagRecursively();
-    //}
-
-    //void TransformComponent::SetY(float y)
-    //{
-    //    m_LocalPosition.y = y;
-    //    SetDirtyFlagRecursively();
-    //}
-
     void TransformComponent::SetZIndex(float z)
     {
         m_ZIndex = z;
@@ -121,10 +109,10 @@ namespace GameEngine
 
     TransformComponent::TransformComponent(GameObject* owner)
         : BaseComponent{owner}
+        , m_ChildObjs{}
         , m_LocalPosition{}
         , m_WorldPosition{}
         , m_ParentObj{nullptr}
-        , m_ChildObjs{}
         , m_DirtyFlag{true}
     {
         GetWorldPosition();

@@ -34,6 +34,8 @@ void Game::ScoreCounterComponent::Init(PlayerIndex playerIndex)
     case PlayerIndex::Player2:
         gameObj = GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::PLAYER_2_SCORE_ELEMENT);
         break;
+    default:
+        break;
     }
     
     if (gameObj) m_pPlayerScoreTextComponent = gameObj->GetComponent<SpriteFontComponent>();

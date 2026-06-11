@@ -3,17 +3,17 @@
 
 #include <miniaudio.h>
 
-#include <condition_variable>
 #include <memory>
-#include <mutex>
 #include <queue>
 
 #ifndef __EMSCRIPTEN__
+    #include <condition_variable>
+    #include <mutex>
     #include <stop_token>
+    #include <thread>
 #endif
 
 #include <string>
-#include <thread>
 #include <unordered_map>
 #include <utility>
 
@@ -25,12 +25,13 @@ private:
     ma_engine m_Engine{};
     std::unordered_map<int, ma_sound> m_SoundMap;
     std::queue<int> m_PlayQueue;
+
+#ifndef __EMSCRIPTEN__
     std::mutex queueMutex{};
     std::mutex fileLoadingMutex{};
     std::condition_variable cv{};
     std::jthread consumer{};
 
-#ifndef __EMSCRIPTEN__
     void ConsumeQueue(std::stop_token stopToken);
 #else
     void ConsumeQueue();
@@ -46,20 +47,13 @@ public:
 
 #ifndef __EMSCRIPTEN__
 void MiniAudioSoundSystem::AudioImpl::ConsumeQueue(std::stop_token stopToken)
-#else
-void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
-#endif
 {
     while (true)
     {
         std::unique_lock<std::mutex> lock(queueMutex);
 
-#ifndef __EMSCRIPTEN__
         cv.wait(lock, [this, &stopToken] { return !m_PlayQueue.empty() or stopToken.stop_requested(); });
         if (stopToken.stop_requested()) return;
-#else
-        cv.wait(lock, [this] { return !m_PlayQueue.empty(); });
-#endif
 
         int soundId = m_PlayQueue.front();
         m_PlayQueue.pop();
@@ -73,16 +67,39 @@ void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
         if (iter == m_SoundMap.end())
         {
             DEBUG_CONSOLE("SoundSystem", "Sound " << soundId << " not found")
-            continue;
+                continue;
         }
 
         ma_sound_start(&(iter->second));
     }
 }
+#else
+void MiniAudioSoundSystem::AudioImpl::ConsumeQueue()
+{
+    while (true)
+    {
+        int soundId = m_PlayQueue.front();
+        m_PlayQueue.pop();
+
+        auto iter{ m_SoundMap.find(soundId) };
+
+        if (iter == m_SoundMap.end())
+        {
+            DEBUG_CONSOLE("SoundSystem", "Sound " << soundId << " not found")
+                continue;
+        }
+
+        ma_sound_start(&(iter->second));
+    }
+}
+#endif
+
 
 void MiniAudioSoundSystem::AudioImpl::LoadSoundFile(int soundId, std::string const& filePath)
 {
+#ifndef __EMSCRIPTEN__
     std::lock_guard<std::mutex> lock(fileLoadingMutex);
+#endif
     DEBUG_CONSOLE("SoundSystem","Loading sound at " << filePath)
 
     auto findIter{ m_SoundMap.find(soundId) };
@@ -105,26 +122,33 @@ void MiniAudioSoundSystem::AudioImpl::LoadSoundFile(int soundId, std::string con
 
 void MiniAudioSoundSystem::AudioImpl::Play(int soundId)
 {
+#ifndef __EMSCRIPTEN__
     std::lock_guard<std::mutex> lock(queueMutex);
     m_PlayQueue.push(soundId);
-    //DEBUG_CONSOLE("SoundSystem","Pushed " << soundId << " to the queue")
     cv.notify_one();
+#else
+    m_PlayQueue.push(soundId);
+    ConsumeQueue();
+#endif
 }
 
 void MiniAudioSoundSystem::AudioImpl::Load(int soundId, std::string const& filePath)
 {
+#ifndef __EMSCRIPTEN__
     std::jthread newThread([soundId, filePath, this]
         {
             this->LoadSoundFile(soundId, filePath);
         });
 
     newThread.detach();
+#else
+    LoadSoundFile(soundId, filePath);
+#endif
 }
 
 MiniAudioSoundSystem::AudioImpl::AudioImpl()
 {
     ma_result result{};
-    ma_sound sound{};
 
     result = ma_engine_init(nullptr, &m_Engine);
 
@@ -132,14 +156,12 @@ MiniAudioSoundSystem::AudioImpl::AudioImpl()
     {
         DEBUG_CONSOLE("SoundSystem","Engine initialization failed\n")
     }
+#ifndef __EMSCRIPTEN__
     else
     {
-#ifndef __EMSCRIPTEN__
         consumer = std::jthread([this](std::stop_token stopToken) { this->ConsumeQueue(stopToken); });
-#else
-        consumer = std::jthread([this] { this->ConsumeQueue(); });
-#endif
     }
+#endif
 }
 
 MiniAudioSoundSystem::AudioImpl::~AudioImpl()
@@ -157,9 +179,9 @@ MiniAudioSoundSystem::AudioImpl::~AudioImpl()
     ma_engine_uninit(&m_Engine);
 }
 
-void MiniAudioSoundSystem::Play(int)
+void MiniAudioSoundSystem::Play(int soundId)
 {
-    m_Impl->Play(0);
+    m_Impl->Play(soundId);
 }
 
 void MiniAudioSoundSystem::Load(int soundId, std::string const& filePath)

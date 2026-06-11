@@ -58,7 +58,7 @@ namespace GameEngine
     template<typename EventArgType, typename ...Args> requires DerivedEventArg<EventArgType>
     inline void GameObject::SendEvent(Args&& ...args)
     {
-        std::unique_ptr<EventArg> pEventArg{ std::make_unique<EventArgType>(EventArgType{std::forward<Args>(args)...}) };
+        std::unique_ptr<EventArg> pEventArg{ std::make_unique<EventArgType>(EventArgType{{std::forward<Args>(args)}...}) };
         SendEvent(std::move(pEventArg));
     }
 

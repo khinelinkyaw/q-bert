@@ -30,6 +30,8 @@ void Game::UIEngine::CreateTextureComponent(GameEngine::GameObject& gameObject, 
             textureComp->SetSourceRect({0.f, 0.f, componentInfo.ContainerSize.x, componentInfo.ContainerSize.y});
             break;
         }
+        default:
+            break;
     }
 }
 
