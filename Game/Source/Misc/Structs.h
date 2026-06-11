@@ -13,7 +13,7 @@ namespace Game
     struct CreatureInfo final
     {
         PlayerIndex PlayerIndex     { PlayerIndex::None };
-        int Lives                   { 3 };
+        int Lives                   { 1 };
         int Score                   { 0 };
     };
 

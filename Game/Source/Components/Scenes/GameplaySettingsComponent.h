@@ -85,6 +85,8 @@ namespace Game
 
         void GoToNextRound();
 
+        Gamemode GetGamemode() const { return m_Gameplay_Info.SelectedGameMode; }
+
         void Init(std::string const& jsonPath);
         GameplaySettingsComponent(GameEngine::GameObject* owner);
         void SetupGraphs();

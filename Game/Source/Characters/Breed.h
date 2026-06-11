@@ -57,7 +57,7 @@ namespace Game
 		virtual void OnCollision(GameEngine::GameObject&, Weakness) override {};
 		virtual void OnEndOfPath(GameEngine::GameObject&) override {};
 		
-        EnemyBreed() : Breed{ Weakness::None } { m_CreatureInfo.Lives = 1; }
+		EnemyBreed() : Breed{ Weakness::None } {};
         virtual ~EnemyBreed() override = default;
 	};
 

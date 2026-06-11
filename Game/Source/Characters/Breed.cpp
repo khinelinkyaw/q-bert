@@ -62,6 +62,7 @@ void Game::QBertBreed::OnCollision(GameEngine::GameObject& object, Weakness atta
 Game::QBertBreed::QBertBreed(GameEngine::GameObject* owner)
     : Breed{Weakness::NormalEnemy}
 {
+    m_CreatureInfo.Lives = 4;
     GameEngine::SceneManager::Get().GetActiveScene()->SetObjectName("Qbert", owner->GetId());
 }
 

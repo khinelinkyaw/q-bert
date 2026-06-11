@@ -1,13 +1,46 @@
 #include "CoilyController.h"
 
+#include <Components/Scenes/GameplaySettingsComponent.h>
 #include <Events/EventArgMove.h>
 #include <Misc/Enums.h>
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/TransformComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
-#include <cassert>
+
+GameEngine::GameObject* Game::CoilyController::GetQBertObject() const
+{
+    auto gameSettingsObj{ GameEngine::SceneManager::Get().GetObjectByName("GameplaySettings") };
+
+    if (gameSettingsObj)
+    {
+        Gamemode gameMode{ gameSettingsObj->GetComponent<GameplaySettingsComponent>()->GetGamemode() };
+
+        auto player1Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player1") };
+        auto player2Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player2") };
+
+        switch (gameMode)
+        {
+        case Gamemode::Solo:
+        case Gamemode::Versus:
+            return player1Obj;
+        case Gamemode::Coop:
+            if (player1Obj == nullptr and player2Obj == nullptr) return nullptr;
+            else if (player1Obj == nullptr) return player2Obj;
+            else if (player2Obj == nullptr) return player1Obj;
+
+            auto coilyPosition{ GetOwner()->GetTransform()->GetWorldPosition() };
+            auto player1Distance{ glm::distance(coilyPosition, player1Obj->GetTransform()->GetWorldPosition()) };
+            auto player2Distance{ glm::distance(coilyPosition, player2Obj->GetTransform()->GetWorldPosition()) };
+
+            return (player1Distance < player2Distance) ? player1Obj : player2Obj;
+        }
+    }
+
+    return nullptr;
+}
 
 void Game::CoilyController::OnEvent(GameEngine::EventArg* eventArg)
 {
@@ -19,8 +52,11 @@ void Game::CoilyController::OnEvent(GameEngine::EventArg* eventArg)
 
 void Game::CoilyController::MoveTowardsQBert()
 {
+    auto qBertObj{ GetQBertObject() };
+    if (qBertObj == nullptr) return;
+
     auto objPos{ GetOwner()->GetTransform()->GetWorldPosition() };
-    auto qbertPos{ m_pQBertObject->GetTransform()->GetWorldPosition() };
+    auto qbertPos{ qBertObj->GetTransform()->GetWorldPosition() };
 
     Direction direction{};
 
@@ -52,6 +88,4 @@ void Game::CoilyController::MoveTowardsQBert()
 Game::CoilyController::CoilyController(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
-    m_pQBertObject = GameEngine::SceneManager::Get().GetObjectByName("Qbert");
-    assert(m_pQBertObject != nullptr);
 }

@@ -14,7 +14,7 @@
                             {
                                 "CreatureType": 3,
                                 "SpawnInterval": 20.0,
-                                "SpawnProbability": 50
+                                "SpawnProbability": 100
                             }
                         ],
                         "FinalBlockColor": 1,

@@ -11,7 +11,7 @@ namespace Game
     class CoilyController final : public GameEngine::BaseComponent
     {
     private:
-        GameEngine::GameObject* m_pQBertObject{};
+        GameEngine::GameObject* GetQBertObject() const;
 
     public:
         void FixedUpdate() override {};
