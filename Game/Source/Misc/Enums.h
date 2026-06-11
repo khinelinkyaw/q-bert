@@ -3,6 +3,13 @@
 
 namespace Game
 {
+    enum class Gamemode
+    {
+        Solo,
+        Coop,
+        Versus
+    };
+
     enum class PlayerIndex
     {
         None,
@@ -17,7 +24,7 @@ namespace Game
         Right
     };
 
-    enum class BlockType
+    enum class BlockColor
     {
         Empty       = -1,
         Yellow      = 0,
