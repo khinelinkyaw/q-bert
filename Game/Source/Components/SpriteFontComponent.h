@@ -16,8 +16,7 @@ namespace Game
     class SpriteFontComponent final : public GameEngine::BaseComponent
     {
     private:
-        int m_MaxDigits{ 5 };
-        std::vector<int> m_Digits{};
+        std::vector<int> m_Text{};
         GameEngine::SpriteComponent* m_pSpriteComponent{};
         GameEngine::TextureComponent* m_pTextureComponent{};
 
@@ -27,8 +26,6 @@ namespace Game
         void Render(vec2 const& pos) const override;
 
         void UpdateText(std::string const& text);
-        void UpdateNumber(int number);
-        void UpdateMaxDigit(int maxDigits) { m_MaxDigits = maxDigits; }
         SpriteFontComponent(GameEngine::GameObject* owner);
         ~SpriteFontComponent() override = default;
     };

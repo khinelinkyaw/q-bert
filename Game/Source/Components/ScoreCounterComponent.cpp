@@ -1,23 +1,24 @@
 #include "ScoreCounterComponent.h"
 
-#include <Misc/Enums.h>
 #include <Components/SpriteFontComponent.h>
+#include <Misc/Enums.h>
 #include <UserInterface/UIEngine.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Events/EventArgInt.h>
-#include <Engine/Core/SceneManager.h>
 
 #include <cassert>
+#include <string>
 
 void Game::ScoreCounterComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "PlayerScoreUpdated")
     {
         auto scoreUpdateEventArg{ static_cast<GameEngine::EventArgInt*>(eventArg) };
-        m_pPlayerScoreTextComponent->UpdateNumber(scoreUpdateEventArg->Value);
+        m_pPlayerScoreTextComponent->UpdateText(std::to_string(scoreUpdateEventArg->Value));
     }
 }
 
