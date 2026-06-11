@@ -2,20 +2,24 @@
 #define USER_INTERFACE_FACTORY_H
 
 #include <Misc/Constants.h>
+#include <Misc/Structs.h>
 
 #include <Engine/Components/SpriteAnimationComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Misc/Enums.h>
-#include <Engine/Misc/Types.h>
 
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+#include <nlohmann/detail/macro_scope.hpp>
+#include <nlohmann/json.hpp>
+
 namespace Game
 {
+    using json = nlohmann::json;
 
     namespace GameplayUI
     {;
@@ -50,11 +54,11 @@ namespace Game
         SpriteFont
     };
 
-    struct UIComponentInfo
+    struct UIComponentInfo final
     {
         std::vector<int>            AnimationFrameIndices{};
         std::string                 TextureFilePath{};
-        vec2                        ContainerSize{ 0.f, 0.f };
+        SimpleVector2               ContainerSize{ 0.f, 0.f };
         UIType                      Type{ UIType::Empty };
         GameEngine::AnimationType   AnimationType{ GameEngine::AnimationType::Loop };
         float                       AnimationDuration{};
@@ -64,36 +68,53 @@ namespace Game
         int                         DigitNum{ 5 };
     };
 
-    struct PositioningInfo
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIComponentInfo, 
+        AnimationFrameIndices, 
+        TextureFilePath, 
+        ContainerSize, 
+        Type, 
+        AnimationType, 
+        AnimationDuration, 
+        SpriteIndex, 
+        SpriteRows, 
+        SpriteCols, 
+        DigitNum)
+
+    struct UIPositioningInfo final
     {
         std::string                 ParentName{};
-        vec2                        PaddingSize{ 0.f, 0.f };
+        SimpleVector2               PaddingSize{ 0.f, 0.f };
         GameEngine::Pivot           PivotOnParent{ GameEngine::Pivot::LeftUp };
         GameEngine::Pivot           Pivot{ GameEngine::Pivot::LeftUp };
         bool                        FixedPadding{ false };
     };
 
-    struct UIElementInfo
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIPositioningInfo,
+        ParentName,
+        PaddingSize,
+        PivotOnParent,
+        Pivot,
+        FixedPadding)
+
+    struct UIElementInfo final
     {
         UIComponentInfo             ComponentInfo{};
-        PositioningInfo             PositioningInfo{};
+        UIPositioningInfo           PositioningInfo{};
         std::string                 Name{};
     };
+    
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIElementInfo,
+        ComponentInfo,
+        PositioningInfo,
+        Name)
 
     class UIEngine final
     {
     private:
         using ComponentCreationFunction = void(UIEngine::*)(GameEngine::GameObject&, UIComponentInfo const&);
 
-        std::unordered_map<std::string, vec2>   m_ElementsSizes{};
-        GameEngine::Scene*                      m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
-
-        void CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
-        void CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
-        void CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
-        void CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
-
-        std::unordered_map<UIType, ComponentCreationFunction>       m_ComponentCreationFunctions{
+        GameEngine::Scene *const m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
+        std::unordered_map<UIType, ComponentCreationFunction> const m_ComponentCreationFunctions{
             { UIType::Empty,            &UIEngine::CreateTextureComponent },
             { UIType::Texture,          &UIEngine::CreateTextureComponent },
             { UIType::Sprite,           &UIEngine::CreateSpriteComponent },
@@ -101,11 +122,17 @@ namespace Game
             { UIType::SpriteFont,       &UIEngine::CreateSpriteFontComponent}
         };
 
+        void CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
+        void CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
+        void CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
+        void CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo);
+
         void SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement);
+
     public:
         GameEngine::GameObject& CreateUIElement(UIElementInfo const& elementInfo);
 
-        UIEngine();
+        UIEngine(std::string const& UIJSONFilePath);
     };
 }
 
