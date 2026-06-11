@@ -36,6 +36,7 @@ namespace Game
         std::vector<Connection> m_Connections{};
         std::queue<std::pair<GraphEvent, ObjectID>> m_EventQueue{};
 
+        void CalculateCompletedBlocks();
         void HandleEvents();
 
     public:
@@ -55,7 +56,7 @@ namespace Game
 
         void SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId);
 
-        void Init(BlockType startingBlockType, BlockType finalBlockType);
+        void Init(BlockColor startingBlockType, BlockColor finalBlockType);
         Graph(GameEngine::GameObject* owner);
         ~Graph() override = default;
     };

@@ -20,6 +20,24 @@
 
 using namespace Game;
 
+void Game::Graph::CalculateCompletedBlocks()
+{
+    int completedBlocks = static_cast<int>(std::ranges::count_if(m_Blocks, [](Block const& block)
+    {
+        return block.GetType() == Block::FinalBlockType;
+    }));
+
+    if (completedBlocks == TOTAL_BLOCKS)
+    {
+        auto gameplaySettings{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("GameplaySettings") };
+
+        if (gameplaySettings)
+        {
+            gameplaySettings->SendEvent<GameEngine::EventArg>("OnRoundCompleted");
+        }
+    }
+}
+
 void Graph::HandleEvents()
 {
     while (m_EventQueue.empty() == false)
@@ -43,6 +61,7 @@ void Graph::HandleEvents()
                 if (blockUnderObj)
                 {
                     obj->SendEvent<EventArgBlock>("OnNewBlock", blockUnderObj);
+                    CalculateCompletedBlocks();
                 }
                 else
                 {
@@ -66,7 +85,7 @@ void Graph::Render(vec2 const& pos) const
     m_pTextureComponent->Visible = true;
     for (auto& block : m_Blocks)
     {
-        if (block.GetType() == BlockType::Empty) continue;
+        if (block.GetType() == BlockColor::Empty) continue;
 
         auto spriteIndex{ static_cast<int>(block.GetType()) };
         m_pSpriteComponent->SetSpriteIndex(spriteIndex);
@@ -169,8 +188,10 @@ std::pair<Block*, BlockSurface> Game::Graph::GetBlockAndSurface(float worldX, fl
     return { nullptr, BlockSurface::Top };
 }
 
-void Game::Graph::Init(BlockType startingBlockType, BlockType finalBlockType)
+void Game::Graph::Init(BlockColor startingBlockType, BlockColor finalBlockType)
 {
+    m_Blocks.clear();
+
     int row{ 0 };
     int nextRowIncrement{ row };
     for (int index = 0; index < TOTAL_BLOCKS; ++index)
