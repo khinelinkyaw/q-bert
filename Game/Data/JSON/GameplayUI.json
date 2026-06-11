@@ -108,10 +108,10 @@
                     "y": 0.0
                 },
                 "DigitNum": 5,
-                "SpriteCols": 10,
+                "SpriteCols": 6,
                 "SpriteIndex": 0,
-                "SpriteRows": 1,
-                "TextureFilePath": "OrangeNumbers.png",
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
                 "Type": 4
             },
             "Name": "Player1ScoreUIElement",
@@ -206,10 +206,10 @@
                     "y": 0.0
                 },
                 "DigitNum": 5,
-                "SpriteCols": 10,
+                "SpriteCols": 6,
                 "SpriteIndex": 0,
-                "SpriteRows": 1,
-                "TextureFilePath": "OrangeNumbers.png",
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
                 "Type": 4
             },
             "Name": "Player2ScoreUIElement",
@@ -386,10 +386,10 @@
                     "y": 0.0
                 },
                 "DigitNum": 1,
-                "SpriteCols": 10,
+                "SpriteCols": 6,
                 "SpriteIndex": 0,
-                "SpriteRows": 1,
-                "TextureFilePath": "OrangeNumbers.png",
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
                 "Type": 4
             },
             "Name": "LevelNumUIElement",
@@ -442,10 +442,10 @@
                     "y": 0.0
                 },
                 "DigitNum": 1,
-                "SpriteCols": 10,
+                "SpriteCols": 6,
                 "SpriteIndex": 0,
-                "SpriteRows": 1,
-                "TextureFilePath": "OrangeNumbers.png",
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
                 "Type": 4
             },
             "Name": "RoundNumUIElement",
