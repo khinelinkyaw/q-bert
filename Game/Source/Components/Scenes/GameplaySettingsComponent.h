@@ -8,56 +8,15 @@
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
-#include <Components/CreatureSpawner.h>
+#include <Misc/SerializedStructs.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
 
 #include <string>
 #include <vector>
 
-#include <nlohmann/detail/macro_scope.hpp>
-#include <nlohmann/json.hpp>
-
 namespace Game
 {
-    using json = nlohmann::json;
-
-    struct RoundInfo final
-    {
-        BlockColor                       StartingBlockColor{};
-        BlockColor                       FinalBlockColor{};
-        std::vector<CreatureSpawnerInfo> CreatureSpawnersInfo{};
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoundInfo,
-        StartingBlockColor,
-        FinalBlockColor,
-        CreatureSpawnersInfo
-    )
-
-    struct LevelInfo final
-    {
-        bool CycleBackBlocks{ false };
-        std::vector<RoundInfo> RoundsInfo{};
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LevelInfo,
-        CycleBackBlocks,
-        RoundsInfo
-    )
-
-    struct GameplayInfo final
-    {
-        Gamemode               SelectedGameMode{ Gamemode::Solo };
-        std::string            UIJSONPath{ "" };
-        std::vector<LevelInfo> LevelsInfo{};
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(GameplayInfo,
-        SelectedGameMode,
-        UIJSONPath,
-        LevelsInfo
-    )
 
     class GameplaySettingsComponent final : public GameEngine::BaseComponent
     {

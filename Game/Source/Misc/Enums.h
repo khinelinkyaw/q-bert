@@ -3,6 +3,15 @@
 
 namespace Game
 {
+    enum class UIType
+    {
+        Empty,
+        Texture,
+        Sprite,
+        AnimatedSprite,
+        SpriteFont
+    };
+
     enum class Gamemode
     {
         Solo,
