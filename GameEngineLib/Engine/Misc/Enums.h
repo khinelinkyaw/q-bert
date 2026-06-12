@@ -1,8 +1,13 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <nlohmann/detail/macro_scope.hpp>
+#include <nlohmann/json.hpp>
+
 namespace GameEngine
 {
+    using json = nlohmann::json;
+
     enum class AnimationType
     {
         Once,
@@ -31,6 +36,21 @@ namespace GameEngine
         RightLevel,
         RightDown,
     };
+
+    NLOHMANN_JSON_SERIALIZE_ENUM(Pivot,
+    {
+        { Pivot::LeftUp,      "LeftUp"},        // 0
+        { Pivot::LeftLevel,   "LeftLevel"},     // 1
+        { Pivot::LeftDown,    "LeftDown"},      // 2
+
+        { Pivot::MiddleUp,    "MiddleUp"},      // 3
+        { Pivot::MiddleLevel, "MiddleLevel"},   // 4
+        { Pivot::MiddleDown,  "MiddleDown"},    // 5
+
+        { Pivot::RightUp,     "RightUp"},       // 6
+        { Pivot::RightLevel,  "RightLevel"},    // 7
+        { Pivot::RightDown,   "RightDown"}      // 8
+    })
 
     enum class InputActionType
     {

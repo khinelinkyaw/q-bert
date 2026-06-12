@@ -8,6 +8,9 @@
 #include <nlohmann/detail/macro_scope.hpp>
 #include <nlohmann/json.hpp>
 
+#include <string>
+#include <vector>
+
 namespace Game
 {
     using json = nlohmann::json;
@@ -22,29 +25,30 @@ namespace Game
 
     struct UIComponentInfo final
     {
-        std::vector<int>            AnimationFrameIndices{};
+        UIType                      Type{ UIType::Empty };
         std::string                 TextureFilePath{};
         SimpleVector2               ContainerSize{ 0.f, 0.f };
-        UIType                      Type{ UIType::Empty };
-        GameEngine::AnimationType   AnimationType{ GameEngine::AnimationType::Loop };
-        float                       AnimationDuration{};
         int                         SpriteIndex{};
         int                         SpriteRows{};
         int                         SpriteCols{};
-        int                         DigitNum{ 5 };
+        std::string                 Text{ "0" };
+        std::vector<int>            AnimationFrameIndices{};
+        GameEngine::AnimationType   AnimationType{ GameEngine::AnimationType::Loop };
+        float                       AnimationDuration{};
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIComponentInfo,
-        AnimationFrameIndices,
+        Type,
         TextureFilePath,
         ContainerSize,
-        Type,
-        AnimationType,
-        AnimationDuration,
         SpriteIndex,
         SpriteRows,
         SpriteCols,
-        DigitNum)
+        Text,
+        AnimationFrameIndices,
+        AnimationType,
+        AnimationDuration
+    )
 
     struct UIPositioningInfo final
     {
