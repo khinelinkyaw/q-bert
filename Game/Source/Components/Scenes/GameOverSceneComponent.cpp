@@ -3,8 +3,10 @@
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
-
 #include <Engine/Core/GameObject.h>
+
+#include <Components/Controllers/GeneralInputControllerComponent.h>
+
 #include <algorithm>
 
 void Game::GameOverSceneComponent::MoveSelector(int increment)
@@ -48,4 +50,5 @@ void Game::GameOverSceneComponent::OnEvent(GameEngine::EventArg* eventArg)
 Game::GameOverSceneComponent::GameOverSceneComponent(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
+    owner->AddComponent<GeneralInputController>();
 }

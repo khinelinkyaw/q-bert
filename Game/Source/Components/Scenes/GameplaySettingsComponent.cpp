@@ -12,6 +12,7 @@
 #include <Components/Controllers/ControllerComponent.h>
 #include <Components/CreatureSpawner.h>
 #include <Components/LevelDisplayComponent.h>
+#include <Components/Controllers/GeneralInputControllerComponent.h>
 #include <Creatures/CreatureFactory.h>
 #include <Events/EventArgLevel.h>
 #include <Map/Block.h>
@@ -138,6 +139,10 @@ void Game::GameplaySettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
             GameEngine::SceneManager::Get().SetActiveScene("GameOver");
         }
     }
+    else if (eventArg->EventId == "OnSkipRound")
+    {
+        GoToNextRound();
+    }
 }
 
 void Game::GameplaySettingsComponent::GoToNextRound()
@@ -164,11 +169,6 @@ void Game::GameplaySettingsComponent::GoToNextRound()
     }
 }
 
-void Game::GameplaySettingsComponent::ResetGame()
-{
-
-}
-
 void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
 {
     json gameplayInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(jsonPath) };
@@ -183,6 +183,7 @@ void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
 Game::GameplaySettingsComponent::GameplaySettingsComponent(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
+    owner->AddComponent<GeneralInputController>();
 }
 
 void Game::GameplaySettingsComponent::SetupGraphs()

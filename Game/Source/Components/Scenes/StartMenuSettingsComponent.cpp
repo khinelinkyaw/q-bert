@@ -5,7 +5,9 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 
+#include <Components/Controllers/GeneralInputControllerComponent.h>
 #include <Misc/GlobalGameSettings.h>
+
 #include <algorithm>
 
 void Game::StartMenuSettingsComponent::MoveSelector(int increment)
@@ -36,5 +38,6 @@ void Game::StartMenuSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 Game::StartMenuSettingsComponent::StartMenuSettingsComponent(GameEngine::GameObject* owner)
     : BaseComponent{owner}
 {
+    owner->AddComponent<GeneralInputController>();
 }
 
