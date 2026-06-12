@@ -3,6 +3,12 @@
 
 namespace GameEngine
 {
+    enum class AnimationType
+    {
+        Once,
+        Loop
+    };
+
     enum class Direction
     {
         Up,

@@ -2,17 +2,12 @@
 #define SPRITE_ANIMATION_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Misc/Enums.h>
 
 #include <vector>
 
 namespace GameEngine
 {
-    enum class AnimationType
-    {
-        Once,
-        Loop
-    };
-
     class SpriteComponent;
     class TextureComponent;
     class SpriteAnimationComponent final : public BaseComponent
