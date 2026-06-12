@@ -2,9 +2,11 @@
 #define TEXTURE_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Rendering/Texture2D.h>
-#include <glm/fwd.hpp>
+#include <Engine/Misc/Enums.h>
+#include <Engine/Misc/Structs.h>
+
 #include <memory>
 #include <string>
 
@@ -13,16 +15,37 @@ namespace GameEngine
     class TextureComponent final : public BaseComponent
     {
     private:
-        std::shared_ptr<Texture2D> m_texture{};
+        double m_Rotation{ 0.0 };
+        glm::vec2 m_Origin{ 0.f, 0.f };
+        glm::vec2 m_Offset{ 0.f, 0.f };
+        Pivot m_Pivot{ Pivot::LeftUp };
+        Rect<float> m_SourceRect{};
+        std::shared_ptr<Texture2D> m_Texture{};
+
+        void CalculateOrigin();
+
     public:
-        void FixedUpdate() override;
-        void Update() override;
-        void Render(glm::vec3 const& pos) const override;
+        bool Visible{ true };
+
+        void FixedUpdate() override {};
+        void Update() override {};
+        void Render(vec2 const& pos) const override;
 
         void SetTexture(const std::string& filename);
+        
+        glm::vec2 GetOrigin() const { return m_Origin; }
+        void SetOriginOffset(glm::vec2 offset);
+        void SetPivot(Pivot pivot);
+
+        //void SetSrcRect(float x, float y, float width, float height);
+        void SetSourceRect(Rect<float> const& srcRect);
+        Rect<float> GetSourceRect() const;
+
+        Rect<float> GetTextureSize() const;
+
+        void SetRotation(double rotation);
 
         TextureComponent(GameObject* owner);
-        //TextureComponent(GameObject* owner, std::string const& filename);
         ~TextureComponent() = default;
         TextureComponent(TextureComponent const& other) = delete;
         TextureComponent(TextureComponent&& other) noexcept = delete;

@@ -74,6 +74,20 @@ namespace GameEngine
         GamepadInputDevice(int playerIndex);
         ~GamepadInputDevice() override = default;
     };
+
+    class NullInputDevice final : public InputDevice
+    {
+    private:
+        bool GetPreviousKeyState(int key) const override;
+        bool GetCurrentKeyState(int key) const override;
+
+    public:
+
+        void UpdateState() override;
+
+        NullInputDevice() = default;
+        ~NullInputDevice() override = default;
+    };
 }
 
 #endif

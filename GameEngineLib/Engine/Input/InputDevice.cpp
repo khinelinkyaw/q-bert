@@ -1,10 +1,11 @@
+#include <Engine/Input/InputDevice.h>
+#include <Engine/Core/Macros.h>
+
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_joystick.h>
-
-#include "InputDevice.h"
-
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_keyboard.h>
+
 #include <array>
 #include <vector>
 
@@ -12,17 +13,20 @@ using namespace GameEngine;
 
 bool InputDevice::IsPressed(int key) const
 {
-    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
+    return !GetPreviousKeyState(key) and GetCurrentKeyState(key);
 }
 
 bool InputDevice::IsReleased(int key) const
 {
-    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
+    auto result{ GetPreviousKeyState(key) and !GetCurrentKeyState(key) };
+    if (result)
+        DEBUG_CONSOLE("Input", "Key released")
+    return result;
 }
 
 bool InputDevice::IsHeld(int key) const
 {
-    return GetPreviousKeyState(key) && GetCurrentKeyState(key);
+    return GetPreviousKeyState(key) and GetCurrentKeyState(key);
 }
 
 bool InputDevice::IsDown(int key) const
@@ -65,6 +69,29 @@ void GameEngine::KeyboardInputDevice::UpdateState()
     {
         m_KeyStates[nextStateIndex][i] = m_KeyStatesPtr[i];
     }
+
+    //for (int i = 0; i < m_NumKeys; ++i)
+    //{
+    //    m_KeyStates[nextStateIndex][i] = m_KeyStates[m_CurrentStateIndex][i];
+    //}
+
+    //SDL_Event event{};
+    //while (SDL_PollEvent(&event))
+    //{
+    //    DEBUG_CONSOLE("Input", "Event polled")
+    //    int index{ static_cast<int>(event.key.scancode) };
+    //    switch (event.type)
+    //    {
+    //    case SDL_EVENT_KEY_UP:
+    //        DEBUG_CONSOLE("Input", "Key up")
+    //        m_KeyStates[nextStateIndex][index] = false;
+    //        break;
+    //    case SDL_EVENT_KEY_DOWN:
+    //        DEBUG_CONSOLE("Input", "Key down")
+    //        m_KeyStates[nextStateIndex][index] = true;
+    //        break;
+    //    }
+    //}
 
     m_CurrentStateIndex = nextStateIndex;
 }
@@ -116,4 +143,18 @@ void GameEngine::GamepadInputDevice::UpdateState()
     }
 
     m_CurrentStateIndex = nextStateIndex;
+}
+
+bool GameEngine::NullInputDevice::GetPreviousKeyState(int) const
+{
+    return false;
+}
+
+bool GameEngine::NullInputDevice::GetCurrentKeyState(int) const
+{
+    return false;
+}
+
+void GameEngine::NullInputDevice::UpdateState()
+{
 }

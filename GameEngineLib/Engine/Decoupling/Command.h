@@ -1,13 +1,12 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <Engine/Misc/GameObject.h>
-#include <Engine/Misc/Transform.h>
+#include <Engine/Core/GameObject.h>
+
+#include <type_traits>
 
 namespace GameEngine
 {
-    using vector3 = glm::vec3;
-
     enum class CommandState
     {
         Initial,
@@ -25,15 +24,7 @@ namespace GameEngine
         virtual ~Command() = default;
     };
 
-    class MoveCommand final : public Command
-    {
-        vector3 m_Movement{};
-    public:
-        void SetMovement(vector3 const& movement) { m_Movement = movement; }
-        void Execute(GameObject& gameObject) override;
-
-        MoveCommand(float x = 0.f, float y = 0.f);
-    };
+    template<typename T> concept DerivedCommandClass = std::is_base_of<Command, T>::value;
 }
 
 #endif

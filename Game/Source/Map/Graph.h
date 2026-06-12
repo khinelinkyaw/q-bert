@@ -1,0 +1,65 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
+#include <Map/Block.h>
+#include <Map/Connection.h>
+#include <Misc/Enums.h>
+
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/SpriteComponent.h>
+#include <Engine/Components/TextureComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
+
+#include <queue>
+#include <utility>
+#include <vector>
+
+namespace Game
+{
+    enum class GraphEvent
+    {
+        EntityMoved,
+    };
+
+    class Graph final : public GameEngine::BaseComponent
+    {
+    public:
+        static int constexpr TOTAL_ROWS{ 7 };
+        static int constexpr TOTAL_BLOCKS{ (TOTAL_ROWS * (TOTAL_ROWS + 1)) / 2 };
+
+    private:
+        GameEngine::SpriteComponent* m_pSpriteComponent{};
+        GameEngine::TextureComponent* m_pTextureComponent{};
+
+        std::vector<Block> m_Blocks{};
+        std::vector<Connection> m_Connections{};
+        std::queue<std::pair<GraphEvent, ObjectID>> m_EventQueue{};
+
+        void CalculateCompletedBlocks();
+        void HandleEvents();
+
+    public:
+        void FixedUpdate() override {};
+        void Update() override;
+        void Render(vec2 const& pos) const override;
+
+        Block* GetBlock(int blockId);
+        Block const* GetBlock(int blockId) const;
+        Block const* GetBlock(float worldX, float worldY) const;
+        Block* GetBlock(float worldX, float worldY);
+
+        std::pair<Block*, BlockSurface> GetBlockAndSurface(float worldX, float worldY);
+
+        vec2 GetBlockSurfaceCenter(int blockId, BlockSurface blockSurface) const;
+        vec2 GetBlockSurfaceCenter(Block const& block, BlockSurface blockSurface) const;
+
+        void SendGraphEvent(GraphEvent graphEvent, ObjectID gameObjectId);
+
+        void Init(BlockColor startingBlockType, BlockColor finalBlockType);
+        Graph(GameEngine::GameObject* owner);
+        ~Graph() override = default;
+    };
+}
+
+#endif

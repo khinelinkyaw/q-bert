@@ -1,8 +1,10 @@
-#include "BaseComponent.h"
-#include "FrameCounterComponent.h"
-#include <Engine/Minigin.h>
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/FrameCounterComponent.h>
+#include <Engine/Core/Time.h>
+#include <Engine/Core/GameObject.h>
+
 #include <glm/fwd.hpp>
+
 #include <string>
 
 using namespace GameEngine;
@@ -23,7 +25,7 @@ void FrameCounterComponent::FixedUpdate()
 
 void FrameCounterComponent::Update()
 {
-    m_AccumulatedTime += Minigin::GetDeltaTime();
+    m_AccumulatedTime += GetDeltaTime();
     ++m_FramesPerSecond;
 
     if (m_AccumulatedTime >= 1.f)
@@ -34,7 +36,7 @@ void FrameCounterComponent::Update()
     }
 }
 
-void FrameCounterComponent::Render(glm::vec3 const& pos) const
+void FrameCounterComponent::Render(vec2 const& pos) const
 {
     m_TextComponent.Render(pos);
 }

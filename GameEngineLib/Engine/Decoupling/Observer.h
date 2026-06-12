@@ -5,7 +5,7 @@
 
 namespace GameEngine
 {
-    class TextComponent;
+    class BaseComponent;
     class GameObject;
 
     class Observer

@@ -2,10 +2,9 @@
 #define FRAME_COUNTER_COMPONENT_H
 
 #include "BaseComponent.h"
-#include <Engine/Components/TextComponent.h>
 
-#include <Engine/Misc/GameObject.h>
-#include <glm/fwd.hpp>
+#include <Engine/Components/TextComponent.h>
+#include <Engine/Core/GameObject.h>
 
 namespace GameEngine
 {
@@ -14,12 +13,12 @@ namespace GameEngine
     private:
         float m_FramesPerSecond{};
         float m_AccumulatedTime{};
-        TextComponent m_TextComponent{ this->GetOwnerObject() };
+        TextComponent m_TextComponent{ this->GetOwner() };
 
     public:
         void FixedUpdate() override;
         void Update() override;
-        void Render(glm::vec3 const& pos) const override;
+        void Render(vec2 const& pos) const override;
 
         FrameCounterComponent(GameObject* owner);
         ~FrameCounterComponent() = default;

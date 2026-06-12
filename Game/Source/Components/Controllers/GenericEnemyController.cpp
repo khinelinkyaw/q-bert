@@ -1,0 +1,45 @@
+#include "GenericEnemyController.h"
+
+#include <Components/BaseCreature.h>
+#include <Misc/Constants.h>
+#include <Misc/Enums.h>
+
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Events/EventArg.h>
+
+#include <utility>
+
+void Game::GenericEnemyController::OnEvent(GameEngine::EventArg* )
+{
+}
+
+void Game::GenericEnemyController::Init(Creature creatureType)
+{
+    switch (creatureType)
+    {
+    case Creature::PurpleSlime:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_PURPLE_SLIME_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
+        break;
+    case Creature::WrongWay:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpRight, Direction::LevelRight } );
+        break;
+    case Creature::Ugg:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::UpLeft, Direction::LevelLeft });
+        break;
+    default:
+        EnemyFunctions::GenerateRandomPath(Consts::Enemy::MAX_NORMAL_ENEMY_PATH_SIZE, m_Path, { Direction::DownLeft, Direction::DownRight });
+        break;
+    }
+
+    while (!m_Path.empty())
+    {
+        GetOwner()->SendEvent(std::move(m_Path.front()));
+        m_Path.pop();
+    }
+}
+
+Game::GenericEnemyController::GenericEnemyController(GameEngine::GameObject* owner)
+    : BaseComponent{ owner }
+{
+}

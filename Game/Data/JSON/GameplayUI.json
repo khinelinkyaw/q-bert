@@ -1,0 +1,464 @@
+[
+    [
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.0,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 260.0,
+                    "y": 260.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 0,
+                "SpriteIndex": 0,
+                "SpriteRows": 0,
+                "TextureFilePath": "",
+                "Type": 0
+            },
+            "Name": "RootUIElement",
+            "PositioningInfo": {
+                "FixedPadding": true,
+                "PaddingSize": {
+                    "x": 20.0,
+                    "y": 20.0
+                },
+                "ParentName": "",
+                "Pivot": 0,
+                "PivotOnParent": 0
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 1,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "Player1Text.png",
+                "Type": 3
+            },
+            "Name": "Player1NameUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 0
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 2,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "PlayerNumbers.png",
+                "Type": 2
+            },
+            "Name": "Player1NumberUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "Player1NameUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": 4
+            },
+            "Name": "Player1ScoreUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 1.0
+                },
+                "ParentName": "Player1NameUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 1,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "Player2Text.png",
+                "Type": 3
+            },
+            "Name": "Player2NameUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": 6,
+                "PivotOnParent": 6
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 2,
+                "SpriteIndex": 1,
+                "SpriteRows": 1,
+                "TextureFilePath": "PlayerNumbers.png",
+                "Type": 2
+            },
+            "Name": "Player2NumberUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "Player2NameUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": 4
+            },
+            "Name": "Player2ScoreUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 1.0
+                },
+                "ParentName": "Player2NameUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.20000000298023224,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 10,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "ChangeToText.png",
+                "Type": 1
+            },
+            "Name": "ChangeToTextUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 3.0
+                },
+                "ParentName": "Player1ScoreUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 3,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "RightArrows.png",
+                "Type": 3
+            },
+            "Name": "RightArrowsUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 2.0
+                },
+                "ParentName": "ChangeToTextUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 3,
+                "SpriteIndex": 0,
+                "SpriteRows": 3,
+                "TextureFilePath": "MiniBlocks.png",
+                "Type": 2
+            },
+            "Name": "ChangeToSpriteUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "RightArrowsUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2
+                ],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 3,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "LeftArrows.png",
+                "Type": 3
+            },
+            "Name": "LeftArrowsUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "ChangeToSpriteUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.0,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 0,
+                "SpriteIndex": 0,
+                "SpriteRows": 0,
+                "TextureFilePath": "LevelText.png",
+                "Type": 1
+            },
+            "Name": "LevelTextUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 3.0
+                },
+                "ParentName": "Player2ScoreUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 1,
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": 4
+            },
+            "Name": "LevelNumUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "LevelTextUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.0,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 5,
+                "SpriteCols": 0,
+                "SpriteIndex": 0,
+                "SpriteRows": 0,
+                "TextureFilePath": "RoundText.png",
+                "Type": 1
+            },
+            "Name": "RoundTextUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 2.0
+                },
+                "ParentName": "LevelTextUIElement",
+                "Pivot": 0,
+                "PivotOnParent": 2
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [],
+                "AnimationType": 1,
+                "ContainerSize": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "DigitNum": 1,
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": 4
+            },
+            "Name": "RoundNumUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "RoundTextUIElement",
+                "Pivot": 1,
+                "PivotOnParent": 7
+            }
+        }
+    ]
+]

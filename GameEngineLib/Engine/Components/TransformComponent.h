@@ -2,23 +2,22 @@
 #define TRANSFORM_COMPONENT_H
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Misc/Types.h>
 
-#include <glm/glm.hpp>
 #include <vector>
 
 namespace GameEngine
 {
-    using vector3 = glm::vec3;
-
     class GameObject;
 
     class TransformComponent final : public BaseComponent
     {
     private:
-        vector3 m_LocalPosition;
-        mutable vector3 m_WorldPosition;
-        GameObject* m_ParentObj;
         std::vector<GameObject*> m_ChildObjs;
+        vec2 m_LocalPosition;
+        mutable vec2 m_WorldPosition;
+        float m_ZIndex{ 0.f };
+        GameObject* m_ParentObj;
         mutable bool m_DirtyFlag;
         
         void SetDirtyFlagRecursively();
@@ -30,15 +29,19 @@ namespace GameEngine
 #pragma region BaseComponentFunctions
         void FixedUpdate() override {};
         void Update() override {};
-        void Render(vector3 const&) const override {};
+        void Render(vec2 const&) const override {};
 #pragma endregion
 
-        vector3 GetLocalPosition() const;
-        void SetLocalPosition(vector3 newPos);
-        void SetX(float x);
-        void SetY(float y);
+        vec2 GetLocalPosition() const;
+        void SetLocalPosition(vec2 newPos);
+        //void SetLocalPosition(vec3 newPos) = delete;
+        void SetLocalPosition(float x, float y);
+        //void SetX(float x);
+        //void SetY(float y);
+        void SetZIndex(float z);
 
-        vector3 GetWorldPosition() const;
+        vec2 GetWorldPosition() const;
+        float GetZIndex() const;
 
         void SetParent(GameObject* newParentObjarentObj);
 

@@ -1,5 +1,7 @@
-#include "TransformComponent.h"
-#include <Engine/Misc/GameObject.h>
+#include <Engine/Components/TransformComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
+
 #include <algorithm>
 
 namespace GameEngine
@@ -14,38 +16,42 @@ namespace GameEngine
         }
     }
 
-    vector3 TransformComponent::GetLocalPosition() const
+    vec2 TransformComponent::GetLocalPosition() const
     {
         return m_LocalPosition;
     }
 
-    void TransformComponent::SetLocalPosition(vector3 newPos)
+    void TransformComponent::SetLocalPosition(vec2 newPos)
     {
-        m_LocalPosition = newPos;
-        SetDirtyFlagRecursively();
+        SetLocalPosition(newPos.x, newPos.y);
     }
 
-    void TransformComponent::SetX(float x)
+    void TransformComponent::SetLocalPosition(float x, float y)
     {
         m_LocalPosition.x = x;
-        SetDirtyFlagRecursively();
-    }
-
-    void TransformComponent::SetY(float y)
-    {
         m_LocalPosition.y = y;
         SetDirtyFlagRecursively();
     }
 
-    vector3 TransformComponent::GetWorldPosition() const
+    void TransformComponent::SetZIndex(float z)
+    {
+        m_ZIndex = z;
+    }
+
+    vec2 TransformComponent::GetWorldPosition() const
     {
         UpdateWorldPosition();
         return m_WorldPosition;
     }
 
+    float TransformComponent::GetZIndex() const
+    {
+        return m_ZIndex;
+    }
+
     void TransformComponent::SetParent(GameObject* newParentObj)
     {
-        if (newParentObj == GetOwnerObject() or std::ranges::find(m_ChildObjs, newParentObj) != m_ChildObjs.end() or m_ParentObj == newParentObj)
+        if (newParentObj == GetOwner() or std::ranges::find(m_ChildObjs, newParentObj) != m_ChildObjs.end() or m_ParentObj == newParentObj)
         {
             return;
         }
@@ -60,12 +66,12 @@ namespace GameEngine
         }
 
         if (m_ParentObj)
-            m_ParentObj->GetTransform()->RemoveChild(GetOwnerObject());
+            m_ParentObj->GetTransform()->RemoveChild(GetOwner());
 
         m_ParentObj = newParentObj;
 
         if (m_ParentObj)
-            m_ParentObj->GetTransform()->AddChild(GetOwnerObject());
+            m_ParentObj->GetTransform()->AddChild(GetOwner());
     }
 
     void TransformComponent::AddChild(GameObject* childObj)
@@ -91,11 +97,11 @@ namespace GameEngine
         {
             if (m_ParentObj == nullptr)
             {
-                m_WorldPosition = GetLocalPosition();
+                m_WorldPosition = m_LocalPosition;
             }
             else
             {
-                m_WorldPosition = m_ParentObj->GetTransform()->GetWorldPosition() + GetLocalPosition();
+                m_WorldPosition = m_ParentObj->GetTransform()->GetWorldPosition() + m_LocalPosition;
             }
             m_DirtyFlag = false;
         }
@@ -103,10 +109,10 @@ namespace GameEngine
 
     TransformComponent::TransformComponent(GameObject* owner)
         : BaseComponent{owner}
+        , m_ChildObjs{}
         , m_LocalPosition{}
         , m_WorldPosition{}
         , m_ParentObj{nullptr}
-        , m_ChildObjs{}
         , m_DirtyFlag{true}
     {
         GetWorldPosition();

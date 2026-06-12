@@ -1,10 +1,13 @@
 #include <Engine/Rendering/Renderer.h>
 #include <Engine/Rendering/Texture2D.h>
+
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
-#include <cassert>
+
 #include <glm/ext/vector_float2.hpp>
+
+#include <cassert>
 #include <stdexcept>
 #include <string>
 
@@ -12,19 +15,19 @@ using namespace GameEngine;
 
 Texture2D::~Texture2D()
 {
-    SDL_DestroyTexture(m_texture);
+    SDL_DestroyTexture(m_Texture);
 }
 
 glm::vec2 Texture2D::GetSize() const
 {
     float w{}, h{};
-    SDL_GetTextureSize(m_texture, &w, &h);
+    SDL_GetTextureSize(m_Texture, &w, &h);
     return { w, h };
 }
 
 SDL_Texture* Texture2D::GetSDLTexture() const
 {
-    return m_texture;
+    return m_Texture;
 }
 
 Texture2D::Texture2D(const std::string& fullPath)
@@ -37,22 +40,24 @@ Texture2D::Texture2D(const std::string& fullPath)
         );
     }
 
-    m_texture = SDL_CreateTextureFromSurface(
-        Renderer::GetInstance().GetSDLRenderer(),
+    m_Texture = SDL_CreateTextureFromSurface(
+        Renderer::Get().GetSDLRenderer(),
         surface
     );
 
     SDL_DestroySurface(surface);
 
-    if (!m_texture)
+    if (!m_Texture)
     {
         throw std::runtime_error(
             std::string("Failed to create texture from surface: ") + SDL_GetError()
         );
     }
+
+    SDL_SetTextureScaleMode(m_Texture, SDL_SCALEMODE_PIXELART);
 }
 
-Texture2D::Texture2D(SDL_Texture* texture) : m_texture{ texture }
+Texture2D::Texture2D(SDL_Texture* texture) : m_Texture{ texture }
 {
-    assert(m_texture != nullptr);
+    assert(m_Texture != nullptr);
 }

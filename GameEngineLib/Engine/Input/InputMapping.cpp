@@ -1,17 +1,54 @@
-#include "InputMapping.h"
-#include "InputDevice.h"
+#include <Engine/Input/InputMapping.h>
+
+#include <Engine/Misc/Constants.h>
+#include <Engine/Misc/Enums.h>
+#include <Engine/Input/InputDevice.h>
 
 #include <string>
 
-int GameEngine::InputMapping::GetInputKey(std::string const& actionName)
+bool GameEngine::InputMapping::GetActionState(std::string const& actionName, InputDevice const& inputDevice) const
 {
-    switch (m_InputDeviceType)
+    auto actionMappingIter{ m_ActionMappings.find(actionName) };
+
+    if (actionMappingIter == m_ActionMappings.end())
+        return false;
+
+    ActionMapping actionMapping{ actionMappingIter->second };
+
+    InputCode inputCode{ InputCode::NONE };
+
+    switch (inputDevice.GetType())
     {
+    case InputDeviceType::None:
+        return false;
     case InputDeviceType::Keyboard:
-        return static_cast<int>(m_ActionMappings[actionName].first);
+        inputCode = actionMapping.keyboardCode;
+        break;
     case InputDeviceType::Gamepad:
-        return static_cast<int>(m_ActionMappings[actionName].second);
-    default:
-        return -1;
+        inputCode = actionMapping.gamepadCode;
+        break;
     }
+
+    if (inputCode == InputCode::NONE)
+    {
+        return false;
+    }
+
+    int underlyingCode{ Constants::INPUT_CODE_MAP.at(inputCode) };
+
+    switch (actionMapping.actionType)
+    {
+    case InputActionType::Pressed:
+        return inputDevice.IsPressed(underlyingCode);
+    case InputActionType::Released:
+        return inputDevice.IsReleased(underlyingCode);
+    case InputActionType::Held:
+        return inputDevice.IsHeld(underlyingCode);
+    case InputActionType::Down:
+        return inputDevice.IsDown(underlyingCode);
+    case InputActionType::Up:
+        return inputDevice.IsUp(underlyingCode);
+    }
+
+    return false;
 }

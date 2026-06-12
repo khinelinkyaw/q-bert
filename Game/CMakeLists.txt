@@ -1,16 +1,20 @@
 # Q*Bert CMake
-file(GLOB_RECURSE GAME_SOURCE_FILES CONFIGURE_DEPENDS *.cpp)
-file(GLOB_RECURSE GAME_HEADER_FILES CONFIGURE_DEPENDS *.h)
+
+file(GLOB_RECURSE GAME_SOURCE_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp)
+file(GLOB_RECURSE GAME_HEADER_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h)
+
+#message("Game source files: ${GAME_SOURCE_FILES}")
+#message("Game header files: ${GAME_HEADER_FILES}")
 
 add_executable(${TARGET_NAME} ${TARGET_PARAM})
 
-target_sources(${TARGET_NAME} PRIVATE ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
+target_sources(${TARGET_NAME} PUBLIC ${GAME_SOURCE_FILES} ${GAME_HEADER_FILES})
 
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_20) # enable c++20 features
 
 target_include_directories("${TARGET_NAME}" PRIVATE
   ${VLD_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}
+  "${CMAKE_CURRENT_SOURCE_DIR}/Source"
 )
 
 target_link_libraries("${TARGET_NAME}" PRIVATE
@@ -20,6 +24,7 @@ target_link_libraries("${TARGET_NAME}" PRIVATE
   glm::glm
   ${LIBS}
   ${VLD_LIBRARIES}
+  nlohmann_json::nlohmann_json
 )
 
 if(MSVC)
@@ -30,20 +35,27 @@ else()
 endif()
 
 if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fexperimental-library -g")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\"")
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS} -fexperimental-library -g -fexceptions -O0")
 
-  # Use the Emscripten toolchain
-  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EmscriptenToolchain.cmake)
-
-  # Additional settings for Emscripten build
+    # Additional settings for Emscripten build
   set_target_properties(${TARGET_NAME} PROPERTIES
       COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
-      LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
+      #LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
+  )
+
+  target_link_options(
+    ${TARGET_NAME} PRIVATE
+    ${EMSCRIPTEN_LINK_FLAGS}
+    -sUSE_FREETYPE=1
+    -sUSE_HARFBUZZ=1
+    -sALLOW_MEMORY_GROWTH
+    -fexceptions
+    -O0
+    --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/Data@/"
   )
 
   add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/web" "$<TARGET_FILE_DIR:${TARGET_NAME}>/"
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_SOURCE_DIR}/web" "$<TARGET_FILE_DIR:${TARGET_NAME}>/"
   )
 
   # Have emscripten generate a html page too.
