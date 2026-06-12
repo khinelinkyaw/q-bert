@@ -28,9 +28,9 @@ namespace Game
 
     enum class Gamemode
     {
-        Solo,
-        Coop,
-        Versus
+        Solo = 0,
+        Coop = 1,
+        Versus = 2
     };
 
     enum class PlayerIndex
