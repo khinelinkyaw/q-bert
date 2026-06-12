@@ -8,6 +8,7 @@ namespace Game
     namespace GlobalGameSettings
     {
         inline Gamemode SelectedGamemode{ Gamemode::Solo };
+        inline bool IsSoundMuted{ false };
     }
 }
 

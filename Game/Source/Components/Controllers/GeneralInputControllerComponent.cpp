@@ -6,7 +6,9 @@
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
+#include <Engine/Core/ServiceLocator.h>
 
+#include <Misc/GlobalGameSettings.h>
 
 void Game::GeneralInputController::ProcessInput(GameEngine::InputDevice const& inputDevice)
 {
@@ -24,7 +26,8 @@ void Game::GeneralInputController::ProcessInput(GameEngine::InputDevice const& i
     }
     if (m_pInputMapping->GetActionState("MuteSound", inputDevice))
     {
-        GetOwner()->SendEvent<GameEngine::EventArg>("OnMuteSound");
+        GlobalGameSettings::IsSoundMuted = !GlobalGameSettings::IsSoundMuted;
+        GameEngine::ServiceLocator::Get().GetSoundSystem().SetMute(GlobalGameSettings::IsSoundMuted);
     }
     if (m_pInputMapping->GetActionState("SkipRound", inputDevice))
     {
