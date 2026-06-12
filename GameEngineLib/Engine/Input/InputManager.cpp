@@ -69,3 +69,8 @@ bool InputManager::ProcessInput()
 
     return true;
 }
+
+GameEngine::InputManager::InputManager()
+{
+    m_GamepadInputDevices.reserve(4);
+}

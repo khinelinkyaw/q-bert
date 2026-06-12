@@ -31,7 +31,7 @@ namespace GameEngine
 
         bool ProcessInput();
 
-        InputManager() = default;
+        InputManager();
         ~InputManager() override = default;
     };
 }
