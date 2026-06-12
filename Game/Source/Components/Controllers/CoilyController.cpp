@@ -13,12 +13,12 @@
 
 GameEngine::GameObject* Game::CoilyController::GetQBertObject() const
 {
-    auto gameSettingsObj{ GameEngine::SceneManager::Get().GetObjectByName("GameplaySettings") };
+    auto gameSettingsObj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("GameplaySettings") };
 
     if (gameSettingsObj)
     {
-        auto player1Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player1") };
-        auto player2Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player2") };
+        auto player1Obj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Player1") };
+        auto player2Obj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Player2") };
 
         switch (GlobalGameSettings::SelectedGamemode)
         {

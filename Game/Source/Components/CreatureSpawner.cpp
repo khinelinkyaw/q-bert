@@ -79,6 +79,6 @@ void Game::CreatureSpawner::Init(Creature creatureType, float spawnInterval, int
 
 Game::CreatureSpawner::CreatureSpawner(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
-    , m_pGraph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() }
+    , m_pGraph{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Graph")->GetComponent<Graph>() }
 {
 }
