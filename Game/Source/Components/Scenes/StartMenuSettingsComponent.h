@@ -8,10 +8,10 @@
 #include <Engine/Misc/Types.h>
 
 #include <UserInterface/UIEngine.h>
-
-#include <Engine/Misc/Enums.h>
 #include <Misc/Enums.h>
-#include <unordered_map>
+
+#include <utility>
+#include <vector>
 
 namespace Game
 {
@@ -20,19 +20,18 @@ namespace Game
     private:
         UIEngine m_UIEngine{"JSON/StartMenuUI.json"};
 
-        std::unordered_map<Gamemode, GameEngine::GameObject*> const m_GamemodeNames{
-            { Gamemode::Solo,   GameEngine::SceneManager::Get().GetObjectByName("SoloUIElement")},
-            { Gamemode::Coop,   GameEngine::SceneManager::Get().GetObjectByName("CoopUIElement") },
-            { Gamemode::Versus, GameEngine::SceneManager::Get().GetObjectByName("VersusUIElement") }
+        std::vector<std::pair<Gamemode, GameEngine::GameObject*>> const m_SelectionElements{
+            { Gamemode::Solo,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("SoloUIElement")},
+            { Gamemode::Coop,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("CoopUIElement") },
+            { Gamemode::Versus, GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("VersusUIElement") }
         };
 
-        GameEngine::GameObject* m_pSelector{ GameEngine::SceneManager::Get().GetObjectByName("SelectorUIElement") };
+        GameEngine::GameObject* m_pSelector{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("SelectorUIElement") };
+        int m_Selection{ 0 };
 
-        Gamemode m_SelectedGamemode{ Gamemode::Solo };
+        void MoveSelector(int increment);
+
     public:
-        void UpdateSelectorPosition();
-        void MoveSelector(GameEngine::Direction direction);
-
         void FixedUpdate() override {};
         void Update() override {};
         void Render(vec2 const&) const override {};

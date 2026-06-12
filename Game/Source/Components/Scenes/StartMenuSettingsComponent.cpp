@@ -4,63 +4,32 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
-#include <Engine/Misc/Enums.h>
 
-#include <Misc/Enums.h>
 #include <Misc/GlobalGameSettings.h>
-#include <Components/Scenes/GameplaySettingsComponent.h>
+#include <algorithm>
 
-void Game::StartMenuSettingsComponent::UpdateSelectorPosition()
+void Game::StartMenuSettingsComponent::MoveSelector(int increment)
 {
-    auto gamemodeNameObj{ m_GamemodeNames.at(m_SelectedGamemode) };
+    m_Selection = std::clamp(m_Selection + increment, 0, (static_cast<int>(m_SelectionElements.size()) - 1));
 
-    m_pSelector->GetTransform()->SetLocalY(gamemodeNameObj->GetTransform()->GetLocalPosition().y);
-}
-
-void Game::StartMenuSettingsComponent::MoveSelector(GameEngine::Direction direction)
-{
-    int nextGamemode{};
-
-    switch (direction)
-    {
-    case GameEngine::Direction::Up:
-    {
-        nextGamemode = static_cast<int>(m_SelectedGamemode) - 1;
-        break;
-    }
-    case GameEngine::Direction::Down:
-    {
-        nextGamemode = static_cast<int>(m_SelectedGamemode) + 1;
-        break;
-    }
-    default:
-        break;
-    }
-
-    if (nextGamemode <= static_cast<int>(Gamemode::Versus) and nextGamemode >= static_cast<int>(Gamemode::Solo))
-    {
-        m_SelectedGamemode = static_cast<Gamemode>(nextGamemode);
-        UpdateSelectorPosition();
-    }
+    auto uiObj{ m_SelectionElements[m_Selection].second };
+    m_pSelector->GetTransform()->SetWorldY(uiObj->GetTransform()->GetWorldPosition().y);
 }
 
 void Game::StartMenuSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "OnSelectorUp")
     {
-        MoveSelector(GameEngine::Direction::Up);
+        MoveSelector(-1);
     }
     else if (eventArg->EventId == "OnSelectorDown")
     {
-        MoveSelector(GameEngine::Direction::Down);
+        MoveSelector(1);
     }
      else if (eventArg->EventId == "OnSelectorConfirm")
      {
-        GlobalGameSettings::SelectedGamemode = m_SelectedGamemode;
-        auto gameplayScene{ GameEngine::SceneManager::Get().GetScene("Gameplay")};
-        GameEngine::SceneManager::Get().SetActiveScene(gameplayScene);
-        auto gameplaySettingsObj{ gameplayScene->GetObjectByName("GameplaySettings") };
-        gameplaySettingsObj->GetComponent<GameplaySettingsComponent>()->Init("JSON/Levels.json");
+        GlobalGameSettings::SelectedGamemode = m_SelectionElements[m_Selection].first;
+        GameEngine::SceneManager::Get().SetActiveScene("Gameplay");
      }
 }
 
@@ -68,3 +37,4 @@ Game::StartMenuSettingsComponent::StartMenuSettingsComponent(GameEngine::GameObj
     : BaseComponent{owner}
 {
 }
+
