@@ -11,7 +11,7 @@
 #include <SDL3/SDL_main.h>
 #include <memory>
 #include <utility>
-#include <Components/Scenes/MainMenuSettingsComponent.h>
+#include <Components/Scenes/StartMenuSettingsComponent.h>
 #include <Components/Controllers/GeneralInputControllerComponent.h>
 
 namespace Game
@@ -48,7 +48,7 @@ namespace Game
         auto& mainMenuScene = GameEngine::SceneManager::Get().CreateScene("MainMenu");
         GameEngine::SceneManager::Get().SetActiveScene(&mainMenuScene);
         auto& mainMenuSettingsObj{ mainMenuScene.CreateGameObject("MainMenuSettings") };
-        mainMenuSettingsObj.AddComponent<MainMenuSettingsComponent>();
+        mainMenuSettingsObj.AddComponent<StartMenuSettingsComponent>();
         auto generalInputController{ mainMenuSettingsObj.AddComponent<GeneralInputController>() };
         generalInputController->AddInputDevice(&GameEngine::InputManager::Get().GetKeyboardInputDevice());
         generalInputController->AddInputDevice(&GameEngine::InputManager::Get().GetGamepadInputDevice(1));

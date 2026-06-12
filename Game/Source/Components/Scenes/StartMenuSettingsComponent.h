@@ -15,7 +15,7 @@
 
 namespace Game
 {
-    class MainMenuSettingsComponent final : public GameEngine::BaseComponent
+    class StartMenuSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
         UIEngine m_UIEngine{"JSON/MainMenuUI.json"};
@@ -38,8 +38,8 @@ namespace Game
         void Render(vec2 const&) const override {};
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
-        MainMenuSettingsComponent(GameEngine::GameObject* owner);
-        ~MainMenuSettingsComponent() override = default;
+        StartMenuSettingsComponent(GameEngine::GameObject* owner);
+        ~StartMenuSettingsComponent() override = default;
     };
 }
 

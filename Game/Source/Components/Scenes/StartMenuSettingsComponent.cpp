@@ -1,4 +1,4 @@
-#include "MainMenuSettingsComponent.h"
+#include "StartMenuSettingsComponent.h"
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -10,14 +10,14 @@
 #include <Misc/GlobalGameSettings.h>
 #include <Components/Scenes/GameplaySettingsComponent.h>
 
-void Game::MainMenuSettingsComponent::UpdateSelectorPosition()
+void Game::StartMenuSettingsComponent::UpdateSelectorPosition()
 {
     auto gamemodeNameObj{ m_GamemodeNames.at(m_SelectedGamemode) };
 
     m_pSelector->GetTransform()->SetLocalY(gamemodeNameObj->GetTransform()->GetLocalPosition().y);
 }
 
-void Game::MainMenuSettingsComponent::MoveSelector(GameEngine::Direction direction)
+void Game::StartMenuSettingsComponent::MoveSelector(GameEngine::Direction direction)
 {
     int nextGamemode{};
 
@@ -44,7 +44,7 @@ void Game::MainMenuSettingsComponent::MoveSelector(GameEngine::Direction directi
     }
 }
 
-void Game::MainMenuSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
+void Game::StartMenuSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "OnSelectorUp")
     {
@@ -64,7 +64,7 @@ void Game::MainMenuSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
      }
 }
 
-Game::MainMenuSettingsComponent::MainMenuSettingsComponent(GameEngine::GameObject* owner)
+Game::StartMenuSettingsComponent::StartMenuSettingsComponent(GameEngine::GameObject* owner)
     : BaseComponent{owner}
 {
 }
