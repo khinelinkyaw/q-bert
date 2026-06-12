@@ -18,7 +18,7 @@ namespace Game
     class StartMenuSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        UIEngine m_UIEngine{"JSON/MainMenuUI.json"};
+        UIEngine m_UIEngine{"JSON/StartMenuUI.json"};
 
         std::unordered_map<Gamemode, GameEngine::GameObject*> const m_GamemodeNames{
             { Gamemode::Solo,   GameEngine::SceneManager::Get().GetObjectByName("SoloUIElement")},
