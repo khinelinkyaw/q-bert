@@ -10,8 +10,10 @@
 #include <Engine/UI/Utils.h>
 
 #include <Components/SpriteFontComponent.h>
-
+#include <Misc/Enums.h>
+#include <Misc/SerializedStructs.h>
 #include <Misc/Structs.h>
+
 #include <string>
 #include <vector>
 
