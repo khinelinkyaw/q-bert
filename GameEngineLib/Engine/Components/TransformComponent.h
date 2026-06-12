@@ -38,6 +38,11 @@ namespace GameEngine
         void SetLocalPosition(float x, float y);
         void SetLocalX(float x);
         void SetLocalY(float y);
+
+        void SetWorldPosition(vec2 worldPosition);
+        void SetWorldX(float x);
+        void SetWorldY(float y);
+
         void SetZIndex(float z);
 
         vec2 GetWorldPosition() const;
