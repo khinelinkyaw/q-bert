@@ -6,6 +6,8 @@
 #include <Misc/Constants.h>
 #include <Components/Scenes/GameplaySettingsComponent.h>
 
+#include <SDL3/SDL_main.h>
+
 namespace Game
 {
     inline static void load()
