@@ -50,7 +50,7 @@
             "PositioningInfo": {
                 "FixedPadding": false,
                 "PaddingSize": {
-                    "x": 0.0,
+                    "x": -3.0,
                     "y": -3.0
                 },
                 "ParentName": "RootUIElement",
@@ -71,7 +71,7 @@
             "PositioningInfo": {
                 "FixedPadding": false,
                 "PaddingSize": {
-                    "x": 0.0,
+                    "x": -3.0,
                     "y": 0.0
                 },
                 "ParentName": "RootUIElement",
@@ -92,7 +92,7 @@
             "PositioningInfo": {
                 "FixedPadding": false,
                 "PaddingSize": {
-                    "x": 0.0,
+                    "x": -3.0,
                     "y": 3.0
                 },
                 "ParentName": "RootUIElement",
@@ -119,12 +119,12 @@
             "PositioningInfo": {
                 "FixedPadding": false,
                 "PaddingSize": {
-                    "x": -3.0,
-                    "y": -3.0
+                    "x": 1.0,
+                    "y": 0.0
                 },
-                "ParentName": "RootUIElement",
-                "Pivot": "MiddleLevel",
-                "PivotOnParent": "MiddleLevel"
+                "ParentName": "SoloUIElement",
+                "Pivot": "RightLevel",
+                "PivotOnParent": "LeftLevel"
             }
         },
         {
@@ -140,7 +140,7 @@
             "PositioningInfo": {
                 "FixedPadding": false,
                 "PaddingSize": {
-                    "x": -13.0,
+                    "x": -11.0,
                     "y": 7.0
                 },
                 "ParentName": "RootUIElement",
