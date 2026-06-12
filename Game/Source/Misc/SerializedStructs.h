@@ -117,13 +117,11 @@ namespace Game
 
     struct GameplayInfo final
     {
-        Gamemode               SelectedGameMode{ Gamemode::Solo };
         std::string            UIJSONPath{ "" };
         std::vector<LevelInfo> LevelsInfo{};
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(GameplayInfo,
-        SelectedGameMode,
         UIJSONPath,
         LevelsInfo
     )
