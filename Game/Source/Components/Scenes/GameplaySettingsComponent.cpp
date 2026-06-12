@@ -7,7 +7,6 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Input/InputManager.h>
-#include <Engine/Input/InputMapping.h>
 #include <Engine/Misc/Enums.h>
 
 #include <Components/Controllers/ControllerComponent.h>
@@ -23,52 +22,56 @@
 #include <UserInterface/UIEngine.h>
 #include <Misc/SerializedStructs.h>
 
-#include <memory>
 #include <string>
-#include <utility>
 
 void Game::GameplaySettingsComponent::SetupPlayers()
 {
     auto player1InputMapping{ GameEngine::InputManager::Get().GetInputMapping("Player1") };
     auto player2InputMapping{ GameEngine::InputManager::Get().GetInputMapping("Player2") };
 
-    CreatureFactory::BuildCreatureComponents(m_pPlayer1, Creature::QBert, PlayerIndex::Player1);
-    m_pPlayer1.GetComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
+    GameEngine::GameObject& player1Obj{ m_pScene->CreateGameObject("Player1") };
+    GameEngine::GameObject& player2Obj{ m_pScene->CreateGameObject("Player2") };
+
+    CreatureFactory::BuildCreatureComponents(player1Obj, Creature::QBert, PlayerIndex::Player1);
+    player1Obj.GetComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
 
     switch (GlobalGameSettings::SelectedGamemode)
     {
         case Gamemode::Solo:
-            m_pPlayer1.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
+            player1Obj.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
             break;
         case Gamemode::Coop:
-            m_pPlayer1.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(2));
+            player1Obj.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(2));
 
-            CreatureFactory::BuildCreatureComponents(m_pPlayer2, Creature::QBert, PlayerIndex::Player2);
-            m_pPlayer2.GetComponent<ControllerComponent>()->Init(player2InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
+            CreatureFactory::BuildCreatureComponents(player2Obj, Creature::QBert, PlayerIndex::Player2);
+            player2Obj.GetComponent<ControllerComponent>()->Init(player2InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
             break;
         case Gamemode::Versus:
-            m_pPlayer1.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(2));
+            player1Obj.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(2));
 
-            CreatureFactory::BuildCreatureComponents(m_pPlayer2, Creature::Coily, PlayerIndex::Player2);
-            m_pPlayer2.GetComponent<ControllerComponent>()->Init(player2InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
+            CreatureFactory::BuildCreatureComponents(player2Obj, Creature::Coily, PlayerIndex::Player2);
+            player2Obj.GetComponent<ControllerComponent>()->Init(player2InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
             break;
     }
 }
 
 void Game::GameplaySettingsComponent::ResetPlayerPositions()
 {
+    auto pPlayer1Obj{ m_pScene->GetObjectByName("Player1") };
+    auto pPlayer2Obj{ m_pScene->GetObjectByName("Player2") };
+
     switch (GlobalGameSettings::SelectedGamemode)
     {
     case Gamemode::Solo:
-        m_pPlayer1.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
         break;
     case Gamemode::Coop:
-        m_pPlayer1.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(1, BlockSurface::Top));
-        m_pPlayer2.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(2, BlockSurface::Top));
+        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(1, BlockSurface::Top));
+        pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(2, BlockSurface::Top));
         break;
     case Gamemode::Versus:
-        m_pPlayer1.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
-        m_pPlayer2.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(21, BlockSurface::Top));
+        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(21, BlockSurface::Top));
         break;
     }
 }
@@ -101,11 +104,39 @@ void Game::GameplaySettingsComponent::SetupRound(RoundInfo const& roundInfo)
     GetOwner()->SendEvent<EventArgLevel>("OnNewRound", roundInfo.FinalBlockColor, m_CurrentLevel + 1, m_CurrentRound + 1);
 }
 
+void Game::GameplaySettingsComponent::OnSceneLoad()
+{
+    m_CurrentLevel = 0;
+    m_CurrentRound = 0;
+    m_PlayerDealthCounter = 0;
+
+    SetupPlayers();
+    SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
+}
+
 void Game::GameplaySettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
     if (eventArg->EventId == "OnRoundCompleted")
     {
         GoToNextRound();
+    }
+    else if (eventArg->EventId == "OnSkipRound")
+    {
+        GoToNextRound();
+    }
+    else if (eventArg->EventId == "OnPlayerDeath")
+    {
+        switch (GlobalGameSettings::SelectedGamemode)
+        {
+        case Gamemode::Coop:
+        {
+            ++m_PlayerDealthCounter;
+            if (m_PlayerDealthCounter >= 2) GameEngine::SceneManager::Get().SetActiveScene("GameOver");
+            break;
+        }
+        default:
+            GameEngine::SceneManager::Get().SetActiveScene("GameOver");
+        }
     }
 }
 
@@ -126,7 +157,16 @@ void Game::GameplaySettingsComponent::GoToNextRound()
         {
             SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
         }
+        else
+        {
+            GameEngine::SceneManager::Get().SetActiveScene("GameWon");
+        }
     }
+}
+
+void Game::GameplaySettingsComponent::ResetGame()
+{
+
 }
 
 void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
@@ -137,10 +177,7 @@ void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
     UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath };
     GetOwner()->AddComponent<LevelDisplayComponent>();
 
-    SetupPlayers();
-
     SetupGraphs();
-    SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
 }
 
 Game::GameplaySettingsComponent::GameplaySettingsComponent(GameEngine::GameObject* owner)

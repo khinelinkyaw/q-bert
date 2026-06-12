@@ -23,10 +23,9 @@ namespace Game
         GameEngine::Scene *const m_pScene{ GameEngine::SceneManager::Get().GetActiveScene() };
         Graph* m_pEntityGraph{};
         Graph* m_pDiscGraph{};
-        GameEngine::GameObject& m_pPlayer1{ m_pScene->CreateGameObject("Player1") };
-        GameEngine::GameObject& m_pPlayer2{ m_pScene->CreateGameObject("Player2") };
         int m_CurrentRound{ 0 };
         int m_CurrentLevel{ 0 };
+        int m_PlayerDealthCounter{ 0 };
         GameplayInfo m_Gameplay_Info{};
         std::vector<GameEngine::GameObject*> m_SpawnerObjects{};
 
@@ -38,9 +37,11 @@ namespace Game
         void FixedUpdate() override {};
         void Update() override {};
         void Render(vec2 const&) const override {};
+        void OnSceneLoad() override;
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
         void GoToNextRound();
+        void ResetGame();
 
         void Init(std::string const& jsonPath);
         GameplaySettingsComponent(GameEngine::GameObject* owner);
