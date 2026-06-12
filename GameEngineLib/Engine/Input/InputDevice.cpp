@@ -18,10 +18,7 @@ bool InputDevice::IsPressed(int key) const
 
 bool InputDevice::IsReleased(int key) const
 {
-    auto result{ GetPreviousKeyState(key) and !GetCurrentKeyState(key) };
-    if (result)
-        DEBUG_CONSOLE("Input", "Key released")
-    return result;
+    return GetPreviousKeyState(key) and !GetCurrentKeyState(key);
 }
 
 bool InputDevice::IsHeld(int key) const
