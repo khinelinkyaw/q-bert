@@ -10,7 +10,6 @@
 
 #include <Misc/SerializedStructs.h>
 #include <Map/Graph.h>
-#include <Misc/Enums.h>
 
 #include <string>
 #include <vector>
@@ -34,7 +33,6 @@ namespace Game
         void SetupPlayers();
         void ResetPlayerPositions();
         void SetupRound(RoundInfo const& roundInfo);
-        void SetupInputMappings();
 
     public:
         void FixedUpdate() override {};
@@ -43,8 +41,6 @@ namespace Game
         void OnEvent(GameEngine::EventArg* eventArg) override;
 
         void GoToNextRound();
-
-        Gamemode GetGamemode() const { return m_Gameplay_Info.SelectedGameMode; }
 
         void Init(std::string const& jsonPath);
         GameplaySettingsComponent(GameEngine::GameObject* owner);

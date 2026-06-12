@@ -2,9 +2,9 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/ResourceManager.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
-#include <Engine/Core/ResourceManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
@@ -19,9 +19,12 @@
 #include <Map/Graph.h>
 #include <Misc/Constants.h>
 #include <Misc/Enums.h>
+#include <Misc/GlobalGameSettings.h>
 #include <UserInterface/UIEngine.h>
+#include <Misc/SerializedStructs.h>
 
 #include <memory>
+#include <string>
 #include <utility>
 
 void Game::GameplaySettingsComponent::SetupPlayers()
@@ -32,7 +35,7 @@ void Game::GameplaySettingsComponent::SetupPlayers()
     CreatureFactory::BuildCreatureComponents(m_pPlayer1, Creature::QBert, PlayerIndex::Player1);
     m_pPlayer1.GetComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetKeyboardInputDevice());
 
-    switch (m_Gameplay_Info.SelectedGameMode)
+    switch (GlobalGameSettings::SelectedGamemode)
     {
         case Gamemode::Solo:
             m_pPlayer1.AddComponent<ControllerComponent>()->Init(player1InputMapping, &GameEngine::InputManager::Get().GetGamepadInputDevice(1));
@@ -54,7 +57,7 @@ void Game::GameplaySettingsComponent::SetupPlayers()
 
 void Game::GameplaySettingsComponent::ResetPlayerPositions()
 {
-    switch (m_Gameplay_Info.SelectedGameMode)
+    switch (GlobalGameSettings::SelectedGamemode)
     {
     case Gamemode::Solo:
         m_pPlayer1.GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
@@ -134,7 +137,6 @@ void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
     UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath };
     GetOwner()->AddComponent<LevelDisplayComponent>();
 
-    SetupInputMappings();
     SetupPlayers();
 
     SetupGraphs();
@@ -158,27 +160,4 @@ void Game::GameplaySettingsComponent::SetupGraphs()
     discGraphObj.GetTransform()->SetZIndex(-2);
     m_pDiscGraph = discGraphObj.AddComponent<Graph>();
     m_pDiscGraph->Init(BlockColor::Empty, BlockColor::Empty);
-}
-
-void Game::GameplaySettingsComponent::SetupInputMappings()
-{
-    if (GameEngine::InputManager::Get().GetInputMapping("Player1") == nullptr)
-    {
-        std::unique_ptr<GameEngine::InputMapping> player1InputMapping{ std::make_unique<GameEngine::InputMapping>() };
-        player1InputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_UP, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
-        player1InputMapping->SetActionMapping("MoveDown", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_DOWN, GameEngine::InputCode::GP_BUTTON_DPAD_DOWN);
-        player1InputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_LEFT, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
-        player1InputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::KB_RIGHT, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
-        GameEngine::InputManager::Get().AddInputMapping("Player1", std::move(player1InputMapping));
-    }
-
-    if (GameEngine::InputManager::Get().GetInputMapping("Player2") == nullptr)
-    {
-        std::unique_ptr<GameEngine::InputMapping> player2InputMapping{ std::make_unique<GameEngine::InputMapping>() };
-        player2InputMapping->SetActionMapping("MoveUp", GameEngine::InputActionType::Pressed, GameEngine::InputCode::NONE, GameEngine::InputCode::GP_BUTTON_DPAD_UP);
-        player2InputMapping->SetActionMapping("MoveDown", GameEngine::InputActionType::Pressed, GameEngine::InputCode::NONE, GameEngine::InputCode::GP_BUTTON_DPAD_DOWN);
-        player2InputMapping->SetActionMapping("MoveLeft", GameEngine::InputActionType::Pressed, GameEngine::InputCode::NONE, GameEngine::InputCode::GP_BUTTON_DPAD_LEFT);
-        player2InputMapping->SetActionMapping("MoveRight", GameEngine::InputActionType::Pressed, GameEngine::InputCode::NONE, GameEngine::InputCode::GP_BUTTON_DPAD_RIGHT);
-        GameEngine::InputManager::Get().AddInputMapping("Player2", std::move(player2InputMapping));
-    }
 }

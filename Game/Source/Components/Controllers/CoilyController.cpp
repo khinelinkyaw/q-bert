@@ -3,6 +3,7 @@
 #include <Components/Scenes/GameplaySettingsComponent.h>
 #include <Events/EventArgMove.h>
 #include <Misc/Enums.h>
+#include <Misc/GlobalGameSettings.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TransformComponent.h>
@@ -16,12 +17,10 @@ GameEngine::GameObject* Game::CoilyController::GetQBertObject() const
 
     if (gameSettingsObj)
     {
-        Gamemode gameMode{ gameSettingsObj->GetComponent<GameplaySettingsComponent>()->GetGamemode() };
-
         auto player1Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player1") };
         auto player2Obj{ GameEngine::SceneManager::Get().GetObjectByName("Player2") };
 
-        switch (gameMode)
+        switch (GlobalGameSettings::SelectedGamemode)
         {
         case Gamemode::Solo:
         case Gamemode::Versus:
