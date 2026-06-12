@@ -14,7 +14,9 @@ namespace Game
     class GeneralInputController final : public GameEngine::BaseComponent
     {
     private:
-        GameEngine::InputMapping* m_pInputMapping{};
+        GameEngine::InputMapping* m_pInputMapping{
+        
+        };
         std::vector<GameEngine::InputDevice*> m_InputDevices{};
 
     public:

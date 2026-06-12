@@ -51,4 +51,8 @@ void Game::GeneralInputController::AddInputDevice(GameEngine::InputDevice* input
 Game::GeneralInputController::GeneralInputController(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
+    AddInputDevice(&GameEngine::InputManager::Get().GetKeyboardInputDevice());
+    AddInputDevice(&GameEngine::InputManager::Get().GetGamepadInputDevice(1));
+    AddInputDevice(&GameEngine::InputManager::Get().GetGamepadInputDevice(2));
+    SetInputMapping(GameEngine::InputManager::Get().GetInputMapping("GeneralInput"));
 }
