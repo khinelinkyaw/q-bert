@@ -8,7 +8,6 @@
 #include <Components/Controllers/GeneralInputControllerComponent.h>
 
 #include <algorithm>
-#include <Components/Controllers/GeneralInputControllerComponent.h>
 
 void Game::GameOverSceneComponent::MoveSelector(int increment)
 {
