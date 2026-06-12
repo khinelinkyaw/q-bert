@@ -164,6 +164,7 @@ void GameEngine::Minigin::RunOneFrame()
 
     m_Quit = !InputManager::Get().ProcessInput();
 
+
     while (m_Lag >= GetFixedTime())
     {
         SceneManager::Get().FixedUpdate();
@@ -173,6 +174,8 @@ void GameEngine::Minigin::RunOneFrame()
     SceneManager::Get().CheckForDeletion();
 
     Renderer::Get().Render();
+
+    SceneManager::Get().CheckForSceneChange();
 
 #if USE_STEAMWORKS
     SteamAPI_RunCallbacks();

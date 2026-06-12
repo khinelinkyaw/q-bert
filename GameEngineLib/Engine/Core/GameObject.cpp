@@ -18,6 +18,14 @@ bool GameObject::IsMarkedForDeletion() const
     return m_MarkedForDeletion;
 }
 
+void GameEngine::GameObject::Load()
+{
+    for (auto& component : m_Components)
+    {
+        component->OnSceneLoad();
+    }
+}
+
 void GameObject::FixedUpdate()
 {
     for (auto& component : m_Components)

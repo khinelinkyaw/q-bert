@@ -33,6 +33,14 @@ void Scene::Remove(const GameObject& object)
 
 void Scene::RemoveAll() { m_Objects.clear(); }
 
+void GameEngine::Scene::Load()
+{
+    for (int index{ 0 }; index < static_cast<int>(m_Objects.size()); ++index)
+    {
+        m_Objects[index]->Load();
+    }
+}
+
 void Scene::FixedUpdate()
 {
     for (int index{ 0 }; index < static_cast<int>(m_Objects.size()); ++index)
@@ -71,6 +79,10 @@ void Scene::CheckForDeletion()
         if (!object->IsMarkedForDeletion())
         {
             remaining_objects.push_back(std::move(object));
+        }
+        else
+        {
+            UnsetGameObjectName(object->GetId());
         }
     }
 
@@ -138,4 +150,19 @@ GameObject& GameEngine::Scene::CreateGameObject(std::string const& name)
     auto createdObject{ m_Objects.back().get() };
     SetObjectName(name, createdObject->GetId());
     return *createdObject;
+}
+
+bool GameEngine::Scene::UnsetGameObjectName(ObjectID id)
+{
+    auto iter{ std::ranges::find_if(m_NameToIdMap, [id](const auto& pair)
+    {
+        return pair.second == id;
+    }) };
+
+    if (iter != m_NameToIdMap.end())
+    {
+        m_NameToIdMap.erase(iter);
+        return true;
+    }
+    return false;
 }

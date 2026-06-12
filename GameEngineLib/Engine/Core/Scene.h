@@ -18,6 +18,7 @@ namespace GameEngine
         void Remove(const GameObject& object);
         void RemoveAll();
 
+        void Load();
         void FixedUpdate();
         void Update();
         void Render() const;
@@ -32,6 +33,8 @@ namespace GameEngine
 
         GameObject& CreateGameObject();
         GameObject& CreateGameObject(std::string const& name);
+
+        bool UnsetGameObjectName(ObjectID id);
 
         ~Scene() = default;
         Scene(const Scene& other) = delete;
