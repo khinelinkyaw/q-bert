@@ -1,5 +1,7 @@
 #include "GameWonSettingsComponent.h"
 
+#include <Components/Controllers/GeneralInputControllerComponent.h>
+
 #include <Engine/Core/Time.h>
 #include <Engine/Core/SceneManager.h>
 
@@ -17,4 +19,5 @@ void Game::GameWonSettingsComponent::Update()
 Game::GameWonSettingsComponent::GameWonSettingsComponent(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
+    owner->AddComponent<GeneralInputController>();
 }

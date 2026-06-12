@@ -29,6 +29,8 @@ namespace Game
         GameplayInfo m_Gameplay_Info{};
         std::vector<GameEngine::GameObject*> m_SpawnerObjects{};
 
+        void GoToNextRound();
+
         void SetupPlayers();
         void ResetPlayerPositions();
         void SetupRound(RoundInfo const& roundInfo);
@@ -39,9 +41,6 @@ namespace Game
         void Render(vec2 const&) const override {};
         void OnSceneLoad() override;
         void OnEvent(GameEngine::EventArg* eventArg) override;
-
-        void GoToNextRound();
-        void ResetGame();
 
         void Init(std::string const& jsonPath);
         GameplaySettingsComponent(GameEngine::GameObject* owner);

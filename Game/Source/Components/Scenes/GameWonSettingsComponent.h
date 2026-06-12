@@ -4,6 +4,8 @@
 #include <UserInterface/UIEngine.h>
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Misc/Types.h>
 
 namespace Game
 {
