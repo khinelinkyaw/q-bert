@@ -51,8 +51,8 @@ endif()
 
 
 if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS} -fexperimental-library -g -fexceptions -O0")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1 -g -sALLOW_MEMORY_GROWTH -fexceptions -O0")
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS} -fexperimental-library -g -fexceptions")
+  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1 -g -sALLOW_MEMORY_GROWTH -fexceptions")
 
   # Additional settings for Emscripten build
   set_target_properties(GameEngineLib PROPERTIES

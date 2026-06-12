@@ -35,7 +35,7 @@ else()
 endif()
 
 if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS} -fexperimental-library -g -fexceptions -O0")
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS} -fexperimental-library -g -fexceptions")
 
     # Additional settings for Emscripten build
   set_target_properties(${TARGET_NAME} PROPERTIES
@@ -50,7 +50,6 @@ if(EMSCRIPTEN)
     -sUSE_HARFBUZZ=1
     -sALLOW_MEMORY_GROWTH
     -fexceptions
-    -O0
     --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/Data@/"
   )
 
@@ -67,7 +66,7 @@ elseif(WIN32)
 
   # Set working directory to output folder and debug console window
   if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set_target_properties(${TARGET_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE" VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
+    set_target_properties(${TARGET_NAME} PROPERTIES LINK_FLAGS VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
   else()
     set_target_properties(${TARGET_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
   endif()
