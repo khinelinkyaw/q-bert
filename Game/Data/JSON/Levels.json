@@ -246,7 +246,6 @@
                 ]
             }
         ],
-        "UIJSONPath": "JSON/GameplayUI.json",
-        "SelectedGameMode": 0
+        "UIJSONPath": "JSON/GameplayUI.json"
     }
 ]
