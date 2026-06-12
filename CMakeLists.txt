@@ -8,7 +8,7 @@ if(EMSCRIPTEN)
 endif()
 
 if(EMSCRIPTEN)
-  set(TARGET_NAME QBertWeb)
+  set(TARGET_NAME minigin_web)
   set(TARGET_PARAM )
 else()
   set(TARGET_NAME QBert)
@@ -20,7 +20,6 @@ include(FetchContent)
 # add nlohmann_json
 FetchContent_Declare(nlohmann_json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
 FetchContent_MakeAvailable(nlohmann_json)
-
 
 # add glm
 find_package(glm CONFIG QUIET)
@@ -105,7 +104,9 @@ if(NOT SDL3_ttf_FOUND)
   endif()
 endif()
 
-if (WIN32)
+if (EMSCRIPTEN)
+  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/EmscriptenToolchain.cmake)
+elseif (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
   find_package(VLD CONFIG)
   set(LIBS XInput)

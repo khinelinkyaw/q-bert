@@ -76,6 +76,11 @@ json GameEngine::ResourceManager::LoadJSON(const std::string& file)
     }
 }
 
+std::filesystem::path GameEngine::ResourceManager::GetDataFilePath(std::string const& file) const
+{
+    return {m_dataPath / file};
+}
+
 void ResourceManager::UnloadUnusedResources()
 {
     for (auto it = m_loadedTextures.begin(); it != m_loadedTextures.end();)

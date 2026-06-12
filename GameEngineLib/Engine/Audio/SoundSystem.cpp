@@ -1,5 +1,6 @@
 #include <Engine/Audio/SoundSystem.h>
 #include <Engine/Core/Macros.h>
+#include <Engine/Core/ResourceManager.h>
 
 #include <miniaudio.h>
 
@@ -112,7 +113,9 @@ void MiniAudioSoundSystem::AudioImpl::LoadSoundFile(int soundId, std::string con
 
     auto [iter, condition] = m_SoundMap.insert({ soundId, ma_sound{} });
 
-    auto result{ ma_sound_init_from_file(&m_Engine, filePath.c_str(), 0, nullptr, nullptr, &iter->second) };
+    auto soundFilePath{ GameEngine::ResourceManager::Get().GetDataFilePath(filePath) };
+
+    auto result{ ma_sound_init_from_file(&m_Engine, soundFilePath.string().c_str(), 0, nullptr, nullptr, &iter->second)};
 
     if (result != MA_SUCCESS)
     {

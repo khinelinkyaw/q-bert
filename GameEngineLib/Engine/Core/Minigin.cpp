@@ -125,7 +125,7 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     ResourceManager::Get().Init(dataPath);
 
     ServiceLocator::Get().RegisterSoundSystem(std::make_unique<MiniAudioSoundSystem>());
-    ServiceLocator::Get().GetSoundSystem().Load(0, "./Data/jump.mp3");
+    ServiceLocator::Get().GetSoundSystem().Load(0, "jump.mp3");
 }
 
 GameEngine::Minigin::~Minigin()

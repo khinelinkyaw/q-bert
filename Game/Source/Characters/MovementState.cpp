@@ -166,7 +166,7 @@ void HopState::OnEnter()
     }
 
     m_ElapsedTime = 0.f;
-    GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
+    //GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
 }
 
 void HopState::OnExit()
