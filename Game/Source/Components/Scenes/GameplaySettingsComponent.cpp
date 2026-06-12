@@ -24,6 +24,7 @@
 #include <Misc/SerializedStructs.h>
 
 #include <string>
+#include <Components/Controllers/GeneralInputControllerComponent.h>
 
 void Game::GameplaySettingsComponent::SetupPlayers()
 {

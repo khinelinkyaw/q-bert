@@ -9,6 +9,7 @@
 #include <Misc/GlobalGameSettings.h>
 
 #include <algorithm>
+#include <Components/Controllers/GeneralInputControllerComponent.h>
 
 void Game::StartMenuSettingsComponent::MoveSelector(int increment)
 {
