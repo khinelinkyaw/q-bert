@@ -6,7 +6,6 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Misc/Types.h>
 
-#include <algorithm>
 #include <cassert>
 #include <string>
 
@@ -17,9 +16,13 @@ void Game::SpriteFontComponent::Render(vec2 const& pos) const
     float offsetX{};
     for (auto iter{ m_Text.begin() }; iter != m_Text.end(); ++iter)
     {
-        m_pSpriteComponent->SetSpriteIndex(*iter);
-        m_pTextureComponent->SetOriginOffset({ offsetX, 0.f });
-        m_pTextureComponent->Render(pos);
+        if (*iter != -1)
+        {
+            m_pSpriteComponent->SetSpriteIndex(*iter);
+            m_pTextureComponent->SetOriginOffset({ offsetX, 0.f });
+            m_pTextureComponent->Render(pos);
+        }
+
         offsetX -= m_pTextureComponent->GetSourceRect().width;
     }
 
@@ -43,6 +46,10 @@ void Game::SpriteFontComponent::UpdateText(std::string const& text)
         else if (character >= 'a' and character <= 'z')
         {
             m_Text.push_back(character - 'a' + 10);
+        }
+        else if (character == ' ')
+        {
+            m_Text.push_back(-1);
         }
     }
 }
