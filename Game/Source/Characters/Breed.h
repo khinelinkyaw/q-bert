@@ -23,7 +23,7 @@ namespace Game
 		CreatureInfo m_CreatureInfo{};
         Weakness m_Weakness{ Weakness::None };
 
-		void DecreaseLive(GameEngine::GameObject& object);
+		virtual void DecreaseLive(GameEngine::GameObject& object);
 		void IncreaseScore(int increment, GameEngine::GameObject& object);
 
 	public:
@@ -40,6 +40,9 @@ namespace Game
 
 	class QBertBreed final : public Breed
 	{
+	private:
+        void DecreaseLive(GameEngine::GameObject& object) override;
+
 	public:
 		void OnNewBlock(GameEngine::GameObject& object, Block* block) override;
 		void OnEmptyBlock(GameEngine::GameObject& object) override;
