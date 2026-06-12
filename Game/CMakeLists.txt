@@ -66,7 +66,7 @@ elseif(WIN32)
 
   # Set working directory to output folder and debug console window
   if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set_target_properties(${TARGET_NAME} PROPERTIES LINK_FLAGS VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
+    set_target_properties(${TARGET_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
   else()
     set_target_properties(${TARGET_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
   endif()
