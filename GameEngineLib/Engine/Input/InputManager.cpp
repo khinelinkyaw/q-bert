@@ -1,6 +1,7 @@
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputManager.h>
 #include <Engine/Input/InputMapping.h>
+#include <Engine/Core/ResourceManager.h>
 
 #include <SDL3/SDL_events.h>
 
@@ -31,6 +32,24 @@ InputMapping* GameEngine::InputManager::GetInputMapping(std::string const& name)
     }
 
     return nullptr;
+}
+
+void GameEngine::InputManager::ImportInputMappingJSON(std::string const& jsonFilePath)
+{
+    auto jsonData{ ResourceManager::Get().LoadJSON(jsonFilePath) };
+    InputMappingJSONData data{ jsonData.at(0).get<InputMappingJSONData>()};
+
+    for (auto const& [inputMappingName, actionMappings] : data)
+    {
+        std::unique_ptr<InputMapping> inputMapping{ std::make_unique<InputMapping>() };
+
+        for (auto const& [actionName, actionMapping] : actionMappings)
+        {
+            inputMapping->SetActionMapping(actionName, actionMapping.actionType, actionMapping.keyboardCode, actionMapping.gamepadCode);
+        }
+
+        m_InputMappingMap.insert({ inputMappingName, std::move(inputMapping) });
+    }
 }
 
 GamepadInputDevice& GameEngine::InputManager::GetGamepadInputDevice(int playerIndex)

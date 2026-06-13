@@ -12,6 +12,8 @@
 
 namespace GameEngine
 {
+    using InputMappingJSONData = std::unordered_map<std::string, std::unordered_map<std::string, GameEngine::ActionMapping>>;
+
     class ControllerComponent;
     class InputManager final : public Singleton<InputManager>
     {
@@ -24,6 +26,8 @@ namespace GameEngine
     public:
         InputMapping* AddInputMapping(std::string const& name, std::unique_ptr<InputMapping>&& inputMapping);
         InputMapping* GetInputMapping(std::string const& name);
+
+        void ImportInputMappingJSON(std::string const& jsonFilePath);
 
         KeyboardInputDevice& GetKeyboardInputDevice() { return m_KeyboardInputDevice; }
         GamepadInputDevice& GetGamepadInputDevice(int playerIndex);
