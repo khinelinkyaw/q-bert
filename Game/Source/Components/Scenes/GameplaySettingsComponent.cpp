@@ -62,18 +62,19 @@ void Game::GameplaySettingsComponent::ResetPlayerPositions()
     auto pPlayer1Obj{ m_pScene->GetObjectByName("Player1") };
     auto pPlayer2Obj{ m_pScene->GetObjectByName("Player2") };
 
+
     switch (GlobalGameSettings::SelectedGamemode)
     {
     case Gamemode::Solo:
-        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        if (pPlayer1Obj) pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
         break;
     case Gamemode::Coop:
-        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(1, BlockSurface::Top));
-        pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(2, BlockSurface::Top));
+        if (pPlayer1Obj) pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(1, BlockSurface::Top));
+        if (pPlayer1Obj) pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(2, BlockSurface::Top));
         break;
     case Gamemode::Versus:
-        pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
-        pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(21, BlockSurface::Top));
+        if (pPlayer1Obj) pPlayer1Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        if (pPlayer2Obj) pPlayer2Obj->GetTransform()->SetLocalPosition(m_pEntityGraph->GetBlockSurfaceCenter(21, BlockSurface::Top));
         break;
     }
 }
@@ -111,6 +112,7 @@ void Game::GameplaySettingsComponent::OnSceneLoad()
     m_CurrentLevel = 0;
     m_CurrentRound = 0;
     m_PlayerDealthCounter = 0;
+    GlobalGameSettings::PlayerScore = 0;
 
     SetupPlayers();
     SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
