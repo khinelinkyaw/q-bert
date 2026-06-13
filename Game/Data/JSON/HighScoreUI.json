@@ -37,7 +37,7 @@
                 "PivotOnParent": "MiddleUp"
             }
         },
-                {
+        {
             "ComponentInfo": {
                 "Text": "High score",
                 "SpriteCols": 6,
@@ -56,6 +56,27 @@
                 "ParentName": "LogoUIElement",
                 "Pivot": "MiddleUp",
                 "PivotOnParent": "MiddleDown"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "AAA   132\nBBB   321\nCCC   321",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "PlayerScoresUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -5.0,
+                    "y": 0.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleLevel",
+                "PivotOnParent": "MiddleLevel"
             }
         },
         {

@@ -21,6 +21,16 @@
                 "gamepadCode": "GP_BUTTON_DPAD_UP",
                 "keyboardCode": "KB_UP"
             },
+            "SelectorLeft": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_LEFT",
+                "keyboardCode": "KB_LEFT"
+            },
+            "SelectorRight": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_RIGHT",
+                "keyboardCode": "KB_RIGHT"
+            },
             "SkipRound": {
                 "actionType": "Pressed",
                 "gamepadCode": "GP_BUTTON_EAST",

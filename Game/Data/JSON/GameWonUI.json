@@ -132,27 +132,6 @@
                 "Pivot": "LeftLevel",
                 "PivotOnParent": "RightLevel"
             }
-        },
-        {
-            "ComponentInfo": {
-                "Text": "X or A to confirm",
-                "SpriteCols": 6,
-                "SpriteIndex": 0,
-                "SpriteRows": 6,
-                "TextureFilePath": "OrangeSpriteFont.png",
-                "Type": "SpriteFont"
-            },
-            "Name": "HelpUIElement",
-            "PositioningInfo": {
-                "FixedPadding": false,
-                "PaddingSize": {
-                    "x": -11.0,
-                    "y": 7.0
-                },
-                "ParentName": "RootUIElement",
-                "Pivot": "MiddleDown",
-                "PivotOnParent": "MiddleDown"
-            }
         }
     ]
 ]
