@@ -2,8 +2,10 @@
 
 #include <Components/Controllers/GeneralInputControllerComponent.h>
 
-#include <Engine/Core/Time.h>
+#include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Core/Time.h>
 
 void Game::GameWonSettingsComponent::Update()
 {
@@ -12,7 +14,7 @@ void Game::GameWonSettingsComponent::Update()
     if (m_ElapsedTime >= m_TransitionTime)
     {
         m_ElapsedTime = 0;
-        GameEngine::SceneManager::Get().SetActiveScene("HighScore");
+        GameEngine::SceneManager::Get().SetActiveScene("NameInput");
     }
 }
 

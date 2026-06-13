@@ -40,7 +40,7 @@ void Game::GameOverSceneComponent::OnEvent(GameEngine::EventArg* eventArg)
             }
             case GameOverSelections::HighScore:
             {
-                GameEngine::SceneManager::Get().SetActiveScene("HighScore");
+                GameEngine::SceneManager::Get().SetActiveScene("NameInput");
                 break;
             }
         }
