@@ -2,11 +2,13 @@
 #define SCENE_H
 
 #include <Engine/Core/GameObject.h>
+#include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace GameEngine
@@ -34,6 +36,9 @@ namespace GameEngine
         GameObject& CreateGameObject();
         GameObject& CreateGameObject(std::string const& name);
 
+        template<typename EventArgType, typename... Args> requires DerivedEventArg<EventArgType>
+        void SendEventToAllObjects(Args&& ... args);
+
         bool UnsetGameObjectName(ObjectID id);
 
         ~Scene() = default;
@@ -50,6 +55,15 @@ namespace GameEngine
         std::vector<std::unique_ptr<GameObject>> m_Objects{};
         mutable std::vector<GameObject const*> m_SortedRenderObjects{};
     };
+
+    template<typename EventArgType, typename ...Args> requires DerivedEventArg<EventArgType>
+    inline void Scene::SendEventToAllObjects(Args && ...args)
+    {
+        for (auto& object : m_Objects)
+        {
+            object->SendEvent<EventArgType>(std::forward<Args>(args)...);
+        }
+    }
 
 }  // namespace dae
 

@@ -2,7 +2,6 @@
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Misc/Types.h>
-#include <Engine/Rendering/Renderer.h>
 
 #include <algorithm>
 #include <cassert>
