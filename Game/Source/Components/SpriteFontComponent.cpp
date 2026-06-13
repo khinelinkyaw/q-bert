@@ -13,23 +13,29 @@ void Game::SpriteFontComponent::Render(vec2 const& pos) const
 {
     m_pTextureComponent->Visible = true;
 
-    float offsetX{};
+    vec2 offset{ 0.f, 0.f };
     for (auto iter{ m_Text.begin() }; iter != m_Text.end(); ++iter)
     {
-        if (*iter != -1)
+        if (*iter >= 0)
         {
             m_pSpriteComponent->SetSpriteIndex(*iter);
-            m_pTextureComponent->SetOriginOffset({ offsetX, 0.f });
+            m_pTextureComponent->SetOriginOffset(offset);
             m_pTextureComponent->Render(pos);
         }
 
-        offsetX -= m_pTextureComponent->GetSourceRect().width;
+        offset.x -= m_pTextureComponent->GetSourceRect().width;
+
+        if (*iter == static_cast<int>(SpecialChars::NewLine))
+        {
+            offset.x = 0.f;
+            offset.y -= m_pTextureComponent->GetSourceRect().height;
+        }
     }
 
     m_pTextureComponent->Visible = false;
 }
 
-void Game::SpriteFontComponent::UpdateText(std::string const& text)
+void Game::SpriteFontComponent::SetText(std::string const& text)
 {
     m_Text.clear();
 
@@ -47,9 +53,9 @@ void Game::SpriteFontComponent::UpdateText(std::string const& text)
         {
             m_Text.push_back(character - 'a' + 10);
         }
-        else if (character == ' ')
+        else if (auto iter { m_CharToIndexMap.find(character)}; iter != m_CharToIndexMap.end())
         {
-            m_Text.push_back(-1);
+            m_Text.push_back(iter->second);
         }
     }
 }
