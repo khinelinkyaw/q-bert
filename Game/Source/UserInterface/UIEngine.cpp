@@ -57,7 +57,7 @@ void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObjec
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     auto spriteFontComp{ gameObject.AddComponent<SpriteFontComponent>() };
-    spriteFontComp->UpdateText(componentInfo.Text);
+    spriteFontComp->SetText(componentInfo.Text);
 }
 
 GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
