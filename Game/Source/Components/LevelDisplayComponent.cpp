@@ -24,8 +24,8 @@ void Game::LevelDisplayComponent::OnEvent(GameEngine::EventArg* eventArg)
 void Game::LevelDisplayComponent::Init(int changeToBlockSpriteIndex, int levelNum, int roundNum)
 {
     m_pChangeToBlockSprite->SetSpriteIndex(changeToBlockSpriteIndex);
-    m_pLevelNumSpriteFont->UpdateText(std::to_string(levelNum));
-    m_pRoundNumSpriteFont->UpdateText(std::to_string(roundNum));
+    m_pLevelNumSpriteFont->SetText(std::to_string(levelNum));
+    m_pRoundNumSpriteFont->SetText(std::to_string(roundNum));
 }
 
 Game::LevelDisplayComponent::LevelDisplayComponent(GameEngine::GameObject* owner)

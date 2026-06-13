@@ -27,6 +27,7 @@ namespace GameEngine
     public:
         int GetId() const { return m_Id; }
 
+        void Load();
         void FixedUpdate();
         void Update();
         void Render() const;

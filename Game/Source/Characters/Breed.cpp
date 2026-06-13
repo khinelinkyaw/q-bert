@@ -1,12 +1,15 @@
 #include "Breed.h"
 
 #include <Creatures/CreatureFactory.h>
-#include <Misc/Enums.h>
 #include <Map/Block.h>
 #include <Map/Graph.h>
+#include <Misc/Enums.h>
 
+#include <Components/Scenes/GameplaySettingsComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Core/ServiceLocator.h>
+#include <Engine/Events/EventArg.h>
 #include <Engine/Events/EventArgInt.h>
 
 void Game::Breed::DecreaseLive(GameEngine::GameObject& object)
@@ -19,7 +22,7 @@ void Game::Breed::DecreaseLive(GameEngine::GameObject& object)
     }
     else
     {
-        auto graph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() };
+        auto graph{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Graph")->GetComponent<Graph>() };
         object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
     }
 }
@@ -33,6 +36,23 @@ void Game::Breed::IncreaseScore(int increment, GameEngine::GameObject& object)
 void Game::Breed::OnEmptyBlock(GameEngine::GameObject& object)
 {
     object.SetForDeletion();
+}
+
+void Game::QBertBreed::DecreaseLive(GameEngine::GameObject& object)
+{
+    Breed::DecreaseLive(object);
+
+    if (m_CreatureInfo.Lives <= 0)
+    {
+        auto gameplaySettingsObj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("GameplaySettings") };
+        
+        if (gameplaySettingsObj)
+        {
+            gameplaySettingsObj->SendEvent<GameEngine::EventArg>("OnPlayerDeath");
+        }
+    }
+
+    GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Fall));
 }
 
 void Game::QBertBreed::OnNewBlock(GameEngine::GameObject& object, Block* block)

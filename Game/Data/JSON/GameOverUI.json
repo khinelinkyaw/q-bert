@@ -1,0 +1,152 @@
+[
+    [
+        {
+            "ComponentInfo": {
+                "ContainerSize": {
+                    "x": 260.0,
+                    "y": 260.0
+                },
+                "Type": "Empty"
+            },
+            "Name": "RootUIElement",
+            "PositioningInfo": {
+                "FixedPadding": true,
+                "PaddingSize": {
+                    "x": 20.0,
+                    "y": 20.0
+                },
+                "ParentName": "",
+                "Pivot": "LeftUp",
+                "PivotOnParent": "LeftUp"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "TextureFilePath": "QBertTitle.png",
+                "Type": "Texture"
+            },
+            "Name": "LogoUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 5.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleUp",
+                "PivotOnParent": "MiddleUp"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "Try again",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "TryAgainUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -6.0,
+                    "y": -3.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleLevel",
+                "PivotOnParent": "MiddleLevel"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "High score",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "HighScoreUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -6.0,
+                    "y": 0.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleLevel",
+                "PivotOnParent": "MiddleLevel"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,
+                    1,
+                    2
+                ],
+                "AnimationType": 1,
+                "SpriteCols": 3,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "RightArrows.png",
+                "Type": "AnimatedSprite"
+            },
+            "Name": "SelectorUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 1.0,
+                    "y": 0.0
+                },
+                "ParentName": "TryAgainUIElement",
+                "Pivot": "RightLevel",
+                "PivotOnParent": "LeftLevel"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "X or A to confirm",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "HelpUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -11.0,
+                    "y": 7.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleDown",
+                "PivotOnParent": "MiddleDown"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "Game Over",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "GameOverUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -6.0,
+                    "y": 3.0
+                },
+                "ParentName": "LogoUIElement",
+                "Pivot": "MiddleUp",
+                "PivotOnParent": "MiddleDown"
+            }
+        }
+    ]
+]

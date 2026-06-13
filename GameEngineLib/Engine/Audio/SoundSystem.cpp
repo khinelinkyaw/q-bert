@@ -182,8 +182,19 @@ MiniAudioSoundSystem::AudioImpl::~AudioImpl()
     ma_engine_uninit(&m_Engine);
 }
 
+void GameEngine::MiniAudioSoundSystem::SetMute(bool isMuted)
+{
+    m_IsMuted = isMuted;
+}
+
 void MiniAudioSoundSystem::Play(int soundId)
 {
+    if (m_IsMuted)
+    {
+        DEBUG_CONSOLE("SoundSystem", "Sound system is muted, not playing sound " << soundId)
+        return;
+    }
+
     m_Impl->Play(soundId);
 }
 

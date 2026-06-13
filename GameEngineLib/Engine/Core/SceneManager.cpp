@@ -30,6 +30,16 @@ void SceneManager::CheckForDeletion()
     m_Scenes[m_ActiveSceneName]->CheckForDeletion();
 }
 
+void GameEngine::SceneManager::CheckForSceneChange()
+{
+    if (m_PendingSceneChange)
+    {
+        m_ActiveSceneName = m_PendingActiveSceneName;
+        m_PendingSceneChange = false;
+        m_Scenes[m_ActiveSceneName]->Load();
+    }
+}
+
 Scene& SceneManager::CreateScene(std::string const& name)
 {
     if (m_Scenes.find(name) != m_Scenes.end())
@@ -66,7 +76,8 @@ bool GameEngine::SceneManager::SetActiveScene(std::string const& name)
 {
     if (m_Scenes.find(name) != m_Scenes.end())
     {
-        m_ActiveSceneName = name;
+        m_PendingSceneChange = true;
+        m_PendingActiveSceneName = name;
         return true;
     }
 
@@ -79,34 +90,9 @@ bool GameEngine::SceneManager::SetActiveScene(Scene* scene)
     {
         if (scenePtr.get() == scene)
         {
-            m_ActiveSceneName = name;
-            return true;
+            return SetActiveScene(name);
         }
     }
 
     return false;
-}
-
-GameObject* GameEngine::SceneManager::GetObjectById(ObjectID id) const
-{
-    auto activeScene{ GetActiveScene() };
-
-    if (activeScene)
-    {
-        return activeScene->GetObjectById(id);
-    }
-
-    return nullptr;
-}
-
-GameObject* GameEngine::SceneManager::GetObjectByName(std::string const& name) const
-{
-    auto activeScene{ GetActiveScene() };
-
-    if (activeScene)
-    {
-        return activeScene->GetObjectByName(name);
-    }
-
-    return nullptr;
 }

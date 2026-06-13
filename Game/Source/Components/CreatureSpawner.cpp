@@ -2,15 +2,18 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Core/Macros.h>
 #include <Engine/Core/Random.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Core/Time.h>
-#include <Engine/Core/Macros.h>
 
 #include <Creatures/CreatureFactory.h>
+#include <Misc/SerializedStructs.h>
 #include <Map/Graph.h>
 #include <Misc/Enums.h>
+
 #include <random>
+#include <string>
 
 void Game::CreatureSpawner::Update()
 {
@@ -35,17 +38,17 @@ void Game::CreatureSpawner::Update()
         CreatureFactory::BuildCreatureComponents(creature, m_CreatureType);
         creature.GetTransform()->SetLocalPosition(spawnPosition);
 
-        m_SpawnedCreatures.push_back(&creature);
+        //m_SpawnedCreatures.push_back(&creature);
     }
 }
 
-void Game::CreatureSpawner::WipeSpawnedCreatures()
-{
-    for (auto creature : m_SpawnedCreatures)
-    {
-        creature->SetForDeletion();
-    }
-}
+//void Game::CreatureSpawner::WipeSpawnedCreatures()
+//{
+//    for (auto creature : m_SpawnedCreatures)
+//    {
+//        creature->SetForDeletion();
+//    }
+//}
 
 void Game::CreatureSpawner::Init(CreatureSpawnerInfo const& creatureSpawnerInfo)
 {
@@ -79,6 +82,6 @@ void Game::CreatureSpawner::Init(Creature creatureType, float spawnInterval, int
 
 Game::CreatureSpawner::CreatureSpawner(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
-    , m_pGraph{ GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>() }
+    , m_pGraph{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Graph")->GetComponent<Graph>() }
 {
 }

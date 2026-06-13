@@ -153,7 +153,7 @@ void HopState::OnEnter()
         break;
     }
 
-    m_pGraph = GameEngine::SceneManager::Get().GetObjectByName("Graph")->GetComponent<Graph>();
+    m_pGraph = GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Graph")->GetComponent<Graph>();
     auto [blockPtr, surface] = m_pGraph->GetBlockAndSurface(m_StartPos.x, m_StartPos.y);
     m_pStartBlock = blockPtr;
     m_Surface = surface;
@@ -166,7 +166,7 @@ void HopState::OnEnter()
     }
 
     m_ElapsedTime = 0.f;
-    //GameEngine::ServiceLocator::Get().GetSoundSystem().Play(0);
+    GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Jump));
 }
 
 void HopState::OnExit()

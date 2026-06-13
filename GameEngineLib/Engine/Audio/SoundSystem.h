@@ -9,6 +9,7 @@ namespace GameEngine
     class SoundSystem
     {
     public:
+        virtual void SetMute(bool isMuted) = 0;
         virtual void Play(int soundId) = 0;
         virtual void Load(int soundId, std::string const& filePath) = 0;
 
@@ -18,6 +19,7 @@ namespace GameEngine
     class NullSoundSystem final : public SoundSystem
     {
     public:
+        void SetMute(bool) override {};
         void Play(int) override {};
         void Load(int, std::string const&) override {};
 
@@ -29,8 +31,10 @@ namespace GameEngine
     private:
         class AudioImpl;
         std::unique_ptr<AudioImpl> m_Impl{};
+        bool m_IsMuted{ false };
 
     public:
+        void SetMute(bool isMuted) override;
         void Play(int soundId) override;
         void Load(int soundId, std::string const& filePath) override;
 

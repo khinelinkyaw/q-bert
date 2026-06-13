@@ -17,26 +17,27 @@ namespace GameEngine
     {
     public:
         Scene& CreateScene(std::string const& name);
+
         Scene* GetScene(std::string const& name) const;
         Scene* GetActiveScene() const;
 
         bool SetActiveScene(std::string const& name);
         bool SetActiveScene(Scene* scene);
 
-        GameObject* GetObjectById(ObjectID id) const;
-        GameObject* GetObjectByName(std::string const& name) const;
-
         void FixedUpdate();
         void Update();
         void Render();
         void CheckForDeletion();
+        void CheckForSceneChange();
 
     private:
         friend class Singleton<SceneManager>;
         SceneManager() = default;
 
         std::string m_ActiveSceneName{};
+        std::string m_PendingActiveSceneName{};
         std::unordered_map<std::string, std::unique_ptr<Scene>> m_Scenes{};
+        bool m_PendingSceneChange{ false };
     };
 }
 

@@ -1,13 +1,36 @@
 #ifndef GAME_ENUMS_H
 #define GAME_ENUMS_H
 
+#include <nlohmann/detail/macro_scope.hpp>
+#include <nlohmann/json.hpp>
+
 namespace Game
 {
+    using json = nlohmann::json;
+
+    enum class UIType
+    {
+        Empty,
+        Texture,
+        Sprite,
+        AnimatedSprite,
+        SpriteFont
+    };
+
+    NLOHMANN_JSON_SERIALIZE_ENUM(UIType,
+    {
+        { UIType::Empty,          "Empty"},
+        { UIType::Texture,        "Texture"},
+        { UIType::Sprite,         "Sprite"         },
+        { UIType::AnimatedSprite, "AnimatedSprite" },
+        { UIType::SpriteFont,     "SpriteFont" }
+    })
+
     enum class Gamemode
     {
-        Solo,
-        Coop,
-        Versus
+        Solo = 0,
+        Coop = 1,
+        Versus = 2
     };
 
     enum class PlayerIndex
@@ -70,6 +93,18 @@ namespace Game
         Slick,
         Sam
     };
+
+    enum class SoundEffect
+    {
+        Jump = 0,
+        Fall = 1,
+        LevelStart = 2,
+        Victory = 3,
+        SnakeFall = 4,
+        Ugg = 5,
+        Wrongway = 6
+    };
+
 }
 
 #endif

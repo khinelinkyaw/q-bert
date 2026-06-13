@@ -1,0 +1,85 @@
+[
+    {
+        "GeneralInput": {
+            "MuteSound": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_NORTH",
+                "keyboardCode": "KB_F2"
+            },
+            "SelectorConfirm": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_SOUTH",
+                "keyboardCode": "KB_X"
+            },
+            "SelectorDown": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_DOWN",
+                "keyboardCode": "KB_DOWN"
+            },
+            "SelectorUp": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_UP",
+                "keyboardCode": "KB_UP"
+            },
+            "SelectorLeft": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_LEFT",
+                "keyboardCode": "KB_LEFT"
+            },
+            "SelectorRight": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_RIGHT",
+                "keyboardCode": "KB_RIGHT"
+            },
+            "SkipRound": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_EAST",
+                "keyboardCode": "KB_F1"
+            }
+        },
+        "Player1": {
+            "MoveDown": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_DOWN",
+                "keyboardCode": "KB_DOWN"
+            },
+            "MoveLeft": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_LEFT",
+                "keyboardCode": "KB_LEFT"
+            },
+            "MoveRight": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_RIGHT",
+                "keyboardCode": "KB_RIGHT"
+            },
+            "MoveUp": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_UP",
+                "keyboardCode": "KB_UP"
+            }
+        },
+        "Player2": {
+            "MoveDown": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_DOWN",
+                "keyboardCode": "NONE"
+            },
+            "MoveLeft": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_LEFT",
+                "keyboardCode": "NONE"
+            },
+            "MoveRight": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_RIGHT",
+                "keyboardCode": "NONE"
+            },
+            "MoveUp": {
+                "actionType": "Pressed",
+                "gamepadCode": "GP_BUTTON_DPAD_UP",
+                "keyboardCode": "NONE"
+            }
+        }
+    }
+]

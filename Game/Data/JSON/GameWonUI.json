@@ -1,0 +1,137 @@
+[
+    [
+        {
+            "ComponentInfo": {
+                "ContainerSize": {
+                    "x": 260.0,
+                    "y": 260.0
+                },
+                "Type": "Empty"
+            },
+            "Name": "RootUIElement",
+            "PositioningInfo": {
+                "FixedPadding": true,
+                "PaddingSize": {
+                    "x": 20.0,
+                    "y": 20.0
+                },
+                "ParentName": "",
+                "Pivot": "LeftUp",
+                "PivotOnParent": "LeftUp"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "TextureFilePath": "QBertTitle.png",
+                "Type": "Texture"
+            },
+            "Name": "LogoUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 5.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleUp",
+                "PivotOnParent": "MiddleUp"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "Text": "Game Won",
+                "SpriteCols": 6,
+                "SpriteIndex": 0,
+                "SpriteRows": 6,
+                "TextureFilePath": "OrangeSpriteFont.png",
+                "Type": "SpriteFont"
+            },
+            "Name": "GameWonUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": -6.0,
+                    "y": -3.0
+                },
+                "ParentName": "RootUIElement",
+                "Pivot": "MiddleDown",
+                "PivotOnParent": "MiddleLevel"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,1,2,3,4,5,6,7
+                ],
+                "AnimationType": 1,
+                "SpriteCols": 8,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "QBert.png",
+                "Type": "AnimatedSprite"
+            },
+            "Name": "AnimatedQBertUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 0.0,
+                    "y": 7.0
+                },
+                "ParentName": "LogoUIElement",
+                "Pivot": "MiddleUp",
+                "PivotOnParent": "MiddleDown"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,1,2,3,4,5,6,7
+                ],
+                "AnimationType": 1,
+                "SpriteCols": 8,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "Coily.png",
+                "Type": "AnimatedSprite"
+            },
+            "Name": "AnimatedCoilyUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 3.0,
+                    "y": 0.0
+                },
+                "ParentName": "AnimatedQBertUIElement",
+                "Pivot": "RightLevel",
+                "PivotOnParent": "LeftLevel"
+            }
+        },
+        {
+            "ComponentInfo": {
+                "AnimationDuration": 0.5,
+                "AnimationFrameIndices": [
+                    0,1,2,3,4,5,6,7
+                ],
+                "AnimationType": 1,
+                "SpriteCols": 8,
+                "SpriteIndex": 0,
+                "SpriteRows": 1,
+                "TextureFilePath": "Coily.png",
+                "Type": "AnimatedSprite"
+            },
+            "Name": "AnimatedCoilyUIElement",
+            "PositioningInfo": {
+                "FixedPadding": false,
+                "PaddingSize": {
+                    "x": 3.0,
+                    "y": 0.0
+                },
+                "ParentName": "AnimatedQBertUIElement",
+                "Pivot": "LeftLevel",
+                "PivotOnParent": "RightLevel"
+            }
+        }
+    ]
+]

@@ -3,24 +3,17 @@
 
 #include <Misc/Constants.h>
 #include <Misc/Structs.h>
+#include <Misc/SerializedStructs.h>
 
-#include <Engine/Components/SpriteAnimationComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/Scene.h>
 #include <Engine/Core/SceneManager.h>
-#include <Engine/Misc/Enums.h>
 
 #include <string>
 #include <unordered_map>
-#include <vector>
-
-#include <nlohmann/detail/macro_scope.hpp>
-#include <nlohmann/json.hpp>
 
 namespace Game
 {
-    using json = nlohmann::json;
-
     namespace GameplayUI
     {;
         float constexpr ROOT_MARGIN{ 20.f };
@@ -44,69 +37,6 @@ namespace Game
         std::string const RIGHT_ARROWS_ELEMENT{ "RightArrowsUIElement" };
         std::string const LEFT_ARROWS_ELEMENT{ "LeftArrowsUIElement" };
     }
-
-    enum class UIType
-    {
-        Empty,
-        Texture,
-        Sprite,
-        AnimatedSprite,
-        SpriteFont
-    };
-
-    struct UIComponentInfo final
-    {
-        std::vector<int>            AnimationFrameIndices{};
-        std::string                 TextureFilePath{};
-        SimpleVector2               ContainerSize{ 0.f, 0.f };
-        UIType                      Type{ UIType::Empty };
-        GameEngine::AnimationType   AnimationType{ GameEngine::AnimationType::Loop };
-        float                       AnimationDuration{};
-        int                         SpriteIndex{};
-        int                         SpriteRows{};
-        int                         SpriteCols{};
-        int                         DigitNum{ 5 };
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIComponentInfo, 
-        AnimationFrameIndices, 
-        TextureFilePath, 
-        ContainerSize, 
-        Type, 
-        AnimationType, 
-        AnimationDuration, 
-        SpriteIndex, 
-        SpriteRows, 
-        SpriteCols, 
-        DigitNum)
-
-    struct UIPositioningInfo final
-    {
-        std::string                 ParentName{};
-        SimpleVector2               PaddingSize{ 0.f, 0.f };
-        GameEngine::Pivot           PivotOnParent{ GameEngine::Pivot::LeftUp };
-        GameEngine::Pivot           Pivot{ GameEngine::Pivot::LeftUp };
-        bool                        FixedPadding{ false };
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIPositioningInfo,
-        ParentName,
-        PaddingSize,
-        PivotOnParent,
-        Pivot,
-        FixedPadding)
-
-    struct UIElementInfo final
-    {
-        UIComponentInfo             ComponentInfo{};
-        UIPositioningInfo           PositioningInfo{};
-        std::string                 Name{};
-    };
-    
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(UIElementInfo,
-        ComponentInfo,
-        PositioningInfo,
-        Name)
 
     class UIEngine final
     {

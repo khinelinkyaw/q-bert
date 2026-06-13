@@ -3,13 +3,8 @@
 
 #include <Misc/Enums.h>
 
-#include <nlohmann/detail/macro_scope.hpp>
-#include <nlohmann/json.hpp>
-
 namespace Game
 {
-    using json = nlohmann::json;
-
     struct CreatureInfo final
     {
         PlayerIndex PlayerIndex     { PlayerIndex::None };
@@ -22,14 +17,6 @@ namespace Game
         MovementEvent MovementEvent { MovementEvent::OnIdle };
         Direction Direction         { Direction::UpRight };
     };
-
-    struct SimpleVector2 final
-    {
-        float x{ 0.f };
-        float y{ 0.f };
-    };
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SimpleVector2, x, y)
 }
 
 #endif

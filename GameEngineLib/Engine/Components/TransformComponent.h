@@ -36,8 +36,13 @@ namespace GameEngine
         void SetLocalPosition(vec2 newPos);
         //void SetLocalPosition(vec3 newPos) = delete;
         void SetLocalPosition(float x, float y);
-        //void SetX(float x);
-        //void SetY(float y);
+        void SetLocalX(float x);
+        void SetLocalY(float y);
+
+        void SetWorldPosition(vec2 worldPosition);
+        void SetWorldX(float x);
+        void SetWorldY(float y);
+
         void SetZIndex(float z);
 
         vec2 GetWorldPosition() const;

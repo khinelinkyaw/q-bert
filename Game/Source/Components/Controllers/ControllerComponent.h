@@ -3,9 +3,9 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
+#include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputMapping.h>
-
-#include <glm/fwd.hpp>
+#include <Engine/Misc/Types.h>
 
 namespace Game
 {

@@ -163,7 +163,7 @@
                                 "SpawnProbability": 75
                             }
                         ],
-                        "FinalBlockColor": 2,
+                        "FinalBlockColor": 1,
                         "StartingBlockColor": 0
                     },
                     {
@@ -199,7 +199,7 @@
                                 "SpawnProbability": 75
                             }
                         ],
-                        "FinalBlockColor": 5,
+                        "FinalBlockColor": 4,
                         "StartingBlockColor": 3
                     },
                     {
@@ -246,7 +246,6 @@
                 ]
             }
         ],
-        "UIJSONPath": "JSON/GameplayUI.json",
-        "SelectedGameMode": 0
+        "UIJSONPath": "JSON/GameplayUI.json"
     }
 ]

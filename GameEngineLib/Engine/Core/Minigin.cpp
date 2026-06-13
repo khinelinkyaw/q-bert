@@ -125,7 +125,6 @@ GameEngine::Minigin::Minigin(const std::filesystem::path& dataPath)
     ResourceManager::Get().Init(dataPath);
 
     ServiceLocator::Get().RegisterSoundSystem(std::make_unique<MiniAudioSoundSystem>());
-    ServiceLocator::Get().GetSoundSystem().Load(0, "jump.mp3");
 }
 
 GameEngine::Minigin::~Minigin()
@@ -164,6 +163,7 @@ void GameEngine::Minigin::RunOneFrame()
 
     m_Quit = !InputManager::Get().ProcessInput();
 
+
     while (m_Lag >= GetFixedTime())
     {
         SceneManager::Get().FixedUpdate();
@@ -173,6 +173,8 @@ void GameEngine::Minigin::RunOneFrame()
     SceneManager::Get().CheckForDeletion();
 
     Renderer::Get().Render();
+
+    SceneManager::Get().CheckForSceneChange();
 
 #if USE_STEAMWORKS
     SteamAPI_RunCallbacks();

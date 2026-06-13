@@ -33,6 +33,32 @@ namespace GameEngine
         SetDirtyFlagRecursively();
     }
 
+    void TransformComponent::SetLocalX(float x)
+    {
+        SetLocalPosition(x, m_LocalPosition.y);
+    }
+
+    void TransformComponent::SetLocalY(float y)
+    {
+        SetLocalPosition(m_LocalPosition.x, y);
+    }
+
+    void TransformComponent::SetWorldPosition(vec2 worldPosition)
+    {
+        auto parentPosition{ m_ParentObj->GetTransform()->GetWorldPosition() };
+        SetLocalPosition(worldPosition - parentPosition);
+    }
+
+    void TransformComponent::SetWorldX(float x)
+    {
+        SetWorldPosition({x, GetWorldPosition().y});
+    }
+
+    void TransformComponent::SetWorldY(float y)
+    {
+        SetWorldPosition({ GetWorldPosition().x, y });
+    }
+
     void TransformComponent::SetZIndex(float z)
     {
         m_ZIndex = z;

@@ -3,9 +3,9 @@
 #include <Engine/Input/InputDevice.h>
 #include <Engine/Input/InputMapping.h>
 
-#include <Characters/MovementState.h>
-#include <Events/EventArgMove.h>
 #include <Components/Controllers/ControllerComponent.h>
+#include <Events/EventArgMove.h>
+#include <Misc/Enums.h>
 
 #include <cassert>
 

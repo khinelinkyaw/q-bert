@@ -10,8 +10,10 @@
 #include <Engine/UI/Utils.h>
 
 #include <Components/SpriteFontComponent.h>
-
+#include <Misc/Enums.h>
+#include <Misc/SerializedStructs.h>
 #include <Misc/Structs.h>
+
 #include <string>
 #include <vector>
 
@@ -55,7 +57,7 @@ void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObjec
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     auto spriteFontComp{ gameObject.AddComponent<SpriteFontComponent>() };
-    spriteFontComp->UpdateText("0");
+    spriteFontComp->SetText(componentInfo.Text);
 }
 
 GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
