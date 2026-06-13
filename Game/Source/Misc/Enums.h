@@ -93,6 +93,18 @@ namespace Game
         Slick,
         Sam
     };
+
+    enum class SoundEffect
+    {
+        Jump = 0,
+        Fall = 1,
+        LevelStart = 2,
+        Victory = 3,
+        SnakeFall = 4,
+        Ugg = 5,
+        Wrongway = 6
+    };
+
 }
 
 #endif

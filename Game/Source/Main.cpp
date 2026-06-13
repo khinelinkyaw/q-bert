@@ -1,6 +1,7 @@
 #include <Engine/Core/Minigin.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Input/InputManager.h>
+#include <Engine/Core/ServiceLocator.h>
 
 #include <Components/Scenes/GameOverSceneComponent.h>
 #include <Components/Scenes/GameWonSettingsComponent.h>
@@ -8,7 +9,6 @@
 #include <Components/Scenes/HighScoreSettingsComponent.h>
 #include <Components/Scenes/StartMenuSettingsComponent.h>
 #include <Misc/Constants.h>
-#include <UserInterface/UIEngine.h>
 
 #include <SDL3/SDL_main.h>
 #include <Components/Scenes/NameInputSettingsComponent.h>
@@ -17,6 +17,21 @@ namespace Game
 {
     inline static void load()
     {
+        std::unordered_map<SoundEffect, std::string> soundFilePaths{
+            { SoundEffect::Jump,            "Sounds/jump.mp3" },
+            { SoundEffect::Fall,            "Sounds/fall.mp3" },
+            { SoundEffect::LevelStart,      "Sounds/level_start.mp3" },
+            { SoundEffect::Victory,         "Sounds/victory.mp3" },
+            { SoundEffect::SnakeFall,       "Sounds/snake_fall.mp3" },
+            { SoundEffect::Ugg,             "Sounds/ugg.mp3" },
+            { SoundEffect::Wrongway,        "Sounds/wrongway.mp3" },
+        };
+
+        for (const auto& [soundEffect, filePath] : soundFilePaths)
+        {
+            GameEngine::ServiceLocator::Get().GetSoundSystem().Load(static_cast<int>(soundEffect), filePath);
+        }
+
         GameEngine::InputManager::Get().ImportInputMappingJSON("JSON/InputMappings.json");
 
         auto& startMenu = GameEngine::SceneManager::Get().CreateScene("StartMenu");
