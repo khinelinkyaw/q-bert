@@ -195,7 +195,7 @@ void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
     json gameplayInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(jsonPath) };
 
     m_Gameplay_Info = gameplayInfoJSON.at(0).get<GameplayInfo>();
-    GameEngine::UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath, Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
+    GameEngine::UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath };
     GetOwner()->AddComponent<LevelDisplayComponent>();
 
     SetupGraphs();

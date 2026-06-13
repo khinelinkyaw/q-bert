@@ -8,7 +8,6 @@
 #include <Engine/Misc/Types.h>
 #include <Engine/UI/UIEngine.h>
 
-#include <Misc/Constants.h>
 #include <Misc/Enums.h>
 
 #include <utility>
@@ -19,7 +18,7 @@ namespace Game
     class StartMenuSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        GameEngine::UIEngine m_UIEngine{"JSON/StartMenuUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
+        GameEngine::UIEngine m_UIEngine{"JSON/StartMenuUI.json" };
 
         std::vector<std::pair<Gamemode, GameEngine::GameObject*>> const m_SelectionElements{
             { Gamemode::Solo,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("SoloUIElement")},

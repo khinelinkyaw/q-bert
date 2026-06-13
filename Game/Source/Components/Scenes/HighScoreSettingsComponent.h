@@ -8,14 +8,12 @@
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
-#include <Misc/Constants.h>
-
 namespace Game
 {
     class HighScoreSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        GameEngine::UIEngine m_UIEngine{ "JSON/HighScoreUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
+        GameEngine::UIEngine m_UIEngine{ "JSON/HighScoreUI.json" };
         GameEngine::GameObject* m_ScoreboardTextObj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("PlayerScoresUIElement") };
 
     public:

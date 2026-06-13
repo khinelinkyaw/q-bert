@@ -105,9 +105,7 @@ void GameEngine::UIEngine::SetElementPosition(const UIElementInfo& elementInfo, 
     uiElement.GetTransform()->SetLocalPosition(originPosition);
 }
 
-GameEngine::UIEngine::UIEngine(std::string const& UIJSONFilePath, float screenWidth, float screenHeight)
-    : ROOT_ELEMENT_WIDTH{ screenWidth - (ROOT_MARGIN * 2) }
-    , ROOT_ELEMENT_HEIGHT{ screenHeight - (ROOT_MARGIN * 2) }
+GameEngine::UIEngine::UIEngine(std::string const& UIJSONFilePath)
 {
     json uiElementsInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(UIJSONFilePath) };
 

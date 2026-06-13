@@ -1,8 +1,6 @@
 #ifndef GAME_WON_SETTINGS_COMPONENT_H
 #define GAME_WON_SETTINGS_COMPONENT_H
 
-#include <Misc/Constants.h>
-
 #include <Engine/UI/UIEngine.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -13,7 +11,7 @@ namespace Game
     class GameWonSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        GameEngine::UIEngine m_UIEngine{ "JSON/GameWonUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
+        GameEngine::UIEngine m_UIEngine{ "JSON/GameWonUI.json" };
 
         float m_ElapsedTime{};
         float m_TransitionTime{5.f};

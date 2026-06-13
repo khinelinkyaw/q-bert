@@ -19,8 +19,6 @@ namespace GameEngine
 
         float const ROOT_MARGIN{ 20.f };
         float const ELEMENT_PADDING{ 5.f };
-        float const ROOT_ELEMENT_WIDTH{};
-        float const ROOT_ELEMENT_HEIGHT{};
 
         Scene *const m_pScene{ SceneManager::Get().GetActiveScene() };
         std::unordered_map<UIType, ComponentCreationFunction> const m_ComponentCreationFunctions{
@@ -41,7 +39,7 @@ namespace GameEngine
     public:
         GameObject& CreateUIElement(UIElementInfo const& elementInfo);
 
-        UIEngine(std::string const& UIJSONFilePath, float screenWidth, float screenHeight);
+        UIEngine(std::string const& UIJSONFilePath);
     };
 }
 
