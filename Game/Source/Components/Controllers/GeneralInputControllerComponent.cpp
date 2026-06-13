@@ -15,10 +15,12 @@ void Game::GeneralInputController::ProcessInput(GameEngine::InputDevice const& i
     if (m_pInputMapping->GetActionState("SelectorUp", inputDevice))
     {
         GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorUp");
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Jump));
     }
     if (m_pInputMapping->GetActionState("SelectorDown", inputDevice))
     {
         GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorDown");
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Jump));
     }
     if (m_pInputMapping->GetActionState("SelectorLeft", inputDevice))
     {
@@ -30,6 +32,7 @@ void Game::GeneralInputController::ProcessInput(GameEngine::InputDevice const& i
     }
     if (m_pInputMapping->GetActionState("SelectorConfirm", inputDevice))
     {
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Ugg));
         GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorConfirm");
     }
     if (m_pInputMapping->GetActionState("MuteSound", inputDevice))
