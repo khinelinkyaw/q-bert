@@ -53,5 +53,5 @@ void Game::CreatureFactory::BuildCreatureComponents(GameEngine::GameObject& game
         gameObject.GetComponent<GameEngine::TextureComponent>()->SetOriginOffset(data.PivotOffset);
     }
 
-    gameObject.GetComponent<BaseCreature>()->Init(creatureType);
+    gameObject.GetComponent<BaseCreature>()->Init(creatureType, playerIndex);
 }
