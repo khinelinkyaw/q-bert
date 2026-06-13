@@ -17,7 +17,6 @@ namespace GameEngine
     private:
         using ComponentCreationFunction = void(UIEngine::*)(GameObject&, UIComponentInfo const&);
 
-        float const ROOT_MARGIN{ 20.f };
         float const ELEMENT_PADDING{ 5.f };
 
         Scene *const m_pScene{ SceneManager::Get().GetActiveScene() };
