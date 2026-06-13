@@ -8,6 +8,7 @@
 
 #include <Engine/Components/SpriteComponent.h>
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/ServiceLocator.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>
 #include <Events/EventArgBlock.h>
@@ -48,9 +49,13 @@ void Game::BaseCreature::OnEvent(GameEngine::EventArg* eventArg)
         auto newBlockEventArg{ static_cast<EventArgBlock*>(eventArg) };
         m_pBreed->OnNewBlock(*GetOwner(), newBlockEventArg->Block);
     }
-     else if (eventArg->EventId == "OnEmptyBlock")
+    else if (eventArg->EventId == "OnEmptyBlock")
     {
         m_pBreed->OnEmptyBlock(*GetOwner());
+    }
+    else if (eventArg->EventId == "OnRoundEnd")
+    {
+        m_pBreed->OnRoundEnd(*GetOwner());
     }
 }
 
@@ -95,9 +100,11 @@ void Game::BaseCreature::Init(Creature creatureType, PlayerIndex playerIndex)
     case Creature::Coily:
         break;
     case Creature::Ugg:
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Ugg));
         m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpLeft);
         break;
     case Creature::WrongWay:
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Wrongway));
         m_pMovementState = std::make_unique<IdleWaitState>(GetOwner(), Direction::UpRight);
         break;
     }

@@ -31,6 +31,7 @@ namespace Game
         virtual void OnEmptyBlock(GameEngine::GameObject& object);
 		virtual void OnCollision(GameEngine::GameObject& object, Weakness attacker) = 0;
         virtual void OnEndOfPath(GameEngine::GameObject& object) = 0;
+        virtual void OnRoundEnd(GameEngine::GameObject& object) = 0;
 
         Weakness GetWeakness() const { return m_Weakness; }
 		void SetPlayerIndex(PlayerIndex playerIndex) { m_CreatureInfo.PlayerIndex = playerIndex; }
@@ -48,6 +49,7 @@ namespace Game
 		void OnEmptyBlock(GameEngine::GameObject& object) override;
 		void OnCollision(GameEngine::GameObject& object, Weakness attacker) override;
 		void OnEndOfPath(GameEngine::GameObject&) override {};
+		void OnRoundEnd(GameEngine::GameObject&) {};
 
         QBertBreed(GameEngine::GameObject* owner);
         ~QBertBreed() override = default;
@@ -59,6 +61,7 @@ namespace Game
 		virtual void OnNewBlock(GameEngine::GameObject&, Block*) override {};
 		virtual void OnCollision(GameEngine::GameObject&, Weakness) override {};
 		virtual void OnEndOfPath(GameEngine::GameObject&) override {};
+		virtual void OnRoundEnd(GameEngine::GameObject& object) { object.SetForDeletion(); }
 		
 		EnemyBreed() : Breed{ Weakness::None } {};
         virtual ~EnemyBreed() override = default;

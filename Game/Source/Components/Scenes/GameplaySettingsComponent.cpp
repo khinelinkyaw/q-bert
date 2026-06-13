@@ -7,6 +7,7 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Input/InputManager.h>
+#include <Engine/Core/ServiceLocator.h>
 #include <Engine/Misc/Enums.h>
 
 #include <Components/Controllers/ControllerComponent.h>
@@ -24,7 +25,6 @@
 #include <Misc/SerializedStructs.h>
 
 #include <string>
-#include <Components/Controllers/GeneralInputControllerComponent.h>
 
 void Game::GameplaySettingsComponent::SetupPlayers()
 {
@@ -81,6 +81,8 @@ void Game::GameplaySettingsComponent::ResetPlayerPositions()
 
 void Game::GameplaySettingsComponent::SetupRound(RoundInfo const& roundInfo)
 {
+    m_pScene->SendEventToAllObjects<GameEngine::EventArg>("OnRoundEnd");
+
     m_pEntityGraph->Init(roundInfo.StartingBlockColor, roundInfo.FinalBlockColor);
 
     Block::CycleBackColor = m_Gameplay_Info.LevelsInfo[m_CurrentLevel].CycleBackBlocks;
@@ -91,7 +93,7 @@ void Game::GameplaySettingsComponent::SetupRound(RoundInfo const& roundInfo)
 
     for (auto const& spawnerObject : m_SpawnerObjects)
     {
-        spawnerObject->GetComponent<CreatureSpawner>()->WipeSpawnedCreatures();
+        //spawnerObject->GetComponent<CreatureSpawner>()->WipeSpawnedCreatures();
         spawnerObject->SetForDeletion();
     }
 
@@ -155,12 +157,14 @@ void Game::GameplaySettingsComponent::GoToNextRound()
     if (m_CurrentRound < static_cast<int>(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo.size()))
     {
         SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Victory));
     }
     else
     {
         m_CurrentRound = 0;
         ++m_CurrentLevel;
-        
+        GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::LevelStart));
+
         if (m_CurrentLevel < static_cast<int>(m_Gameplay_Info.LevelsInfo.size()))
         {
             SetupRound(m_Gameplay_Info.LevelsInfo[m_CurrentLevel].RoundsInfo[m_CurrentRound]);

@@ -8,6 +8,7 @@
 #include <Components/Scenes/GameplaySettingsComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
+#include <Engine/Core/ServiceLocator.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Events/EventArgInt.h>
 
@@ -50,6 +51,8 @@ void Game::QBertBreed::DecreaseLive(GameEngine::GameObject& object)
             gameplaySettingsObj->SendEvent<GameEngine::EventArg>("OnPlayerDeath");
         }
     }
+
+    GameEngine::ServiceLocator::Get().GetSoundSystem().Play(static_cast<int>(SoundEffect::Fall));
 }
 
 void Game::QBertBreed::OnNewBlock(GameEngine::GameObject& object, Block* block)
