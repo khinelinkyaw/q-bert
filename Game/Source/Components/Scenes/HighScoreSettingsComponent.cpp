@@ -22,7 +22,9 @@ void Game::HighScoreSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 
 void Game::HighScoreSettingsComponent::OnSceneLoad()
 {
-    auto playerScores{ GetOwner()->GetComponent<ScoreboardComponent>()->GetPlayerScores() };
+    auto scoreBoardComp{ GetOwner()->GetComponent<ScoreboardComponent>() };
+    scoreBoardComp->OnSceneLoad();
+    auto playerScores{ scoreBoardComp->GetPlayerScores() };
 
     std::ranges::sort(playerScores, [](PlayerScorePair const& a, PlayerScorePair const& b) { return a.second > b.second; });
 

@@ -61,7 +61,7 @@ namespace Game
 		virtual void OnNewBlock(GameEngine::GameObject&, Block*) override {};
 		virtual void OnCollision(GameEngine::GameObject&, Weakness) override {};
 		virtual void OnEndOfPath(GameEngine::GameObject&) override {};
-		virtual void OnRoundEnd(GameEngine::GameObject& object) override { object.SetForDeletion(); }
+		virtual void OnRoundEnd(GameEngine::GameObject& object) override;
 		
 		EnemyBreed() : Breed{ Weakness::None } {};
         virtual ~EnemyBreed() override = default;
