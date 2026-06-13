@@ -1,22 +1,25 @@
-﻿# Minigin
+﻿# QBert
 
-Minigin is a very small project using [SDL3](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
+GitHub Link: https://github.com/khinelinkyaw/q-bert
 
-[![Build Status](https://github.com/avadae/minigin/actions/workflows/cmake.yml/badge.svg)](https://github.com/avadae/cmake/actions)
-[![Build Status](https://github.com/avadae/minigin/actions/workflows/emscripten.yml/badge.svg)](https://github.com/avadae/emscripten/actions)
-[![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
+This is a remake of the classic arcade game QBert, made in C++ using SDL3.
+The project is structured as a CMake project, and can be built for both Windows and web (using Emscripten).
 
-# Goal
+This project is split into the game (QBert) and the game engine (Minigin).
 
-Minigin can/may be used as a start project for the exam assignment in the course [Programming 4](https://youtu.be/j96Oh6vzhmg) at DAE. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by [Robert Nystrom](https://github.com/munificent) as reading material. 
+The game engine is a simple 2D game engine which uses Game Objects and Components. 
+It also has a simple resource manager for loading and caching textures and fonts, and loading and saving JSON files.
 
-# Disclaimer
+There is a simple scene manager which can load and unload scenes. A scene is just a collection of game objects.
+The usual functionality of a game engine is implemented, such as a main loop, input handling, rendering, and collision detection.
 
-Minigin is, despite perhaps the suggestion in its name, **not** a game engine. It is just a very simple SDL3 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+Component-to-component communication is done through a simple message system, relayed through the game object.
+Scene-wide broadcast messages are supported. The scene goes through each game object and calls the event function on each of its components.
 
-# Use
+The sound system is implemented using miniaudio, and is run on a separate thread.
 
-Get the source from this project, or since students need to have their work on github too, they can use this repository as a template. Hit the "Use this template" button on the top right corner of the github page of this project.
+A small UI engine exist for importing JSON data and creating UI elements based on that data. 
+The UI elements are also game objects, and can have components just like any other game object.
 
 ## Windows version
 
