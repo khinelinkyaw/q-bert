@@ -4,6 +4,10 @@
 #include <UserInterface/UIEngine.h>
 
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Core/SceneManager.h>
+#include <Engine/Events/EventArg.h>
+#include <Engine/Misc/Types.h>
 
 namespace Game
 {
@@ -11,11 +15,14 @@ namespace Game
     {
     private:
         UIEngine m_UIEngine{ "JSON/HighScoreUI.json" };
+        GameEngine::GameObject* m_ScoreboardTextObj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("PlayerScoresUIElement") };
 
     public:
         void FixedUpdate() override {};
         void Update() override {};
         void Render(vec2 const&) const override {};
+        void OnEvent(GameEngine::EventArg* eventArg) override;
+        void OnSceneLoad() override;
 
         HighScoreSettingsComponent(GameEngine::GameObject* owner);
         ~HighScoreSettingsComponent() override = default;
