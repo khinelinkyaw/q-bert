@@ -34,7 +34,7 @@ namespace Game
         void Update() override;
         void Render(vec2 const&) const override {};
 
-        void WipeSpawnedCreatures();
+        //void WipeSpawnedCreatures();
         void Init(CreatureSpawnerInfo const& creatureSpawnerInfo);
         void Init(Creature creatureType, float spawnInterval = 5.f, int spawnProbability = 100);
         CreatureSpawner(GameEngine::GameObject* owner);
