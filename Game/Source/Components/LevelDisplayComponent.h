@@ -1,9 +1,10 @@
 #ifndef LEVEL_DISPLAY_COMPONENT_H
 #define LEVEL_DISPLAY_COMPONENT_H
 
-#include <Components/SpriteFontComponent.h>
-#include <UserInterface/UIEngine.h>
+#include <Misc/Constants.h>
 
+#include <Engine/Components/SpriteFontComponent.h>
+#include <Engine/UI/UIEngine.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/SpriteComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -20,12 +21,12 @@ namespace Game
             GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::CHANGE_TO_BLOCK_ELEMENT)->GetComponent<GameEngine::SpriteComponent>()
         };
 
-        SpriteFontComponent* m_pLevelNumSpriteFont{
-            GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::LEVEL_NUM_ELEMENT)->GetComponent<SpriteFontComponent>()
+        GameEngine::SpriteFontComponent* m_pLevelNumSpriteFont{
+            GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::LEVEL_NUM_ELEMENT)->GetComponent<GameEngine::SpriteFontComponent>()
         };
 
-        SpriteFontComponent* m_pRoundNumSpriteFont{
-            GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::ROUND_NUM_ELEMENT)->GetComponent<SpriteFontComponent>()
+        GameEngine::SpriteFontComponent* m_pRoundNumSpriteFont{
+            GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName(GameplayUI::ROUND_NUM_ELEMENT)->GetComponent<GameEngine::SpriteFontComponent>()
         };
 
     public:

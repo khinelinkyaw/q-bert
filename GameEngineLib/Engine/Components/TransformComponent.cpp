@@ -45,8 +45,15 @@ namespace GameEngine
 
     void TransformComponent::SetWorldPosition(vec2 worldPosition)
     {
-        auto parentPosition{ m_ParentObj->GetTransform()->GetWorldPosition() };
-        SetLocalPosition(worldPosition - parentPosition);
+        if (m_ParentObj)
+        {
+            auto parentPosition{ m_ParentObj->GetTransform()->GetWorldPosition() };
+            SetLocalPosition(worldPosition - parentPosition);
+        }
+        else
+        {
+            SetLocalPosition(worldPosition);
+        }
     }
 
     void TransformComponent::SetWorldX(float x)

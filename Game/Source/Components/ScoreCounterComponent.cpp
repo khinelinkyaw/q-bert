@@ -1,10 +1,11 @@
 #include "ScoreCounterComponent.h"
 
-#include <Components/SpriteFontComponent.h>
 #include <Misc/Enums.h>
-#include <UserInterface/UIEngine.h>
 #include <Misc/GlobalGameSettings.h>
+#include <Misc/Constants.h>
 
+#include <Engine/Components/SpriteFontComponent.h>
+#include <Engine/UI/UIEngine.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
@@ -44,7 +45,7 @@ void Game::ScoreCounterComponent::Init(PlayerIndex playerIndex)
         break;
     }
     
-    if (gameObj) m_pPlayerScoreTextComponent = gameObj->GetComponent<SpriteFontComponent>();
+    if (gameObj) m_pPlayerScoreTextComponent = gameObj->GetComponent<GameEngine::SpriteFontComponent>();
 
     assert(m_pPlayerScoreTextComponent != nullptr);
 }

@@ -23,7 +23,7 @@ void Game::Breed::DecreaseLive(GameEngine::GameObject& object)
     else
     {
         auto graph{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("Graph")->GetComponent<Graph>() };
-        object.GetTransform()->SetLocalPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
+        object.GetTransform()->SetWorldPosition(graph->GetBlockSurfaceCenter(0, BlockSurface::Top));
     }
 }
 
@@ -112,4 +112,12 @@ void Game::GreenEnemyBreed::OnCollision(GameEngine::GameObject& object, Weakness
 void Game::GreenEnemyBreed::OnNewBlock(GameEngine::GameObject&, Block* block)
 {
     block->ReverseBlockType();
+}
+
+void Game::EnemyBreed::OnRoundEnd(GameEngine::GameObject& object)
+{
+    if (m_CreatureInfo.PlayerIndex == PlayerIndex::None)
+    {
+        object.SetForDeletion();
+    }
 }

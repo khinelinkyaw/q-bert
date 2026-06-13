@@ -9,15 +9,11 @@
 #include <Engine/Misc/Types.h>
 #include <Engine/UI/Utils.h>
 
-#include <Components/SpriteFontComponent.h>
-#include <Misc/Enums.h>
-#include <Misc/SerializedStructs.h>
-#include <Misc/Structs.h>
-
 #include <string>
 #include <vector>
+#include <Engine/Components/SpriteFontComponent.h>
 
-void Game::UIEngine::CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void GameEngine::UIEngine::CreateTextureComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     auto textureComp{ gameObject.AddComponent<GameEngine::TextureComponent>() };
     switch (componentInfo.Type)
@@ -37,7 +33,7 @@ void Game::UIEngine::CreateTextureComponent(GameEngine::GameObject& gameObject, 
     }
 }
 
-void Game::UIEngine::CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void GameEngine::UIEngine::CreateSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     auto spriteComp{ gameObject.AddComponent<GameEngine::SpriteComponent>() };
@@ -45,14 +41,14 @@ void Game::UIEngine::CreateSpriteComponent(GameEngine::GameObject& gameObject, U
     spriteComp->SetSpriteIndex(componentInfo.SpriteIndex);
 }
 
-void Game::UIEngine::CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void GameEngine::UIEngine::CreateAnimatedSpriteComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
     gameObject.AddComponent<GameEngine::SpriteAnimationComponent>()->Init(componentInfo.AnimationType, componentInfo.AnimationDuration, componentInfo.AnimationFrameIndices);
 }
 
-void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
+void GameEngine::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObject, UIComponentInfo const& componentInfo)
 {
     gameObject.AddComponent<GameEngine::TextureComponent>();
     gameObject.AddComponent<GameEngine::SpriteComponent>()->Init(componentInfo.TextureFilePath, componentInfo.SpriteRows, componentInfo.SpriteCols);
@@ -60,7 +56,7 @@ void Game::UIEngine::CreateSpriteFontComponent(GameEngine::GameObject& gameObjec
     spriteFontComp->SetText(componentInfo.Text);
 }
 
-GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
+GameEngine::GameObject& GameEngine::UIEngine::CreateUIElement(UIElementInfo const& elementInfo)
 {
     auto& uiElement{ m_pScene->CreateGameObject(elementInfo.Name) };
 
@@ -73,7 +69,7 @@ GameEngine::GameObject& Game::UIEngine::CreateUIElement(UIElementInfo const& ele
     return uiElement;
 }
 
-void Game::UIEngine::SetElementPosition(const Game::UIElementInfo& elementInfo, GameEngine::GameObject& uiElement)
+void GameEngine::UIEngine::SetElementPosition(const UIElementInfo& elementInfo, GameObject& uiElement)
 {
     auto parent{ m_pScene->GetObjectByName(elementInfo.PositioningInfo.ParentName) };
 
@@ -87,7 +83,7 @@ void Game::UIEngine::SetElementPosition(const Game::UIElementInfo& elementInfo, 
     }
     else
     {
-        padding = vec2{ elementInfo.PositioningInfo.PaddingSize.x * multiplers.x, elementInfo.PositioningInfo.PaddingSize.y * multiplers.y } * GameplayUI::ELEMENT_PADDING;
+        padding = vec2{ elementInfo.PositioningInfo.PaddingSize.x * multiplers.x, elementInfo.PositioningInfo.PaddingSize.y * multiplers.y } * ELEMENT_PADDING;
     }
 
     auto elementRect{ uiElement.GetComponent<GameEngine::TextureComponent>()->GetSourceRect() };
@@ -109,7 +105,9 @@ void Game::UIEngine::SetElementPosition(const Game::UIElementInfo& elementInfo, 
     uiElement.GetTransform()->SetLocalPosition(originPosition);
 }
 
-Game::UIEngine::UIEngine(std::string const& UIJSONFilePath)
+GameEngine::UIEngine::UIEngine(std::string const& UIJSONFilePath, float screenWidth, float screenHeight)
+    : ROOT_ELEMENT_WIDTH{ screenWidth - (ROOT_MARGIN * 2) }
+    , ROOT_ELEMENT_HEIGHT{ screenHeight - (ROOT_MARGIN * 2) }
 {
     json uiElementsInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(UIJSONFilePath) };
 

@@ -9,7 +9,7 @@
 #include <cassert>
 #include <string>
 
-void Game::SpriteFontComponent::Render(vec2 const& pos) const
+void GameEngine::SpriteFontComponent::Render(vec2 const& pos) const
 {
     m_pTextureComponent->Visible = true;
 
@@ -35,7 +35,7 @@ void Game::SpriteFontComponent::Render(vec2 const& pos) const
     m_pTextureComponent->Visible = false;
 }
 
-void Game::SpriteFontComponent::SetText(std::string const& text)
+void GameEngine::SpriteFontComponent::SetText(std::string const& text)
 {
     m_Text.clear();
 
@@ -60,10 +60,10 @@ void Game::SpriteFontComponent::SetText(std::string const& text)
     }
 }
 
-Game::SpriteFontComponent::SpriteFontComponent(GameEngine::GameObject* owner)
+GameEngine::SpriteFontComponent::SpriteFontComponent(GameObject* owner)
     : BaseComponent{ owner }
-    , m_pSpriteComponent{ GetOwner()->GetComponent<GameEngine::SpriteComponent>() }
-    , m_pTextureComponent{ GetOwner()->GetComponent<GameEngine::TextureComponent>() }
+    , m_pSpriteComponent{ GetOwner()->GetComponent<SpriteComponent>() }
+    , m_pTextureComponent{ GetOwner()->GetComponent<TextureComponent>() }
 {
     assert(m_pSpriteComponent != nullptr);
 }

@@ -1,7 +1,7 @@
 #ifndef CHANGE_TO_BLOCK_SETTER_COMPONENT_H
 #define CHANGE_TO_BLOCK_SETTER_COMPONENT_H
 
-#include <UserInterface/UIEngine.h>
+#include <Misc/Constants.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/SceneManager.h>

@@ -1,20 +1,21 @@
 #ifndef HIGH_SCORE_SETTINGS_COMPONENT_H
 #define HIGH_SCORE_SETTINGS_COMPONENT_H
 
-#include <UserInterface/UIEngine.h>
-
+#include <Engine/UI/UIEngine.h>
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
 
+#include <Misc/Constants.h>
+
 namespace Game
 {
     class HighScoreSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        UIEngine m_UIEngine{ "JSON/HighScoreUI.json" };
+        GameEngine::UIEngine m_UIEngine{ "JSON/HighScoreUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
         GameEngine::GameObject* m_ScoreboardTextObj{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("PlayerScoresUIElement") };
 
     public:

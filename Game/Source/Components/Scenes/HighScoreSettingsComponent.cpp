@@ -2,7 +2,9 @@
 
 #include <Components/Controllers/GeneralInputControllerComponent.h>
 #include <Components/ScoreboardComponent.h>
+
 #include <Engine/Components/BaseComponent.h>
+#include <Engine/Components/SpriteFontComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
@@ -10,7 +12,6 @@
 #include <algorithm>
 #include <string>
 #include <utility>
-#include <Components/SpriteFontComponent.h>
 
 void Game::HighScoreSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 {
@@ -22,7 +23,9 @@ void Game::HighScoreSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 
 void Game::HighScoreSettingsComponent::OnSceneLoad()
 {
-    auto playerScores{ GetOwner()->GetComponent<ScoreboardComponent>()->GetPlayerScores() };
+    auto scoreBoardComp{ GetOwner()->GetComponent<ScoreboardComponent>() };
+    scoreBoardComp->OnSceneLoad();
+    auto playerScores{ scoreBoardComp->GetPlayerScores() };
 
     std::ranges::sort(playerScores, [](PlayerScorePair const& a, PlayerScorePair const& b) { return a.second > b.second; });
 
@@ -33,7 +36,7 @@ void Game::HighScoreSettingsComponent::OnSceneLoad()
         scoreText += playerScores[index].first+ " " + std::to_string(playerScores[index].second) + "\n";
     }
 
-    m_ScoreboardTextObj->GetComponent<SpriteFontComponent>()->SetText(scoreText);
+    m_ScoreboardTextObj->GetComponent<GameEngine::SpriteFontComponent>()->SetText(scoreText);
 }
 
 Game::HighScoreSettingsComponent::HighScoreSettingsComponent(GameEngine::GameObject* owner)

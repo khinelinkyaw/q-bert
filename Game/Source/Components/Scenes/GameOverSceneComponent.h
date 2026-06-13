@@ -1,13 +1,15 @@
 #ifndef GAME_OVER_SCENE_COMPONENT_H
 #define GAME_OVER_SCENE_COMPONENT_H
 
+#include <Misc/Constants.h>
+
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/UI/UIEngine.h>
 
-#include <UserInterface/UIEngine.h>
 #include <utility>
 #include <vector>
 
@@ -22,7 +24,7 @@ namespace Game
     class GameOverSceneComponent final : public GameEngine::BaseComponent
     {
     private:
-        UIEngine m_UIEngine{ "JSON/GameOverUI.json" };
+        GameEngine::UIEngine m_UIEngine{ "JSON/GameOverUI.json",Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
         std::vector<std::pair<GameOverSelections, GameEngine::GameObject*>> const m_SelectionElements{
             { GameOverSelections::TryAgain,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("TryAgainUIElement")},
             { GameOverSelections::HighScore,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("HighScoreUIElement") },

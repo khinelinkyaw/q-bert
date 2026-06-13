@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Game
+namespace GameEngine
 {
     enum class SpecialChars
     {
@@ -20,7 +20,7 @@ namespace Game
         NewLine = -2
     };
 
-    class SpriteFontComponent final : public GameEngine::BaseComponent
+    class SpriteFontComponent final : public BaseComponent
     {
     private:
         std::unordered_map<char, int> m_CharToIndexMap{
@@ -29,8 +29,8 @@ namespace Game
         };
 
         std::vector<int> m_Text{};
-        GameEngine::SpriteComponent* m_pSpriteComponent{};
-        GameEngine::TextureComponent* m_pTextureComponent{};
+        SpriteComponent* m_pSpriteComponent{};
+        TextureComponent* m_pTextureComponent{};
 
     public:
         void FixedUpdate() override {};
@@ -40,7 +40,7 @@ namespace Game
         int GetTextLength() const { return static_cast<int>(m_Text.size()); }
 
         void SetText(std::string const& text);
-        SpriteFontComponent(GameEngine::GameObject* owner);
+        SpriteFontComponent(GameObject* owner);
         ~SpriteFontComponent() override = default;
     };
 }
