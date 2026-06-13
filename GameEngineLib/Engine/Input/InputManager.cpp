@@ -37,6 +37,9 @@ InputMapping* GameEngine::InputManager::GetInputMapping(std::string const& name)
 void GameEngine::InputManager::ImportInputMappingJSON(std::string const& jsonFilePath)
 {
     auto jsonData{ ResourceManager::Get().LoadJSON(jsonFilePath) };
+
+    if (not jsonData.is_array() or jsonData.empty()) return;
+
     InputMappingJSONData data{ jsonData.at(0).get<InputMappingJSONData>()};
 
     for (auto const& [inputMappingName, actionMappings] : data)
