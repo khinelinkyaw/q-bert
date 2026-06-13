@@ -58,7 +58,7 @@ std::shared_ptr<Font> ResourceManager::LoadFont(const std::string& file, uint8_t
     return m_loadedFonts.at(key);
 }
 
-json GameEngine::ResourceManager::LoadJSON(const std::string& file)
+json GameEngine::ResourceManager::LoadJSON(const std::string& file) const
 {
     const auto fullPath = m_dataPath / file;
     const auto filename = fs::path(fullPath).filename().string();
@@ -74,6 +74,15 @@ json GameEngine::ResourceManager::LoadJSON(const std::string& file)
         DEBUG_CONSOLE("JSON", "Parse error of file: " << filename)
             return json{};
     }
+}
+
+void GameEngine::ResourceManager::SaveJSON(std::string const& file, json const& j) const
+{
+    const auto fullPath = m_dataPath / file;
+    const auto filename = fs::path(fullPath).filename().string();
+
+    std::ofstream jsonFile{ fullPath };
+    jsonFile << j.dump(4);
 }
 
 std::filesystem::path GameEngine::ResourceManager::GetDataFilePath(std::string const& file) const

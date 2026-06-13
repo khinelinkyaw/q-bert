@@ -20,7 +20,8 @@ namespace GameEngine
 		void Init(const std::filesystem::path& data);
 		std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
 		std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
-        json LoadJSON(std::string const& file);
+        json LoadJSON(std::string const& file) const;
+        void SaveJSON(std::string const& file, json const& j) const;
         std::filesystem::path GetDataFilePath(std::string const& file) const;
 
 	private:
