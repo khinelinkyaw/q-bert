@@ -20,6 +20,14 @@ void Game::GeneralInputController::ProcessInput(GameEngine::InputDevice const& i
     {
         GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorDown");
     }
+    if (m_pInputMapping->GetActionState("SelectorLeft", inputDevice))
+    {
+        GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorLeft");
+    }
+    if (m_pInputMapping->GetActionState("SelectorRight", inputDevice))
+    {
+        GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorRight");
+    }
     if (m_pInputMapping->GetActionState("SelectorConfirm", inputDevice))
     {
         GetOwner()->SendEvent<GameEngine::EventArg>("OnSelectorConfirm");
