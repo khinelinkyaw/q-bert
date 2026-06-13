@@ -5,8 +5,8 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/Components/SpriteFontComponent.h>
 
-#include <Components/SpriteFontComponent.h>
 #include <Misc/Enums.h>
 
 namespace Game
@@ -14,7 +14,7 @@ namespace Game
     class ScoreCounterComponent final : public GameEngine::BaseComponent
     {
     private:
-        SpriteFontComponent* m_pPlayerScoreTextComponent{};
+        GameEngine::SpriteFontComponent* m_pPlayerScoreTextComponent{};
 
     public:
         void FixedUpdate() override {};

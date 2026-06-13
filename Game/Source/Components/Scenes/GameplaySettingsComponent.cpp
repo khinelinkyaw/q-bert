@@ -9,6 +9,7 @@
 #include <Engine/Input/InputManager.h>
 #include <Engine/Core/ServiceLocator.h>
 #include <Engine/Misc/Enums.h>
+#include <Engine/UI/UIEngine.h>
 
 #include <Components/Controllers/ControllerComponent.h>
 #include <Components/CreatureSpawner.h>
@@ -21,10 +22,10 @@
 #include <Misc/Constants.h>
 #include <Misc/Enums.h>
 #include <Misc/GlobalGameSettings.h>
-#include <UserInterface/UIEngine.h>
 #include <Misc/SerializedStructs.h>
 
 #include <string>
+#include <nlohmann/json.hpp>
 
 void Game::GameplaySettingsComponent::SetupPlayers()
 {
@@ -189,10 +190,12 @@ void Game::GameplaySettingsComponent::GoToNextRound()
 
 void Game::GameplaySettingsComponent::Init(std::string const& jsonPath)
 {
+    using json = nlohmann::json;
+
     json gameplayInfoJSON{ GameEngine::ResourceManager::Get().LoadJSON(jsonPath) };
 
     m_Gameplay_Info = gameplayInfoJSON.at(0).get<GameplayInfo>();
-    UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath };
+    GameEngine::UIEngine uiEngine{ m_Gameplay_Info.UIJSONPath, Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
     GetOwner()->AddComponent<LevelDisplayComponent>();
 
     SetupGraphs();

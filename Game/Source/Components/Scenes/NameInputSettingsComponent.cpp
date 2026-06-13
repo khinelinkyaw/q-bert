@@ -2,13 +2,13 @@
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Components/TextureComponent.h>
+#include <Engine/Components/SpriteFontComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 
 #include <Components/Controllers/GeneralInputControllerComponent.h>
 #include <Components/ScoreboardComponent.h>
-#include <Components/SpriteFontComponent.h>
 #include <Misc/GlobalGameSettings.h>
 
 #include <algorithm>
@@ -43,13 +43,13 @@ void Game::NameInputSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
     {
         if (m_CurrentName[m_CurrentLetterIndex] == ' ') { m_CurrentName[m_CurrentLetterIndex] = 'A'; }
         else m_CurrentName[m_CurrentLetterIndex] = (m_CurrentName[m_CurrentLetterIndex] == 'Z') ? ' ' : static_cast<char>(m_CurrentName[m_CurrentLetterIndex] + 1);
-        m_NameTextObj->GetComponent<SpriteFontComponent>()->SetText(m_CurrentName);
+        m_NameTextObj->GetComponent<GameEngine::SpriteFontComponent>()->SetText(m_CurrentName);
     }
     else if (eventArg->EventId == "OnSelectorUp")
     {
         if (m_CurrentName[m_CurrentLetterIndex] == ' ') { m_CurrentName[m_CurrentLetterIndex] = 'Z'; }
         else m_CurrentName[m_CurrentLetterIndex] = (m_CurrentName[m_CurrentLetterIndex] == 'A') ? ' ' : static_cast<char>(m_CurrentName[m_CurrentLetterIndex] - 1);
-        m_NameTextObj->GetComponent<SpriteFontComponent>()->SetText(m_CurrentName);
+        m_NameTextObj->GetComponent<GameEngine::SpriteFontComponent>()->SetText(m_CurrentName);
     }
     else if (eventArg->EventId == "OnSelectorConfirm")
     {
@@ -61,13 +61,13 @@ void Game::NameInputSettingsComponent::OnEvent(GameEngine::EventArg* eventArg)
 void Game::NameInputSettingsComponent::OnSceneLoad()
 {
     auto scoreNumElement{ GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("ScoreNumUIElement") };
-    scoreNumElement->GetComponent<SpriteFontComponent>()->SetText(std::to_string(GlobalGameSettings::PlayerScore));
+    scoreNumElement->GetComponent<GameEngine::SpriteFontComponent>()->SetText(std::to_string(GlobalGameSettings::PlayerScore));
 }
 
 Game::NameInputSettingsComponent::NameInputSettingsComponent(GameEngine::GameObject* owner)
     : BaseComponent{ owner }
 {
-    m_NameTextObj->GetComponent<SpriteFontComponent>()->SetText(m_CurrentName);
+    m_NameTextObj->GetComponent<GameEngine::SpriteFontComponent>()->SetText(m_CurrentName);
     owner->AddComponent<GeneralInputController>();
     owner->AddComponent<ScoreboardComponent>();
 }

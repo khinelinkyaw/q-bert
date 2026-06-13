@@ -1,13 +1,15 @@
 #ifndef NAME_INPUT_SETTINGS_COMPONENT_H
 #define NAME_INPUT_SETTINGS_COMPONENT_H
 
+#include <Misc/Constants.h>
+
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/UI/UIEngine.h>
 
-#include <UserInterface/UIEngine.h>
 #include <string>
 #include <vector>
 
@@ -16,7 +18,7 @@ namespace Game
     class NameInputSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        UIEngine m_UIEngine{ "JSON/NameInputUI.json" };
+        GameEngine::UIEngine m_UIEngine{ "JSON/NameInputUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
         std::vector<GameEngine::GameObject*> const m_CurrentLetterIndicators{
             GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("UpArrowUIElement"),
             GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("DownArrowUIElement"),

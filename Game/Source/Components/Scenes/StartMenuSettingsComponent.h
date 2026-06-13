@@ -6,8 +6,9 @@
 #include <Engine/Core/SceneManager.h>
 #include <Engine/Events/EventArg.h>
 #include <Engine/Misc/Types.h>
+#include <Engine/UI/UIEngine.h>
 
-#include <UserInterface/UIEngine.h>
+#include <Misc/Constants.h>
 #include <Misc/Enums.h>
 
 #include <utility>
@@ -18,7 +19,7 @@ namespace Game
     class StartMenuSettingsComponent final : public GameEngine::BaseComponent
     {
     private:
-        UIEngine m_UIEngine{"JSON/StartMenuUI.json"};
+        GameEngine::UIEngine m_UIEngine{"JSON/StartMenuUI.json", Screen::GAME_WIDTH, Screen::GAME_HEIGHT };
 
         std::vector<std::pair<Gamemode, GameEngine::GameObject*>> const m_SelectionElements{
             { Gamemode::Solo,   GameEngine::SceneManager::Get().GetActiveScene()->GetObjectByName("SoloUIElement")},
