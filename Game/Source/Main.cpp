@@ -8,8 +8,10 @@
 #include <Components/Scenes/HighScoreSettingsComponent.h>
 #include <Components/Scenes/StartMenuSettingsComponent.h>
 #include <Misc/Constants.h>
+#include <UserInterface/UIEngine.h>
 
 #include <SDL3/SDL_main.h>
+#include <Components/Scenes/NameInputSettingsComponent.h>
 
 namespace Game
 {
@@ -40,6 +42,12 @@ namespace Game
         GameEngine::SceneManager::Get().CheckForSceneChange();
         auto& gameWonSettingObj{ gameWonScene.CreateGameObject("GameWonSettings") };
         gameWonSettingObj.AddComponent<GameWonSettingsComponent>();
+
+        auto& nameInputScene = GameEngine::SceneManager::Get().CreateScene("NameInput");
+        GameEngine::SceneManager::Get().SetActiveScene(&nameInputScene);
+        GameEngine::SceneManager::Get().CheckForSceneChange();
+        auto& nameInputSettingsObj{ nameInputScene.CreateGameObject("NameInputSettings") };
+        nameInputSettingsObj.AddComponent<NameInputSettingsComponent>();
 
         auto& highScoreScene{ GameEngine::SceneManager::Get().CreateScene("HighScore") };
         GameEngine::SceneManager::Get().SetActiveScene(&highScoreScene);
