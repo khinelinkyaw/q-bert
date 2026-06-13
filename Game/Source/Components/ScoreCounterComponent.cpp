@@ -3,6 +3,7 @@
 #include <Components/SpriteFontComponent.h>
 #include <Misc/Enums.h>
 #include <UserInterface/UIEngine.h>
+#include <Misc/GlobalGameSettings.h>
 
 #include <Engine/Components/BaseComponent.h>
 #include <Engine/Core/GameObject.h>
@@ -18,7 +19,12 @@ void Game::ScoreCounterComponent::OnEvent(GameEngine::EventArg* eventArg)
     if (eventArg->EventId == "PlayerScoreUpdated")
     {
         auto scoreUpdateEventArg{ static_cast<GameEngine::EventArgInt*>(eventArg) };
-        m_pPlayerScoreTextComponent->UpdateText(std::to_string(scoreUpdateEventArg->Value));
+        m_pPlayerScoreTextComponent->SetText(std::to_string(scoreUpdateEventArg->Value));
+
+        if (GlobalGameSettings::PlayerScore < scoreUpdateEventArg->Value)
+        {
+            GlobalGameSettings::PlayerScore = scoreUpdateEventArg->Value;
+        }
     }
 }
 
