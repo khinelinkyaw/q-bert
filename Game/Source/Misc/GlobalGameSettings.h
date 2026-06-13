@@ -9,6 +9,7 @@ namespace Game
     {
         inline Gamemode SelectedGamemode{ Gamemode::Solo };
         inline bool IsSoundMuted{ false };
+        inline int PlayerScore{ 0 };
     }
 }
 
